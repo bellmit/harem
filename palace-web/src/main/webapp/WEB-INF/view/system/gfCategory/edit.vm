@@ -1,6 +1,11 @@
 <link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js"></script>
+<style>
+    #MobileUrlUploadFile{
+        margin-top:-60px;
+    }
+</style>
 <div class="createClubTable whole">
     <form name="addTheme" id="themeForm" action="" method="post" themeId="$!theme.id">
         <table class="table" style = "width:50%">
@@ -9,6 +14,12 @@
                 <td>
                 <input type="text" class="form-control" placeholder="请输入10个字以内" name="name" value="$!theme.name">
                 <!--<input type="hidden"  name="parentId" value="$!theme.parentId">-->
+                </td>
+            </tr>
+            <tr>
+                <td><span class="spColor">*</span>品类简称</td>
+                <td>
+                    <input type="text" class="form-control" placeholder="请输入8个字符以内" name="summary" value="$!theme.summary">
                 </td>
             </tr>
             <tr>
@@ -34,6 +45,34 @@
                 <label class='radio-inline'> <input class="reduceType" type="radio" name="status" value="2"  #if($!theme.status == 2) checked #end>禁用</label>
 				</td>
             </tr>
+            <tr>
+                <td><span class="spColor">*</span>品类宣传图 PC版</td>
+                <td>
+                    <div class="fileImgWrap">
+                        <button type="button" class="btn btn-success">选择图片</button>
+                        <input type="hidden" name="imgPc" value="$!{PCpic}" id="PCUrlUploadFileReturnInput" >
+                        <input type="file" name="imgPcfile" class="fileInp" id="PCUrlUploadFile">
+                        <p>注：图片大小不超过2M<br />建议尺寸：1920*550</p>
+                    </div>
+                    <div class="logoView">
+                        <img src="#if($!PCpic) $utilWebconfig.getTfsRootPath()$!{PCpic} #end" class="img-square uploadImgFile" id="PCUrlUploadFileReturnImg">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td><span class="spColor">*</span>品类宣传图 移动版</td>
+                <td>
+                    <div class="fileImgWrap">
+                        <button type="button" class="btn btn-success">选择图片</button>
+                        <input type="hidden" name="imgWap" value="$!{WAPpic}" id="MobileUrlUploadFileReturnInput" >
+                        <input type="file" name="imgWapfile" class="fileInp" id="MobileUrlUploadFile">
+                        <p>注：图片大小不超过2M<br />建议尺寸：<br />大系列图片750*360<br /> 小系列图片750*150</p>
+                    </div>
+                    <div class="logoView">
+                        <img src="#if($!WAPpic) $utilWebconfig.getTfsRootPath()$!{WAPpic} #end" class="img-square uploadImgFile" id="MobileUrlUploadFileReturnImg">
+                    </div>
+                </td>
+            </tr>
         </table>
         <div class="clubBotBtn">
             <div class="btn-group">
@@ -53,13 +92,54 @@
                     openModal(actionDefaultPath + '/trade/userManage/selectUserList', "选择用户", selectUserCallBack)
         })
 
+        $(document).delegate('#PCUrlUploadFile','change',function(){
+            var fileValue = $(this).val();
+            if(!fileValue){
+                return;
+            }
+            fileUpload('#PCUrlUploadFile',1,function(data){
+                if(data && data.status==200){
+                    $('#PCUrlUploadFileReturnInput').val(data.data);
+                    $('#PCUrlUploadFileReturnImg').attr('src',tfsRootPath + data.data);
+                }else{
+                    layer.alert('上传失败');
+                }
+            });
+        });
+
+        $(document).delegate('#MobileUrlUploadFile','change',function(){
+            var fileValue = $(this).val();
+            if(!fileValue){
+                return;
+            }
+            fileUpload('#MobileUrlUploadFile',1,function(data){
+                if(data && data.status==200){
+                    $('#MobileUrlUploadFileReturnInput').val(data.data);
+                    $('#MobileUrlUploadFileReturnImg').attr('src',tfsRootPath + data.data);
+                }else{
+                    layer.alert('上传失败');
+                }
+            });
+        });
+
+        // 中文字两个字节
+        // param参数是数组类型，param[0]汉字长度，param[1]字符长度
+        $.validator.addMethod("byteRangeLength", function(value, element, param) {
+            var length = value.length;
+            for(var i = 0; i < value.length; i++){
+                if(value.charCodeAt(i) > 127){
+                    length++;
+                }
+            }
+            return this.optional(element) || ( length <= param[1]);
+        }, $.validator.format("请输入{0}个字以内"));
 
 		/*提交**/
         $("#themeForm").validate({
             rules: {
                 'name': {
                     required: true,
-                    maxlength:10
+                    byteRangeLength: [10,20]
                 },
                 'status': {
                     required: true
@@ -67,24 +147,42 @@
                  'priority': {
                     required: true,
                     digits: true,
-                    min:1,
+                    min:0,
                     max:1000
-                } 
-              
+                },
+                'imgPc': {
+                    required: true
+                },
+                'imgWap': {
+                    required: true
+                },
+                'summary':{
+                    required: true,
+                    byteRangeLength: [4,8]
+                }
             },
             messages: {
                "name":{
-               required:"品类名称不能为空!",
-               maxlength:"品类名称不能超过10个字!"
+                   required:"品类名称不能为空!",
+                   maxlength:"品类名称不能超过10个字!",
+                   byteRangeLength:"品类名称不能超过10个字"
                },
                "status":{
                    required:"请选择状态"
                    },
                "priority":{
                     required: "请输入排序数字",
-                    digits: "排序必须为零或正整数",
-                    min:"排序最大值的下限为1",
-                    max:"排序最大值的上限为1000"
+                    digits: "序号为1-1000的正整数"
+                },
+                "imgPc":{
+                    required: "品类宣传图不能为空!"
+                },
+                "imgWap":{
+                    required: "品类宣传图不能为空!"
+                },
+                'summary':{
+                    required: "请输入品类简称",
+                    byteRangeLength:"品类简称最多输入8个字符"
                 }
             },
             errorPlacement: function (error, element) { // 指定错误信息位置

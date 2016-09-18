@@ -1,4 +1,4 @@
-﻿#set ($layout="/system/layout/layout-jiuxiu.vm")
+#set ($layout="/system/layout/layout-jiuxiu.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 
 <div class="loading">
@@ -76,6 +76,5 @@
 	</div>
 
 </div>
-
 
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/module/md.foodbusineslist.js"></script>

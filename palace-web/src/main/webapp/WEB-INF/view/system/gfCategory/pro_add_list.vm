@@ -7,6 +7,7 @@
                         <button class="btn btn-default" type="button">商品名称</button>
                     </span>
                 <input type="text" class="form-control" name="commName" value="$!commodityListQuery.commName">
+                <input type="hidden" name="parentId" value="$!parentId">
             </div>
 
             <div class="btn-group">

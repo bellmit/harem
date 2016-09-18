@@ -35,9 +35,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by czf on 2015/11/24.
@@ -235,6 +233,9 @@ public class CommodityServiceImpl implements CommodityService {
             itemDO.setItemSkuDOList(itemSkuDOList);
         }
 
+        //把最小价格的sku存到feature里面去
+        itemDO = setItemDOFeature(itemDO);
+
         ItemFeature itemFeature = itemDO.getItemFeature();;
         if (itemDO.getItemFeature() == null) {
             itemFeature = new ItemFeature(null);
@@ -296,6 +297,16 @@ public class CommodityServiceImpl implements CommodityService {
         }
         ItemDO itemDB = itemResult.getItem();
         if(null != itemDB) {
+            //新增的时候设置skuDOList
+            if(CollectionUtils.isNotEmpty(itemVO.getItemSkuVOListByStr())){
+                List<ItemSkuDO> itemSkuDOList = new ArrayList<ItemSkuDO>();
+                for (ItemSkuVO itemSkuVO : itemVO.getItemSkuVOListByStr()){
+                    if(itemSkuVO.isChecked()) {
+                        itemSkuDOList.add(ItemSkuVO.getItemSkuDO(itemVO, itemSkuVO));
+                    }
+                }
+                itemDB.setItemSkuDOList(itemSkuDOList);
+            }
             //参数类型匹配
             CommonItemPublishDTO commonItemPublishDTO = new CommonItemPublishDTO();
             //设置itemDB
@@ -306,6 +317,8 @@ public class CommodityServiceImpl implements CommodityService {
             itemDB.setTitle(itemVO.getTitle());
             //商品编码
             itemDB.setCode(itemVO.getCode());
+            //商品描述
+            itemDB.setOneWord(itemVO.getOneWord());
             //价格
             itemDB.setPrice(itemVO.getPriceLong());
             //商品库存
@@ -335,6 +348,9 @@ public class CommodityServiceImpl implements CommodityService {
             itemDB.getItemFeature().put(ItemFeatureKey.REDUCE_TYPE, itemVO.getReduceType());
 
 //            System.err.println(JSON.toJSONString(commonItemPublishDTO));
+
+            //最小规格的数据
+            setItemDOFeature(itemDB);
             ItemPubResult itemPubResult = itemPublishServiceRef.updatePublishCommonItem(commonItemPublishDTO);
             log.info("updatePublishCommonItem   dto={}, result={}", JSON.toJSONString(commonItemPublishDTO), JSON.toJSONString(itemPubResult));
 //            System.err.println(JSON.toJSONString(itemPubResult));
@@ -372,4 +388,32 @@ public class CommodityServiceImpl implements CommodityService {
         }
         return null;
     }
+
+    public ItemDO setItemDOFeature(ItemDO itemDO){
+        if(null != itemDO && CollectionUtils.isNotEmpty(itemDO.getItemSkuDOList())){
+            Collections.sort(itemDO.getItemSkuDOList(), new Comparator<ItemSkuDO>(){
+                public int compare(ItemSkuDO o1, ItemSkuDO o2) {//按照price进行升序排列
+                    if(o1.getPrice() > o2.getPrice()){return 1;}
+                    if(o1.getPrice() == o2.getPrice()){return 0;}
+                    return -1;
+                }
+            });
+            ItemSkuDO itemSkuDO = itemDO.getItemSkuDOList().get(0);
+            if(null == itemSkuDO){return itemDO;}
+            long minPrice = itemSkuDO.getPrice();//最小的价格
+            itemDO.setPrice(minPrice);
+            String minSkuProperty = "";
+            List<ItemSkuPVPair> itemSkuPVPList = itemSkuDO.getItemSkuPVPairList();
+            for (ItemSkuPVPair pvp:itemSkuPVPList) {
+                /*minSkuProperty = pvp.getPTxt() + pvp.getVTxt();// 容量100ml*/
+                minSkuProperty = pvp.getVTxt();// 100ml
+            }
+            ItemFeature itemFeature = itemDO.getItemFeature();
+            if (itemFeature == null) {itemFeature = new ItemFeature(null);}
+            itemFeature.put(ItemFeatureKey.MIN_SKU_PROPERTY,minSkuProperty);
+            itemDO.setItemFeature(itemFeature);
+        }
+        return itemDO;
+    }
+
 }
