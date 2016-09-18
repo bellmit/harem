@@ -41,7 +41,7 @@ public class SettlementVO extends SettlementDTO{
     	SettlementDTO settlementDTO = new SettlementDTO();
         BeanUtils.copyProperties(settlementVO, settlementDTO);
         
-        settlementDTO.setBatchNo(Integer.parseInt(settlementVO.getBatchNoStr()));
+        settlementDTO.setBatchNo(settlementVO.getBatchNoStr());
         settlementDTO.setAccountType(Integer.parseInt(settlementVO.getAccountTypeStr()));
         
         return settlementDTO;
