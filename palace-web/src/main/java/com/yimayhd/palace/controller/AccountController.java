@@ -29,6 +29,7 @@ import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.repo.user.UserRepo;
 import com.yimayhd.palace.util.CommonUtil;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.palace.util.WebResourceConfigUtil;
 
 /**
  * 
@@ -48,6 +49,8 @@ public class AccountController extends BaseController {
 	
 	@RequestMapping(value = "/mobile_userId", method = RequestMethod.GET)
 	public String getUserId(Model model){
+		String path = WebResourceConfigUtil.getRootPath();
+		model.addAttribute("path", path);
 		return "/system/user/mobileUserId";
 	}
 	

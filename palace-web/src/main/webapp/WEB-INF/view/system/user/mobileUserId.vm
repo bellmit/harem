@@ -14,14 +14,15 @@
         </style>
     </head>
     <body>
-        <form class="upload-form" action="/account/getMobilesByUserIds" method="post" enctype="multipart/form-data">
+    	
+        <form class="upload-form" action="${path}/account/getMobilesByUserIds" method="post" enctype="multipart/form-data">
         	<div>通过userId查询手机号</div>
             <div class="upload-div">
             	<input type="file" multiple name="file" />
             </div>
             <button class="btn btn-lg btn-primary btn-block" id="upload" type="submit">通过userId查询手机号</button>
         </form>
-        <form class="upload-form" action="/account/getUserIdsByUserMobiles" method="post" enctype="multipart/form-data">
+        <form class="upload-form" action="${path}/account/getUserIdsByUserMobiles" method="post" enctype="multipart/form-data">
         	<div>通过手机号查询userId</div>
             <div class="upload-div">
             	<input type="file" multiple name="file" />
