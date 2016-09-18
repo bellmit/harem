@@ -65,6 +65,12 @@ public class PalaceReturnCode implements Serializable {
     public static final PalaceReturnCode UP_GUIDE_STATUS_ATTRACTION_ERROR = new PalaceReturnCode(25005201, "导览缺少景点信息");
     public static final PalaceReturnCode UP_GUIDE_STATUS_LINE_ERROR = new PalaceReturnCode(25005201, "导览缺少景点线路信息");
     public static final PalaceReturnCode UP_GUIDE_STATUS_SCENIC_ERROR = new PalaceReturnCode(25005201, "导览缺少景区信息");
+    
+    
+
+
+    /***************************************** 文件 ********************************************************/
+    public static final PalaceReturnCode FILE_TYPE_ERROR = new PalaceReturnCode(25006001, "文件类型错误");
 
 
     /***************************************** 附件相关********************************************************/
