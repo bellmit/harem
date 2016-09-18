@@ -9,6 +9,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComRateDO;
 import com.yimayhd.commentcenter.client.dto.*;
+import com.yimayhd.commentcenter.client.enums.BaseStatus;
 import com.yimayhd.commentcenter.client.result.ComRateResult;
 import com.yimayhd.commentcenter.client.service.ComRateService;
 import com.yimayhd.palace.error.PalaceReturnCode;
@@ -238,6 +239,7 @@ public class CommentRepo {
 		TagRelationDomainDTO tagRelationDomainDTO = new TagRelationDomainDTO();
 		tagRelationDomainDTO.setDomain(Constant.DOMAIN_JIUXIU);
 		tagRelationDomainDTO.setOutType(tagType.name());
+		tagRelationDomainDTO.setStatus(BaseStatus.AVAILABLE.getType());
 		RepoUtils.requestLog(log, "comTagCenterServiceRef.selectTagListByTagType", tagRelationDomainDTO);
 		BaseResult<List<ComTagDO>> baseResult = comTagCenterServiceRef.getTagListByTagType(tagRelationDomainDTO);
 		RepoUtils.resultLog(log, "comTagCenterServiceRef.selectTagListByTagType", baseResult);
