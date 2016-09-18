@@ -80,11 +80,24 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         PageVO<ActActivityPromotionDO> promotionDOPageVO = null;
         //构建查询条件
         com.yimayhd.activitycenter.query.ActPromotionPageQuery actPromotionPageQueryRef = new com.yimayhd.activitycenter.query.ActPromotionPageQuery();
-        BeanUtils.copyProperties(actPromotionPageQuery,actPromotionPageQueryRef);
-        actPromotionPageQueryRef.setPageNo(actPromotionPageQuery.getPageNumber());
 
+        if(StringUtils.isNotBlank(actPromotionPageQuery.getTitle())) {
+            actPromotionPageQueryRef.setTitle(actPromotionPageQuery.getTitle());
+        }
+        actPromotionPageQueryRef.setStatus(actPromotionPageQuery.getStatus());
+        actPromotionPageQueryRef.setLotteryType(actPromotionPageQuery.getLotteryType());
+        actPromotionPageQueryRef.setType(actPromotionPageQuery.getType());
+        actPromotionPageQueryRef.setPageNo(actPromotionPageQuery.getPageNumber());
+        actPromotionPageQueryRef.setPageSize(actPromotionPageQuery.getPageSize());
+//        BeanUtils.copyProperties(actPromotionPageQuery,actPromotionPageQueryRef);
+        if(StringUtils.isNotBlank(actPromotionPageQuery.getBeginTime())) {
+            Date startTime = DateUtil.formatMinTimeForDate(actPromotionPageQuery.getBeginTime());
+            actPromotionPageQueryRef.setStart(startTime);
+            actPromotionPageQueryRef.setBeginTime(DateUtil.date2String(startTime));
+        }
         if(StringUtils.isNotBlank(actPromotionPageQuery.getEndTime())) {
             Date endTime = DateUtil.formatMaxTimeForDate(actPromotionPageQuery.getEndTime());
+            actPromotionPageQueryRef.setEnd(endTime);
             actPromotionPageQueryRef.setEndTime(DateUtil.date2String(endTime));
         }
         ActPageResult<ActActivityPromotionDO> basePageResult = activityPromotionServiceRef.queryActPromotions(actPromotionPageQueryRef);
