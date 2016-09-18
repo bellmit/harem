@@ -1,18 +1,5 @@
 package com.yimayhd.palace.controller;
 
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
@@ -22,6 +9,14 @@ import com.yimayhd.palace.model.HaRoleDetail;
 import com.yimayhd.palace.model.query.RoleListQuery;
 import com.yimayhd.palace.service.OrderService;
 import com.yimayhd.palace.service.SystemManageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/systemManage")
@@ -113,9 +108,7 @@ public class SystemManageController extends BaseController {
 		}
 
 		roleListQuery.setRoleId(roleId);
-		PageVO<HaRoleDetail> pageVo = systemManageService
-				.roleDetailById(roleListQuery);
-
+		PageVO<HaRoleDetail> pageVo = systemManageService.roleDetailById(roleListQuery);
 		model.addAttribute("roleId", roleId);
 		model.addAttribute("pageVo", pageVo);
 		model.addAttribute("roleListQuery", roleListQuery);
