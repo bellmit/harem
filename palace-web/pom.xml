@@ -246,7 +246,20 @@
 			<groupId>com.yimayhd.refund</groupId>
 			<artifactId>refund-client</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>com.yimayhd</groupId>
+			<artifactId>palace-client</artifactId>
+			<version>1.2.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yimayhd.voucher</groupId>
+			<artifactId>voucher-client</artifactId>
+			<version>0.1.2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.yimayhd.item</groupId>
+			<artifactId>itemcenter-client</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

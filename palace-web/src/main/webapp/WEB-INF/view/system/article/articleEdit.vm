@@ -34,8 +34,8 @@
                     <td><span class="spColor">*</span>副标题：</td>
                     <td>
 						 <span style="display:none">$!article.subTitle</span>
-						 <input type="text" class="form-control summary subTitle" name="subTitle"  value="$!{escUtil.html($!article.subTitle)}" maxlength="12">
-						 <span class="word-num"><em class="num-a">0</em>/<em class="num-b">12</em></span>
+						 <input type="text" class="form-control summary subTitle" name="subTitle"  value="$!{escUtil.html($!article.subTitle)}" maxlength="36">
+						 <span class="word-num"><em class="num-a">0</em>/<em class="num-b">36</em></span>
                     </td>
                 </tr>
 				<tr>

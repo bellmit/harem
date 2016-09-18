@@ -3,19 +3,21 @@ package com.yimayhd.palace.service.impl;
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.dto.CategoryQueryDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoByOutIdDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.commentcenter.client.result.BasePageResult;
 import com.yimayhd.commentcenter.client.result.BaseResult;
+import com.yimayhd.commentcenter.client.result.CategoryResult;
 import com.yimayhd.commentcenter.client.service.ComTagCenterService;
+import com.yimayhd.gf.repo.GFCategoryRepo;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDTO;
 import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
-import com.yimayhd.ic.client.model.enums.OperationType;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
@@ -54,7 +56,6 @@ import com.yimayhd.snscenter.client.dto.SubjectInfoDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicQueryDTO;
 import com.yimayhd.snscenter.client.dto.topic.TopicQueryListDTO;
 import com.yimayhd.snscenter.client.result.topic.TopicResult;
-import com.yimayhd.snscenter.client.result.ugc.UgcResult;
 import com.yimayhd.snscenter.client.service.SnsTopicCenterService;
 import com.yimayhd.user.client.cache.CityDataCacheClient;
 import com.yimayhd.user.client.dto.CityDTO;
@@ -62,8 +63,6 @@ import com.yimayhd.user.client.dto.MerchantUserDTO;
 import com.yimayhd.user.client.enums.MerchantOption;
 import com.yimayhd.user.client.query.MerchantPageQuery;
 import com.yimayhd.user.client.service.MerchantService;
-
-import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
@@ -100,7 +99,10 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
     @Autowired SnsTopicCenterService snsTopicCenterServiceRef;
 
+    @Autowired GFCategoryRepo gfCategoryRepo;
+
     @Autowired ArticleBackEndService articleBackEndService;
+
 
 
 
@@ -681,6 +683,31 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             listSC.add(sc);
         }
         return listSC;
+    }
+
+    public List<ShowCaseItem> categoryResultToShowCaseItem(List<CategoryResult> list){
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        if(CollectionUtils.isNotEmpty(list)){
+            for (CategoryResult oo:list ) {
+                ShowCaseItem sc = new ShowCaseItem();
+                sc.setId(oo.getId());
+                sc.setName(oo.getName());//标题
+                listSC.add(sc);
+            }
+        }
+        return listSC;
+    }
+
+    public PageVO<ShowCaseItem> getCategoryList(CategoryQueryDTO categoryQueryDTO){
+        BasePageResult<CategoryResult> result = gfCategoryRepo.getCategoryPage(categoryQueryDTO);
+        if(null == result || !result.isSuccess()){
+            return null;
+        }
+        List<CategoryResult> list = result.getList();
+        List<ShowCaseItem> listCategory = categoryResultToShowCaseItem(list);
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(categoryQueryDTO.getPageNo(),
+                categoryQueryDTO.getPageSize(),result.getTotalCount(),listCategory);
+        return page;
     }
 
 }
