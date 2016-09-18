@@ -225,6 +225,7 @@ public class AccountController extends BaseController {
 	
 	private void write2Stream(HttpServletResponse response, List<List<String>> rows, String fileName){
 		String result = list2String(rows);
+		OutputStream toClient = null;
 		try {
 			SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd HHmmss");
 			String datetime = format.format(new Date()) ;
@@ -238,13 +239,21 @@ public class AccountController extends BaseController {
             // 设置response的Header
             response.addHeader("Content-Disposition", "attachment;filename=" + new String(fileName.getBytes()));
             response.addHeader("Content-Length", "" + buffer.length);
-            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+            toClient = new BufferedOutputStream(response.getOutputStream());
             response.setContentType("application/octet-stream");
             toClient.write(buffer);
             toClient.flush();
-            toClient.close();
+            
         } catch (Exception e) {
             log.error("write file failed!",e);
+        }finally{
+        	if( toClient != null ){
+        		try {
+        			toClient.close();
+        		} catch (IOException e) {
+        			e.printStackTrace();
+        		}
+        	}
         }
 	}
 }
