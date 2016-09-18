@@ -1154,4 +1154,30 @@ public class DateUtil {
 		return sb.toString();
 		
 	}
+
+	/**
+	 *
+	 * created by zhuhao
+	 * @date 2016年8月30日
+	 * @Title: parseLong2Time
+	 * @Description: 将毫秒值转换为时长
+	 * @param  ms
+	 * @param
+	 * @return String    返回类型
+	 * @throws
+	 */
+	public static String parseLong2TimeString(long sec) {
+		if (sec < 0) {
+			return "";
+		}
+		StringBuilder sb = new StringBuilder();
+		if (sec < 60) {
+			sb.append(Math.round(sec)+"秒");
+		}else {
+			long min = sec/60;
+			long secIn = sec%60;
+			sb.append(Math.round(min)+"分"+Math.round(secIn)+"秒");
+		}
+		return sb.toString();
+	}
 }

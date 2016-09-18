@@ -458,7 +458,7 @@ public class GuideConverter {
                 guideFocusVO.setDuration(guideFocusDO.getAudioTime());
                 guideFocusVO.setInputFileTitle(guideFocusDO.getName());
                 guideFocusVO.setId(guideFocusDO.getId());
-                guideFocusVO.setDurationStr(DateUtil.parseLong2Time(guideFocusDO.getAudioTime()));
+                guideFocusVO.setDurationStr(DateUtil.parseLong2TimeString(guideFocusDO.getAudioTime()));
                 /* GuideFocusVO guideFocusVO = guideFocusDO2GuideFocusVO(guideFocusDO);
                 if(guideFocusDO!=null) {
                     guideFocusVOList.add(guideFocusVO);
