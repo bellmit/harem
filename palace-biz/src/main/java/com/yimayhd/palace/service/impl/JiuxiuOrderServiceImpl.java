@@ -187,5 +187,4 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 		result.setSuccess(true);
 		return result;
 	}
-	
 }

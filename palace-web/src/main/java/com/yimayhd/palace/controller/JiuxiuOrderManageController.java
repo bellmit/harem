@@ -3,6 +3,7 @@ package com.yimayhd.palace.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.yimayhd.lgcenter.client.domain.ExpressVO;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
@@ -13,11 +14,13 @@ import com.yimayhd.palace.model.jiuxiu.JiuxiuTcMainOrder;
 import com.yimayhd.palace.model.query.JiuxiuOrderListQuery;
 import com.yimayhd.palace.result.BatchJiuxiuOrderResult;
 import com.yimayhd.palace.service.JiuxiuOrderService;
+import com.yimayhd.palace.util.ExpressUtil;
 import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.pay.client.model.param.pay.QuerySingleDTO;
 import com.yimayhd.pay.client.model.result.PayResultDTO;
 import com.yimayhd.pay.client.service.QueryPayOrderService;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.VoucherInfo;
 import com.yimayhd.tradecenter.client.model.domain.person.TcMerchantInfo;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
@@ -169,7 +172,16 @@ public class JiuxiuOrderManageController extends BaseController {
 			        	jiuxiuTcDetailOrder.setItemPrice_(act);
 			        }
 				}
-				
+
+
+				//获取订单物流信息
+				LogisticsOrderDO logisticsOrderDO =  jiuxiuTcMainOrder.getLogisticsOrderDO();
+				if(logisticsOrderDO!=null) {
+				String name = ExpressUtil.getExpressNameByCode(logisticsOrderDO.getExpressCompany())	;
+					if(name!=null){
+						logisticsOrderDO.setExpressCompany(name);
+					}
+				}
 				model.addAttribute("order", jiuxiuTcMainOrder);
 			}
 			
