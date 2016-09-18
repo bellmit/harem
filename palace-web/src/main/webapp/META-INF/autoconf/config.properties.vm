@@ -102,9 +102,6 @@ consumer.dubbo.refund.version = ${consumer.dubbo.refund.version}
 consumer.dubbo.refundQuery.check = ${consumer.dubbo.refundQuery.check}
 consumer.dubbo.refundQuery.version = ${consumer.dubbo.refundQuery.version}
 
-consumer.dubbo.trade.check = ${consumer.dubbo.solr.check}
-consumer.dubbo.trade.version = ${consumer.dubbo.solr.version}
-
 consumer.dubbo.promotion.version = ${consumer.dubbo.promotion.version}
 consumer.dubbo.check = ${consumer.dubbo.check}
 
