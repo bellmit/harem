@@ -389,16 +389,17 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             PromotionVO promotionVO = new PromotionVO();
             promotionVO.setId(promotionDO.getId());
             String requirement = MoneyUtil.centToYuanMoneyFormat(promotionDO.getRequirement());
-            Double priceY = Double.valueOf(requirement.toString());
-            promotionVO.setRequirementY(MoneyUtil.moneyY(priceY));
+            Double requirementY = Double.valueOf(requirement.toString());
+            promotionVO.setRequirementY(MoneyUtil.moneyY(requirementY));
             List<GiftVO> gifts = new ArrayList<GiftVO>();
             if (StringUtils.isNotBlank(promotionDO.getFeature())) {
                 PromotionFeature promotionFeature = new PromotionFeature(promotionDO.getFeature());
                 List<FullGiveFeature> fullGiveFeatures = promotionFeature.getFreeGiftList();
                 for (FullGiveFeature fullGiveFeature : fullGiveFeatures) {
                     GiftVO giftVO = new GiftVO();
-                    Double money = (double)(fullGiveFeature.getPrice()*0.01);
-                    giftVO.setPriceY(money.toString());
+                    String giftPrice = MoneyUtil.centToYuanMoneyFormat(fullGiveFeature.getPrice());
+                    Double money = Double.valueOf(giftPrice.toString());
+                    giftVO.setPriceY(MoneyUtil.moneyY(money));
                     giftVO.setPrice(fullGiveFeature.getPrice());
                     giftVO.setTitle(fullGiveFeature.getGiftName());
                     giftVO.setImgUrl(fullGiveFeature.getGiftPicture());
