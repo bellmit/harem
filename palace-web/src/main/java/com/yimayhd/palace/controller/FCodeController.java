@@ -83,6 +83,8 @@ public class FCodeController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.POST)
+    //FIXME 不要使用ResponseVo，改用Result和ResultSupport对象, 
+    //FIXME 整个方法没有任何日志，后面如果需要查找bug原因都没法查找
     public ResponseVo add(VoucherTemplateVO voucherTemplateVO, Model model) throws Exception {
         ResponseVo responseVo = new ResponseVo();
         UserDO userDO = sessionManager.getUser();
@@ -91,6 +93,7 @@ public class FCodeController extends BaseController {
             // 关联创建人iD
             voucherTemplateVO.setUserId(userDO.getId());
         } else {
+        	//FIXME 状态应该引用枚举，实在没有枚举，那么使用常量，  你这边1是什么意思？
             responseVo.setStatus(1);
             responseVo.setMessage("未登录!");
         }
@@ -102,6 +105,7 @@ public class FCodeController extends BaseController {
 
         long itemId = voucherTemplateVO.getEntityId();
         if(itemId != 0) {
+        	//FIXME 将第三方系统的调用封装在repo中
             ItemPubResult result = itemPublishService.changeToFItem(itemId);
             if(!result.isSuccess()){
                 responseVo.setStatus(1);
@@ -109,6 +113,7 @@ public class FCodeController extends BaseController {
                 return responseVo;
             }
         } else {
+        	//FIXME
             responseVo.setStatus(1);
             responseVo.setMessage("商品ID不正确,请确认后提交!");
             return responseVo;
@@ -117,16 +122,19 @@ public class FCodeController extends BaseController {
         // 生成方式 预先生成
         voucherTemplateVO.setIssueType(IssueType.PRE_GENERATE_WITH_CODE.getType());
 
+        //FIXME 常量
         voucherTemplateVO.setDomain(1100);
 
         // 新增默认下架状态
+        //FIXME 乘与100是什么意思？如果是转换成分，那最好是在voucherTemplateVO写一个方法，专门转换成分
         voucherTemplateVO.setRequirement(Math.round(voucherTemplateVO
                 .getRequirement_() * 100));
         voucherTemplateVO.setValue(Math.round(voucherTemplateVO.getValue_() * 100));
 
         voucherTemplateVO.setStartTime(new Date());
         voucherTemplateVO.setEndTime(getEndTime());
-
+       
+        //FIXME 将第三方系统的调用封装在repo中
         VcBaseResult<Long> vcBaseResult = voucherTemplateService.add(voucherTemplateVO);
         if(!vcBaseResult.isSuccess()) {
             responseVo.setStatus(1);

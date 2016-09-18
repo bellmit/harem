@@ -100,3 +100,4 @@ public interface HotelRPCService {
 	 */
 	BizResult<Boolean> setHotelWeight(long id,int weight);
 }
+

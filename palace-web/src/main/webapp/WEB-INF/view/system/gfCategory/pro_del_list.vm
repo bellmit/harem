@@ -1,6 +1,6 @@
 <link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
-    <form class="form-signin" id="themeListForm" name="themeListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/CategoryManager/listProSearch/$!id" method="POST" role="form">
+    <form class="form-signin" id="themeListForm" name="themeListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/CategoryManager/findBoundProduct/$!id/$!parentId" method="GET" role="form">
         <div class="btnBottomMargin">
         #if($!parentId!=0)
 	        <button type="button" class="btn btn-primary commodityBatchBtn">移除品类关系</button>

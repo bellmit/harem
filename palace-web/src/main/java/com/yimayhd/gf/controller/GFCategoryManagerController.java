@@ -1,25 +1,11 @@
 package com.yimayhd.gf.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.CategoryDO;
+import com.yimayhd.commentcenter.client.enums.CategoryFeatureKey;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.commentcenter.client.result.CategoryResult;
+import com.yimayhd.commentcenter.client.util.FeatureUtil;
 import com.yimayhd.gf.biz.GFCategoryBiz;
 import com.yimayhd.gf.model.query.GFCategoryVo;
 import com.yimayhd.ic.client.model.enums.ItemType;
@@ -28,6 +14,18 @@ import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.ItemVO;
 import com.yimayhd.palace.model.query.CommodityListQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author : zhangchao
@@ -163,7 +161,12 @@ public class GFCategoryManagerController {
 			modelMap.addAttribute("categoryList", categoryList);
 			
 			BaseResult<CategoryDO> baseResult2 = gfCategoryBiz.getCategoryById(id);
-			model.addAttribute("theme", baseResult2.getValue());
+			CategoryDO categoryDO = baseResult2.getValue();
+			model.addAttribute("theme", categoryDO);
+			Map<String, String> categoryFeature = FeatureUtil.setFeatureString(categoryDO.getFeature());
+			model.addAttribute("PCpic", categoryFeature.get(CategoryFeatureKey.IMG_PC.getCode()));
+			model.addAttribute("WAPpic", categoryFeature.get(CategoryFeatureKey.IMG_WAP.getCode()));
+
 			return "/system/gfCategory/edit";
 		} catch (Exception e) {
 			LOGGER.error("toEditCategory:id={}",id, e);
@@ -321,7 +324,18 @@ public class GFCategoryManagerController {
 			return "/error";
 		}
 	}
-	
-	
-	
+
+	@RequestMapping(value = "/lists", method = RequestMethod.GET)
+	@ResponseBody
+	public PageVO gfCategoryLists(Model model,GFCategoryVo gfCategoryVo){
+		try {
+			PageVO<CategoryResult> pageVo = gfCategoryBiz.pageQueryCategory(gfCategoryVo);
+			return pageVo;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+
+
 }

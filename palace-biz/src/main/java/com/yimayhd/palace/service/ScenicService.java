@@ -93,3 +93,4 @@ public interface ScenicService {
 	
 	BizResult<Boolean> setScenicWeight(long id,int weight);
 }
+

@@ -57,6 +57,7 @@ public class ComRateServiceImpl implements ComRateService {
                 try {
                     ratePageListDTO.setStartTime(DateUtil.convertStringToDate(comRateListQuery.getBeginDate()).getTime());
                 } catch (Exception e) {
+                	//FIXME 输出日志的时候，要将入参也打印出来，因为有很多bug是只有在特定参数下才会出现的
                     log.error("error ", e);
                 }
             }
@@ -66,6 +67,7 @@ public class ComRateServiceImpl implements ComRateService {
                     endDate = DateUtil.formatMaxTimeForDate(endDate);
                     ratePageListDTO.setEndTime(endDate.getTime());
                 } catch (Exception e) {
+                	//FIXME 输出日志的时候，要将入参也打印出来，因为有很多bug是只有在特定参数下才会出现的
                     log.error("error ", e);
                 }
             }
@@ -106,6 +108,7 @@ public class ComRateServiceImpl implements ComRateService {
                     orderIds.add(comRate.getOrderId());
                 }
 
+                //FIXME 获取map的方法可以直接封装在userRepo中
                 List<UserDO> userDOs = userRepo.getUsers(userIds);
                 log.debug("userDOs = {}", JSON.toJSONString(userDOs));
                 Map<Long, UserDO> userDOMap = new HashMap<Long, UserDO>();

@@ -244,3 +244,4 @@ public class ArticleBiz {
     	return pageResult;
     }
 }
+

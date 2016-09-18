@@ -3,8 +3,11 @@ package com.yimayhd.palace.controller;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.dto.CategoryQueryDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
 import com.yimayhd.ic.client.model.enums.GuideStatus;
+import com.yimayhd.commentcenter.client.enums.CategoryStatus;
+import com.yimayhd.commission.client.enums.Domain;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
@@ -246,6 +249,7 @@ public class BannerManageController extends BaseController {
                 || Constant.SHOWCASE_MASTER_CIRCLE_DETAIL == type
                 || Constant.SHOWCASE_TRAVEL_INFORMATION_LIST == type
                 ||  Constant.SHOWCASE_GUIDE_INFORMATION_LIST == type
+                || Constant.SHOWCASE_CATEGORY_LIST ==type
                 ){//选列表
             return "/system/banner/showcase/chooseItemList";
         }else if(Constant.SHOWCASE_ITEM_DETAIL == type){//选详情
@@ -309,6 +313,8 @@ public class BannerManageController extends BaseController {
                 break;
             case Constant.SHOWCASE_GUIDE_INFORMATION_LIST ://导览列表
                 result = getAttachmentListByQuery(pageNumber,pageSize,result,keyWord,code);
+            case Constant.SHOWCASE_CATEGORY_LIST://品类
+                result = getCategoryList(pageNumber,pageSize,result,keyWord);
                 break;
             /*case Constant.SHOWCASE_VIEW_TOPIC_LIST ://选话题列表
                 getScenicList(pageNumber,pageSize,result,keyWord);
@@ -330,6 +336,20 @@ public class BannerManageController extends BaseController {
         query.setStatus(GuideStatus.ONLINE.getCode());
 
         PageVO<ShowCaseItem> page = showcaseService.getGuideListByQuery(query);
+	}
+    public Map<String, Object> getCategoryList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord) {
+        CategoryQueryDTO query = new CategoryQueryDTO();
+        query.setStatus(CategoryStatus.ONLINE.getStatus());
+        query.setNeedCount(true);
+        query.setPageNo(pageNumber);
+        query.setPageSize(pageSize);
+        query.setDomain(1100);
+        if (NumberUtils.isNumber(keyWord)) {
+            query.setId(Integer.parseInt(keyWord));
+        } else if (StringUtils.isNotEmpty(keyWord)) {
+            query.setName(keyWord);
+        }
+        PageVO<ShowCaseItem> page = showcaseService.getCategoryList(query);
         result.put("pageVo", page);
         return result;
     }

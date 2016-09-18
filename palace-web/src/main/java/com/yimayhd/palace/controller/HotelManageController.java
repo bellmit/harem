@@ -1,32 +1,32 @@
 package com.yimayhd.palace.controller;
 
-import com.alibaba.fastjson.JSON;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.yimayhd.ic.client.model.domain.HotelDO;
+import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
+import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
+import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.palace.base.AreaService;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.ResponseStatus;
-import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.AreaVO;
 import com.yimayhd.palace.model.HotelFacilityVO;
 import com.yimayhd.palace.model.HotelVO;
 import com.yimayhd.palace.model.query.HotelListQuery;
-import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.HotelRPCService;
-import com.yimayhd.ic.client.model.domain.HotelDO;
-import com.yimayhd.ic.client.model.domain.share_json.MasterRecommend;
-import com.yimayhd.ic.client.model.domain.share_json.NeedKnow;
-import com.yimayhd.ic.client.model.enums.ResourceType;
-import com.yimayhd.ic.client.model.result.ICResult;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * 酒店管理（资源）

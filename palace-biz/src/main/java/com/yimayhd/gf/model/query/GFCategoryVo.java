@@ -34,7 +34,35 @@ public class GFCategoryVo extends BaseQuery {
 
     private Date gmtModified;
 
-    //子节点
+	private String imgPc ;
+	private String imgWap ;
+	private String summary;
+
+	public String getImgPc() {
+		return imgPc;
+	}
+
+	public void setImgPc(String imgPc) {
+		this.imgPc = imgPc;
+	}
+
+	public String getImgWap() {
+		return imgWap;
+	}
+
+	public void setImgWap(String imgWap) {
+		this.imgWap = imgWap;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
+	//子节点
     private List<CategoryDO> nodeCategoryList;
     
     private List<Long> itemIdList; //商品id集合
