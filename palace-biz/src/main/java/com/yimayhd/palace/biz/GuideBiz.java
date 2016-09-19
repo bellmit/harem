@@ -39,7 +39,7 @@ public class GuideBiz {
     private CheckResult checkGuideScenicVO(GuideScenicVO guideScenicVO) {
         CheckResult checkResult = GuideChecker.checkGuideScenicVO(guideScenicVO);
 
-        checkResult.setSuccess(true);
+       // checkResult.setSuccess(true);
         return checkResult;
     }
 
