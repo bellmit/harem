@@ -315,6 +315,7 @@ public class BannerManageController extends BaseController {
                 break;
             case Constant.SHOWCASE_GUIDE_INFORMATION_LIST ://导览列表
                 result = getAttachmentListByQuery(pageNumber,pageSize,result,keyWord,code);
+                break;
             case Constant.SHOWCASE_CATEGORY_LIST://品类
                 result = getCategoryList(pageNumber,pageSize,result,keyWord);
                 break;
