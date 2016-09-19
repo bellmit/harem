@@ -19,7 +19,6 @@
               action="$!utilWebconfig.getActionDefaultFontPath()'+'/banner/showcase/add/" method="post" showcaseId="$!showcase.id">
         <table class="add">
             <tr>
-                <td class="tit"></td>
                 <input type="hidden" class="inpControl" id="operationIds" name="operationId" value="$!showcase.operationId">
                 <input type="hidden" class="inpControl" id="chooseId" name="choose" value="">
                 <input type="hidden" name="boothId" id="boothId" value="$!boothId">
@@ -27,8 +26,11 @@
                 <input type="hidden" name="appVersionCode" id="appVersionCodeId" value="$!appVersionCode">
                 <input type="hidden" name="showcaseId" id="showcaseId" value="$!showcase.id">
                 <input type="hidden" name="isEdit" id="isEditId" value="$!isEdit">
-                <td><label>权重：</label><input name='serialNo' id='serialNoId'  type="text" class="busname" placeholder="" value="$!showcase.serialNo">
-                    <span class="prompt">请填写整数</span></td>
+                <td class="yun"><label>顺序（小的在前）：</label></td>
+                <td>
+                	<input name='serialNo' id='serialNoId'  type="text" class="bisname" placeholder="" value="$!showcase.serialNo">
+                    <span class="prompt">请填写整数</span>
+                </td>
             </tr>
             <tr>
                 <td class="yun"><label>名称(运营备注)：</label></td>

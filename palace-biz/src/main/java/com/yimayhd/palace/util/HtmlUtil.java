@@ -1,12 +1,10 @@
 package com.yimayhd.palace.util;
 
 
-import com.alibaba.dubbo.common.utils.CollectionUtils;
+import java.util.List;
+
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.resourcecenter.domain.OperationDetailDO;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.List;
 
 /**
  * @author create by yushengwei on 2016/6/12
@@ -40,7 +38,7 @@ public class HtmlUtil {
                 sb.append("multiselect='").append(true).append("'");
             }
             sb.append("operationId='").append(od.getOperationId()).append("'")
-              .append(" jumpType='").append(od.getJumpType()).append("'").append(" value='").append(od.getShowValue())
+              .append(" jumpType='").append(od.getJumpType()).append("'").append(" value='").append(od.getShowValue().trim())
               .append("'> ").append(od.getShowName()).append(" ").append("</label>");
         }
         //System.out.println("html="+sb.toString());
