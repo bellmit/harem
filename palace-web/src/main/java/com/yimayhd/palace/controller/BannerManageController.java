@@ -148,6 +148,7 @@ public class BannerManageController extends BaseController {
         model.addAttribute("appVersionCode",showcaseQuery.getAppVersionCode());
         model.addAttribute("operationDetailId",0);
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
+        Collections.sort(operationDOs);
         model.addAttribute("operationDOs",operationDOs);
         model.addAttribute("isEdit",false);
         return "/system/banner/showcase/edit_new";
@@ -189,6 +190,7 @@ public class BannerManageController extends BaseController {
         model.addAttribute("operationDetailId",showcase.getOperationDetailId());
         model.addAttribute("isFullScreen",showcase.fullScreen());
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
+        Collections.sort(operationDOs);
         model.addAttribute("operationDOs",operationDOs);
         model.addAttribute("isEdit",true);
         return "/system/banner/showcase/edit_new";
@@ -313,6 +315,7 @@ public class BannerManageController extends BaseController {
                 break;
             case Constant.SHOWCASE_GUIDE_INFORMATION_LIST ://导览列表
                 result = getAttachmentListByQuery(pageNumber,pageSize,result,keyWord,code);
+                break;
             case Constant.SHOWCASE_CATEGORY_LIST://品类
                 result = getCategoryList(pageNumber,pageSize,result,keyWord);
                 break;
