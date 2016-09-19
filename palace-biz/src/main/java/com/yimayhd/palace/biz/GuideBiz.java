@@ -10,7 +10,9 @@ import com.yimayhd.palace.checker.GuideChecker;
 import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
+import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.service.GuideManageService;
+import com.yimayhd.palace.service.TouristManageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +27,8 @@ public class GuideBiz {
     protected Logger log = LoggerFactory.getLogger(GuideBiz.class);
     @Resource
     private GuideManageService guideManageService;
+    @Resource
+    private TouristManageService touristManageService;
 
     /**
      * 校验数据
@@ -121,6 +125,18 @@ public class GuideBiz {
             if (attractionDTOList == null || attractionDTOList.size() <= 0) {
                 return GuideChecker.getCheckResult(PalaceReturnCode.UP_GUIDE_STATUS_ATTRACTION_ERROR);
             }
+
+            for (AttractionCascadeFocusDTO attractionCascadeFocusDTO : attractionDTOList) {
+                GuideAttractionDO guideAttractionDO = attractionCascadeFocusDTO.getGuideAttractionDO();
+                if (guideAttractionDO == null) {
+                    return GuideChecker.getCheckResult(PalaceReturnCode.UP_GUIDE_STATUS_ATTRACTION_ERROR);
+                }
+                PictureTextVO picTextVO = touristManageService.getPictureText(guideAttractionDO.getId());
+                if (picTextVO == null || picTextVO.getPictureTextItems().size() <= 0) {
+                    return GuideChecker.getCheckResult(PalaceReturnCode.UP_GUIDE_STATUS_ATTRACTION_PICTEXT_ERROR);
+                }
+            }
+
             /**
              * 推荐线路
              */
@@ -129,6 +145,7 @@ public class GuideBiz {
                 return GuideChecker.getCheckResult(PalaceReturnCode.UP_GUIDE_STATUS_LINE_ERROR);
 
             }
+
             boolean result = guideManageService.upStatus(guideId);
             CheckResult checkResult1 = new CheckResult();
             checkResult1.setSuccess(result);

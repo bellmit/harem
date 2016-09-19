@@ -63,6 +63,7 @@ public class PalaceReturnCode implements Serializable {
     public static final PalaceReturnCode ADD_GUIDE_ERROR_SCENICID_REPEATED = new PalaceReturnCode(25005003, "参数错误,景区重复");
     public static final PalaceReturnCode EDIT_GUIDE_ERROR = new PalaceReturnCode(25005104, "修改导览失败");
     public static final PalaceReturnCode UP_GUIDE_STATUS_ATTRACTION_ERROR = new PalaceReturnCode(25005201, "导览缺少景点信息");
+    public static final PalaceReturnCode UP_GUIDE_STATUS_ATTRACTION_PICTEXT_ERROR = new PalaceReturnCode(25005201, "导览缺少景点图文信息");
     public static final PalaceReturnCode UP_GUIDE_STATUS_LINE_ERROR = new PalaceReturnCode(25005201, "导览缺少景点线路信息");
     public static final PalaceReturnCode UP_GUIDE_STATUS_SCENIC_ERROR = new PalaceReturnCode(25005201, "导览缺少景区信息");
     
