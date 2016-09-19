@@ -38,7 +38,7 @@ public class HtmlUtil {
                 sb.append("multiselect='").append(true).append("'");
             }
             sb.append("operationId='").append(od.getOperationId()).append("'")
-              .append(" jumpType='").append(od.getJumpType()).append("'").append(" value='").append(od.getShowValue().trim())
+              .append(" jumpType='").append(od.getJumpType()).append("'").append(" value='").append(od.getShowValue())
               .append("'> ").append(od.getShowName()).append(" ").append("</label>");
         }
         //System.out.println("html="+sb.toString());
