@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.dubbo.common.json.JSONObject;
+import com.yimayhd.activitycenter.query.ActivityPromotionQueryDTO;
 import com.yimayhd.activitycenter.result.track.ActivityResult;
 import com.yimayhd.palace.constant.B2CConstant;
 import com.yimayhd.palace.model.*;
@@ -346,6 +347,9 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     @Override
     public boolean close(long id) throws Exception {
         ActResultSupport actResultSupport= activityPromotionServiceRef.closeActPromotion(id);
+        if(!actResultSupport.isSuccess()) {
+            log.error("closeActPromotion :"+JSON.toJSONString(actResultSupport)+" isSuccess : "+actResultSupport.isSuccess());
+        }
         return actResultSupport.isSuccess();
     }
 
@@ -397,6 +401,7 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         actActivityVO.setTitle(actActivityPromotionDO.getTitle());
         actActivityVO.setStartDate(actActivityPromotionDO.getStartDate());
         actActivityVO.setEndDate(actActivityPromotionDO.getEndDate());
+        actActivityVO.setStatus(actActivityPromotionDO.getStatus());
 
         for(PromotionDO promotionDO:promotionDOList) {
             PromotionVO promotionVO = new PromotionVO();
@@ -525,9 +530,8 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         return true;
     }
 
-    public boolean updateEndGift(ActActivityEditVO actActivityEditVO) throws Exception {
+    public boolean updateGiftEndTime(ActActivityVO actActivityVO) throws Exception {
         //@TODO check time;
-        ActActivityVO actActivityVO = actActivityEditVO.getActActivityVO();
         Date endDate = new Date();
         try {
             endDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT);
@@ -561,6 +565,46 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         return true;
     }
 
+    public boolean checkGift(ActActivityVO actActivityVO){
+        ActivityPromotionQueryDTO activityPromotionQueryDTO = new ActivityPromotionQueryDTO();
+        Date startDate = new Date();
+        Date endDate = new Date();
+        try {
+            startDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getStartDateStr(), DateUtil.DAY_HORU_FORMAT);
+            endDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        int[] statuses = {
+                PromotionStatus.BEING.getStatus()
+                , PromotionStatus.NOTBEING.getStatus()
+        };
+        activityPromotionQueryDTO.setStatuses(statuses);
+        activityPromotionQueryDTO.setStart(startDate);
+        activityPromotionQueryDTO.setEnd(endDate);
+        activityPromotionQueryDTO.setType(PromotionType.FREE_GIFT.getType());
+        ActResult<List<ActActivityPromotionDO>> actResult = activityPromotionServiceRef.queryActivityPromotionsByActivityDate(activityPromotionQueryDTO);
+        if(!actResult.isSuccess()){
+            log.error("queryActivityPromotionsByActivityDate actActivityVO: "+actActivityVO+" result : "+actResult);
+        }
+        List<ActActivityPromotionDO> actActivityPromotionDOs = actResult.getT();
+        if(null == actActivityPromotionDOs) {
+            return true;
+        }
+        if(actActivityPromotionDOs.size()>0){
+            if(actActivityPromotionDOs.size()>1){
+                return false;
+            }
+            if(actActivityPromotionDOs.size()==1){
+                ActActivityPromotionDO actActivityPromotionDO = actActivityPromotionDOs.get(0);
+                if(actActivityPromotionDO.getId()!=actActivityVO.getId()){
+                    return false;
+                }
+            }
+            return false;
+        }
+        return true;
+    }
     private Map<Long, String> getPromotionFeatures(long id){
         Map<Long, String> promotionFeatures = new HashMap<Long, String>();
         ActResult<ActPromotionDTO> actResult = activityPromotionServiceRef.getActPromotionById(id);

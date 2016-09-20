@@ -3,6 +3,7 @@ package com.yimayhd.palace.service;
 import com.yimayhd.activitycenter.domain.ActActivityPromotionDO;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ActActivityEditVO;
+import com.yimayhd.palace.model.ActActivityVO;
 import com.yimayhd.palace.model.GiftActivityVO;
 import com.yimayhd.palace.model.query.ActPromotionPageQuery;
 import com.yimayhd.palace.result.BizResultSupport;
@@ -66,6 +67,7 @@ public interface PromotionCommService {
 
     boolean addGift(ActActivityEditVO actActivityEditVO) throws Exception;
 
-    boolean updateEndGift(ActActivityEditVO actActivityEditVO) throws Exception;
+    boolean updateGiftEndTime(ActActivityVO actActivityVO) throws Exception;
 
+    boolean checkGift(ActActivityVO actActivityVO);
 }

@@ -40,7 +40,7 @@
                 #if($!actActivityEditVO.actActivityVO.status==2 || $!actActivityEditVO.actActivityVO.status==1)
                     <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")" id="endDate"/>
                 #else
-                <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")" id="endDate" disabled/>
+                    <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")" id="endDate" disabled/>
                 #end
             </td>
         </tr>
@@ -100,7 +100,7 @@
         #end
     #if($actActivityEditVO.actActivityVO.status==1 || $actActivityEditVO.actActivityVO.status==2)
     <p class ="sBtn">
-        <a class = "btn btn-primary themeStop" id="saveBtn">保存</a>
+        <a class = "btn btn-primary themeStop" id="updateBtn">保存</a>
         <a class = "btn btn-primary themeStop" id="closeBtn">取消</a>
     </p>
     #end

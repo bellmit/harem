@@ -53,7 +53,7 @@ public class GFGiftActivityManageController {
         if(result){
             responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
         } else {
-            responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+            responseVo.setStatus(ResponseStatus.UNSUCCESSFUL.VALUE);
         }
         return responseVo;
     }
@@ -83,8 +83,15 @@ public class GFGiftActivityManageController {
      */
     @RequestMapping(value = "/close/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public boolean close(@PathVariable("id") long id) throws Exception {
-        return promotionCommService.close(id);
+    public ResponseVo close(@PathVariable("id") long id) throws Exception {
+        ResponseVo responseVo = new ResponseVo();
+        boolean result = promotionCommService.close(id);
+        if(result) {
+            responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+        } else {
+            responseVo.setStatus(ResponseStatus.UNSUCCESSFUL.VALUE);
+        }
+        return responseVo;
     }
 
     /**
@@ -95,8 +102,15 @@ public class GFGiftActivityManageController {
      */
     @RequestMapping(value = "/end/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public boolean endTime(@PathVariable("id") long id, @RequestBody ActActivityEditVO actActivityEditVO) throws Exception {
-        return promotionCommService.updateEndGift(actActivityEditVO);
+    public ResponseVo endTime(@PathVariable("id") long id, @RequestBody ActActivityVO actActivityVO) throws Exception {
+        ResponseVo responseVo = new ResponseVo();
+        Boolean reuslt = promotionCommService.updateGiftEndTime(actActivityVO);
+        if(reuslt) {
+            responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+        } else {
+            responseVo.setStatus(ResponseStatus.UNSUCCESSFUL.VALUE);
+        }
+        return responseVo;
     }
 
     @RequestMapping("/show/{id}")
@@ -106,18 +120,20 @@ public class GFGiftActivityManageController {
             model.addAttribute("actActivityEditVO", actActivityEditVO);
             return "/system/gfgiftactivity/show";
         } catch (Exception e) {
-            e.printStackTrace();
-            return "/error";
+            model.addAttribute("message", e.getMessage());
+            return "error";
         }
     }
     @RequestMapping("/check")
     @ResponseBody
     public ResponseVo check(@RequestBody ActActivityVO actActivityVO){
         ResponseVo responseVo = new ResponseVo();
-//        Date endDate = actActivityVO.getEndDateStr();
-//        Date startDate = actActivityVO.getStartDateStr();
-        responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
-//        responseVo.setStatus(ResponseStatus.ERROR.VALUE);
+        Boolean result = promotionCommService.checkGift(actActivityVO);
+        if(result) {
+            responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+        } else {
+            responseVo.setStatus(ResponseStatus.UNSUCCESSFUL.VALUE);
+        }
         return responseVo;
     }
 }
