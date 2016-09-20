@@ -70,8 +70,6 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     @Autowired
     private PromotionQueryService promotionQueryService;
     @Autowired
-    private PromotionPublishService promotionPublishServiceRef;
-    @Autowired
     private ItemQueryService itemQueryServiceRef;
 
     private static final Logger log = LoggerFactory.getLogger(PromotionCommServiceImpl.class);

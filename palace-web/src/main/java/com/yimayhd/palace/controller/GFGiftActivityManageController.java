@@ -49,11 +49,16 @@ public class GFGiftActivityManageController {
     @ResponseBody
     public ResponseVo add(@RequestBody ActActivityEditVO actActivityEditVO) throws Exception {
         ResponseVo responseVo = new ResponseVo();
-        Boolean result = promotionCommService.addGift(actActivityEditVO);
-        if(result){
-            responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
-        } else {
+        try {
+            Boolean result = promotionCommService.addGift(actActivityEditVO);
+            if(result){
+                responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+            } else {
+                responseVo.setStatus(ResponseStatus.UNSUCCESSFUL.VALUE);
+            }
+        } catch (Exception e){
             responseVo.setStatus(ResponseStatus.UNSUCCESSFUL.VALUE);
+            responseVo.setMessage(e.getMessage());
         }
         return responseVo;
     }
