@@ -98,7 +98,11 @@ public class GuideScenicVO {
 
 
     public String getAudioTimeStr() {
-        return audioTime / 60 + "分" + audioTime % 60 + "秒";
+        if(audioTime!=null) {
+            return audioTime / 60 + "分" + audioTime % 60 + "秒";
+        }else {
+            return "";
+        }
     }
 
     public GuideScenicVO setAudioTimeStr(String audioTimeStr) {
