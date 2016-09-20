@@ -9,7 +9,7 @@ import java.util.Map;
 public class ExpressUtil {
     public final static Map map = new HashMap() {{
         put("shunfeng", "顺丰速运");
-        put("sutongwuliu", "圆通");
+        put("yuantong", "圆通");
         put("yunda", "韵达快递");
         put("shentong", "申通快递");
         put("zhongtong", "中通快递");
