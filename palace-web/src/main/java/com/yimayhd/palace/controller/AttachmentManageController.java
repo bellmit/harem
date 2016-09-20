@@ -222,7 +222,7 @@ public class AttachmentManageController extends BaseController {
     public ResponseVo editAttachment(Model model, AttachmentVO attachmentVO) {
         try {
             MediaDTO mediaDTO = attachmentManageService.getMediaByFileName(attachmentVO.getInputFileTitle());
-            if (mediaDTO != null) {
+            if (mediaDTO != null&&mediaDTO.getId()!=attachmentVO.getId()) {
                 ResponseVo responseVo = ResponseVoHelper.returnResponseVo(false);
                 responseVo.setMessage(PalaceReturnCode.ADD_ATTACHMENT_ERROR_FILE_NAME_REPEAT.getErrorMsg());
                 return responseVo;
