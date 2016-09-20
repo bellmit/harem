@@ -260,6 +260,10 @@
 			<groupId>com.yimayhd.item</groupId>
 			<artifactId>itemcenter-client</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.yimayhd.live</groupId>
+			<artifactId>live-client</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

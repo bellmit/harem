@@ -268,10 +268,13 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.yimayhd.solrsearch</groupId>
   			<artifactId>solrsearch-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.yimayhd.live</groupId>
+			<artifactId>live-client</artifactId>
 		</dependency>
 	</dependencies>
 
