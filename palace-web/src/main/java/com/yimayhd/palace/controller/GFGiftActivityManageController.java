@@ -100,9 +100,9 @@ public class GFGiftActivityManageController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/end/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo endTime(@PathVariable("id") long id, @RequestBody ActActivityVO actActivityVO) throws Exception {
+    public ResponseVo endTime(@RequestBody ActActivityVO actActivityVO) throws Exception {
         ResponseVo responseVo = new ResponseVo();
         Boolean reuslt = promotionCommService.updateGiftEndTime(actActivityVO);
         if(reuslt) {

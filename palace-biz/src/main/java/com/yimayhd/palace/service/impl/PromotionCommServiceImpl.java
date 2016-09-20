@@ -597,11 +597,11 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             }
             if(actActivityPromotionDOs.size()==1){
                 ActActivityPromotionDO actActivityPromotionDO = actActivityPromotionDOs.get(0);
-                if(actActivityPromotionDO.getId()!=actActivityVO.getId()){
-                    return false;
+                if(actActivityPromotionDO.getId()==actActivityVO.getId()){
+                    return true;
                 }
+                return false;
             }
-            return false;
         }
         return true;
     }
