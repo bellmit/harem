@@ -101,6 +101,14 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             actPromotionPageQueryRef.setEnd(endTime);
             actPromotionPageQueryRef.setEndTime(DateUtil.date2String(endTime));
         }
+        if(StringUtils.isNotBlank(actPromotionPageQuery.getStartTimeStart())) {
+            Date startTimeStart = DateUtil.formatMinTimeForDate(actPromotionPageQuery.getStartTimeStart());
+            actPromotionPageQueryRef.setStartTimeStart(startTimeStart);
+        }
+        if(StringUtils.isNotBlank(actPromotionPageQuery.getStartTimeEnd())) {
+            Date startTimeEnd = DateUtil.formatMaxTimeForDate(actPromotionPageQuery.getStartTimeEnd());
+            actPromotionPageQueryRef.setStartTimeEnd(startTimeEnd);
+        }
         ActPageResult<ActActivityPromotionDO> basePageResult = activityPromotionServiceRef.queryActPromotions(actPromotionPageQueryRef);
         if(basePageResult == null){
             log.error("PromotionCommService.getList-PromotionQueryService.queryPromotions result is null and parame: " + JSON.toJSONString(actPromotionPageQuery) + "and promotionListQuery: " + actPromotionPageQuery);
