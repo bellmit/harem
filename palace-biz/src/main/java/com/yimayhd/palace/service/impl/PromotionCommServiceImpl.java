@@ -514,10 +514,10 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             actPromotionEditDTO.setDelPromotionIdList(delPromotionDOIds);
             ActResultSupport baseResult = activityPromotionServiceRef.updateActivityPromotion(actPromotionEditDTO);
             if(baseResult == null){
-                log.error("PromotionCommService.modify error: " + actPromotionEditDTO);
+                log.error("PromotionCommService.addGift update error: " + actPromotionEditDTO +"baseResult:"+baseResult);
                 throw new BaseException("返回结果错误");
             } else if(!baseResult.isSuccess()){
-                log.error("PromotionCommService.modify-promotionPublishService.updPromotion error:" + actPromotionEditDTO);
+                log.error("PromotionCommService.addGift update error:" + actPromotionEditDTO +"baseResult:"+baseResult);
                 throw new BaseException(baseResult.getMsg());
             }
         } else {
@@ -525,10 +525,10 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             promotionEditDTO.setAddPromotionDOList(addPromotionDOList);
             ActResultSupport baseResult = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
             if(baseResult == null){
-                log.error("PromotionCommService.add error: " + promotionEditDTO);
+                log.error("PromotionCommService.addGift save  error: " + promotionEditDTO);
                 throw new BaseException("返回结果错误");
             } else if(!baseResult.isSuccess()){
-                log.error("PromotionCommService.add error:" + promotionEditDTO);
+                log.error("PromotionCommService.addGift save error:" + promotionEditDTO);
                 throw new BaseException(baseResult.getMsg());
             }
         }
@@ -537,7 +537,11 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     }
 
     public boolean updateGiftEndTime(ActActivityVO actActivityVO) throws Exception {
-        //@TODO check time;
+        Boolean checkResult = checkGift(actActivityVO);
+        if(!checkResult){
+            log.error("PromotionCommService.updateGiftEndTime error: " + actActivityVO);
+            throw new BaseException("有重复活动");
+        }
         Date endDate = new Date();
         try {
             endDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT);
@@ -562,10 +566,10 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 
         ActResultSupport baseResult = activityPromotionServiceRef.updateActivityPromotion(actPromotionEditDTO);
         if(baseResult == null){
-            log.error("PromotionCommService.modify error: " + actPromotionEditDTO);
+            log.error("PromotionCommService.updateGiftEndTime error: " + actPromotionEditDTO);
             throw new BaseException("返回结果错误");
         } else if(!baseResult.isSuccess()){
-            log.error("PromotionCommService.modify-promotionPublishService.updPromotion error:" + actPromotionEditDTO);
+            log.error("PromotionCommService.updateGiftEndTime error:" + actPromotionEditDTO);
             throw new BaseException(baseResult.getMsg());
         }
         return true;
