@@ -104,10 +104,15 @@ public class GFGiftActivityManageController {
     @ResponseBody
     public ResponseVo endTime(@RequestBody ActActivityVO actActivityVO) throws Exception {
         ResponseVo responseVo = new ResponseVo();
-        Boolean reuslt = promotionCommService.updateGiftEndTime(actActivityVO);
-        if(reuslt) {
-            responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
-        } else {
+        try {
+            Boolean reuslt = promotionCommService.updateGiftEndTime(actActivityVO);
+            if(reuslt) {
+                responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+            } else {
+                responseVo.setStatus(ResponseStatus.UNSUCCESSFUL.VALUE);
+            }
+
+        } catch (Exception e) {
             responseVo.setStatus(ResponseStatus.UNSUCCESSFUL.VALUE);
         }
         return responseVo;
