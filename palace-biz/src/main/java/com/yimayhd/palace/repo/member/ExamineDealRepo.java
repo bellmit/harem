@@ -153,7 +153,7 @@ public class ExamineDealRepo {
 			verifyCmpEleAccountDTO.setUserId(dto.getSellerId());
 			verifyCmpEleAccountDTO.setBankAccountType(Integer.parseInt(dto.getAccountType()));
 			verifyCmpEleAccountDTO.setOpenBankNo(dto.getSettlementCard());
-			verifyCmpEleAccountDTO.setOpenBankName(dto.getAccountBankName());
+			verifyCmpEleAccountDTO.setOpenBankName(dto.getFinanceOpenBankName());
 			verifyCmpEleAccountDTO.setOpenAcctNo(dto.getAccountNum());
 			verifyCmpEleAccountDTO.setOpenAcctName(dto.getFinanceOpenName());
 			if (StringUtils.isNotBlank(dto.getOpenerTel())) {

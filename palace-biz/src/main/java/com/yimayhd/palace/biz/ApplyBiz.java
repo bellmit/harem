@@ -115,11 +115,11 @@ public class ApplyBiz {
 			return result;
 		}
 		try {
-			log.info("examineDealRepo.verifyCorBankAccount param:ExamineInfoDTO={}",JSON.toJSONString(dto));
+			log.info("examineDealRepo.verifyEleBankAccount param:ExamineInfoDTO={}",JSON.toJSONString(dto));
 			ResultSupport resultSupport = examineDealRepo.verifyEleBankAccount(dto);
-			log.info("examineDealRepo.verifyCorBankAccount result:{}",JSON.toJSONString(resultSupport));
+			log.info("examineDealRepo.verifyEleBankAccount result:{}",JSON.toJSONString(resultSupport));
 			if (resultSupport == null || !resultSupport.isSuccess()) {
-				log.error("examineDealRepo.verifyCorBankAccount result:{}",JSON.toJSONString(resultSupport));
+				log.error("examineDealRepo.verifyEleBankAccount result:{}",JSON.toJSONString(resultSupport));
 				result.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
 				return result;
 			}
