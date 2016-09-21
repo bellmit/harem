@@ -66,8 +66,6 @@
 	<bean class="com.yimayhd.palace.service.impl.EatMerchantServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.PromotionCommServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.PromotionShopServiceImpl"></bean>
-	<!-- 商品评价 -->
-	<bean class="com.yimayhd.palace.service.impl.ComRateServiceImpl"></bean>
 
 	<!--GF商品-->
 	<bean class="com.yimayhd.gf.service.impl.CommodityServiceImpl"></bean>
