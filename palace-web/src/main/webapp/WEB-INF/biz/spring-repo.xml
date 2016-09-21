@@ -35,7 +35,8 @@
 	<bean id="payRepo" class="com.yimayhd.palace.repo.PayRepo" />
 	<bean id="topicRepo" class="com.yimayhd.palace.repo.TopicRepo" />
 	<bean id="gfCorrelationRepo" class="com.yimayhd.gf.repo.GFCorrelationRepo" />
-	
+	<bean id="liveAdminRepo" class="com.yimayhd.palace.repo.LiveAdminRepo"/>
+
 	<bean id="articleRepo" class="com.yimayhd.palace.repo.ArticleRepo" />
 	<bean id="destinationRepo" class="com.yimayhd.palace.repo.DestinationRepo" />
 	<bean id="solrsearchRepo" class="com.yimayhd.palace.repo.SolrsearchRepo" />

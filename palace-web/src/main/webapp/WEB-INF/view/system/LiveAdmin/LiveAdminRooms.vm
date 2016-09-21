@@ -1,0 +1,133 @@
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>房间管理</title>
+    <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/PC_Admin/src/css/base.css">
+    <link rel="stylesheet" href="../../src/css/live/livelist.css">
+</head>
+<body>
+<div class="dialog">
+    <div class="bgmeng"></div>
+    <div class="dlgcont rooms">
+        <table>
+            <tbody><tr>
+                <td class="tit">关闭原因：</td>
+                <td>
+                    <select name="closeReason" id="closeReason">
+                        <option value="illegal">违法</option>
+                        <option value="boring">太难看了</option>
+                        <option value="other">其他</option>
+                    </select>
+                    <input type="hidden" id="rowId">
+                </td>
+            </tr>
+            <tr>
+                <td class="tit"></td>
+                <td>
+                    <input type="text" id="otherCloseReason">
+                </td>
+            </tr>
+            <tr>
+                <td class="tit">关闭时间：</td>
+                <td>
+                    <select name="closeTime" id="closeTime">
+                        <option value="1">1小时</option>
+                        <option value="2">2小时</option>
+                        <option value="3">3小时</option>
+                        <option value="24">24小时</option>
+                        <option value="open">至手动开启</option>
+                    </select>
+                </td>
+            </tr>
+            </tbody></table>
+        <div class="boxbtn">
+            <button class="ok">确定</button>
+            <button class="cancel">取消</button>
+        </div>
+    </div>
+</div>
+
+<div class="searchbox">
+    <form id="fm">
+        <table>
+            <tbody><tr>
+                <td class="tit">达人昵称：</td>
+                <td><input name="nickname" maxlength="30"></td>
+                <td class="tit">达人ID：</td>
+                <td><input name="talentID" maxlength="30"></td>
+            </tr>
+            <tr>
+                <td class="tit">房间号：</td>
+                <td><input name="roomNumber" maxlength="30"></td>
+                <td class="tit">状态：</td>
+                <td>
+                    <select name="status">
+                        <option value="">全部</option>
+                        <option value="live">直播中</option>
+                        <option value="idle">空闲中</option>
+                        <option value="closed">关闭</option>
+                    </select>
+                </td>
+                <td colspan="2">
+                    <button class="searchBtn">查询</button>
+                    <button class="resetBtn">重置</button>
+                </td>
+            </tr>
+            </tbody></table>
+    </form>
+</div>
+
+<div class="gridbox">
+    <table class="tbgrid">
+        <thead>
+        <tr><th style="display: none">rowId</th>
+            <th>序号</th>
+            <th>房间号</th>
+            <th>达人昵称</th>
+            <th>达人ID</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr></thead>
+        <tbody>
+        <tr>
+            <td style="display: none" class="rowId">444</td>
+            <td>1</td>
+            <td class="roomNumber">123</td>
+            <td>达人昵称测试</td>
+            <td>达人id测试</td>
+            <td class="status">直播中</td>
+            <td>
+                <label class="exam closeRoomBtn">关闭直播间</label>
+            </td>
+        </tr>
+        <tr>
+            <td style="display: none" class="rowId">555</td>
+            <td>2</td>
+            <td class="roomNumber">456</td>
+            <td>达人昵称测试2</td>
+            <td>达人id测试2</td>
+            <td class="status">空闲中</td>
+            <td>
+                <label class="exam reopenRoomBtn">恢复</label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="pagebox">
+        <div class="actionpage">
+            <button class="prev">上一页</button>
+            <label>当前第 </label><label class="curpage">1</label><label> 页</label>
+            <button class="next">下一页</button>
+        </div>
+        <div class="pageinfo"><label>共：</label><label class="totalPage">20</label><label>页，</label>
+            <label class="totalCount">1000</label><label>条</label></div>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
+<script type="text/javascript" src="../../src/js/module/md.rooms.js"></script>
+
+</body></html>

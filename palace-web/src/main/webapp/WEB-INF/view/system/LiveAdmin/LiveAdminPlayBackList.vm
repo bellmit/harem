@@ -1,0 +1,138 @@
+<html class="screen-desktop-wide device-desktop"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>回放管理</title>
+    <link rel="stylesheet" href="../../src/css/zui.min.css">
+    <link rel="stylesheet" href="../../src/css/datetimepicker.min.css">
+    <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/PC_Admin/src/css/common.css">
+    <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/PC_Admin/src/css/base.css">
+    <link rel="stylesheet" href="../../src/css/live/livelist.css">
+</head>
+<body style="">
+<div class="dialog">
+    <div class="bgmeng"></div>
+    <div class="dlgcont">
+        <table>
+            <tbody><tr>
+                <td class="tit">权重：</td>
+                <td>
+                    <input type="text" id="priority">
+                    <input type="hidden" id="rowId" value="">
+                    <input type="hidden" id="oldPriority" value="">
+                </td>
+            </tr>
+            </tbody></table>
+        <div class="boxbtn">
+            <button class="ok">确定</button>
+            <button class="cancel">取消</button>
+        </div>
+    </div>
+</div>
+
+<div class="searchbox">
+    <form id="fm">
+        <table>
+            <tbody><tr>
+                <td class="tit">达人昵称：</td>
+                <td><input name="nickname" maxlength="30"></td>
+                <td class="tit">达人ID：</td>
+                <td><input name="talentID" maxlength="30"></td>
+                <td class="tit">直播分类：</td>
+                <td><select name="liveCategory">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select></td>
+                <td class="tit">状态：</td>
+                <td><select name="status">
+                    <option value="onSale">上架</option>
+                    <option value="offSale">下架</option>
+                    <option value="deleted">用户已删除</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td class="tit">开始时间：</td>
+                <td colspan="3">
+                    <input type="text" name="startTime" value="2016-04-21" class="form-date dateInp startTime inputxt">
+                    &nbsp; &nbsp;至&nbsp; &nbsp;
+                    <input type="text" name="endTime" value="2016-04-30" class="form-date dateInp endTime inputxt">
+                </td>
+                <td class="tit">排序方式：</td>
+                <td><select name="orderStyle">
+                    <option value="0">时间倒序(最新回放在前)</option>
+                    <option value="1">权重(权重值高在前)</option>
+                    <option value="2">播放次数(次数多在前)</option>
+                </select></td>
+                <td colspan="2">
+                    <button class="searchbtn">查询</button>
+                    <button class="resetbtn">重置</button>
+                </td>
+            </tr>
+            </tbody></table>
+    </form>
+</div>
+
+<div class="gridbox">
+    <table class="tbgrid">
+        <thead>
+        <tr><th>ID</th>
+            <th>头图</th>
+            <th>直播标题</th>
+            <th>直播分类</th>
+
+            <th>话题</th>
+            <th>达人昵称</th>
+            <th>达人ID</th>
+
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>时长</th>
+            <th>观看次数</th>
+
+            <th>权重</th>
+            <th>状态</th>
+            <th>操作</th>
+
+        </tr></thead>
+        <tbody>
+        <tr id="row1">
+            <td class="rowId">12309</td>
+            <td><img src="http://img0.imgtn.bdimg.com/it/u=3691748163,484693479&amp;fm=206&amp;gp=0.jpg" alt=""></td>
+            <td>标题测试</td>
+            <td>分类测试</td>
+            <td>话题测试</td>
+            <td>达人昵称测试</td>
+            <td>达人id测试</td>
+            <td>2016-02-15 15:00</td>
+            <td>2016-02-15 16:00</td>
+            <td>1h</td>
+            <td>15</td>
+            <td class="priorityValue">45</td>
+            <td>上架</td>
+            <td>
+                <label class="exam dialogBtn">编辑权重</label>
+                <label class="exam onSaleBtn">上架</label>
+                <label class="exam offSaleBtn">下架</label>
+                <label class="exam playBtn">播放</label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="pagebox">
+        <div class="actionpage"><button class="prev">上一页</button><label>当前第 </label><label class="curpage">1</label><label> 页</label><button class="next">下一页</button></div>
+        <div class="pageinfo"><label>共：</label><label class="totalPage">20</label><label>页，</label>
+            <label class="totalCount">1000</label><label>条</label></div>
+    </div>
+
+</div>
+
+<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
+<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/plugin/zui.min.js"></script>
+<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/plugin/jquery.ui.core.js"></script>
+<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/plugin/jquery.validform.js"></script>
+<script type="text/javascript" src="http://console.test.yimayholiday.com/palace-web/resources/zui/lib/datetimepicker/datetimepicker.min.js"></script>
+<script type="text/javascript" src="../../src/js/module/md.playback.js"></script>
+
+<div class="datetimepicker datetimepicker-dropdown-bottom-right dropdown-menu" style="left: 121px; z-index: 1000039;"><div class="datetimepicker-minutes" style="display: none;"><table class=" table-condensed"><thead><tr><th class="prev" style="visibility: visible;"><i class="icon-arrow-left"></i></th><th colspan="5" class="switch">21 April 2016</th><th class="next" style="visibility: visible;"><i class="icon-arrow-right"></i></th></tr></thead><tbody><tr><td colspan="7"><fieldset class="minute"><legend>AM</legend><span class="minute active">12:00</span><span class="minute">12:05</span><span class="minute">12:10</span><span class="minute">12:15</span><span class="minute">12:20</span><span class="minute">12:25</span><span class="minute">12:30</span><span class="minute">12:35</span><span class="minute">12:40</span><span class="minute">12:45</span><span class="minute">12:50</span><span class="minute">12:55</span></fieldset></td></tr></tbody><tfoot><tr><th colspan="7" class="today">Today</th></tr></tfoot></table></div><div class="datetimepicker-hours" style="display: none;"><table class=" table-condensed"><thead><tr><th class="prev" style="visibility: visible;"><i class="icon-arrow-left"></i></th><th colspan="5" class="switch">21 April 2016</th><th class="next" style="visibility: visible;"><i class="icon-arrow-right"></i></th></tr></thead><tbody><tr><td colspan="7"><fieldset class="hour"><legend>AM</legend><span class="hour active hour_am">12</span><span class="hour hour_am">1</span><span class="hour hour_am">2</span><span class="hour hour_am">3</span><span class="hour hour_am">4</span><span class="hour hour_am">5</span><span class="hour hour_am">6</span><span class="hour hour_am">7</span><span class="hour hour_am">8</span><span class="hour hour_am">9</span><span class="hour hour_am">10</span><span class="hour hour_am">11</span></fieldset><fieldset class="hour"><legend>PM</legend><span class="hour hour_pm">12</span><span class="hour hour_pm">1</span><span class="hour hour_pm">2</span><span class="hour hour_pm">3</span><span class="hour hour_pm">4</span><span class="hour hour_pm">5</span><span class="hour hour_pm">6</span><span class="hour hour_pm">7</span><span class="hour hour_pm">8</span><span class="hour hour_pm">9</span><span class="hour hour_pm">10</span><span class="hour hour_pm">11</span></fieldset></td></tr></tbody><tfoot><tr><th colspan="7" class="today">Today</th></tr></tfoot></table></div><div class="datetimepicker-days" style="display: block;"><table class=" table-condensed"><thead><tr><th class="prev" style="visibility: visible;"><i class="icon-arrow-left"></i></th><th colspan="5" class="switch">April 2016</th><th class="next" style="visibility: visible;"><i class="icon-arrow-right"></i></th></tr><tr><th class="dow">Mo</th><th class="dow">Tu</th><th class="dow">We</th><th class="dow">Th</th><th class="dow">Fr</th><th class="dow">Sa</th><th class="dow">Su</th></tr></thead><tbody><tr><td class="day old">28</td><td class="day old">29</td><td class="day old">30</td><td class="day old">31</td><td class="day">1</td><td class="day">2</td><td class="day">3</td></tr><tr><td class="day">4</td><td class="day">5</td><td class="day">6</td><td class="day">7</td><td class="day">8</td><td class="day">9</td><td class="day">10</td></tr><tr><td class="day">11</td><td class="day">12</td><td class="day">13</td><td class="day">14</td><td class="day">15</td><td class="day">16</td><td class="day">17</td></tr><tr><td class="day">18</td><td class="day">19</td><td class="day">20</td><td class="day active">21</td><td class="day">22</td><td class="day">23</td><td class="day">24</td></tr><tr><td class="day">25</td><td class="day">26</td><td class="day">27</td><td class="day">28</td><td class="day">29</td><td class="day">30</td><td class="day new">1</td></tr><tr><td class="day new">2</td><td class="day new">3</td><td class="day new">4</td><td class="day new">5</td><td class="day new">6</td><td class="day new">7</td><td class="day new">8</td></tr></tbody><tfoot><tr><th colspan="7" class="today">Today</th></tr></tfoot></table></div><div class="datetimepicker-months" style="display: none;"><table class="table-condensed"><thead><tr><th class="prev" style="visibility: visible;"><i class="icon-arrow-left"></i></th><th colspan="5" class="switch">2016</th><th class="next" style="visibility: visible;"><i class="icon-arrow-right"></i></th></tr></thead><tbody><tr><td colspan="7"><span class="month">Jan</span><span class="month">Feb</span><span class="month">Mar</span><span class="month active">Apr</span><span class="month">May</span><span class="month">Jun</span><span class="month">Jul</span><span class="month">Aug</span><span class="month">Sep</span><span class="month">Oct</span><span class="month">Nov</span><span class="month">Dec</span></td></tr></tbody><tfoot><tr><th colspan="7" class="today">Today</th></tr></tfoot></table></div><div class="datetimepicker-years" style="display: none;"><table class="table-condensed"><thead><tr><th class="prev" style="visibility: visible;"><i class="icon-arrow-left"></i></th><th colspan="5" class="switch">2010-2019</th><th class="next" style="visibility: visible;"><i class="icon-arrow-right"></i></th></tr></thead><tbody><tr><td colspan="7"><span class="year old">2009</span><span class="year">2010</span><span class="year">2011</span><span class="year">2012</span><span class="year">2013</span><span class="year">2014</span><span class="year">2015</span><span class="year active">2016</span><span class="year">2017</span><span class="year">2018</span><span class="year">2019</span><span class="year old">2020</span></td></tr></tbody><tfoot><tr><th colspan="7" class="today">Today</th></tr></tfoot></table></div></div><div class="datetimepicker datetimepicker-dropdown-bottom-right dropdown-menu" style="left: 333.140625px; z-index: 1000079;"><div class="datetimepicker-minutes" style="display: none;"><table class=" table-condensed"><thead><tr><th class="prev" style="visibility: visible;"><i class="icon-arrow-left"></i></th><th colspan="5" class="switch">30 April 2016</th><th class="next" style="visibility: visible;"><i class="icon-arrow-right"></i></th></tr></thead><tbody><tr><td colspan="7"><fieldset class="minute"><legend>AM</legend><span class="minute active">12:00</span><span class="minute">12:05</span><span class="minute">12:10</span><span class="minute">12:15</span><span class="minute">12:20</span><span class="minute">12:25</span><span class="minute">12:30</span><span class="minute">12:35</span><span class="minute">12:40</span><span class="minute">12:45</span><span class="minute">12:50</span><span class="minute">12:55</span></fieldset></td></tr></tbody><tfoot><tr><th colspan="7" class="today">Today</th></tr></tfoot></table></div><div class="datetimepicker-hours" style="display: none;"><table class=" table-condensed"><thead><tr><th class="prev" style="visibility: visible;"><i class="icon-arrow-left"></i></th><th colspan="5" class="switch">30 April 2016</th><th class="next" style="visibility: visible;"><i class="icon-arrow-right"></i></th></tr></thead><tbody><tr><td colspan="7"><fieldset class="hour"><legend>AM</legend><span class="hour active hour_am">12</span><span class="hour hour_am">1</span><span class="hour hour_am">2</span><span class="hour hour_am">3</span><span class="hour hour_am">4</span><span class="hour hour_am">5</span><span class="hour hour_am">6</span><span class="hour hour_am">7</span><span class="hour hour_am">8</span><span class="hour hour_am">9</span><span class="hour hour_am">10</span><span class="hour hour_am">11</span></fieldset><fieldset class="hour"><legend>PM</legend><span class="hour hour_pm">12</span><span class="hour hour_pm">1</span><span class="hour hour_pm">2</span><span class="hour hour_pm">3</span><span class="hour hour_pm">4</span><span class="hour hour_pm">5</span><span class="hour hour_pm">6</span><span class="hour hour_pm">7</span><span class="hour hour_pm">8</span><span class="hour hour_pm">9</span><span class="hour hour_pm">10</span><span class="hour hour_pm">11</span></fieldset></td></tr></tbody><tfoot><tr><th colspan="7" class="today">Today</th></tr></tfoot></table></div><div class="datetimepicker-days" style="display: block;"><table class=" table-condensed"><thead><tr><th class="prev" style="visibility: visible;"><i class="icon-arrow-left"></i></th><th colspan="5" class="switch">April 2016</th><th class="next" style="visibility: visible;"><i class="icon-arrow-right"></i></th></tr><tr><th class="dow">Mo</th><th class="dow">Tu</th><th class="dow">We</th><th class="dow">Th</th><th class="dow">Fr</th><th class="dow">Sa</th><th class="dow">Su</th></tr></thead><tbody><tr><td class="day old">28</td><td class="day old">29</td><td class="day old">30</td><td class="day old">31</td><td class="day">1</td><td class="day">2</td><td class="day">3</td></tr><tr><td class="day">4</td><td class="day">5</td><td class="day">6</td><td class="day">7</td><td class="day">8</td><td class="day">9</td><td class="day">10</td></tr><tr><td class="day">11</td><td class="day">12</td><td class="day">13</td><td class="day">14</td><td class="day">15</td><td class="day">16</td><td class="day">17</td></tr><tr><td class="day">18</td><td class="day">19</td><td class="day">20</td><td class="day">21</td><td class="day">22</td><td class="day">23</td><td class="day">24</td></tr><tr><td class="day">25</td><td class="day">26</td><td class="day">27</td><td class="day">28</td><td class="day">29</td><td class="day active">30</td><td class="day new">1</td></tr><tr><td class="day new">2</td><td class="day new">3</td><td class="day new">4</td><td class="day new">5</td><td class="day new">6</td><td class="day new">7</td><td class="day new">8</td></tr></tbody><tfoot><tr><th colspan="7" class="today">Today</th></tr></tfoot></table></div><div class="datetimepicker-months" style="display: none;"><table class="table-condensed"><thead><tr><th class="prev" style="visibility: visible;"><i class="icon-arrow-left"></i></th><th colspan="5" class="switch">2016</th><th class="next" style="visibility: visible;"><i class="icon-arrow-right"></i></th></tr></thead><tbody><tr><td colspan="7"><span class="month">Jan</span><span class="month">Feb</span><span class="month">Mar</span><span class="month active">Apr</span><span class="month">May</span><span class="month">Jun</span><span class="month">Jul</span><span class="month">Aug</span><span class="month">Sep</span><span class="month">Oct</span><span class="month">Nov</span><span class="month">Dec</span></td></tr></tbody><tfoot><tr><th colspan="7" class="today">Today</th></tr></tfoot></table></div><div class="datetimepicker-years" style="display: none;"><table class="table-condensed"><thead><tr><th class="prev" style="visibility: visible;"><i class="icon-arrow-left"></i></th><th colspan="5" class="switch">2010-2019</th><th class="next" style="visibility: visible;"><i class="icon-arrow-right"></i></th></tr></thead><tbody><tr><td colspan="7"><span class="year old">2009</span><span class="year">2010</span><span class="year">2011</span><span class="year">2012</span><span class="year">2013</span><span class="year">2014</span><span class="year">2015</span><span class="year active">2016</span><span class="year">2017</span><span class="year">2018</span><span class="year">2019</span><span class="year old">2020</span></td></tr></tbody><tfoot><tr><th colspan="7" class="today">Today</th></tr></tfoot></table></div></div></body></html>

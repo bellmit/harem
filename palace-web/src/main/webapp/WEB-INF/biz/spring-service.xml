@@ -90,4 +90,7 @@
 	<!-- 话题 -->
 	<bean class="com.yimayhd.palace.service.impl.TopicServiceImpl"></bean>
 
+	<!-- 直播管理 -->
+	<bean id="liveAdminService" class="com.yimayhd.palace.service.impl.LiveAdminServiceImpl"/>
+
 </beans>
