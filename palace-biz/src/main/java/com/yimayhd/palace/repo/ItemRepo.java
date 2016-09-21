@@ -48,7 +48,8 @@ public class ItemRepo {
 	private ItemSkuService itemSkuService ;
 	@Autowired
 	private ItemQueryService itemQueryServiceRef;
-
+	@Autowired
+	private ItemPublishService itemPublishService;
 
 	public ICPageResult<ItemInfo> getItemList(ItemQryDTO itemQryDTO) {
 		if (itemQryDTO == null) {
@@ -175,6 +176,14 @@ public class ItemRepo {
 			return null;
 		}
 		return itemPublishServiceRef.updateItemOrderNum(itemWeightDTO);
+	}
+	public boolean changeToFItem(long id) {
+		ItemPubResult result = itemPublishService.changeToFItem(id);
+		if(!result.isSuccess()){
+			log.error("changeToFItem itemPublishService id: " + id + "ItemPubResult" + result);
+			return false;
+		}
+		return true;
 	}
 }
 
