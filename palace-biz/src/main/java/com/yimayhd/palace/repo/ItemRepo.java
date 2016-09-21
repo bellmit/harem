@@ -123,7 +123,14 @@ public class ItemRepo {
 		ItemDeleteResult batchDelete = itemPublishServiceRef.batchDelete(itemBatchPublishDTO);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.batchClose", batchDelete);
 	}
-
+	public boolean changeToFItem(long id) {
+		ItemPubResult result = itemPublishServiceRef.changeToFItem(id);
+		if(!result.isSuccess()){
+			log.error("changeToFItem itemPublishService id: " + id + "ItemPubResult" + result);
+			return false;
+		}
+		return true;
+	}
 	/**
 	 * 获取item sku的库存，（所有sku的库存之和）
 	 * @return
