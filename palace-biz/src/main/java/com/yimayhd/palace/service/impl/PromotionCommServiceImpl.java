@@ -472,6 +472,8 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             promotionDO.setPromotionType(PromotionType.FREE_GIFT.getType());
             promotionDO.setEntityType(EntityType.SHOP.getType());
             promotionDO.setEntityId(B2CConstant.GF_OFFICIAL_ID);
+            promotionDO.setDomain(B2CConstant.GF_DOMAIN);
+
             //PromotionFeatureKey
             List<FullGiveFeature> fullGiveFeatures = new ArrayList<FullGiveFeature>();
             for(GiftVO gift: promotionVO.getGifts()) {
