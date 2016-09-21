@@ -1,12 +1,10 @@
 package com.yimayhd.palace.service;
 
-import com.yimayhd.live.client.domain.record.CloseLiveRoomDTO;
-import com.yimayhd.live.client.domain.record.LiveRoomDO;
-import com.yimayhd.live.client.domain.record.UpdateLiveOrderDTO;
-import com.yimayhd.live.client.domain.record.UpdateLiveRecordStatusDTO;
+import com.yimayhd.live.client.domain.record.*;
 import com.yimayhd.live.client.query.LiveAdminPageQuery;
 import com.yimayhd.live.client.query.LiveRoomPageQuery;
 import com.yimayhd.live.client.result.record.*;
+import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.result.BizResult;
 
 /**
@@ -19,7 +17,7 @@ public interface LiveAdminService {
      * @param pageQuery
      * @return
      */
-    public LiveRecordPageResult getPageLiveRecord(LiveAdminPageQuery pageQuery);
+    public PageVO<LiveRecordDO> getPageLiveRecord(LiveAdminPageQuery pageQuery);
 
     /**
      * 更新直播排序
@@ -54,7 +52,7 @@ public interface LiveAdminService {
      * @param liveRoomPageQuery
      * @return
      */
-    public LiveRoomPageResult getPageLiveRoom(LiveRoomPageQuery liveRoomPageQuery);
+    public PageVO<LiveRoomDO> getPageLiveRoom(LiveRoomPageQuery liveRoomPageQuery);
 
     /**
      * 关闭直播间

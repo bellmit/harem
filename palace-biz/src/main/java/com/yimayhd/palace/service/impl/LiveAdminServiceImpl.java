@@ -1,17 +1,16 @@
 package com.yimayhd.palace.service.impl;
 
-import com.yimayhd.live.client.domain.record.CloseLiveRoomDTO;
-import com.yimayhd.live.client.domain.record.LiveRoomDO;
-import com.yimayhd.live.client.domain.record.UpdateLiveOrderDTO;
-import com.yimayhd.live.client.domain.record.UpdateLiveRecordStatusDTO;
+import com.yimayhd.live.client.domain.record.*;
 import com.yimayhd.live.client.query.LiveAdminPageQuery;
 import com.yimayhd.live.client.query.LiveRoomPageQuery;
 import com.yimayhd.live.client.result.record.*;
+import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.repo.LiveAdminRepo;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.LiveAdminService;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by haozhu on 16/9/21.
@@ -27,8 +26,14 @@ public class LiveAdminServiceImpl implements LiveAdminService {
      * @return
      */
     @Override
-    public LiveRecordPageResult getPageLiveRecord(LiveAdminPageQuery pageQuery){
-        return liveAdminRepo.getPageLiveRecord(pageQuery);
+    public PageVO<LiveRecordDO> getPageLiveRecord(LiveAdminPageQuery pageQuery){
+        LiveRecordPageResult liveRecordPageResult =  liveAdminRepo.getPageLiveRecord(pageQuery);
+        if (liveRecordPageResult == null) {
+            return new PageVO<LiveRecordDO>();
+        }
+        List<LiveRecordDO> liveRecordDOList = liveRecordPageResult.getList();
+        liveRecordPageResult.setPageSize(pageQuery.getPageSize());
+        return new PageVO<LiveRecordDO>(liveRecordPageResult.getPageNo(), liveRecordPageResult.getPageSize(), liveRecordPageResult.getTotalCount(), liveRecordDOList);
     }
 
     /**
@@ -78,8 +83,14 @@ public class LiveAdminServiceImpl implements LiveAdminService {
      * @param liveRoomPageQuery
      * @return
      */
-    public LiveRoomPageResult getPageLiveRoom(LiveRoomPageQuery liveRoomPageQuery){
-        return liveAdminRepo.getPageLiveRoom(liveRoomPageQuery);
+    public PageVO<LiveRoomDO> getPageLiveRoom(LiveRoomPageQuery liveRoomPageQuery){
+        LiveRoomPageResult liveRoomPageResult =  liveAdminRepo.getPageLiveRoom(liveRoomPageQuery);;
+        if (liveRoomPageResult == null) {
+            return new PageVO<LiveRoomDO>();
+        }
+        List<LiveRoomDO> liveRoomDOList = liveRoomPageResult.getList();
+        liveRoomPageResult.setPageSize(liveRoomPageQuery.getPageSize());
+        return new PageVO<LiveRoomDO>(liveRoomPageResult.getPageNo(), liveRoomPageResult.getPageSize(), liveRoomPageResult.getTotalCount(), liveRoomDOList);
     }
 
     /**
