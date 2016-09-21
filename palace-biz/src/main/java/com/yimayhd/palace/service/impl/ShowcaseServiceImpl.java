@@ -27,7 +27,11 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.convert.ShowCaseItem;
+import com.yimayhd.palace.model.guide.GuideScenicListQuery;
+import com.yimayhd.palace.model.guide.GuideScenicVO;
+import com.yimayhd.palace.model.guide.ScenicVO;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
+import com.yimayhd.palace.service.GuideManageService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.util.DateFormat;
 import com.yimayhd.palace.util.NumUtil;
@@ -103,6 +107,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
     @Autowired ArticleBackEndService articleBackEndService;
 
+    @Autowired GuideManageService guideManageService ;
+
 
 
 
@@ -144,6 +150,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         BeanUtils.copyProperties(sdo, svo);
         svo.setOperationContentZHs(svo.getFeature());
         svo.setOperationDetailIds(svo.getFeature());
+        svo.setFullScreen(svo.getFeature());
         return svo;
     }
 
@@ -409,7 +416,8 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             }
             map.put("operationContentZH",ocZH);
         }
-
+        boolean isFullScreen = sw.fullScreen();
+        map.put("isShowTitle",String.valueOf(isFullScreen));
         map.put("operationDetailId",String.valueOf(sw.getOperationDetailId()));
         //sw.setFeature(FeatureUtil.toString(map));
         sd.setFeature(FeatureUtil.toString(map));
@@ -685,6 +693,34 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         return listSC;
     }
 
+
+    public PageVO<ShowCaseItem> getGuideListByQuery(GuideScenicListQuery query){
+        PageVO<GuideScenicVO> pageA =  guideManageService.getGuideList(query);
+        if(null == pageA){
+            return null;
+        }
+        List<ShowCaseItem> list = attachmentVOToShowCaseItem(pageA.getItemList());
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(query.getPageNumber(), query.getPageSize(),pageA.getTotalCount(), list);
+        return page;
+    }
+
+    public List<ShowCaseItem> attachmentVOToShowCaseItem(List<GuideScenicVO> list){
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        String title = "";
+        for (GuideScenicVO oo:list) {
+            ShowCaseItem sc = new ShowCaseItem();
+            sc.setId(oo.getScenicId());
+            title = oo.getScenicName();
+            if(StringUtils.isEmpty(title)){
+                ScenicVO sv = oo.getScenicVO();
+                if(null != sv){title=sv.getName();}
+            }
+            sc.setName(title);//标题
+            sc.setImgUrl(StringUtils.isEmpty(oo.getGuideImg())?"":oo.getGuideImg());
+            listSC.add(sc);
+        }
+        return listSC;
+    }
     public List<ShowCaseItem> categoryResultToShowCaseItem(List<CategoryResult> list){
         List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
         if(CollectionUtils.isNotEmpty(list)){

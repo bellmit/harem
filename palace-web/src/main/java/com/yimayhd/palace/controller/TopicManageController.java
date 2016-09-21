@@ -11,16 +11,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.SugTopicVO;
 import com.yimayhd.palace.model.TopicInfoVO;
 import com.yimayhd.palace.model.TopicVO;
 import com.yimayhd.palace.model.query.SugTopicListQuery;
 import com.yimayhd.palace.model.query.TopicListQuery;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.TopicService;
 import com.yimayhd.palace.tair.TcCacheManager;
 import com.yimayhd.snscenter.client.enums.TopicStatus;
@@ -220,6 +223,36 @@ public class TopicManageController extends BaseController {
 			return ResponseVo.error(null);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
+			return ResponseVo.error(e);
+		}
+	}
+	/**
+	 * 
+	* created by zhangxiaoyang
+	* @date 2016年8月26日
+	* @Title: modifyTopicWeight 
+	* @Description: 设置话题权重
+	* @param  id
+	* @return ResponseVo    返回类型 
+	* @throws
+	 */
+	@RequestMapping(value="/setTopicWeight/{id}/{weight}",method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseVo modifyTopicWeight(@PathVariable(value="id") long id,@PathVariable(value="weight")int weight) {
+		ResponseVo responseVo = new ResponseVo();
+		if (id <= 0 || weight <= 0) {
+			log.error("params:id={},weightValue={}",id,weight);
+			return new ResponseVo(ResponseStatus.INVALID_DATA);
+		}
+		try {
+			BizResult<Boolean> setResult = topicService.modifyTopicWeight(id,weight);
+			if (setResult == null || (setResult != null && !setResult.isSuccess())) {
+				log.error("params:id={},weightValue={},result:{}",id,weight,JSON.toJSONString(setResult));
+				return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
+			}
+			return responseVo;
+		} catch (Exception e) {
+			log.error("param:id={},weightValue={},error:{}",id,weight,e);
 			return ResponseVo.error(e);
 		}
 	}

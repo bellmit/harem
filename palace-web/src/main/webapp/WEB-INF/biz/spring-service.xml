@@ -66,8 +66,7 @@
 	<bean class="com.yimayhd.palace.service.impl.EatMerchantServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.PromotionCommServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.PromotionShopServiceImpl"></bean>
-	<!-- 商品评价 -->
-	<bean class="com.yimayhd.palace.service.impl.ComRateServiceImpl"></bean>
+
 
 	<!--GF商品-->
 	<bean class="com.yimayhd.gf.service.impl.CommodityServiceImpl"></bean>
@@ -89,5 +88,17 @@
 	
 	<!-- 话题 -->
 	<bean class="com.yimayhd.palace.service.impl.TopicServiceImpl"></bean>
+
+	<!-- 导览-->
+	<bean id="guideManageService" class="com.yimayhd.palace.service.impl.GuideManageServiceImpl"/>
+
+	<!-- 商品评价 -->
+	<bean class="com.yimayhd.palace.service.impl.ComRateServiceImpl"></bean>
+
+	<!-- 附件中心-->
+	<bean id="attachmentManageService" class="com.yimayhd.palace.service.impl.AttachmentManageServiceImpl"/>
+
+	<!-- 导览景点-->
+	<bean id="touristManageService" class="com.yimayhd.palace.service.impl.TouristManageServiceImpl"/>
 
 </beans>

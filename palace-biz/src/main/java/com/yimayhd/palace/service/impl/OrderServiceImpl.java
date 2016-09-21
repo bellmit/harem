@@ -219,6 +219,16 @@ public class OrderServiceImpl implements OrderService {
 					orderDetails.setBuyerName(null ==buyer ? "":buyer.getName());
 					orderDetails.setBuyerNiceName(null ==buyer ? "":buyer.getNickname());
 					orderDetails.setBuyerPhoneNum(null ==buyer ? "":buyer.getMobileNo());
+					/*com.yimayhd.user.client.result.BaseResult<UserDO> userDOResult = userServiceRef.getUserDOByUserId(buyerId);
+					if(userDOResult.isSuccess()||userDOResult.getValue()!=null){
+						UserDO buyer =userDOResult.getValue();
+						orderDetails.setBuyerName(buyer.getName());
+						orderDetails.setBuyerNiceName(buyer.getNickname());
+						//orderDetails.setBuyerPhoneNum(buyer.getMobileNo());
+						orderDetails.setBuyerPhoneNum(buyer.getUnmaskMobile());// 明文
+					}
+*/
+
 					//订单来源
 					int payChannel = BizOrderUtil.getInt(mainOrder.getBizOrderDO(), BizOrderFeatureKey.ORDER_SOURCE);
 					if (payChannel == OrderSourceType.PC.getBizType()){

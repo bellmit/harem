@@ -28,6 +28,7 @@
 </div>
 <div class="searchbox">
 	<form id="fm">
+		<input type="hidden" value="">
 		<table>
 			<tr>
 				<td class="tit">商户名称：</td>

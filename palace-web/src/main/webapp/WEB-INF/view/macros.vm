@@ -668,6 +668,7 @@
         <span>
            	 下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrder.createTime)
         </span>
+	
     #elseif($type == 3)
         <span>
         	#if($order.bizOrder.orderType == 1200 || $order.bizOrder.orderType == 1100)
@@ -817,6 +818,9 @@
 	    #elseif($type == 3400)
 	    	<div class="t-userType">到店付</div>
 	    #end
+	#elseif( $type == 4000)
+	   	<div class="t-name">$!subOrder.itemTitle</div>
+	    <div class="t-userType">$!subOrder.itemSubTitle</div>
 	#end
 #end
 
