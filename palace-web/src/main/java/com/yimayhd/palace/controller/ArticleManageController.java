@@ -2,10 +2,13 @@ package com.yimayhd.palace.controller;
 
 import java.util.ArrayList;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,9 +26,13 @@ import com.yimayhd.palace.convert.ArticleConverter;
 import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleVO;
 import com.yimayhd.palace.model.query.ArticleListQuery;
+import com.yimayhd.palace.model.vo.AudioVO;
+import com.yimayhd.palace.model.vo.SolrsearchVO;
+import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.service.ArticleService;
 import com.yimayhd.resourcecenter.model.enums.ArticleStatus;
 import com.yimayhd.resourcecenter.model.enums.ArticleType;
+import com.yimayhd.resourcecenter.model.query.MediaPageQuery;
 import com.yimayhd.resourcecenter.model.result.ResourceResult;
 
 /**
@@ -132,6 +139,9 @@ public class ArticleManageController extends BaseController {
     @RequestMapping(value = "/toEdit/{id}", method = RequestMethod.GET)
     public String toEdit(Model model, @PathVariable(value = "id") long id) throws Exception {
         ArticleVO articleVO = articleService.getArticleById(id);
+//        SolrsearchVO solrsearchVO = new SolrsearchVO();
+//        articleVO.getIdList();
+//        articleService.getHotelList(solrsearchVO);
         model.addAttribute("articleTypeList", ArticleType.values());
         model.addAttribute("articleStautsList", ArticleStatus.values());
         model.addAttribute("article", articleVO);
@@ -225,4 +235,25 @@ public class ArticleManageController extends BaseController {
 
         return responseVo;
     }
+    
+//    @RequestMapping(value="queryAudioListPage",method=RequestMethod.POST)
+//    @ResponseBody
+//    public ResponseVo queryAudioListPage(MediaPageQuery mediaPageQuery) {
+//    	ResponseVo responseVo = new ResponseVo();
+//    	if (mediaPageQuery == null || mediaPageQuery.getPageNo() <=0 || mediaPageQuery.getPageSize() <= 0) {
+//			return new ResponseVo(ResponseStatus.INVALID_DATA);
+//		}
+//    	try {
+//			BizPageResult<AudioVO> audioArticleListPage = articleService.getAudioArticleListPage(mediaPageQuery);
+//			if (audioArticleListPage == null || (audioArticleListPage != null && CollectionUtils.isEmpty(audioArticleListPage.getList()))) {
+//				return new ResponseVo(ResponseStatus.NOT_FOUND);
+//				
+//			}
+//			responseVo.setData(audioArticleListPage);
+//			return responseVo;
+//		} catch (Exception e) {
+//			log.error("param:MediaPageQuery={},error:{}",JSON.toJSONString(mediaPageQuery),e);
+//			return new ResponseVo(ResponseStatus.ERROR);
+//		}
+//    }
 }

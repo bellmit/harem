@@ -39,6 +39,14 @@
                     </td>
                 </tr>
 				<tr>
+                    <td>作者：</td>
+                    <td>
+						 <span style="display:none">$!article.subTitle</span>
+						 <input type="text" class="form-control summary author" name="author"  value="$!{escUtil.html($!article.author)}" maxlength="38">
+						 <span class="word-num"><em class="num-a">0</em>/<em class="num-b">38</em></span>
+                    </td>
+                </tr>
+				<tr>
                     <td><span class="spColor">*</span>初始阅读数：</td>
                     <td>
 						 <input type="text" class="form-control summary pv" name="pv"  value="$!article.pv">
@@ -115,6 +123,7 @@
 													#set($pri2=$!articleItem.articleProductItemVO.itemPrice / 100.00)
 													￥<em>#set($pri=$!articleItem.articleProductItemVO.itemPrice % 100)#if($pri == 0) $!pri1 #else $!pri2 #end</em>
 												</span>
+												<span class="oprinum">￥<em>$!articleItem.articleProductItemVO.oldPrice</em></span>
 											</p>
 											<p class="itemleft">
 												<span class="itemtitle">$!articleItem.articleProductItemVO.itemTitle</span>
@@ -137,7 +146,7 @@
 									<div class="wrap itemwrap" itemid="$articleItem.content" itemType="$articleItem.type" itemSubType="$articleItem.subType">
 										<div class="itemimgbox">
 											<img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleHotelResourceItemVO.resourcePic">
-											<p class="itemtype"><i class="icon-type type$articleItem.subType"></i>酒店/客栈</p>
+											<p class="itemtype"><i class="icon-type type$articleItem.subType"></i>$!articleItem.articleHotelResourceItemVO.hotelType</p>
 										</div>
 										<div class="itemmsgbox">
 											<p class="itemright">
@@ -199,7 +208,22 @@
 										</div>
 									</div>
 								</div>
-								#end								
+								#end				
+							#if($articleItem.type == 8)
+							<div class="item movesection saved">
+								<div itemsubtype="$articleItem.subType" itemtype="$articleItem.type" itemid="$articleItem.content" class="wrap audiowrap">
+								<div class="audiohead">
+								<img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleAudioItemVO.audioPic" class="audioheadimg" imgval="$!articleItem.articleAudioItemVO.audioPic">
+								<i class="ic-audio ic-play"></i>
+								<audio loop="loop" class="myaudio" src="$!articleItem.articleAudioItemVO.audioUrl"></audio>
+								</div>
+								<div class="audiomsg">
+								<p class="auname">$!articleItem.articleAudioItemVO.audioName</p>
+								<p class="autime"><em class="alltime">$!utilDate.parseLong2Time($!articleItem.articleAudioItemVO.audioTime)</em></p>
+								</div>
+								</div>
+								</div>
+							#end				
             				#end																					
 							</div>
 							<div class="hd clearfix">
@@ -210,6 +234,7 @@
 									<li><a href="javascript:void(0)" class="addexpert">添加达人</a></li>
 									<li><a href="javascript:void(0)" class="addask">添加咨询</a></li>
 									<li><a href="javascript:void(0)" class="addhotel">添加酒店</a></li>									
+									<li><a href="javascript:void(0)" class="addaudio">添加音频</a></li>									
 								</ul>
 							</div>
 							
@@ -217,6 +242,7 @@
 							<input type="hidden" id="status" name="status" value="$!article.status">
 							<input type="hidden" id="staticUrl" value="$!rs_path_jiuxiu">
 							<input type="hidden" id="searchItemUrl" value="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/articleManage/getArticleItemDetailById/">
+							<input type="hidden" id="selectAudioUrl" value="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=1&maxSize=4">
 						</div>
                 	</td>
 	            </tr>

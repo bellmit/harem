@@ -134,10 +134,12 @@
 	            <tr>
 	                <th>姓名</th>
 	                <th>手机号</th>
+					<th>邮箱</th>
 	            </tr>
 	            <tr>
 	                <td>$!order.contactInfo.contactName</td>
 	                <td>$!order.contactInfo.contactPhone</td>
+					<td>$!order.email</td>
 	            </tr>
 	        </table>
        	#end

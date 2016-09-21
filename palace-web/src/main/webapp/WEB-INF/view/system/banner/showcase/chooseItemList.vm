@@ -83,7 +83,7 @@
             }else{
                 tr.append($("<td>"+ item.name.replace(/<[^<>]+?>/g,'')+"</td>"));
             }
-            if(null == item.imgUrl || item.name.imgUrl==0){
+            if(null == item.imgUrl || item.imgUrl==0){
                 tr.append($("<td>"+ ""+"</td>"));
             }else{
                 tr.append($("<td><img src='$utilWebconfig.getTfsRootPath()"+item.imgUrl+"' width='100' height='100'></td>"));

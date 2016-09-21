@@ -817,6 +817,9 @@
 	    #elseif($type == 3400)
 	    	<div class="t-userType">到店付</div>
 	    #end
+	#elseif( $type == 4000)
+	   	<div class="t-name">$!subOrder.itemTitle</div>
+	    <div class="t-userType">$!subOrder.itemSubTitle</div>
 	#end
 #end
 

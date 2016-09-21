@@ -15,6 +15,7 @@ public class WebResourceConfigUtil {
     private final static String ACTION_UPLOAD_FILE_PATH_KEY = "actionUploadFilePath";
     private final static String ACTION_UPLOAD_FILES_PATH_KEY = "actionUploadFilesPath";
     private final static String RESOURCE_PATH_JIUXIU_APP = "resource.path.jiuxiu.app";
+    private final static String CHINANETCENTER_CONFIG_AUDIO_HOST = "chinanetcenter.config.audio.host";//音频域名
 
     //分销
     private final static String ITEM_IMG_URI_PATH = "item.img.uri";
@@ -72,4 +73,9 @@ public class WebResourceConfigUtil {
     	}
     	return true;
     }
+
+    public static String getAudioRootPath(){
+        return ResourceConfig.getInstance().getValueByKey(CHINANETCENTER_CONFIG_AUDIO_HOST);
+    }
+
 }

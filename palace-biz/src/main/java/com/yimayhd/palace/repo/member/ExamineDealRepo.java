@@ -1,15 +1,19 @@
 package com.yimayhd.palace.repo.member;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.membercenter.MemberReturnCode;
 import com.yimayhd.membercenter.client.dto.ExamineDealDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
+import com.yimayhd.membercenter.client.query.InfoQueryDTO;
 import com.yimayhd.membercenter.client.query.examine.ExaminePageQueryDTO;
 import com.yimayhd.membercenter.client.result.MemPageResult;
 import com.yimayhd.membercenter.client.result.MemResult;
 import com.yimayhd.membercenter.client.service.examine.ExamineDealService;
 import com.yimayhd.membercenter.enums.ExamineType;
 import com.yimayhd.membercenter.enums.MerchantType;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResultSupport;
@@ -33,6 +37,7 @@ public class ExamineDealRepo {
 	private ExamineDealService examineDealService;
 	@Autowired
 	private EleAccInfoService eleAccInfoServiceRef;
+	
 	public BizPageResult<ExamineInfoDTO> queryExamineInfoDTOs(ExaminePageQueryDTO examinePageQueryDTO){
 		BizPageResult<ExamineInfoDTO> result = new BizPageResult<ExamineInfoDTO>();
 		if( examinePageQueryDTO == null ){
@@ -185,4 +190,28 @@ public class ExamineDealRepo {
 		return null;
 	}
 	
+	/**
+	 * 查询审核不通过原因
+	 * @return
+	 */
+	@MethodLogger
+	public ExamineResultDTO getCheckResult(long userId) {
+		InfoQueryDTO examineQueryDTO = new InfoQueryDTO();
+		examineQueryDTO.setDomainId(Constant.DOMAIN_JIUXIU);
+		//examineQueryDTO.setType(MerchantType.TALENT.getType());
+		examineQueryDTO.setSellerId(userId);
+		
+		try {
+			MemResult<ExamineResultDTO> examineDealResult = examineDealService.queryExamineDealResult(examineQueryDTO);
+			if (examineDealResult == null || examineDealResult.getValue() == null ) {
+				return null;
+			}
+			return examineDealResult.getValue();
+		} catch (Exception e) {
+			logger.error("examineQueryDTO={},error:{}",examineQueryDTO,e);
+			return null;
+		}
+
+		
+	}
 }

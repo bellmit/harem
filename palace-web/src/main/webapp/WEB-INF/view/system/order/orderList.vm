@@ -123,6 +123,7 @@
                                     <div class="t-img">
                                         <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$!subOrder.itemPic">
                                     </div>
+				    
                                     <div class="t-msg">
                                     	#ROUTE_ORDER_LIST_SKU($!subOrder.bizOrder.orderType)
                                     </div>

@@ -19,16 +19,16 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<palace.version>1.0.1-SNAPSHOT</palace.version>
-		<itemcenter.client.version>1.0.12.1-SNAPSHOT</itemcenter.client.version>
+		<itemcenter.client.version>1.0.13-SNAPSHOT</itemcenter.client.version>
 		<jackson.version>2.6.3</jackson.version>
 		<session.manager.version>1.7.0-SNAPSHOT</session.manager.version>
-		<user.client.version>1.8.6-SNAPSHOT</user.client.version>
+		<user.client.version>1.8.7-SNAPSHOT</user.client.version>
 		<spring.version>4.1.6.RELEASE</spring.version>
 		<spring.session.version>1.0.2.RELEASE</spring.session.version>
-		<comment.version>1.0.7-SNAPSHOT</comment.version>
-		<snscenter.client.version>1.2.0-SNAPSHOT</snscenter.client.version>
-		<resourcecenter.client.version>2.1.5-SNAPSHOT</resourcecenter.client.version>
-		<membercenter.client.version>1.1.6-SNAPSHOT</membercenter.client.version>
+		<comment.version>1.0.8-SNAPSHOT</comment.version>
+		<snscenter.client.version>1.4.0-SNAPSHOT</snscenter.client.version>
+		<resourcecenter.client.version>2.1.6-SNAPSHOT</resourcecenter.client.version>
+		<membercenter.client.version>1.1.7-SNAPSHOT</membercenter.client.version>
 		<paycore.client.version>1.0.2-SNAPSHOT</paycore.client.version>
 		<tradecenter.client.version>1.0.15-SNAPSHOT</tradecenter.client.version>
 
@@ -40,11 +40,10 @@
 		<promotion.client.version>1.0.0-SNAPSHOT</promotion.client.version>
 		<spread.version>1.0.9-SNAPSHOT</spread.version>
 		<tair.version>2.3.4.3</tair.version>
-		<activity.client.version>1.4.2-SNAPSHOT</activity.client.version>
-
+		<activity.client.version>1.6.0-SNAPSHOT</activity.client.version>
 		<lgcenter.client.version>0.0.6-SNAPSHOT</lgcenter.client.version>
 		<refund.version>1.0.0-SNAPSHOT</refund.version>
-		<solrsearch.version>1.0.3-SNAPSHOT</solrsearch.version>
+		<solrsearch.version>1.0.4-SNAPSHOT</solrsearch.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -716,7 +715,17 @@
   				<artifactId>solrsearch-client</artifactId>
 				<version>${solrsearch.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.chinanetcenter.wcs</groupId>
+				<artifactId>wcs-java-sdk</artifactId>
+				<version>1.6.3</version>
+			</dependency>
 
+			<dependency>
+				<groupId>com.fasterxml.jackson.module</groupId>
+				<artifactId>jackson-module-jaxb-annotations</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
 		</dependencies>
 
 

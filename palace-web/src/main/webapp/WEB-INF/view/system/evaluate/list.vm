@@ -59,7 +59,7 @@
                 <button type="button" class="btn btn-primary submitBtn">查询</button>
             </div>
             <div class="btn-group">
-                <button type="reset" class="btn btn-primary">重置</button>
+                <a href="javascript:void(0);" class="btn btn-primary" id="btnReset">重置</a>
             </div>
         </div>
         <button type="button" class="btn btn-primary evaluationBatchBtn">批量违规</button>
@@ -99,115 +99,118 @@
     #pageStyle("evaluationVOListForm")
     </form>
 <script>
-    $(".form-date").datetimepicker(
-            {
-                language:  "zh-CN",
-                weekStart: 1,
-                todayBtn:  1,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0,
-                format: "yyyy-mm-dd"
-            });
-    $(function(){
-        //查询
-        $('.submitBtn').click(function(){
-            $('#evaluationVOListForm').submit();
-        });
-        //单个启用停用
-        $('.evaluationBtn').each(function(){
-            $(this).click(function(){
-                $(this).prop('disabled',true);
-                var url = '';
-                if($(this).attr('status') == 1){//状态1是正长状态，操作是改为违规
-                    url = actionDefaultPath + '/B2C/evaluationManage/violation/' + $(this).attr('evaluationId');
-                }else{
-                    url = actionDefaultPath + '/B2C/evaluationManage/regain/' + $(this).attr('evaluationId');
-                }
-                $.post(url ,function(data){
-                    if(data.status == 200){
-                        layer.msg('操作成功', {
-                            icon: 1,
-                            time: 1500
-                        });
-                        setTimeout(function () {
-                            window.location.href = window.location.href;
-                        },1500);
-                    }else{
-                        layer.msg('操作失败', {
-                            icon: 2,
-                            time: 2000
-                        });
-                        $(this).prop('disabled',false);
-                    }
-                })
-            });
-        });
+$(".form-date").datetimepicker({
+    language: "zh-CN",
+    weekStart: 1,
+    todayBtn: 1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    minView: 2,
+    forceParse: 0,
+    format: "yyyy-mm-dd"
+});
 
-		$('.articleDetail').click(function(){
-			var atype = $(this).attr('articleType');
-			if(atype==2) var urls = '/B2C/liveManage/edit/';
-			if(atype==3 || atype==4) var urls = '/jiuxiu/articleManage/toEdit/';
-            var url = '$!utilWebconfig.getActionDefaultFontPath()' + urls + $(this).attr('articleId');
-            top.tabsAdd("",url,2,"详情");
-        });
-		
-        //全选
-        $('.allChecked').click(function(){
-            $('.subChecked').prop('checked',$(this).prop('checked'));
-        });
-        //单选
-        $('.subCheckedTR').click(function(){
-            $(this).find('.subChecked').prop('checked',!$(this).find('.subChecked').prop('checked'));
-        });
-        $(".subChecked").click( function(event){
-            event.stopPropagation(); // do something
-        });
-        //批量违规
-        $('.evaluationBatchBtn').click(function(){
-            $(this).prop('disabled',true);
-            var arr = new Array();
-            $('.subChecked:checked').each(function(){
-                arr.push($(this).val());
-            });
-            if(arr.length==0){
-                layer.alert("请至少选择一项");
-                $(this).prop('disabled',false);
-                return;
+$("#btnReset").on("click", function() {
+    $("#evaluationVOListForm").find("input.form-control").val('');
+    $("#evaluationVOListForm").find("select.form-control").val('0');
+});
+$(function() {
+    //查询
+    $('.submitBtn').click(function() {
+        $('#evaluationVOListForm').submit();
+    });
+    //单个启用停用
+    $('.evaluationBtn').each(function() {
+        $(this).click(function() {
+            $(this).prop('disabled', true);
+            var url = '';
+            if ($(this).attr('status') == 1) { //状态1是正长状态，操作是改为违规
+                url = actionDefaultPath + '/B2C/evaluationManage/violation/' + $(this).attr('evaluationId');
+            } else {
+                url = actionDefaultPath + '/B2C/evaluationManage/regain/' + $(this).attr('evaluationId');
             }
-            $.post(actionDefaultPath +'/B2C/evaluationManage/batchViolation',{evaluationIdList:arr},function(data){
-                if(data&&data.status == 200){
-                    layer.alert('操作成功', {
+            $.post(url, function(data) {
+                if (data.status == 200) {
+                    layer.msg('操作成功', {
                         icon: 1,
                         time: 1500
                     });
-                    setTimeout(function () {
+                    setTimeout(function() {
                         window.location.href = window.location.href;
-                    },1500);
-                }else if(data && data.status == 500){
-                    layer.msg(data.message, {
-                        icon: 2,
-                        time: 1500
-                    });
-                    setTimeout(function(){
-                        window.location.href = window.location.href;
-                    },2000);
-                } else{
-                    layer.alert('操作失败', {
+                    }, 1500);
+                } else {
+                    layer.msg('操作失败', {
                         icon: 2,
                         time: 2000
                     });
-                    $(this).prop('disabled',false);
-                    setTimeout(function () {
-                        window.location.href = window.location.href;
-                    },1000);
+                    $(this).prop('disabled', false);
                 }
             })
         });
     });
-		 
-	
-	
+
+    $('.articleDetail').click(function() {
+        var atype = $(this).attr('articleType');
+        if (atype == 2) var urls = '/B2C/liveManage/edit/';
+        if (atype == 3 || atype == 4) var urls = '/jiuxiu/articleManage/toEdit/';
+        var url = '$!utilWebconfig.getActionDefaultFontPath()' + urls + $(this).attr('articleId');
+        top.tabsAdd("", url, 2, "详情");
+    });
+
+    //全选
+    $('.allChecked').click(function() {
+        $('.subChecked').prop('checked', $(this).prop('checked'));
+    });
+    //单选
+    $('.subCheckedTR').click(function() {
+        $(this).find('.subChecked').prop('checked', !$(this).find('.subChecked').prop('checked'));
+    });
+    $(".subChecked").click(function(event) {
+        event.stopPropagation(); // do something
+    });
+    //批量违规
+    $('.evaluationBatchBtn').click(function() {
+        $(this).prop('disabled', true);
+        var arr = new Array();
+        $('.subChecked:checked').each(function() {
+            arr.push($(this).val());
+        });
+        if (arr.length == 0) {
+            layer.alert("请至少选择一项");
+            $(this).prop('disabled', false);
+            return;
+        }
+        $.post(actionDefaultPath + '/B2C/evaluationManage/batchViolation', {
+            evaluationIdList: arr
+        }, function(data) {
+            if (data && data.status == 200) {
+                layer.alert('操作成功', {
+                    icon: 1,
+                    time: 1500
+                });
+                setTimeout(function() {
+                    window.location.href = window.location.href;
+                }, 1500);
+            } else if (data && data.status == 500) {
+                layer.msg(data.message, {
+                    icon: 2,
+                    time: 1500
+                });
+                setTimeout(function() {
+                    window.location.href = window.location.href;
+                }, 2000);
+            } else {
+                layer.alert('操作失败', {
+                    icon: 2,
+                    time: 2000
+                });
+                $(this).prop('disabled', false);
+                setTimeout(function() {
+                    window.location.href = window.location.href;
+                }, 1000);
+            }
+        })
+    });
+});
 </script>

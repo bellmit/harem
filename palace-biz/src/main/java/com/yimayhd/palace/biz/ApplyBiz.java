@@ -10,6 +10,7 @@ import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.membercenter.client.dto.ExamineDealDTO;
 import com.yimayhd.membercenter.client.dto.ExamineInfoDTO;
+import com.yimayhd.membercenter.client.dto.ExamineResultDTO;
 import com.yimayhd.membercenter.client.query.examine.ExaminePageQueryDTO;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.convert.apply.ApplyConverter;
@@ -24,6 +25,7 @@ import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.pay.client.model.result.ResultSupport;
 import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.session.manager.SessionManager;
 
 public class ApplyBiz {
 	private static Logger log = LoggerFactory.getLogger("ApplyBiz");
@@ -31,7 +33,8 @@ public class ApplyBiz {
 	private ExamineDealRepo examineDealRepo ;
 	@Autowired
 	private UserRepo userRepo;
-	
+	@Autowired
+	private SessionManager sessionManager;
 	public BizPageResult<ApplyVO> queryApplys(ApplyQuery applyQuery){
 		ExaminePageQueryDTO examinePageQueryDTO = ApplyHelper.getExaminePageQueryDTO(applyQuery);
 		BizPageResult<ApplyVO> result = new BizPageResult<ApplyVO>();
@@ -129,5 +132,14 @@ public class ApplyBiz {
 		}
 
 		return result;
+	}
+	
+	public ExamineResultDTO getCheckResult(long sellerId) {
+		ExamineResultDTO checkResult = examineDealRepo.getCheckResult(sellerId);
+		if (checkResult == null) {
+			return null;
+		}
+		return checkResult;
+		
 	}
 }

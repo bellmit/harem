@@ -1,12 +1,10 @@
 package com.yimayhd.palace.util;
 
 
-import com.alibaba.dubbo.common.utils.CollectionUtils;
+import java.util.List;
+
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.resourcecenter.domain.OperationDetailDO;
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.List;
 
 /**
  * @author create by yushengwei on 2016/6/12

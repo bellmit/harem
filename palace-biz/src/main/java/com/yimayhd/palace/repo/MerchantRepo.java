@@ -12,6 +12,10 @@ import com.yimayhd.commentcenter.client.dto.ComentEditDTO;
 import com.yimayhd.commentcenter.client.enums.PictureText;
 import com.yimayhd.commentcenter.client.result.PicTextResult;
 import com.yimayhd.commission.convert.PictureTextConverter;
+import com.yimayhd.ic.client.model.param.item.HotelPublishDTO;
+import com.yimayhd.ic.client.model.param.item.SetScenicWeightDTO;
+import com.yimayhd.ic.client.service.item.HotelService;
+import com.yimayhd.ic.client.service.item.ScenicPublishService;
 import com.yimayhd.membercenter.client.domain.CertificatesDO;
 import com.yimayhd.membercenter.client.dto.TalentInfoDTO;
 import com.yimayhd.membercenter.client.result.MemResult;
@@ -28,6 +32,7 @@ import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.MerchantDTO;
 import com.yimayhd.user.client.dto.RegisterDTO;
+import com.yimayhd.user.client.dto.SetMerchantWeightDTO;
 import com.yimayhd.user.client.enums.RegisterType;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
@@ -52,6 +57,10 @@ public class MerchantRepo {
 	private TalentInfoDealService talentInfoDealService;
 	@Autowired
 	private PictureTextRepo	pictureTextRepo;
+	@Autowired
+	private HotelService hotelServiceRef;
+	@Autowired
+	private ScenicPublishService scenicPublishService;
 	public BizResultSupport addDeliciousFood(MerchantVO vo) {
 		BizResultSupport resultSupport = new BizResultSupport();
 		if (vo == null) {
@@ -192,7 +201,6 @@ public class MerchantRepo {
 			MemResult<List<CertificatesDO>> serviceTypes = talentInfoDealService.queryTalentServiceType();
 			if (serviceTypes == null || !serviceTypes.isSuccess() || null==serviceTypes.getValue()) {
 				bizResult.setPalaceReturnCode(PalaceReturnCode.REMOTE_CALL_FAILED);
-				//log.error("params :");
 				return bizResult;
 			}else{
 				bizResult.setValue(serviceTypes.getValue());
@@ -230,9 +238,26 @@ public class MerchantRepo {
 			return null;
 		}
 
-		log.info("==============================id"+id);
 		// 图文详情
 		return  pictureTextRepo.getPictureText(id, PictureText.FOOD);
 
 	}
+	
+	public boolean modifyMerchantWeight(SetMerchantWeightDTO setMerchantWeightDTO) {
+		log.info("param:SetMerchantWeightDTO={}",JSON.toJSONString(setMerchantWeightDTO));
+		boolean setResult = userMerchantServiceRef.setMerchantWeight(setMerchantWeightDTO);
+		return setResult;
+	}
+	/*public boolean modifyHotelWeight(HotelPublishDTO hotelPublishDTO) {
+		log.info("param:HotelPublishDTO={}",JSON.toJSONString(hotelPublishDTO));
+		boolean setResult = hotelServiceRef.setHotelWeight(hotelPublishDTO);
+		
+		return setResult;
+	}
+	public boolean modifyScenicWeight(SetScenicWeightDTO dto) {
+		log.info("param:SetScenicWeightDTO={}",JSON.toJSONString(dto));
+		boolean setResult = scenicPublishService.setScenicWeight(dto);
+		return setResult;
+	}*/
+	
 }

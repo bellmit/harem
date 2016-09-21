@@ -8,12 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemSkuStatus;
 import com.yimayhd.ic.client.model.param.item.ItemBatchPublishDTO;
+import com.yimayhd.ic.client.model.param.item.ItemKeyWordDTO;
 import com.yimayhd.ic.client.model.param.item.ItemOptionDTO;
 import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
@@ -173,6 +175,20 @@ public class ItemRepo {
 		}
 		return itemPublishServiceRef.updateItemOrderNum(itemWeightDTO);
 	}
-	
-}
 
+	/**
+	 * 
+	* created by zhangxiaoyang
+	* @date 2016年9月8日
+	* @Description:更新咨询商品关键字
+	* @param itemKeyWordDTO
+	* @return ICResult<Boolean>
+	* @throws
+	 */
+	public ICResult<Boolean> updateConsultKeyWord(ItemKeyWordDTO itemKeyWordDTO) {
+		log.debug("itemPublishServiceRef.updateConsultItemKeyWord param:ItemKeyWordDTO={}",JSON.toJSONString(itemKeyWordDTO));
+		ICResult<Boolean> updateResult = itemPublishServiceRef.updateConsultItemKeyWord(itemKeyWordDTO);
+		log.debug("itemPublishServiceRef.updateConsultItemKeyWord result:{}",JSON.toJSONString(updateResult));
+		return updateResult;
+	}
+}

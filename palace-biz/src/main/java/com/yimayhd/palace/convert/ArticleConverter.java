@@ -5,12 +5,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import com.yimayhd.palace.model.vo.ArticleScenicResourceItemVO;
+import com.yimayhd.palace.model.*;
 import com.yimayhd.resourcecenter.dto.*;
 import com.yimayhd.solrsearch.client.domain.SolrScenicDO;
+
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
+import com.alibaba.druid.support.logging.Log;
 import com.alibaba.fastjson.JSONArray;
 import com.yimayhd.ic.client.model.domain.item.IcSubject;
 import com.yimayhd.ic.client.model.domain.item.ItemDO;
@@ -24,10 +27,14 @@ import com.yimayhd.palace.model.ArticleItemVO;
 import com.yimayhd.palace.model.ArticleProductItemVO;
 import com.yimayhd.palace.model.ArticleHotelResourceItemVO;
 import com.yimayhd.palace.model.ArticleVO;
+import com.yimayhd.palace.model.vo.AudioVO;
 import com.yimayhd.palace.util.RegExpValidator;
 import com.yimayhd.resourcecenter.domain.ArticleDO;
 import com.yimayhd.resourcecenter.domain.ArticleItemDO;
+import com.yimayhd.resourcecenter.domain.MediaDO;
 import com.yimayhd.resourcecenter.model.enums.ArticleItemType;
+import com.yimayhd.resourcecenter.model.enums.MediaFileScope;
+import com.yimayhd.resourcecenter.model.enums.MediaFileType;
 import com.yimayhd.solrsearch.client.domain.SolrHotelDO;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.dto.UserDTO;
@@ -65,6 +72,9 @@ public class ArticleConverter {
         articleDO.setPv(articleVO.getPv());
         articleDO.setSubTitle(articleVO.getSubTitle());
         articleDO.setType(articleVO.getType());
+        
+        articleDO.setAuthor(articleVO.getAuthor());
+        
         if (articleVO.getStatus() != null && articleVO.getStatus() > 0) {
             articleDO.setStatus(articleVO.getStatus());
         }
@@ -177,6 +187,7 @@ public class ArticleConverter {
         if (CollectionUtils.isEmpty(articleItemDTOs)) {
             return articleVO;
         }
+        List<Long> hotelIdList = new ArrayList<Long>();
         for (ArticleItemDTO articleItemDTO : articleItemDTOs) {
             ArticleItemVO articleItemVO = new ArticleItemVO();
             ArticleItemDO articleItemDO = articleItemDTO.getArticleItemDO();
@@ -199,16 +210,38 @@ public class ArticleConverter {
                     articleItemVO.setArticleConsultServiceItemVO(articleConsultServiceItemVO);
                     break;
                 case HOTELRESOURCE:
+                	if (StringUtils.isNotBlank(articleItemDTO.getArticleItemDO().getContent())) {
+						
+                		hotelIdList.add(Long.parseLong(articleItemDTO.getArticleItemDO().getContent()));
+					}
                     ArticleHotelResourceItemVO articleHotelResourceItemVO = getArticleHotelResourceItemVO(articleItemDTO.getArticleHotelResourceItemDTO());
                     articleItemVO.setArticleHotelResourceItemVO(articleHotelResourceItemVO);
+                    break;
+                case AUDIO:
+                    ArticleAudioItemVO articleAudioItemVO = getArticleAudioItemVO(articleItemDTO.getArticleAudioItemDTO());
+                    articleItemVO.setArticleAudioItemVO(articleAudioItemVO);
                     break;
                 default:
                     break;
             }
             articleItemVOs.add(articleItemVO);
         }
+       // hotelIdList.add(256l);
+        articleVO.setIdList(hotelIdList);
         articleVO.setArticleItemList(articleItemVOs);
         return articleVO;
+    }
+
+    private static ArticleAudioItemVO getArticleAudioItemVO(ArticleAudioItemDTO articleAudioItemDTO) {
+        if (articleAudioItemDTO==null){
+            return null;
+        }
+        ArticleAudioItemVO articleAudioItemVO=new ArticleAudioItemVO();
+        articleAudioItemVO.setAudioName(articleAudioItemDTO.getAudioName());
+        articleAudioItemVO.setAudioPic(articleAudioItemDTO.getAudioPic());
+        articleAudioItemVO.setAudioTime(articleAudioItemDTO.getAudioTime());
+        articleAudioItemVO.setAudioUrl(articleAudioItemDTO.getAudioUrl());
+        return articleAudioItemVO;
     }
 
     private static ArticleHotelResourceItemVO getArticleHotelResourceItemVO(ArticleHotelResourceItemDTO articleHotelResourceItemDTO) {
@@ -264,6 +297,8 @@ public class ArticleConverter {
         articleProductItemVO.setItemType(articleProductItemDTO.getItemType());
         articleProductItemVO.setMerchantLogo(articleProductItemDTO.getMerchantLogo());
         articleProductItemVO.setMerchantName(articleProductItemDTO.getMerchantName());
+        //
+        articleProductItemVO.setOldPrice(articleProductItemDTO.getOldPrice());
         // BeanUtils.copyProperties(articleProductItemDTO,
         // articleProductItemVO);
         return articleProductItemVO;
@@ -278,6 +313,7 @@ public class ArticleConverter {
         articleHotelResourceItemVO.setResourcePic(hotelDO.getIcon());
         articleHotelResourceItemVO.setResourcePrice(hotelDO.getPrice());
         articleHotelResourceItemVO.setTradeArea(hotelDO.getTradeArea());
+        articleHotelResourceItemVO.setHotelType(hotelDO.getHotelType());
         return articleHotelResourceItemVO;
     }
 
@@ -291,5 +327,29 @@ public class ArticleConverter {
         articleScenicResourceItemVO.setResourceName(solrScenicDO.getScenicName());
         articleScenicResourceItemVO.setResourcePic(solrScenicDO.getIcon());
         return articleScenicResourceItemVO;
+    }
+    
+    public static List<AudioVO> convertMedia2Audio(List<MediaDO> mediaList) {
+    	List<AudioVO> audios = new ArrayList<AudioVO>();
+    	for (MediaDO media : mediaList) {
+			
+    		AudioVO audio = new AudioVO();
+    		audio.setInputFileName(media.getInputFileName());
+    		if (media.getFileType() == MediaFileType.MP3.getValue()) {
+    			audio.setFileTypeName(MediaFileType.MP3.getDesc());
+    		}
+    		audio.setGmtCreated(media.getGmtCreated());
+    		if (media.getScope() == MediaFileScope.DEFAULT.getValue()) {
+    			audio.setScopeName(MediaFileScope.DEFAULT.getDesc());
+    		}else if (media.getScope() == MediaFileScope.GUIDE.getValue()) {
+    			audio.setScopeName(MediaFileScope.GUIDE.getDesc());
+    		}else if (media.getScope() == MediaFileScope.H5.getValue()) {
+    			audio.setScopeName(MediaFileScope.H5.getDesc());
+    		}
+    		audio.setDuration(media.getDuration());
+    		audio.setRemark(media.getRemark());
+    		audios.add(audio);
+		}
+    	return audios;
     }
 }

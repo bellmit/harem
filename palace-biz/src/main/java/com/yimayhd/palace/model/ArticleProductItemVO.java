@@ -18,6 +18,15 @@ public class ArticleProductItemVO implements Serializable {
 	private String itemType;
 	private String itemPic;
 	private List<String> itemTagList;
+	private long oldPrice;
+	
+	public long getOldPrice() {
+		return oldPrice;
+	}
+
+	public void setOldPrice(long oldPrice) {
+		this.oldPrice = oldPrice;
+	}
 
 	public String getItemTitle() {
 		return itemTitle;

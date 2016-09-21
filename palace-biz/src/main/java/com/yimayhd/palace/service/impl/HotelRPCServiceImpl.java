@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import com.yimayhd.ic.client.model.param.item.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -21,14 +22,10 @@ import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.PictureFeature;
 import com.yimayhd.ic.client.model.domain.PicturesDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.enums.BaseStatus;
 import com.yimayhd.ic.client.model.enums.PictureOutType;
 import com.yimayhd.ic.client.model.enums.PictureTag;
-import com.yimayhd.ic.client.model.param.item.FacilityQueryDTO;
-import com.yimayhd.ic.client.model.param.item.HotelDTO;
-import com.yimayhd.ic.client.model.param.item.PictureUpdateDTO;
-import com.yimayhd.ic.client.model.param.item.RoomDTO;
-import com.yimayhd.ic.client.model.param.item.RoomStatusDTO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.query.PicturesPageQuery;
 import com.yimayhd.ic.client.model.query.RoomQuery;
@@ -41,6 +38,7 @@ import com.yimayhd.ic.client.service.item.ResourcePublishService;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.HotelFacilityVO;
 import com.yimayhd.palace.model.HotelVO;
 import com.yimayhd.palace.model.PictureVO;
@@ -49,6 +47,7 @@ import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.model.query.HotelListQuery;
 import com.yimayhd.palace.repo.PictureTextRepo;
 import com.yimayhd.palace.repo.ResourceRepo;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.HotelRPCService;
 import com.yimayhd.palace.service.TfsService;
 import com.yimayhd.palace.util.DateUtil;
@@ -741,6 +740,26 @@ public class HotelRPCServiceImpl implements HotelRPCService {
 				throw new BaseException("该酒店已存在，不需要重复录入！");
 			}
 		}
+	}
+
+	@Override
+	public BizResult<Boolean> setHotelWeight(long id, int weight) {
+		
+		BizResult<Boolean> result = new BizResult<Boolean>();
+	//	HotelPublishDTO dto = new HotelPublishDTO();
+		SetHotelWeightDTO setHotelWeightDTO = new SetHotelWeightDTO();
+		setHotelWeightDTO.setId(id);
+		setHotelWeightDTO.setOrderNum(weight);
+	/*	dto.setSort(weight);
+		ItemDO itemDO = new ItemDO();
+		itemDO.setId(id);
+		dto.setItemDO(itemDO);*/
+		boolean setResult = hotelServiceRef.setHotelWeight(setHotelWeightDTO);
+		if (!setResult) {
+			result.setPalaceReturnCode(PalaceReturnCode.UPDATE_WEIGHT_FAILED);
+			return result;
+		}
+		return result;
 	}
 
 	

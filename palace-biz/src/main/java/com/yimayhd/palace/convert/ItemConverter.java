@@ -1,6 +1,8 @@
 package com.yimayhd.palace.convert;
 
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
@@ -44,19 +46,28 @@ public class ItemConverter {
 			itemQryDTO.setItemType(query.getItemType());
 		}
 		itemQryDTO.setBeginDate(query.getBeginDate());
-		itemQryDTO.setEndDate(query.getEndDate());
+		//itemQryDTO.setEndDate(query.getEndDate());
+		Date endDate = query.getEndDate();
+		if (endDate != null) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(endDate);
+			cal.add(Calendar.DATE, 1);
+			itemQryDTO.setEndDate(cal.getTime());
+		}
 		itemQryDTO.setPageNo(query.getPageNumber());
 		itemQryDTO.setPageSize(query.getPageSize());
 		itemQryDTO.setOrderNumFilter(query.getOrderNumFilter());
 		if(query.getMerchantName()!=null) {
 			itemQryDTO.setMerchantName(query.getMerchantName()!=null? query.getMerchantName().trim():query.getMerchantName());
 		}
+		
 		if(query.getOutId()!=null) {
 			itemQryDTO.setOutId(query.getOutId());
 		}
 		if(query.getOutType()!=null) {
 			itemQryDTO.setOutType(query.getOutType());
 		}
+		itemQryDTO.setSellerId(query.getSellerId());
 		return itemQryDTO;
 	}
 
@@ -81,6 +92,8 @@ public class ItemConverter {
 			itemVO.setOperates(ItemUtil.getItemOperates(itemDTO.getItemType(), itemDTO.getStatus()));
 			itemVO.setGmtModified(itemDTO.getGmtModified());
 			itemVO.setOrderNum(itemDTO.getOrderNum());//权重
+			itemVO.setPublishDate(itemDTO.getGmtCreated());
+			itemVO.setKeyWord(itemDTO.getOneWord());
 		}
 		
 		IcMerchantInfo icMerchantInfo = itemInfo.getIcMerchantInfoInfo();
