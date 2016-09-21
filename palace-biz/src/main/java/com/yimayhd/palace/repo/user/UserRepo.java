@@ -1,6 +1,8 @@
 package com.yimayhd.palace.repo.user;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
+import com.yimayhd.palace.util.PhoneUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.UserService;
@@ -80,6 +83,30 @@ public class UserRepo {
 		} else {
 			return "";
 		}
+	}
+	public Map<String, Long> getUserIdsByMobiles(List<String> mobiles){
+		BaseResult<Map<String, Long>> result =  userServiceRef.getUserIdsByMobilesV2(mobiles);
+		if( result == null || !result.isSuccess()){
+			logger.error("getUserIdsByMobilesV2  mobiles={}, result={}", JSON.toJSONString(mobiles), JSON.toJSONString(result));
+			return null ;
+		}
+		Map<String, Long> map = result.getValue();
+		return map ;
+	}
+	public Map<Long, String> getMobilesByUserIds(List<Long> userIds){
+		BaseResult<List<UserDO>> result =  userServiceRef.getUserDOList(userIds);
+		if( result == null || !result.isSuccess()){
+			logger.error("getUserDOList  mobiles={}, result={}", JSON.toJSONString(userIds), JSON.toJSONString(result));
+			return null ;
+		}
+		List<UserDO> users = result.getValue();
+		Map<Long, String> map = new HashMap<Long, String>();
+		for( UserDO user : users ){
+			long id = user.getId() ;
+			String mobile = user.getUnmaskMobile() ;
+			map.put(id, PhoneUtil.getMobileWithoutPrefix(mobile)) ;
+		}
+		return map ;
 	}
 
 }

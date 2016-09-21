@@ -29,6 +29,7 @@ import com.yimayhd.ic.client.model.param.item.ScenicAddDTO;
 import com.yimayhd.ic.client.model.param.item.ScenicAddNewDTO;
 import com.yimayhd.ic.client.model.param.item.ScenicDTO;
 import com.yimayhd.ic.client.model.param.item.ScenicUpdateDTO;
+import com.yimayhd.ic.client.model.param.item.SetScenicWeightDTO;
 import com.yimayhd.ic.client.model.query.PicturesPageQuery;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.query.TicketQuery;
@@ -42,6 +43,7 @@ import com.yimayhd.ic.client.service.item.ScenicPublishService;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.PictureVO;
 import com.yimayhd.palace.model.ScenicAddVO;
 import com.yimayhd.palace.model.ScenicVO;
@@ -51,6 +53,7 @@ import com.yimayhd.palace.model.query.ScenicListQuery;
 import com.yimayhd.palace.repo.CommentRepo;
 import com.yimayhd.palace.repo.PictureTextRepo;
 import com.yimayhd.palace.repo.ResourceRepo;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.ScenicService;
 import com.yimayhd.palace.service.TfsService;
 import com.yimayhd.palace.util.DateUtil;
@@ -646,5 +649,19 @@ public class ScenicServiceImpl implements ScenicService {
 				throw new BaseException("该景区已存在，不需要重复录入！");
 			}
 		}
+	}
+
+	@Override
+	public BizResult<Boolean> setScenicWeight(long id, int weight) {
+		BizResult<Boolean> result = new BizResult<Boolean>();
+		SetScenicWeightDTO dto = new SetScenicWeightDTO();
+		dto.setId(id);
+		dto.setOrderNum(weight);
+		boolean setResult = scenicPublishService.setScenicWeight(dto);
+		if (!setResult) {
+			result.setPalaceReturnCode(PalaceReturnCode.UPDATE_WEIGHT_FAILED);
+			return result;
+		}
+		return result;
 	}
 }

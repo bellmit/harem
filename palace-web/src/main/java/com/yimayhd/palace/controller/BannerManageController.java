@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.CategoryQueryDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
+import com.yimayhd.ic.client.model.enums.GuideStatus;
 import com.yimayhd.commentcenter.client.enums.CategoryStatus;
 import com.yimayhd.commission.client.enums.Domain;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
@@ -20,6 +21,7 @@ import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.constant.Constants;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.convert.ShowCaseItem;
+import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.vo.booth.BoothVO;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
 import com.yimayhd.palace.service.BoothService;
@@ -146,6 +148,7 @@ public class BannerManageController extends BaseController {
         model.addAttribute("appVersionCode",showcaseQuery.getAppVersionCode());
         model.addAttribute("operationDetailId",0);
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
+        Collections.sort(operationDOs);
         model.addAttribute("operationDOs",operationDOs);
         model.addAttribute("isEdit",false);
         return "/system/banner/showcase/edit_new";
@@ -185,7 +188,9 @@ public class BannerManageController extends BaseController {
         model.addAttribute("boothCode",boothCode);
         model.addAttribute("appVersionCode",showcase.getAppVersionCode());
         model.addAttribute("operationDetailId",showcase.getOperationDetailId());
+        model.addAttribute("isFullScreen",showcase.fullScreen());
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
+        Collections.sort(operationDOs);
         model.addAttribute("operationDOs",operationDOs);
         model.addAttribute("isEdit",true);
         return "/system/banner/showcase/edit_new";
@@ -245,6 +250,7 @@ public class BannerManageController extends BaseController {
                 || Constant.SHOWCASE_VIEW_TOPIC_DETAIL == type
                 || Constant.SHOWCASE_MASTER_CIRCLE_DETAIL == type
                 || Constant.SHOWCASE_TRAVEL_INFORMATION_LIST == type
+                ||  Constant.SHOWCASE_GUIDE_INFORMATION_LIST == type
                 || Constant.SHOWCASE_CATEGORY_LIST ==type
                 ){//选列表
             return "/system/banner/showcase/chooseItemList";
@@ -307,6 +313,9 @@ public class BannerManageController extends BaseController {
             case Constant.SHOWCASE_TRAVEL_INFORMATION_LIST ://旅行资讯
                 result = getArticlePageList(pageNumber,pageSize,result,keyWord,code);
                 break;
+            case Constant.SHOWCASE_GUIDE_INFORMATION_LIST ://导览列表
+                result = getAttachmentListByQuery(pageNumber,pageSize,result,keyWord,code);
+                break;
             case Constant.SHOWCASE_CATEGORY_LIST://品类
                 result = getCategoryList(pageNumber,pageSize,result,keyWord);
                 break;
@@ -317,6 +326,22 @@ public class BannerManageController extends BaseController {
         return new ResponseVo(result);
     }
 
+
+    public Map<String, Object> getAttachmentListByQuery(int pageNumber,int pageSize,Map<String, Object> result,String keyWord,String code){
+        GuideScenicListQuery query = new GuideScenicListQuery();
+        if(NumberUtils.isNumber(keyWord)){
+            query.setGuideId(Integer.parseInt(keyWord));
+        }else if(StringUtils.isNotEmpty(keyWord)){
+            query.setGuideName(keyWord);
+        }
+        query.setPageNumber(pageNumber);
+        query.setPageSize(pageSize);
+        query.setStatus(GuideStatus.ONLINE.getCode());
+
+        PageVO<ShowCaseItem> page = showcaseService.getGuideListByQuery(query);
+        result.put("pageVo", page);
+        return result;
+	}
     public Map<String, Object> getCategoryList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord) {
         CategoryQueryDTO query = new CategoryQueryDTO();
         query.setStatus(CategoryStatus.ONLINE.getStatus());

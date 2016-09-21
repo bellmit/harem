@@ -14,12 +14,14 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.SugTopicVO;
 import com.yimayhd.palace.model.TopicInfoVO;
 import com.yimayhd.palace.model.TopicVO;
 import com.yimayhd.palace.model.query.SugTopicListQuery;
 import com.yimayhd.palace.model.query.TopicListQuery;
 import com.yimayhd.palace.repo.TopicRepo;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.TopicService;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.snscenter.client.domain.SnsSugTopicDO;
@@ -295,6 +297,18 @@ public class TopicServiceImpl implements TopicService {
 				throw new BaseException(Constant.TOPIC_REPEAT);
 			}
 		}
+	}
+
+	@Override
+	public BizResult<Boolean> modifyTopicWeight(long id,int weightValue) {
+		BizResult<Boolean> result = new BizResult<Boolean>();
+		BaseResult<Boolean> setResult = topicRepo.modifyTopicWeight(id, weightValue);
+		if (setResult == null || (setResult != null && !setResult.isSuccess()) || !setResult.getValue()) {
+			log.error("param:id={},weightValue={}",id,weightValue);
+			result.setPalaceReturnCode(PalaceReturnCode.UPDATE_WEIGHT_FAILED);
+			return result;
+		}
+		return result;
 	}
 
 	

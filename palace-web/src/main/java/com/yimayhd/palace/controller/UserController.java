@@ -101,4 +101,10 @@ public class UserController extends BaseController {
 		UserDO userDO = userService.getUserByMobile(mobile);
 		return ResponseVo.success(userDO);
 	}
+	@RequestMapping(value = "/userManage/getUserById", method = RequestMethod.GET)
+	@ResponseBody
+	public ResponseVo getUserById(long id) throws Exception {
+		UserDO userDO = userService.getUserById(id);
+		return ResponseVo.success(userDO);
+	}
 }

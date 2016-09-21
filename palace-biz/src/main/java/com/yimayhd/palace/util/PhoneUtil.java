@@ -1,9 +1,14 @@
 package com.yimayhd.palace.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Created by Administrator on 2015/12/9.
  */
 public class PhoneUtil {
+
+    public static final String MOBILE_PREFIX = "+86";
+
     /**
      * 电话去掉+86
      * @param phone
@@ -13,7 +18,7 @@ public class PhoneUtil {
         if(null == phone){
             return phone;
         }
-        if(-1 != phone.indexOf("+86")){
+        if(-1 != phone.indexOf(MOBILE_PREFIX)){
             return phone.substring(3);
         }
         return phone;
@@ -26,5 +31,15 @@ public class PhoneUtil {
         String prefix=mobile.substring(0,3);
         String suffix =mobile.substring(mobile.length()-4,mobile.length());
         return prefix+"****"+ suffix;
+    }
+    
+    public static String getMobileWithoutPrefix(String mobile){
+    	if( StringUtils.isBlank(mobile) ){
+    		return null;
+    	}
+    	if( mobile.startsWith(MOBILE_PREFIX) ){
+    		return mobile.substring(MOBILE_PREFIX.length() ) ;
+    	}
+    	return mobile;
     }
 }

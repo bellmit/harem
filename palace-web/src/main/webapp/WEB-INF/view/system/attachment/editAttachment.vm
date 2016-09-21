@@ -1,0 +1,84 @@
+<form id="editAttachment" name="editAttachment">
+    <input type="hidden" id="id" name="id" value="$attachmentVO.id">
+    <table class="table">
+        <tr>
+            <th><span class="spColor">*</span>名称：</th>
+            <td>
+                <input type="text" class="inpCtlBlock limit-text" name="inputFileTitle" id="inputFileTitle"
+                       value="$!{attachmentVO.inputFileTitle}">
+                <span class="num">0/38</span>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="spColor">*</span>时长：</th>
+            <td>
+                <div class="input-group inpSingle">
+                    <select class="form-control" id="minute" name="minute">
+                        #foreach($item in [0..59])
+                            <option value="$item" #if($item == $attachmentVO.minuteVo) selected #end>$item</option>
+                        #end
+                    </select>
+                    <span class="input-group-addon fix-border fix-padding dateInpCenter">分</span>
+                    <select class="form-control" id="second" name="second">
+                        #foreach($item in [0..59])
+                            <option value="$item" #if($item == $attachmentVO.secondVo) selected #end>$item</option>
+                        #end
+                    </select>
+                    <span class="input-group-addon fix-padding dateInpCenter">秒</span>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="spColor">*</span>用途：</th>
+            <td>
+                <select class="form-control inpCtlBlock" id="scope" name="scope">
+                    #foreach($mediaFileScope in $mediaFileScopeList)
+                        <option value="$!{mediaFileScope.value}" #if($attachmentVO.scope == $mediaFileScope.value)
+                                selected #end>$!{mediaFileScope.desc}</option>
+                    #end
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="spColor">*</span>备注：</th>
+            <td>
+                <input type="text" class="inpCtlBlock limit-text" id="remark" name="remark"
+                       value="$!{attachmentVO.remark}"><span class="num">0/38</span>
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        var maxNum = 38;
+        $(function () {
+            var limitTexts = $(".limit-text");
+
+            limitTexts.each(function () {
+                var txtlength = $(this).val().length;
+                $(this).next(".num").text(txtlength + " / " + maxNum);
+            });
+
+            limitTexts.on("input propertychange", function () {
+                var input = $(this);
+                var txt = input.val();
+                var currnum = txt.length;
+                if (currnum > maxNum) {
+                    currnum = maxNum;
+                    input.val(txt.substr(0, maxNum));
+                }
+                input.next(".num").text(currnum + " / " + maxNum);
+                return false;
+            });
+        })
+
+        function getItem() {
+            return {
+                id: $("#id").val(),
+                inputFileTitle: $("#inputFileTitle").val().trim(),
+                minute: $("#minute").val(),
+                second: $("#second").val(),
+                scope: $("#scope").val().trim(),
+                remark: $("#remark").val().trim()
+            }
+        }
+    </script>
+</form>

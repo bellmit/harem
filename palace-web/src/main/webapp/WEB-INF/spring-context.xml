@@ -43,4 +43,5 @@
     <!--<task:annotation-driven/>-->
     <!---->
     <aop:aspectj-autoproxy expose-proxy="true"/>
+    <bean id="contextStartUpLinstener" class="com.yimayhd.palace.ContextStartUpListener"/>
 </beans>
