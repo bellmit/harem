@@ -81,5 +81,7 @@ public class PalaceReturnCode implements Serializable {
     public static final PalaceReturnCode ADD_ATTACHMENT_ERROR_FILE_NULL = new PalaceReturnCode(25006002, "文件为空");
     public static final PalaceReturnCode ADD_ATTACHMENT_ERROR_FILE_NAME_REPEAT = new PalaceReturnCode(25006003, "文件名称重复");
     public static final PalaceReturnCode ADD_ATTACHMENT_ERROR_UPLOAD_REPEAT = new PalaceReturnCode(25005104, "其他文件上传中,稍后重试");
+    public static final PalaceReturnCode ADD_ATTACHMENT_ERROR_UP_STATUS_DURATION= new PalaceReturnCode(25005105, "上架失败，缺少时长");
+    public static final PalaceReturnCode ADD_ATTACHMENT_ERROR_UP_STATUS= new PalaceReturnCode(25005106, "上架失败，数据不存在");
 
 }
