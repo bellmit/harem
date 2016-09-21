@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.dubbo.common.json.JSONObject;
+import com.yimayhd.activitycenter.query.ActivityPromotionQueryDTO;
 import com.yimayhd.activitycenter.result.track.ActivityResult;
 import com.yimayhd.palace.constant.B2CConstant;
 import com.yimayhd.palace.model.*;
@@ -69,8 +70,6 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     @Autowired
     private PromotionQueryService promotionQueryService;
     @Autowired
-    private PromotionPublishService promotionPublishServiceRef;
-    @Autowired
     private ItemQueryService itemQueryServiceRef;
 
     private static final Logger log = LoggerFactory.getLogger(PromotionCommServiceImpl.class);
@@ -80,12 +79,33 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         PageVO<ActActivityPromotionDO> promotionDOPageVO = null;
         //构建查询条件
         com.yimayhd.activitycenter.query.ActPromotionPageQuery actPromotionPageQueryRef = new com.yimayhd.activitycenter.query.ActPromotionPageQuery();
-        BeanUtils.copyProperties(actPromotionPageQuery,actPromotionPageQueryRef);
-        actPromotionPageQueryRef.setPageNo(actPromotionPageQuery.getPageNumber());
 
+        if(StringUtils.isNotBlank(actPromotionPageQuery.getTitle())) {
+            actPromotionPageQueryRef.setTitle(actPromotionPageQuery.getTitle());
+        }
+        actPromotionPageQueryRef.setStatus(actPromotionPageQuery.getStatus());
+        actPromotionPageQueryRef.setLotteryType(actPromotionPageQuery.getLotteryType());
+        actPromotionPageQueryRef.setType(actPromotionPageQuery.getType());
+        actPromotionPageQueryRef.setPageNo(actPromotionPageQuery.getPageNumber());
+        actPromotionPageQueryRef.setPageSize(actPromotionPageQuery.getPageSize());
+//        BeanUtils.copyProperties(actPromotionPageQuery,actPromotionPageQueryRef);
+        if(StringUtils.isNotBlank(actPromotionPageQuery.getBeginTime())) {
+            Date startTime = DateUtil.formatMinTimeForDate(actPromotionPageQuery.getBeginTime());
+            actPromotionPageQueryRef.setStart(startTime);
+            actPromotionPageQueryRef.setBeginTime(DateUtil.date2String(startTime));
+        }
         if(StringUtils.isNotBlank(actPromotionPageQuery.getEndTime())) {
             Date endTime = DateUtil.formatMaxTimeForDate(actPromotionPageQuery.getEndTime());
+            actPromotionPageQueryRef.setEnd(endTime);
             actPromotionPageQueryRef.setEndTime(DateUtil.date2String(endTime));
+        }
+        if(StringUtils.isNotBlank(actPromotionPageQuery.getStartTimeStart())) {
+            Date startTimeStart = DateUtil.formatMinTimeForDate(actPromotionPageQuery.getStartTimeStart());
+            actPromotionPageQueryRef.setStartTimeStart(startTimeStart);
+        }
+        if(StringUtils.isNotBlank(actPromotionPageQuery.getStartTimeEnd())) {
+            Date startTimeEnd = DateUtil.formatMaxTimeForDate(actPromotionPageQuery.getStartTimeEnd());
+            actPromotionPageQueryRef.setStartTimeEnd(startTimeEnd);
         }
         ActPageResult<ActActivityPromotionDO> basePageResult = activityPromotionServiceRef.queryActPromotions(actPromotionPageQueryRef);
         if(basePageResult == null){
@@ -333,6 +353,9 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     @Override
     public boolean close(long id) throws Exception {
         ActResultSupport actResultSupport= activityPromotionServiceRef.closeActPromotion(id);
+        if(!actResultSupport.isSuccess()) {
+            log.error("closeActPromotion :"+JSON.toJSONString(actResultSupport)+" isSuccess : "+actResultSupport.isSuccess());
+        }
         return actResultSupport.isSuccess();
     }
 
@@ -384,21 +407,23 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         actActivityVO.setTitle(actActivityPromotionDO.getTitle());
         actActivityVO.setStartDate(actActivityPromotionDO.getStartDate());
         actActivityVO.setEndDate(actActivityPromotionDO.getEndDate());
+        actActivityVO.setStatus(actActivityPromotionDO.getStatus());
 
         for(PromotionDO promotionDO:promotionDOList) {
             PromotionVO promotionVO = new PromotionVO();
             promotionVO.setId(promotionDO.getId());
             String requirement = MoneyUtil.centToYuanMoneyFormat(promotionDO.getRequirement());
-            Double priceY = Double.valueOf(requirement.toString());
-            promotionVO.setRequirementY(MoneyUtil.moneyY(priceY));
+            Double requirementY = Double.valueOf(requirement.toString());
+            promotionVO.setRequirementY(MoneyUtil.moneyY(requirementY));
             List<GiftVO> gifts = new ArrayList<GiftVO>();
             if (StringUtils.isNotBlank(promotionDO.getFeature())) {
                 PromotionFeature promotionFeature = new PromotionFeature(promotionDO.getFeature());
                 List<FullGiveFeature> fullGiveFeatures = promotionFeature.getFreeGiftList();
                 for (FullGiveFeature fullGiveFeature : fullGiveFeatures) {
                     GiftVO giftVO = new GiftVO();
-                    Double money = (double)(fullGiveFeature.getPrice()*0.01);
-                    giftVO.setPriceY(money.toString());
+                    String giftPrice = MoneyUtil.centToYuanMoneyFormat(fullGiveFeature.getPrice());
+                    Double money = Double.valueOf(giftPrice.toString());
+                    giftVO.setPriceY(MoneyUtil.moneyY(money));
                     giftVO.setPrice(fullGiveFeature.getPrice());
                     giftVO.setTitle(fullGiveFeature.getGiftName());
                     giftVO.setImgUrl(fullGiveFeature.getGiftPicture());
@@ -489,10 +514,10 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             actPromotionEditDTO.setDelPromotionIdList(delPromotionDOIds);
             ActResultSupport baseResult = activityPromotionServiceRef.updateActivityPromotion(actPromotionEditDTO);
             if(baseResult == null){
-                log.error("PromotionCommService.modify error: " + actPromotionEditDTO);
+                log.error("PromotionCommService.addGift update error: " + actPromotionEditDTO +"baseResult:"+baseResult);
                 throw new BaseException("返回结果错误");
             } else if(!baseResult.isSuccess()){
-                log.error("PromotionCommService.modify-promotionPublishService.updPromotion error:" + actPromotionEditDTO);
+                log.error("PromotionCommService.addGift update error:" + actPromotionEditDTO +"baseResult:"+baseResult);
                 throw new BaseException(baseResult.getMsg());
             }
         } else {
@@ -500,10 +525,10 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             promotionEditDTO.setAddPromotionDOList(addPromotionDOList);
             ActResultSupport baseResult = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
             if(baseResult == null){
-                log.error("PromotionCommService.add error: " + promotionEditDTO);
+                log.error("PromotionCommService.addGift save  error: " + promotionEditDTO);
                 throw new BaseException("返回结果错误");
             } else if(!baseResult.isSuccess()){
-                log.error("PromotionCommService.add error:" + promotionEditDTO);
+                log.error("PromotionCommService.addGift save error:" + promotionEditDTO);
                 throw new BaseException(baseResult.getMsg());
             }
         }
@@ -511,9 +536,12 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         return true;
     }
 
-    public boolean updateEndGift(ActActivityEditVO actActivityEditVO) throws Exception {
-        //@TODO check time;
-        ActActivityVO actActivityVO = actActivityEditVO.getActActivityVO();
+    public boolean updateGiftEndTime(ActActivityVO actActivityVO) throws Exception {
+        Boolean checkResult = checkGift(actActivityVO);
+        if(!checkResult){
+            log.error("PromotionCommService.updateGiftEndTime error: " + actActivityVO);
+            throw new BaseException("有重复活动");
+        }
         Date endDate = new Date();
         try {
             endDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT);
@@ -538,15 +566,55 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 
         ActResultSupport baseResult = activityPromotionServiceRef.updateActivityPromotion(actPromotionEditDTO);
         if(baseResult == null){
-            log.error("PromotionCommService.modify error: " + actPromotionEditDTO);
+            log.error("PromotionCommService.updateGiftEndTime error: " + actPromotionEditDTO);
             throw new BaseException("返回结果错误");
         } else if(!baseResult.isSuccess()){
-            log.error("PromotionCommService.modify-promotionPublishService.updPromotion error:" + actPromotionEditDTO);
+            log.error("PromotionCommService.updateGiftEndTime error:" + actPromotionEditDTO);
             throw new BaseException(baseResult.getMsg());
         }
         return true;
     }
 
+    public boolean checkGift(ActActivityVO actActivityVO){
+        ActivityPromotionQueryDTO activityPromotionQueryDTO = new ActivityPromotionQueryDTO();
+        Date startDate = new Date();
+        Date endDate = new Date();
+        try {
+            startDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getStartDateStr(), DateUtil.DAY_HORU_FORMAT);
+            endDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        int[] statuses = {
+                PromotionStatus.BEING.getStatus()
+                , PromotionStatus.NOTBEING.getStatus()
+        };
+        activityPromotionQueryDTO.setStatuses(statuses);
+        activityPromotionQueryDTO.setStart(startDate);
+        activityPromotionQueryDTO.setEnd(endDate);
+        activityPromotionQueryDTO.setType(PromotionType.FREE_GIFT.getType());
+        ActResult<List<ActActivityPromotionDO>> actResult = activityPromotionServiceRef.queryActivityPromotionsByActivityDate(activityPromotionQueryDTO);
+        if(!actResult.isSuccess()){
+            log.error("queryActivityPromotionsByActivityDate actActivityVO: "+actActivityVO+" result : "+actResult);
+        }
+        List<ActActivityPromotionDO> actActivityPromotionDOs = actResult.getT();
+        if(null == actActivityPromotionDOs) {
+            return true;
+        }
+        if(actActivityPromotionDOs.size()>0){
+            if(actActivityPromotionDOs.size()>1){
+                return false;
+            }
+            if(actActivityPromotionDOs.size()==1){
+                ActActivityPromotionDO actActivityPromotionDO = actActivityPromotionDOs.get(0);
+                if(actActivityPromotionDO.getId()==actActivityVO.getId()){
+                    return true;
+                }
+                return false;
+            }
+        }
+        return true;
+    }
     private Map<Long, String> getPromotionFeatures(long id){
         Map<Long, String> promotionFeatures = new HashMap<Long, String>();
         ActResult<ActPromotionDTO> actResult = activityPromotionServiceRef.getActPromotionById(id);
