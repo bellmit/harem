@@ -1,4 +1,4 @@
-package com.yimayhd.palace.model.vo;
+package com.yimayhd.palace.model;
 
 import java.io.Serializable;
 

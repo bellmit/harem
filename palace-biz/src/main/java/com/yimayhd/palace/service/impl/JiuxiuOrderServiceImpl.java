@@ -77,8 +77,12 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 				
 				if(null!=tcMainOrder && null !=tcMainOrder.getBizOrder()){
 					//封装订单基本信息
-
-					JiuxiuHelper.fillBizOrder(jiuxiuTcBizOrder, tcMainOrder.getBizOrder(), userServiceRef.getUserDOById(tcMainOrder.getBizOrder().getBuyerId()).getMobileNo());
+					UserDO buyer = userServiceRef.getUserDOById(tcMainOrder.getBizOrder().getBuyerId());
+					String phone = null;
+					if(null != buyer){
+						phone = buyer.getMobileNo();
+					}
+					JiuxiuHelper.fillBizOrder(jiuxiuTcBizOrder, tcMainOrder.getBizOrder(), phone);
 					
 					jiuxiuTcMainOrder.setTotalFee(tcMainOrder.getTotalFee());
 					jiuxiuTcMainOrder.setHotelTitle(tcMainOrder.getHotelTitle());
@@ -94,11 +98,6 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 						jiuxiuTcMainOrder.setRequirement(voucherInfo.getRequirement());
 						jiuxiuTcMainOrder.setValue(voucherInfo.getValue());
 					}
-					//  FIXME: wangjun 16/8/11 方法是否重复
-					/**
-					String phone =  userServiceRef.getUserDOById(tcMainOrder.getBizOrder().getBuyerId()).getMobileNo();
-					JiuxiuHelper.fillBizOrder(jiuxiuTcBizOrder, tcMainOrder.getBizOrder(),phone);
-					 */
 
 				}
 				if(null!=tcDetailOrders && tcDetailOrders.size()>0){
@@ -188,5 +187,4 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 		result.setSuccess(true);
 		return result;
 	}
-	
 }

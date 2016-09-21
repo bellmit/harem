@@ -13,13 +13,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.ScenicVO;
 import com.yimayhd.palace.model.query.ScenicListQuery;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.ScenicService;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
+import com.yimayhd.ic.client.model.enums.ResourceType;
 import com.yimayhd.ic.client.model.result.ICResult;
 
 /**

@@ -6,6 +6,7 @@ import com.yimayhd.palace.model.TopicInfoVO;
 import com.yimayhd.palace.model.TopicVO;
 import com.yimayhd.palace.model.query.SugTopicListQuery;
 import com.yimayhd.palace.model.query.TopicListQuery;
+import com.yimayhd.palace.result.BizResult;
 
 public interface TopicService {
 	
@@ -81,7 +82,16 @@ public interface TopicService {
      * @throws Exception
      */
     boolean removeSugTopic(Long id) throws Exception;
-    
-    
+    /**
+     * 
+    * created by zhangxiaoyang
+    * @date 2016年8月26日
+    * @Title: modifyTopicWeight 
+    * @Description: 设置话题权重
+    * @param @return
+    * @return boolean    返回类型 
+    * @throws
+     */
+    BizResult<Boolean> modifyTopicWeight(long id,int weightValue);
 
 }

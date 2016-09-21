@@ -1,16 +1,5 @@
 package com.yimayhd.gf.biz;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import com.yimayhd.commentcenter.client.enums.CategoryStatus;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.CategoryDO;
 import com.yimayhd.commentcenter.client.domain.CategoryItemRelationDO;
@@ -36,6 +25,15 @@ import com.yimayhd.palace.model.CategoryVO;
 import com.yimayhd.palace.model.ItemVO;
 import com.yimayhd.palace.model.query.CommodityListQuery;
 import com.yimayhd.stone.enums.DomainAndAppId;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class GFCategoryBiz {
 

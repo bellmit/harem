@@ -64,18 +64,21 @@
         #*<button type="button" class="btn btn-primary hotelBatchBtn" btnType="1">批量启用</button>
         <button type="button" class="btn btn-primary hotelBatchBtn" btnType="2">批量禁用</button>*#
         <div class="tableGroup whole">
-            <table class="table table-hover">
-                <tr>
-                	#*
-                    <th><input class="allChecked" name="allChecked" type="checkbox">全选</th>
-                    *#
-                    <th>酒店名称</th>
-                    <th>类型</th>
-                    <th>区域</th>
-                    <th>更新时间</th>
-                    <th>状态</th>
-                    <th>操作</th>
-                </tr>
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                    	#*
+                        <th><input class="allChecked" name="allChecked" type="checkbox">全选</th>
+                        *#
+                        <th>酒店名称</th>
+                        <th>类型</th>
+                        <th>区域</th>
+                        <th>更新时间</th>
+                        <th>状态</th>
+                        <th>权重</th>
+                        <th>操作</th>
+                    </tr>                    
+                </thead>
                     #foreach($hotel in $hotelDOList)
                     <tr class="subCheckedTR">
                     	#*
@@ -93,6 +96,9 @@
                         </td>
                         <td>#HOTEL_STATUS_TWO($!hotel.status)</td>
                         <td>
+                            <div class="weight">$!hotel.orderNum</div>
+                        </td>
+                        <td>
 	                        <button type="button" class="btn btn-primary hotelDetail" hotelId="$hotel.id">编辑</button>
 	                        #if($hotel.status == 1)
 	                        	<button type="button" class="btn btn-primary hotelBtn" hotelId="$hotel.id" status="2">启用</button>
@@ -100,6 +106,7 @@
 	                        </button>
 	                        <button type="button" class="btn btn-primary roomList" hotelId="$hotel.id">房型</button>
 	                        <button type="button" class="btn btn-primary itemList" hotelId="$hotel.id">查看商品</button>
+                            <button type="button" class="btn btn-primary btn-weight" hotelId="$hotel.id">权重</button>
                         </td>
                     </tr>
                     #end
@@ -328,6 +335,30 @@
         
           $('.onReset').click(function(){
            $("#hotelDOListForm").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+        });
+         //权重
+        $(".btn-weight").click(function() {
+            var id = $(this).attr("hotelId");
+            var $self = $(this);
+            layer.prompt({title:"请输入权重："},function(d,n){
+                var re = /^[1-9][0-9]{0,3}$/;
+                if (!re.test(d)) {layer.msg("请输入1-9999正整数",{icon:2});return false;}else{
+                    $.ajax({
+                        url: actionDefaultPath+'/jiuniu/hotelManage/setHotelWeight',
+                        type: 'post',
+                        data: {id: id,weight:d},
+                        success:function(data){
+                            if(data.success){
+                                $self.closest("tr").find(".weight").text(d);
+                                layer.close(n);                                                  
+                            }else{layer.msg("修改失败，请稍后重试",{icon:2})}
+                        },
+                        error:function() {
+                            layer.msg("请求出错，请稍后重试",{icon:2})
+                        }
+                    })                    
+                }
+            })
         });
     });
 </script>

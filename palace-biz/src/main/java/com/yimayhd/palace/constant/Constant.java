@@ -1,6 +1,5 @@
 package com.yimayhd.palace.constant;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,6 +44,8 @@ public class Constant {
 	public static final int SHOWCASE_TRAVEL_INFORMATION_LIST = 16;//旅行资讯;达人故事
 	public static final int SHOWCASE_CATEGORY_LIST = 17;//品类列表
 
+
+	public static final int SHOWCASE_GUIDE_INFORMATION_LIST = 18;//导览列表
 
 	public static final String DOT = ".";
 	public static final String COMMA = ",";

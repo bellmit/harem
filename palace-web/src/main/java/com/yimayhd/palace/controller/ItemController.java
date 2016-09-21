@@ -6,6 +6,7 @@ import com.yimayhd.palace.enums.BizItemType;
 import com.yimayhd.palace.enums.OrderNumFilter;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -124,5 +125,25 @@ public class ItemController extends BaseController {
 			return new ResponseVo();
 		}
 		return new ResponseVo(ResponseStatus.ERROR);
+	}
+	
+	@RequestMapping(value="updateKeyWord",method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseVo updateKeyWord(Model model,long itemId,String keyWord) {
+		if (itemId <= 0 || StringUtils.isBlank(keyWord)) {
+			return new ResponseVo(ResponseStatus.INVALID_DATA);
+		}
+		ResponseVo responseVo = new ResponseVo();;
+		try {
+			
+			boolean updateResult = itemService.updateConsultKeyWord(itemId, keyWord);
+			if (!updateResult) {
+				return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
+			}
+		} catch (Exception e) {
+			return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
+		}
+		return responseVo;
+		
 	}
 }

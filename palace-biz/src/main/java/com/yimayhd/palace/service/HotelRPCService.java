@@ -14,6 +14,7 @@ import com.yimayhd.palace.model.HotelVO;
 import com.yimayhd.palace.model.RoomVO;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.model.query.HotelListQuery;
+import com.yimayhd.palace.result.BizResult;
 
 public interface HotelRPCService {
 
@@ -86,4 +87,17 @@ public interface HotelRPCService {
 	 * @throws Exception
 	 */
 	PictureTextVO getPictureText(long id) throws Exception;
+	/**
+	 * 
+	* created by zhangxiaoyang
+	* @date 2016年8月26日
+	* @Title: setHotelWeight 
+	* @Description: 设置酒店资源权重
+	* @param  id
+	* @param  weight
+	* @return BizResult<Boolean>    返回类型 
+	* @throws
+	 */
+	BizResult<Boolean> setHotelWeight(long id,int weight);
 }
+

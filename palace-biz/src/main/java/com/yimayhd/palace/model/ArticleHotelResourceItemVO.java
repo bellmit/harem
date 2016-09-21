@@ -30,6 +30,27 @@ public class ArticleHotelResourceItemVO implements Serializable {
 	 * 最低价
 	 */
 	private long resourcePrice;
+	/**
+	 * 原价
+	 */
+	private long oldPrice;
+	private String hotelType;
+	
+	public String getHotelType() {
+		return hotelType;
+	}
+
+	public void setHotelType(String hotelType) {
+		this.hotelType = hotelType;
+	}
+
+	public long getOldPrice() {
+		return oldPrice;
+	}
+
+	public void setOldPrice(long oldPrice) {
+		this.oldPrice = oldPrice;
+	}
 
 	public String getResourcePic() {
 		return resourcePic;

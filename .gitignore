@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *.iml
 .idea
 target
@@ -13,3 +14,20 @@ harem-latest.properties
 harem-latest_0308.properties
 anxingxing
 *rebel.xml
+=======
+*.iml
+.idea
+target
+.settings/
+.classpath
+.project
+/palace-client/bin
+/palace-web/bin
+/build.bat
+id_rsa
+id_rsa.pub
+harem-latest.properties
+harem-latest_0308.properties
+anxingxing
+/palace-web/.externalToolBuilders
+>>>>>>> remotes/origin/master
