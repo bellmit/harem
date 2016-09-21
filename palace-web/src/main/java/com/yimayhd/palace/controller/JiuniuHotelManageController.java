@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.ic.client.model.domain.HotelDO;
 import com.yimayhd.ic.client.model.domain.RoomDO;
@@ -33,6 +34,7 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.constant.ResponseStatus;
+import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.AreaVO;
 import com.yimayhd.palace.model.DestinationVO;
 import com.yimayhd.palace.model.HotelFacilityVO;
@@ -42,6 +44,7 @@ import com.yimayhd.palace.model.line.pictxt.PictureTextItemVo;
 import com.yimayhd.palace.model.line.pictxt.PictureTextVO;
 import com.yimayhd.palace.model.query.DestinationQuery;
 import com.yimayhd.palace.model.query.HotelListQuery;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.DestinationRPCService;
 import com.yimayhd.palace.service.HotelRPCService;
 import com.yimayhd.palace.tair.TcCacheManager;
@@ -515,5 +518,23 @@ public class JiuniuHotelManageController extends BaseController {
 			}
 		}
 		return ResponseVo.error(new BaseException(Constant.UN_REPEAT_SUBMIT));
+	}
+	
+	@RequestMapping(value="setHotelWeight",method = RequestMethod.POST)
+	@ResponseBody
+	public BizResult<String> modifyResourceWeight(long id,int weight) {
+		BizResult<String> result = new BizResult<String>();
+		if (id <= 0 || weight <= 0) {
+			log.error("params:id={},weightValue={}",id,weight);
+			result.setPalaceReturnCode(PalaceReturnCode.PARAM_ERROR);
+			return result;
+		}
+		BizResult<Boolean> setResult = hotelRPCService.setHotelWeight(id, weight);
+		if (setResult == null || !setResult.isSuccess()) {
+			log.error("params:itemId={},weightVale={},result:{}",id,weight,JSON.toJSONString(setResult));
+			result.setPalaceReturnCode(PalaceReturnCode.UPDATE_WEIGHT_FAILED);
+			return result;
+		}
+		return result;
 	}
 }

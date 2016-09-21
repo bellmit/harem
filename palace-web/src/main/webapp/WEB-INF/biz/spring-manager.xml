@@ -10,11 +10,18 @@
 	<bean id="userRelationBiz" class="com.yimayhd.commission.biz.UserRelationBiz" />
 	<bean id="LiveAdminBiz" class="com.yimayhd.palace.biz.LiveAdminBiz" />
 
+
+
 	<bean id="applyBiz" class="com.yimayhd.palace.biz.ApplyBiz" />
 	<bean id="merchantBiz" class="com.yimayhd.palace.biz.MerchantBiz" />
+	<bean id="trouistlistBiz" class="com.yimayhd.palace.biz.TrouistlistBiz" />
 	<bean id="articleBiz" class="com.yimayhd.palace.biz.ArticleBiz" />
 	<bean id="mallFansBiz" class="com.yimayhd.commission.biz.MallFansBiz" />
 	<bean id="levelBiz" class="com.yimayhd.commission.biz.LevelBiz" />
-	
+
 	<bean id="gfCorrelationBiz"      class="com.yimayhd.gf.biz.GFCorrelationBiz" />
+	<bean id="attachmentBiz" class="com.yimayhd.palace.biz.AttachmentBiz"/>
+	<bean id="cacheLockManager" class="com.yimayhd.palace.tair.CacheLockManager"/>
+	<bean id="guideBiz" class="com.yimayhd.palace.biz.GuideBiz"/>
+
 </beans>

@@ -17,6 +17,7 @@ import com.yimayhd.palace.model.query.JiuxiuMerchantListQuery;
 import com.yimayhd.palace.model.query.JiuxiuOrderListQuery;
 import com.yimayhd.palace.util.Common;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
 import com.yimayhd.tradecenter.client.model.enums.OrderBizType;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
@@ -61,6 +62,9 @@ public class JiuxiuHelper {
 		jiuxiuTcBizOrder.setOrderType(tcBizOrder.getOrderType());
 		jiuxiuTcBizOrder.setSellerId(tcBizOrder.getSellerId());
 		jiuxiuTcBizOrder.setOrderStatus(tcBizOrder.getOrderStatus());
+		BizOrderDO bizOrderDO = new BizOrderDO();
+		bizOrderDO.setItemTitle(tcBizOrder.getBizOrderDO().getItemTitle());
+		jiuxiuTcBizOrder.setBizOrderDO(bizOrderDO);
 	}
 	
 	public static void fillMerchantListQuery(MerchantPageQuery merchantPageQuery,JiuxiuMerchantListQuery jiuxiuMerchantListQuery) throws ParseException{

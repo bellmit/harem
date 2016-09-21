@@ -1,0 +1,141 @@
+<style type="text/css">
+    .table > thead th,
+    .table > tbody td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .table tr.selected {
+        background: #ffe7bc;
+    }
+</style>
+
+
+<form class="form-signin" id="tbScenicListForm" name="tbScenicListForm" method="POST"
+      action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/guideManage/scenic/list">
+    <div class="inputGroup">
+        <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">景区名称：</button>
+                </span>
+            <input type="text" class="form-control" name="scenicName" value="$!{scenicListQuery.scenicName}">
+        </div>
+        <div class="input-group inpSingle">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">资源编号：</button>
+            </span>
+            <input type="text" class="form-control" placeholder="请输入编号，编号为数字" id="scenicNumber" name="scenicNumber" value="$!{scenicListQuery.scenicNumber}">
+        </div>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary" id="btnQuery">搜索</button>
+        </div>
+    </div>
+</form>
+    <div class="tableGroup whole">
+        <table class="table table-bordered" id="tbScenicList">
+            <thead>
+            <tr>
+                <th>选择</th>
+                <th>景区名称</th>
+                <th>资源编号</th>
+                <th>地址</th>
+                <th>详情</th>
+            </tr>
+            </thead>
+            <tbody>
+                #foreach($item in $itemList)
+                <tr>
+                    <td>
+                        <input type="checkbox" id="$!{item.id}" subjectId="$!{item.subjectId}" name="$!{item.name}"
+                               locationText="$!{item.locationText}" locationProvinceName="$!{item.locationProvinceName}"
+                               locationCityName ="$!{item.locationCityName}" locationTownName="$!{item.locationTownName}"
+                               level="$!{item.level}" locationX="$!{item.locationX}" locationY="$!{item.locationY}"
+                               openTime="$!{item.openTime}" subjectName = "$!{item.subjectName}" levelDesc="$!{item.levelDesc}"
+                               latitude="$!{item.latitude}" longitude="$!{item.longitude}"
+                        />
+                    </td>
+                    <td>
+                        $!item.name
+                    </td>
+                    <td>
+                        $!item.id
+                    </td>
+                    <td>
+                        $!item.locationText
+                    </td>
+                    <td>
+                        <a type="button" class="btn btn-primary view" themeid="${item.id}">查看详情</a>
+                    </td>
+                </tr>
+                #end
+            </tbody>
+        </table>
+    </div>
+#*分页*#
+#parse("/page.vm")
+#pageStyle("tbScenicListForm")
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=21"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#tbScenicList").on("click", "input[type='checkbox']", function () {
+            var checkbox = $(this);
+            var checked = checkbox[0].checked;
+            var tr = checkbox.closest("tr");
+
+            if (checked) {
+                var selecetdtr = $("#tbScenicList tr.selected");
+                selecetdtr.removeClass("selected");
+                selecetdtr.find("input[type='checkbox']").attr("checked", false);
+
+                tr.addClass("selected");
+            } else {
+                tr.removeClass("selected");
+            }
+        });
+
+        $("#btnQuery").on("click",function(){
+            var number=$("#scenicNumber").val();
+            if(number.length>=0&&(!(/^[0-9]*$/.test(number))))
+            {
+                layer.msg("资源编号请输入数字.",{icon:2,time:1500});
+                return false;
+            }
+        });
+    });
+
+    function getItem() {
+        var selecetdtr = $("#tbScenicList tr.selected").find("input[type='checkbox']");
+        if(selecetdtr.length==0){
+            return null;
+        }
+
+        return {
+            id: selecetdtr.attr("id"),
+            subjectId:selecetdtr.attr("subjectId"),
+            name:selecetdtr.attr("name"),
+            locationText:selecetdtr.attr("locationText"),
+            locationProvinceName:selecetdtr.attr("locationProvinceName"),
+            locationCityName:selecetdtr.attr("locationCityName"),
+            locationTownName:selecetdtr.attr("locationTownName"),
+            level:selecetdtr.attr("level"),
+            locationX:selecetdtr.attr("locationX"),
+            locationY:selecetdtr.attr("locationY"),
+            openTime:selecetdtr.attr("openTime"),
+            subjectName:selecetdtr.attr("subjectName"),
+            levelDesc:selecetdtr.attr("levelDesc"),
+            latitude:selecetdtr.attr("latitude"),
+            longitude:selecetdtr.attr("longitude")
+        }
+    }
+
+    $(function () {
+
+        $("#tbScenicList").on("click", ".view", function () {
+            var themeid = $(this).attr("themeid");
+            window.parent.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuniu/scenicSpotManage/view/" + themeid, 2, "景区详情");
+        });
+    });
+</script>
+
+
+

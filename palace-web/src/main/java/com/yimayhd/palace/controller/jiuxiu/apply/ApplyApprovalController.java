@@ -123,6 +123,7 @@ public class ApplyApprovalController extends BaseController {
     @RequestMapping(value = "detail")
     public String getMerchantDetail(Model model, long id ,String sellerId) {
         try {
+        	model.addAttribute("examineDealResult", applyBiz.getCheckResult(Long.parseLong(sellerId)) == null ? null:applyBiz.getCheckResult(Long.parseLong(sellerId)));
         	MemResult<ExamineInfoDTO> result = null;
         	if(id !=0){
         		result = examineDealServiceRef.queryMerchantExamineInfoById(id);

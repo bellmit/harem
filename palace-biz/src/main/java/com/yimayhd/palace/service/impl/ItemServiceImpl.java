@@ -14,7 +14,9 @@ import com.yimayhd.user.client.enums.UserOptions;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.client.service.UserService;
+
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +28,12 @@ import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.ic.client.model.domain.item.ItemDTO;
 import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.param.item.ItemBatchPublishDTO;
+import com.yimayhd.ic.client.model.param.item.ItemKeyWordDTO;
 import com.yimayhd.ic.client.model.param.item.ItemPublishDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.param.item.ItemWeightDTO;
 import com.yimayhd.ic.client.model.result.ICPageResult;
+import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.ItemConverter;
@@ -214,18 +218,19 @@ public class ItemServiceImpl implements ItemService {
 		}
 		UserDO sellerUser = sellerUserResult.getValue();
 
-		if(UserOptions.USER_TALENT.has(sellerUser.getOptions())){
+		if(UserOptions.USER_TALENT.has(sellerUser.getOptions()) || UserOptions.CERTIFICATED.has(sellerUser.getOptions())
+				|| UserOptions.COMMON_TELENT.has(sellerUser.getOptions())){
 			/**旧达人**/
 			// 没有店铺名称,只有昵称
 			//tcMerchantInfo.setMerchantName();
 			icMerchantVO.setUserNick(sellerUser.getNickname());
 		}
-		if(UserOptions.COMMON_TELENT.has(sellerUser.getOptions())){
-			/**新达人**/
-			// 只有昵称
-			icMerchantVO.setUserNick(sellerUser.getNickname());
-		}
-		if(UserOptions.COMMERCIAL_TENANT.has(sellerUser.getOptions())||UserOptions.CERTIFICATED.has(sellerUser.getOptions())){
+//		if(UserOptions.COMMON_TELENT.has(sellerUser.getOptions())){
+//			/**新达人**/
+//			// 只有昵称
+//			icMerchantVO.setUserNick(sellerUser.getNickname());
+//		}
+		if(UserOptions.COMMERCIAL_TENANT.has(sellerUser.getOptions())){
 			/**商户**/
 			//  店铺信息, 昵称用user
 			BaseResult<MerchantUserDTO> merchantUserResult = userMerchantServiceRef.getMerchantAndUserBySellerId(sellerId, Constant.DOMAIN_JIUXIU);
@@ -242,5 +247,31 @@ public class ItemServiceImpl implements ItemService {
 		result.setValue(icMerchantVO);
 		result.setSuccess(true);
 		return result;
+	}
+
+	/* (non-Javadoc)
+	 * created by zhangxiaoyang
+	 * <p>Title: updateConsultKeyWord</p> 
+	 * <p>Description: </p> 
+	 * @param itemId
+	 * @param keyWord
+	 * @return 
+	 * @see com.yimayhd.palace.service.ItemService#updateConsultKeyWord(long, java.lang.String)
+	 */
+	@Override
+	public boolean updateConsultKeyWord(long itemId, String keyWord) {
+		if (itemId <= 0 || StringUtils.isBlank(keyWord)) {
+			log.error("params:itemId={},keyWord={}",itemId,keyWord);
+			return false;
+		}
+		ItemKeyWordDTO itemKeyWordDTO = new ItemKeyWordDTO();
+		itemKeyWordDTO.setItemId(itemId);
+		itemKeyWordDTO.setKeyWord(keyWord);
+		ICResult<Boolean> updateResult = itemRepo.updateConsultKeyWord(itemKeyWordDTO);
+		if (updateResult == null || !updateResult.isSuccess()) {
+			log.error("itemRepo.updateConsultKeyWord result:{}",JSON.toJSONString(updateResult));
+			return false;
+		}
+		return true;
 	}
 }

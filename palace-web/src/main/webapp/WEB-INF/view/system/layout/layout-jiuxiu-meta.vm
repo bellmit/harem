@@ -6,6 +6,7 @@
 #set( $root_path = $utilWebconfig.getRootPath() )
 #set( $filegw_url = $utilWebconfig.getFilegwUrl() )
 #set( $palace_update_file = $utilWebconfig.getActionUploadFilePath() )
+#set( $audio_root_path = $utilWebconfig.getAudioRootPath() )
 
 #set( $test = $utilWebconfig.isTestMode())
 #if( $test )
@@ -25,4 +26,5 @@
 <input type="hidden" id="palace_update_file" value="$palace_update_file">
 <input type="hidden" id="static_path" value="$rs_js_css_path_jiuxiu">
 <input type="hidden" id="filegw_domain" value="$filegw_domain">
+<input type="hidden" id="audio_root_path" value="$audio_root_path">
 

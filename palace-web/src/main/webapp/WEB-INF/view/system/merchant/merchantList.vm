@@ -8,7 +8,7 @@
         <div class="inputGroup whole">
         	 <div class="input-group inpSingle">
                     <span class="input-group-btn">
-                        <button class="btn btn-default" type="button">店铺名称</button>
+                        <button class="btn btn-default" type="button">店铺名称/昵称</button>
                     </span>
                 <input type="text" class="form-control queryRt" name="merchantName" value="$!jiuxiuMerchantListQuery.merchantName">
             </div>
@@ -70,19 +70,22 @@
 
         </div>
         <div class="tableGroup whole">
-            <table class="table table-hover">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>商户类型</th>
+                        <th>店铺名称/昵称</th>
+                        <th>商户编号</th>
+                        <th>负责人</th>
+                        <th>负责人手机号</th>
+                        <th>注册手机</th>
+                        <th>创建日期</th>
+                        <th>状态</th>
+                        <th>权重</th>
+                        <th>操作</th>
+                    </tr>                    
+                </thead>
                 <tbody>
-                <tr>
-                    <th>商户类型</th>
-                    <th>店铺名称</th>
-                    <th>商户编号</th>
-                    <th>负责人</th>
-                    <th>负责人手机号</th>
-                    <th>注册手机</th>
-                    <th>创建日期</th>
-                    <th>状态</th>
-                    <th>操作</th>
-                </tr>
                     #foreach($merchant in $result)
                         <tr>
                             <td>
@@ -132,18 +135,24 @@
                             
                             <td>
                                 <div class="order-number">
-                                     <div class="">
 	                                #if( $!merchant.merchantDO.status == 2)
 	                                 禁用
 	                                #elseif( $!merchant.merchantDO.status == 3)
 	                                   启用
 	                                #end
-	                            </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="weight">
+                                    $!merchant.merchantDO.orderNum
                                 </div>
                             </td>
     
 	                        <td>
 	                            <button type="button" class="btn btn-primary addRefund detail" userId="$!merchant.userDO.id" option="$!merchant.merchantDO.option">详情</button>
+                                <button type="button" class="btn btn-primary itemlist" userId="$!merchant.userDO.id" option="$!merchant.merchantDO.option">商品</button>
+                                <button type="button" class="btn btn-primary btn-weight" userId="$!merchant.userDO.id" option="$!merchant.merchantDO.option">权重</button>
 	                        </td>
                     </tr>
                     #end
@@ -184,6 +193,34 @@
             var userId = $(this).attr("userId");
             var option = $(this).attr("option");
             window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/merchant/detail?id="+userId+"&option="+option, 2, "商家详情");
+        });
+        $(".itemlist").click(function () {
+            var userId = $(this).attr("userId");
+            var option = $(this).attr("option");
+            window.parent.tabsAdd('', actionDefaultPath + "/jiuxiu/item/list?sellerId="+userId, 2, "商品列表");
+        });
+        $(".btn-weight").click(function() {
+            var userId = $(this).attr("userId");
+            var $self = $(this);
+            layer.prompt({title:"请输入权重："},function(d,n){
+                var re = /^[1-9][0-9]{0,3}$/;
+                if (!re.test(d)) {layer.msg("请输入1-9999正整数",{icon:2});return false;}else{
+                    $.ajax({
+                        url: actionDefaultPath+'/jiuxiu/merchant/modifyMerchantWeight',
+                        type: 'post',
+                        data: {merchantId: userId,weightValue:d},
+                        success:function(data){
+                            if(data.success){
+                                $self.closest("tr").find(".weight").text(d);
+                                layer.close(n);                                                  
+                            }else{layer.msg("修改失败，请稍后重试",{icon:2})}
+                        },
+                        error:function() {
+                            layer.msg("请求出错，请稍后重试",{icon:2})
+                        }
+                    })                    
+                }
+            })
         });
         
     });

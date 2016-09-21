@@ -1,13 +1,14 @@
 package com.yimayhd.palace.model;
 
-import com.yimayhd.palace.model.vo.ArticleScenicResourceItemVO;
-
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
+import com.yimayhd.palace.model.vo.AudioVO;
 
 /**
  * H5文章
- * 
+ *
  * @author xiemingna
  *
  */
@@ -33,6 +34,18 @@ public class ArticleItemVO implements Serializable {
 	private Date gmtCreated;
 
 	private Date gmtModified;
+	
+	private String attachString;
+	
+
+	public String getAttachString() {
+		return attachString;
+	}
+
+	public void setAttachString(String attachString) {
+		this.attachString = attachString;
+	}
+
 	/**
 	 * 商品项
 	 */
@@ -45,7 +58,7 @@ public class ArticleItemVO implements Serializable {
 	 * 达人项
 	 */
 	private ArticleExpertManItemVO articleExpertManItemVO;
-	
+
 	/**
 	 * 酒店资源项
 	 */
@@ -54,6 +67,20 @@ public class ArticleItemVO implements Serializable {
 	 * 景区资源项
 	 */
 	private ArticleScenicResourceItemVO articleScenicResourceItemVO;
+
+	/**
+	 * 音频资源
+	 */
+	private ArticleAudioItemVO articleAudioItemVO;
+	private AudioVO audioResource;
+	
+	public AudioVO getAudioResource() {
+		return audioResource;
+	}
+
+	public void setAudioResource(AudioVO audioResource) {
+		this.audioResource = audioResource;
+	}
 
 	public long getId() {
 		return id;
@@ -174,4 +201,12 @@ public class ArticleItemVO implements Serializable {
 	public void setArticleScenicResourceItemVO(ArticleScenicResourceItemVO articleScenicResourceItemVO) {
 		this.articleScenicResourceItemVO = articleScenicResourceItemVO;
 	}
+
+    public ArticleAudioItemVO getArticleAudioItemVO() {
+        return articleAudioItemVO;
+    }
+
+    public void setArticleAudioItemVO(ArticleAudioItemVO articleAudioItemVO) {
+        this.articleAudioItemVO = articleAudioItemVO;
+    }
 }
