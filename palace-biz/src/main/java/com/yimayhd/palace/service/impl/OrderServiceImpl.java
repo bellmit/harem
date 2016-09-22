@@ -25,6 +25,7 @@ import com.yimayhd.pay.client.model.domain.order.PayOrderDO;
 import com.yimayhd.promotion.client.enums.PromotionType;
 import com.yimayhd.stone.enums.DomainAndAppId;
 import com.yimayhd.tradecenter.client.model.domain.order.BizOrderDO;
+import com.yimayhd.tradecenter.client.model.domain.order.FullGiveInfo;
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.PromotionInfo;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
@@ -299,7 +300,7 @@ public class OrderServiceImpl implements OrderService {
 						orderDetails.setExpress(lgResult.getValue());
 					}
 				}
-				PromotionInfo giftPromotionInfo = BizOrderUtil.getFullGiveInfo(bizOrderDO);
+				FullGiveInfo giftPromotionInfo = BizOrderUtil.getFullGiveInfo(bizOrderDO);
 				if(null != giftPromotionInfo){
 					orderDetails.setGiftPromotionInfo(giftPromotionInfo);
 				}
