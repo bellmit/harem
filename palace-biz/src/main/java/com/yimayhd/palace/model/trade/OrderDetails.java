@@ -47,6 +47,8 @@ public class OrderDetails {
 
     private PromotionInfo orderPromotionInfo;
 
+    private PromotionInfo giftPromotionInfo;
+
     private String promotionInfoDesc;
 
     //订单改价
@@ -220,5 +222,13 @@ public class OrderDetails {
 
     public void setExpress(ExpressVO express) {
         this.express = express;
+    }
+
+    public PromotionInfo getGiftPromotionInfo() {
+        return giftPromotionInfo;
+    }
+
+    public void setGiftPromotionInfo(PromotionInfo giftPromotionInfo) {
+        this.giftPromotionInfo = giftPromotionInfo;
     }
 }

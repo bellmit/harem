@@ -299,6 +299,10 @@ public class OrderServiceImpl implements OrderService {
 						orderDetails.setExpress(lgResult.getValue());
 					}
 				}
+				PromotionInfo giftPromotionInfo = BizOrderUtil.getFullGiveInfo(bizOrderDO);
+				if(null != giftPromotionInfo){
+					orderDetails.setGiftPromotionInfo(giftPromotionInfo);
+				}
 				//优惠
 				long orderPromotionFee = BizOrderUtil.getOrderPromotionFee(mainOrder.getBizOrderDO());
 				long orderVoucherFee = BizOrderUtil.getOrderVoucherFee(mainOrder.getBizOrderDO());

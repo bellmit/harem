@@ -187,7 +187,7 @@
                         #*<th width="5%">售后状态</th>*#
                         <th width="15%">订单金额</th>
                     </tr>
-                        #set($size = $order.mainOrder.subOrderList.size() )
+                        #set($size = $order.mainOrder.subOrderList.size() + $order.giftPromotionInfo.tcFullGiveFeatureList.size() )
                         #foreach($subOrder in $order.mainOrder.subOrderList)
                         <tr>
                             <td width="">
@@ -227,6 +227,34 @@
 	                            </td>
                             #end
                         </tr>
+                        #end
+                        #if($order.giftPromotionInfo)
+                            #foreach($gift in $order.giftPromotionInfo.tcFullGiveFeatureList)
+                            <tr>
+                                <td width="">
+                                    <img class="uploadImgFile" src="$!{utilWebconfig.getTfsRootPath()}$imageUtil.getImgUrl($!gift.giftPicture, 120)">
+                                </td>
+                                <td>
+                                    <div class="t-name">$!gift.giftName</div>
+                                    <div class="t-userType"></div>
+                                </td>
+                                <td>
+                                    ￥$!utilNum.moneyTransform($!gift.price)
+                                </td>
+                                <td>
+                                    1
+                                </td>
+                                <td>
+                                    ￥0.00
+                                </td>
+                                <td>
+                                    $!order.giftPromotionInfo.title
+                                </td>
+                                <td>
+                                    #ORDERS_STATUS($!order.mainOrder.orderShowState)
+                                </td>
+                            </tr>
+                            #end
                         #end
                 </table>
                 <div class="order-fee-container">
