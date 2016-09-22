@@ -1,0 +1,132 @@
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>直播列表</title>
+    <link rel="stylesheet" href="../../src/css/base.css">
+    <link rel="stylesheet" href="../../src/css/live/livelist.css">
+</head>
+<body>
+<div class="dialog" style="display: none;">
+    <div class="bgmeng"></div>
+    <div class="dlgcont">
+        <table>
+            <tbody><tr>
+                <td class="tit">权重：</td>
+                <td>
+                    <input type="text" id="priority">
+                    <input type="hidden" id="rowId" value="">
+                    <input type="hidden" id="oldPriority" value="">
+                </td>
+            </tr>
+            </tbody></table>
+        <div class="boxbtn">
+            <button class="ok">确定</button>
+            <button class="cancel">取消</button>
+        </div>
+    </div>
+</div>
+
+<div class="searchbox">
+    <form id="liveAdminForm" name="liveAdminList" method="post"
+          action="$utilWebconfig.getStaticResourcesPath()/jiuxiu/liveAdmin/liveAdminList">
+        <table>
+            <tbody><tr>
+                <td class="tit">达人昵称：</td>
+                <td><input name="nickname" maxlength="30"></td>
+                <td class="tit">达人ID：</td>
+                <td><input name="talentID" maxlength="30"></td>
+            </tr>
+            <tr>
+                <td class="tit">房间号：</td>
+                <td><input name="roomNumber" maxlength="30"></td>
+                <td class="tit">直播分类：</td>
+                <td><select name="liveCategory">
+                    <option value="0">全部</option>
+                    <option value="1">启用</option>
+                    <option value="2">禁用</option>
+                </select></td>
+                <td><button class="searchbtn">查询</button></td>
+                <td><button class="resetbtn">重置</button></td>
+            </tr>
+            </tbody></table>
+    </form>
+</div>
+
+<div class="gridbox">
+    <table class="tbgrid">
+        <thead>
+        <tr><th>ID</th>
+            <th>头图</th>
+            <th>直播标题</th>
+            <th>直播分类</th>
+            <th>话题</th>
+            <th>达人昵称</th>
+            <th>房间号</th>
+            <th>达人ID</th>
+            <th>开始时间</th>
+            <th>在线人数</th>
+            <th>权重</th>
+            <th>操作</th>
+        </tr></thead>
+
+        ## 直播列表
+        <tbody>
+            #foreach($item in $itemList)
+            <tr>
+                <td>$!{item.id}</td>
+                <td>
+                    <img src="$!utilWebconfig.getTfsRootPath()$!{item.liveCover}" width="150" height="90">
+                </td>
+                <td>
+                    $!{item.liveTitle}
+                </td>
+                <td>
+                    $!{item.liveCategory}
+                </td>
+                <td>
+                    $!{item.liveDes}
+                </td>
+                <td>
+                    $!{item.userDO.likeNickname}
+                </td>
+                <td>
+                    $!{item.liveRoom}
+                </td>
+                <td>
+                    $!{item.userId}
+                </td>
+                <td>
+                    $!{item.startDate}
+                </td>
+                <td>
+                    $!{item.onlineCount}
+                </td>
+                <td>
+                    $!{item.liveOrder}
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary weight" liveOrder="$!{item.liveOrder}">权重设置</button>
+                </td>
+            </tr>
+            #end
+        </tbody>
+        ##  直播列表
+        ##  <tbody><tr id="row1"><td class="rowId">12309</td><td><img src="http://img0.imgtn.bdimg.com/it/u=3691748163,484693479&amp;fm=206&amp;gp=0.jpg" alt=""></td><td>吃饭</td><td>额</td><td>话题测试</td><td>达人昵称测试</td><td>123456</td><td>32432</td><td>2016-02-15 15:00</td><td>123</td><td class="priorityValue">45</td><td><label class="exam dialogBtn">权重设置</label></td></tr><tr id="row2"><td class="rowId">12310</td><td><img src="http://img0.imgtn.bdimg.com/it/u=3691748163,484693479&amp;fm=206&amp;gp=0.jpg" alt=""></td><td>吃饭</td><td>额</td><td>话题测试</td><td>达人昵称测试</td><td>123456</td><td>32432</td><td>2016-02-15 15:00</td><td>123</td><td class="priorityValue">40</td><td><label class="exam dialogBtn">权重设置</label></td></tr></tbody>
+    </table>
+    #*分页*#
+    #parse("/page.vm")
+    #pageStyle("liveAdminForm")
+
+##    <div class="pagebox">
+##        <div class="actionpage"><button class="prev">上一页</button><label>当前第 </label><label class="curpage">1</label><label> 页</label><button class="next">下一页</button></div>
+##        <div class="pageinfo"><label>共：</label><label class="totalPage">20</label><label>页，</label>
+##            <label class="totalCount">1000</label><label>条</label></div>
+##    </div>
+
+</div>
+
+<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
+<script type="text/javascript" src="../../src/js/module/md.livelist.js"></script>
+
+</body></html>

@@ -101,4 +101,7 @@
 	<!-- 导览景点-->
 	<bean id="touristManageService" class="com.yimayhd.palace.service.impl.TouristManageServiceImpl"/>
 
+	<!-- 直播管理 -->
+	<bean id="liveAdminService" class="com.yimayhd.palace.service.impl.LiveAdminServiceImpl"/>
+
 </beans>
