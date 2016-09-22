@@ -19,16 +19,6 @@
                 #end
             </select>
         </div>
-
-        <div class="input-group inpSingle">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">创建时间</button>
-                </span>
-            <input type="text" class='form-control form-date dateInp beginTime' readonly name="beginTime" value="$!promotionListQuery.beginTime">
-            <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
-            <input type="text" class='form-control form-date endTime dateInp' readonly name="endTime" value="$!promotionListQuery.endTime">
-        </div>
-
         <div class="input-group inpSingle">
                 <span class="input-group-btn">
                     <button class="btn btn-default" type="button">开始时间</button>
@@ -36,6 +26,14 @@
             <input type="text" class='form-control form-date dateInp startTimeStart' readonly name="startTimeStart" value="$!promotionListQuery.startTimeStart">
             <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
             <input type="text" class='form-control form-date startTimeEnd dateInp' readonly name="startTimeEnd" value="$!promotionListQuery.startTimeEnd">
+        </div>
+        <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">创建时间</button>
+                </span>
+            <input type="text" class='form-control form-date dateInp beginTime' readonly name="beginTime" value="$!promotionListQuery.beginTime">
+            <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+            <input type="text" class='form-control form-date endTime dateInp' readonly name="endTime" value="$!promotionListQuery.endTime">
         </div>
 
         <div class="btn-group">

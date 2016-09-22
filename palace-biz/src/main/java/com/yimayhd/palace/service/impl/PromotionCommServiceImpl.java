@@ -80,8 +80,12 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         //构建查询条件
         com.yimayhd.activitycenter.query.ActPromotionPageQuery actPromotionPageQueryRef = new com.yimayhd.activitycenter.query.ActPromotionPageQuery();
 
-        if(StringUtils.isNotBlank(actPromotionPageQuery.getTitle())) {
-            actPromotionPageQueryRef.setTitle(actPromotionPageQuery.getTitle());
+        String title = actPromotionPageQuery.getTitle();
+        if(null!=title){
+            title = title.trim();
+        }
+        if(StringUtils.isNotBlank(title)) {
+            actPromotionPageQueryRef.setTitle(title);
         }
         actPromotionPageQueryRef.setStatus(actPromotionPageQuery.getStatus());
         actPromotionPageQueryRef.setLotteryType(actPromotionPageQuery.getLotteryType());
