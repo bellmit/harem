@@ -260,6 +260,10 @@ public class BannerManageController extends BaseController {
             return "/system/banner/showcase/chooseDaRenMeiShiDetail";
         }else if(Constant.SHOWCASE_NEST_BOOTH_LIST == type){//booth列表
             return "/system/banner/showcase/chooseItemListVersion";
+        }else if(Constant.LIVE_PLAYBACK_LIST == type ){
+        	return "/system/banner/showcase/chooseLivePlaybackDetail";
+        }else if(Constant.LIVE_ROOM_LIST ==type){
+        	return "/system/banner/showcase/chooseLiveRoomDetail";
         }
 
 
