@@ -6,6 +6,7 @@ import com.yimayhd.live.client.query.LiveRoomPageQuery;
 import com.yimayhd.live.client.result.record.*;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.result.BizResult;
+import com.yimayhd.palace.model.LiveAdmin.*;
 
 /**
  * Created by haozhu on 16/9/21.
@@ -17,7 +18,7 @@ public interface LiveAdminService {
      * @param pageQuery
      * @return
      */
-    public PageVO<LiveRecordDO> getPageLiveRecord(LiveAdminPageQuery pageQuery);
+    public PageVO<LiveRecordVO> getPageLiveRecord(LiveAdminPageQuery pageQuery);
 
     /**
      * 更新直播排序
@@ -52,7 +53,7 @@ public interface LiveAdminService {
      * @param liveRoomPageQuery
      * @return
      */
-    public PageVO<LiveRoomDO> getPageLiveRoom(LiveRoomPageQuery liveRoomPageQuery);
+    public PageVO<LiveRoomVO> getPageLiveRoom(LiveRoomPageQuery liveRoomPageQuery);
 
     /**
      * 关闭直播间

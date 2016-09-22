@@ -116,10 +116,7 @@
                     $!{item.liveDes}
                 </td>
                 <td>
-                    $!{item.feature}
-                </td>
-                <td>
-                    $!{item.liveRoom}
+                    $!{item.userDO.likeNickname}
                 </td>
                 <td>
                     $!{item.userId}
@@ -131,13 +128,16 @@
                     $!{item.endDate}
                 </td>
                 <td>
-                    $!{item.onlineCount}
+                    $!{item.replaySecond}
+                </td>
+                <td>
+                    $!{item.viewCount}
                 </td>
                 <td>
                     $!{item.liveOrder}
                 </td>
                 <td>
-                    $!{item.liveStatus}
+                    $!{item.status}
                 </td>
                 <td>
                     <button type="button" class="btn btn-primary weight" liveOrder="$!{item.liveOrder}">编辑权重</button>

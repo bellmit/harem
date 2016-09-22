@@ -1,12 +1,16 @@
 package com.yimayhd.palace.controller.live;
 
-import com.yimayhd.live.client.domain.record.*;
+import com.yimayhd.live.client.domain.record.CloseLiveRoomDTO;
+import com.yimayhd.live.client.domain.record.UpdateLiveOrderDTO;
+import com.yimayhd.live.client.domain.record.UpdateLiveRecordStatusDTO;
 import com.yimayhd.live.client.query.LiveAdminPageQuery;
 import com.yimayhd.live.client.query.LiveRoomPageQuery;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.LiveAdminBiz;
 import com.yimayhd.palace.error.PalaceReturnCode;
+import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
+import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.LiveAdminService;
 import org.slf4j.Logger;
@@ -41,7 +45,7 @@ public class LiveAdminController extends BaseController {
     @RequestMapping(value = "/liveAdminList", method = RequestMethod.GET)
     public String liveList(Model model, LiveAdminPageQuery pageQuery) throws Exception {
         try {
-            PageVO<LiveRecordDO> pageVO = liveAdminService.getPageLiveRecord(pageQuery);
+            PageVO<LiveRecordVO> pageVO = liveAdminService.getPageLiveRecord(pageQuery);
             model.addAttribute("pageVO", pageVO);
             model.addAttribute("pageQuery", pageQuery);
             model.addAttribute("itemList", pageVO.getItemList());
@@ -76,7 +80,7 @@ public class LiveAdminController extends BaseController {
     @RequestMapping(value = "/playBackList", method = RequestMethod.GET)
     public String playBackList(Model model, LiveAdminPageQuery pageQuery) throws Exception {
         try {
-            PageVO<LiveRecordDO> pageVO = liveAdminService.getPageLiveRecord(pageQuery);
+            PageVO<LiveRecordVO> pageVO = liveAdminService.getPageLiveRecord(pageQuery);
             model.addAttribute("pageVO", pageVO);
             model.addAttribute("pageQuery", pageQuery);
             model.addAttribute("itemList", pageVO.getItemList());
@@ -117,7 +121,7 @@ public class LiveAdminController extends BaseController {
     @RequestMapping(value = "/rooms", method = RequestMethod.GET)
     public String rooms(Model model, LiveRoomPageQuery liveRoomPageQuery) throws Exception {
         try {
-            PageVO<LiveRoomDO> pageVO = liveAdminService.getPageLiveRoom(liveRoomPageQuery);
+            PageVO<LiveRoomVO> pageVO = liveAdminService.getPageLiveRoom(liveRoomPageQuery);
             model.addAttribute("pageVO", pageVO);
             model.addAttribute("pageQuery", liveRoomPageQuery);
             model.addAttribute("itemList", pageVO.getItemList());

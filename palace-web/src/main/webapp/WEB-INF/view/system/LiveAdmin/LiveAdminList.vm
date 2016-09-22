@@ -88,7 +88,7 @@
                     $!{item.liveDes}
                 </td>
                 <td>
-                    $!{item.feature}
+                    $!{item.userDO.likeNickname}
                 </td>
                 <td>
                     $!{item.liveRoom}

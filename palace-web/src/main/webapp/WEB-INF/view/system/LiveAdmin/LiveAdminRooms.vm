@@ -101,7 +101,7 @@
                     $!{item.liveRoom}
                 </td>
                 <td>
-                    $!{item.feature}
+                    $!{item.userDO.likeNickname}
                 </td>
                 <td>
                     $!{item.userId}

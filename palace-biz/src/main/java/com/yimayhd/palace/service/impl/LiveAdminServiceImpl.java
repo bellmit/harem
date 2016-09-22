@@ -1,15 +1,23 @@
 package com.yimayhd.palace.service.impl;
 
+import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.yimayhd.live.client.domain.record.*;
 import com.yimayhd.live.client.query.LiveAdminPageQuery;
 import com.yimayhd.live.client.query.LiveRoomPageQuery;
 import com.yimayhd.live.client.result.record.*;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.convert.LiveAdminConverter;
+import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
+import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.repo.LiveAdminRepo;
+import com.yimayhd.palace.repo.user.UserRepo;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.LiveAdminService;
+import com.yimayhd.user.client.domain.UserDO;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,20 +28,41 @@ public class LiveAdminServiceImpl implements LiveAdminService {
     @Resource
     private LiveAdminRepo liveAdminRepo;
 
+    @Autowired
+    private UserRepo userRepo;
+
     /**
      * 获取直播列表
      * @param pageQuery
      * @return
      */
     @Override
-    public PageVO<LiveRecordDO> getPageLiveRecord(LiveAdminPageQuery pageQuery){
+    public PageVO<LiveRecordVO> getPageLiveRecord(LiveAdminPageQuery pageQuery){
         LiveRecordPageResult liveRecordPageResult =  liveAdminRepo.getPageLiveRecord(pageQuery);
         if (liveRecordPageResult == null) {
-            return new PageVO<LiveRecordDO>();
+            return new PageVO<LiveRecordVO>();
         }
+        List<Long> userIds = new ArrayList<Long>();
+        List<LiveRecordVO> liveRecordVOList = new ArrayList<LiveRecordVO>();
         List<LiveRecordDO> liveRecordDOList = liveRecordPageResult.getList();
+        for (LiveRecordDO liveRecordDO : liveRecordDOList) {
+            liveRecordVOList.add(LiveAdminConverter.liveRecordDO2LiveRecordVO(liveRecordDO));
+            userIds.add(liveRecordDO.getUserId());
+        }
+        if(!CollectionUtils.isEmpty(userIds) ){
+            List<UserDO> userDOs = userRepo.getUsers(userIds);
+            if(userDOs.size() == liveRecordVOList.size()) {
+                for (int i = 0; i < userDOs.size(); i++) {
+                    UserDO userDO = userDOs.get(i);
+                    LiveRecordVO liveRecordVO = liveRecordVOList.get(i);
+                    if (userDO.getId() == liveRecordVOList.get(i).getUserId()) {
+                        liveRecordVO.setUserDO(userDO);
+                    }
+                }
+            }
+        }
         liveRecordPageResult.setPageSize(pageQuery.getPageSize());
-        return new PageVO<LiveRecordDO>(liveRecordPageResult.getPageNo(), liveRecordPageResult.getPageSize(), liveRecordPageResult.getTotalCount(), liveRecordDOList);
+        return new PageVO<LiveRecordVO>(liveRecordPageResult.getPageNo(), liveRecordPageResult.getPageSize(), liveRecordPageResult.getTotalCount(), liveRecordVOList);
     }
 
     /**
@@ -83,14 +112,32 @@ public class LiveAdminServiceImpl implements LiveAdminService {
      * @param liveRoomPageQuery
      * @return
      */
-    public PageVO<LiveRoomDO> getPageLiveRoom(LiveRoomPageQuery liveRoomPageQuery){
+    public PageVO<LiveRoomVO> getPageLiveRoom(LiveRoomPageQuery liveRoomPageQuery){
         LiveRoomPageResult liveRoomPageResult =  liveAdminRepo.getPageLiveRoom(liveRoomPageQuery);;
         if (liveRoomPageResult == null) {
-            return new PageVO<LiveRoomDO>();
+            return new PageVO<LiveRoomVO>();
         }
+        List<Long> userIds = new ArrayList<Long>();
+        List<LiveRoomVO> liveRoomVOList = new ArrayList<LiveRoomVO>();
         List<LiveRoomDO> liveRoomDOList = liveRoomPageResult.getList();
+        for (LiveRoomDO liveRoomDO : liveRoomDOList) {
+            liveRoomVOList.add(LiveAdminConverter.liveRoomDO2LiveRoomVO(liveRoomDO));
+            userIds.add(liveRoomDO.getUserId());
+        }
+        if(!CollectionUtils.isEmpty(userIds) ){
+            List<UserDO> userDOs = userRepo.getUsers(userIds);
+            if(userDOs.size() == liveRoomVOList.size()) {
+                for (int i = 0; i < userDOs.size(); i++) {
+                    UserDO userDO = userDOs.get(i);
+                    LiveRoomVO liveRoomVO = liveRoomVOList.get(i);
+                    if (userDO.getId() == liveRoomVOList.get(i).getUserId()) {
+                        liveRoomVO.setUserDO(userDO);
+                    }
+                }
+            }
+        }
         liveRoomPageResult.setPageSize(liveRoomPageQuery.getPageSize());
-        return new PageVO<LiveRoomDO>(liveRoomPageResult.getPageNo(), liveRoomPageResult.getPageSize(), liveRoomPageResult.getTotalCount(), liveRoomDOList);
+        return new PageVO<LiveRoomVO>(liveRoomPageResult.getPageNo(), liveRoomPageResult.getPageSize(), liveRoomPageResult.getTotalCount(), liveRoomVOList);
     }
 
     /**
