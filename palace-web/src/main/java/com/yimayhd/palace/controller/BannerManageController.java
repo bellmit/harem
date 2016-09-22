@@ -81,6 +81,7 @@ public class BannerManageController extends BaseController {
         PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
         model.addAttribute("pageVo",pageVO);
         model.addAttribute("query",baseQuery);
+        model.addAttribute("showcaseStatus",ShowcaseStauts.ONLINE.getStatus());
         return "/system/banner/booth/list";
     }
 
@@ -129,8 +130,11 @@ public class BannerManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/showcase/list/{boothCode}", method = RequestMethod.GET)
-    public String showcaseList(Model model,ShowcaseQuery showcaseQuery, @PathVariable(value = "boothCode") String boothCode,int pageNumber) throws Exception {
-        showcaseQuery.setPageNo( 0 == pageNumber ? Constants.DEFAULT_PAGE_NUMBER : pageNumber );
+    public String showcaseList(Model model,ShowcaseQuery showcaseQuery, @PathVariable(value = "boothCode") String boothCode,Integer pageNumber) throws Exception {
+    	if( pageNumber == null ){
+    		pageNumber = Constants.DEFAULT_PAGE_NUMBER ;
+    	}
+        showcaseQuery.setPageNo( pageNumber );
         PageVO<ShowCaseResult> page = showcaseService.getShowcaseResult(showcaseQuery);
         model.addAttribute("pageVo",page);
         model.addAttribute("boothCode",boothCode);
@@ -138,6 +142,7 @@ public class BannerManageController extends BaseController {
         model.addAttribute("appVersionCode",showcaseQuery.getAppVersionCode());
         model.addAttribute("pageNumber",showcaseQuery.getPageNo());
         model.addAttribute("showcaseQuery",showcaseQuery);
+        model.addAttribute("statuses",ShowcaseStauts.values());
         return "/system/banner/showcase/list";
     }
 
