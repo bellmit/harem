@@ -1,12 +1,17 @@
 package com.yimayhd.palace.service;
 
-import com.yimayhd.live.client.domain.record.*;
+import com.yimayhd.live.client.domain.record.CloseLiveRoomDTO;
+import com.yimayhd.live.client.domain.record.LiveRoomDO;
+import com.yimayhd.live.client.domain.record.UpdateLiveOrderDTO;
+import com.yimayhd.live.client.domain.record.UpdateLiveRecordStatusDTO;
 import com.yimayhd.live.client.query.LiveAdminPageQuery;
 import com.yimayhd.live.client.query.LiveRoomPageQuery;
-import com.yimayhd.live.client.result.record.*;
+import com.yimayhd.live.client.result.record.CloseLiveResult;
+import com.yimayhd.live.client.result.record.CreateLiveRoomResult;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
+import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.result.BizResult;
-import com.yimayhd.palace.model.LiveAdmin.*;
 
 /**
  * Created by haozhu on 16/9/21.
