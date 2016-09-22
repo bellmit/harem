@@ -261,8 +261,10 @@ public class BannerManageController extends BaseController {
         }else if(Constant.SHOWCASE_NEST_BOOTH_LIST == type){//booth列表
             return "/system/banner/showcase/chooseItemListVersion";
         }else if(Constant.LIVE_PLAYBACK_LIST == type ){
+        	//FIXME 朱浩
         	return "/system/banner/showcase/chooseLivePlaybackDetail";
         }else if(Constant.LIVE_ROOM_LIST ==type){
+        	//FIXME 朱浩
         	return "/system/banner/showcase/chooseLiveRoomDetail";
         }
 
@@ -322,6 +324,12 @@ public class BannerManageController extends BaseController {
                 break;
             case Constant.SHOWCASE_CATEGORY_LIST://品类
                 result = getCategoryList(pageNumber,pageSize,result,keyWord);
+            case Constant.LIVE_PLAYBACK_LIST:
+            	//FIXME 朱浩
+            	result =  null;
+            case Constant.LIVE_ROOM_LIST:
+            	//FIXME 朱浩
+            	result =  null;
                 break;
             /*case Constant.SHOWCASE_VIEW_TOPIC_LIST ://选话题列表
                 getScenicList(pageNumber,pageSize,result,keyWord);
