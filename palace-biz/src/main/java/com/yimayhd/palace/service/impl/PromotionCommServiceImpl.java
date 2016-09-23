@@ -1,10 +1,6 @@
 package com.yimayhd.palace.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.alibaba.dubbo.common.json.JSONObject;
 import com.yimayhd.activitycenter.query.ActivityPromotionQueryDTO;
@@ -434,9 +430,11 @@ public class PromotionCommServiceImpl implements PromotionCommService {
                     gifts.add(giftVO);
                 }
             }
+            Collections.reverse(gifts);
             promotionVO.setGifts(gifts);
             promotionVOList.add(promotionVO);
         }
+        Collections.reverse(promotionVOList);
         actActivityEditVO.setActActivityVO(actActivityVO);
         actActivityEditVO.setPromotionVOList(promotionVOList);
         return actActivityEditVO;

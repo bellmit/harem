@@ -37,10 +37,14 @@
             <td align="left">
                 <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")" id="startDate" disabled/>
                 <font>至</font>
-                #if($!actActivityEditVO.actActivityVO.status==2 || $!actActivityEditVO.actActivityVO.status==1)
-                    <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")" id="endDate"/>
-                #else
+                #if($!onlyshow)
                     <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")" id="endDate" disabled/>
+                #else
+                    #if($!actActivityEditVO.actActivityVO.status==2 || $!actActivityEditVO.actActivityVO.status==1)
+                        <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")" id="endDate"/>
+                    #else
+                        <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")" id="endDate" disabled/>
+                    #end
                 #end
             </td>
         </tr>
@@ -97,12 +101,15 @@
                 #end
             </table>
         #end
+    #end
+    #if($!onlyshow)
+    #else
+        #if($actActivityEditVO.actActivityVO.status==1 || $actActivityEditVO.actActivityVO.status==2)
+        <p class ="sBtn">
+            <a class = "btn btn-primary themeStop" id="updateBtn">保存</a>
+            <a class = "btn btn-primary themeStop" id="closeBtn">取消</a>
+        </p>
         #end
-    #if($actActivityEditVO.actActivityVO.status==1 || $actActivityEditVO.actActivityVO.status==2)
-    <p class ="sBtn">
-        <a class = "btn btn-primary themeStop" id="updateBtn">保存</a>
-        <a class = "btn btn-primary themeStop" id="closeBtn">取消</a>
-    </p>
     #end
 </div>
 <input type="hidden" id="actionDefaultPath" value="$!utilWebconfig.getActionDefaultFontPath()" />

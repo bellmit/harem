@@ -71,6 +71,11 @@
                              编辑
                         </button>
                         #end
+                        #if($!promotion.status == 2)
+                            <button type="button" class="btn btn-primary themeEditing" promotionStatus="$promotion.status" promotioId="$promotion.id">
+                                编辑
+                            </button>
+                        #end
                         #if($!promotion.status != 4 && $!promotion.status != 3)
                             <button type="button" class="btn btn-primary themeStop" themeId="$promotion.id">停用</button>
                         #end
@@ -139,6 +144,12 @@
                 top.tabsAdd("",url,2,$(this).text());
             });
         });
+        $('.themeEditing').each(function () {
+            $(this).click(function(){
+                var url = actionDefaultPath + '/GF/giftActivityManage/editing/'+ $(this).attr('promotioId');
+                top.tabsAdd("",url,2,$(this).text());
+            });
+        })
         $('#btnSubmit').click(function(){
             if($('.beginTime').val() && $('.endTime').val()){
                 if($('.beginTime').val() > $('.endTime').val()){

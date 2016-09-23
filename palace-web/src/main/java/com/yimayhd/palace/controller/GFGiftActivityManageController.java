@@ -79,7 +79,18 @@ public class GFGiftActivityManageController {
             return "/error";
         }
     }
-
+    @RequestMapping("/editing/{id}")
+    public String toEditingGiftActivity(Model model, @PathVariable(value = "id") long id){
+        try {
+            ActActivityEditVO actActivityEditVO = promotionCommService.getGiftById(id);
+            model.addAttribute("actActivityEditVO", actActivityEditVO);
+            model.addAttribute("onlyshow", false);
+            return "/system/gfgiftactivity/show";
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+            return "error";
+        }
+    }
     /**
      * 下架
      *
@@ -128,6 +139,7 @@ public class GFGiftActivityManageController {
         try {
             ActActivityEditVO actActivityEditVO = promotionCommService.getGiftById(id);
             model.addAttribute("actActivityEditVO", actActivityEditVO);
+            model.addAttribute("onlyshow", true);
             return "/system/gfgiftactivity/show";
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
