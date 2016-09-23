@@ -103,15 +103,18 @@
             </table>
         #end
     #end
-    #if($!onlyshow)
-    #else
-        #if($actActivityEditVO.actActivityVO.status==1 || $actActivityEditVO.actActivityVO.status==2)
+
         <p class ="sBtn">
-            <a class = "btn btn-primary themeStop" id="updateBtn">保存</a>
-            <a class = "btn btn-primary themeStop" id="closeBtn">取消</a>
+            #if($!onlyshow)
+                <a class = "btn btn-primary themeStop" id="closeBtn">返回</a>
+            #else
+                #if($actActivityEditVO.actActivityVO.status==1 || $actActivityEditVO.actActivityVO.status==2)
+                    <a class = "btn btn-primary themeStop" id="updateBtn">保存</a>
+                    <a class = "btn btn-primary themeStop" id="closeBtn">取消</a>
+                #end
+            #end
         </p>
-        #end
-    #end
+    
 </div>
 <input type="hidden" id="actionDefaultPath" value="$!utilWebconfig.getActionDefaultFontPath()" />
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
