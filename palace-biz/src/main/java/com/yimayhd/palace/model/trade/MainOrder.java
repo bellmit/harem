@@ -39,6 +39,7 @@ public class MainOrder {
     private long oldFee;//改价前的原始订单金额
     private long adjustFee;//改价后的订单金额
     private String adjustRemark;//改价后的备注
+    private long mainOrderTotalChangeFee;//异常流订单实付金额
 
     public long getAdjustFee() {
         return adjustFee;
@@ -201,5 +202,13 @@ public class MainOrder {
 
     public void setGyCode(String gyCode) {
         this.gyCode = gyCode;
+    }
+
+    public long getMainOrderTotalChangeFee() {
+        return mainOrderTotalChangeFee;
+    }
+
+    public void setMainOrderTotalChangeFee(long mainOrderTotalChangeFee) {
+        this.mainOrderTotalChangeFee = mainOrderTotalChangeFee;
     }
 }

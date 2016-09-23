@@ -24,6 +24,8 @@ public class JiuxiuTcMainOrder extends TcMainOrder implements Serializable{
     private long iteamPrice_;
     
     private long userPointNum;
+
+	private long mainOrderTotalChangeFee;//异常流订单实付金额
     
 	public JiuxiuTcBizOrder getJiuxiuTcBizOrder() {
 		return jiuxiuTcBizOrder;
@@ -62,6 +64,12 @@ public class JiuxiuTcMainOrder extends TcMainOrder implements Serializable{
 	public void setUserPointNum(long userPointNum) {
 		this.userPointNum = userPointNum;
 	}
-    
-    
+
+	public long getMainOrderTotalChangeFee() {
+		return mainOrderTotalChangeFee;
+	}
+
+	public void setMainOrderTotalChangeFee(long mainOrderTotalChangeFee) {
+		this.mainOrderTotalChangeFee = mainOrderTotalChangeFee;
+	}
 }

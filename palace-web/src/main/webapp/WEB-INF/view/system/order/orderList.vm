@@ -102,7 +102,7 @@
                     <th>店铺名称/昵称</th>
                     <th>商户编号</th>
                     <th>订单状态</th>
-                    <th>订单总额</th>
+                    <th>实收款</th>
                     <th>操作</th>
                 </tr>
                     #foreach($order in $result)
@@ -188,7 +188,8 @@
                         
                         <td>
                             <div>
-                                $!utilNum.moneyTransform($!order.totalFee) <br/>
+                                #*$!utilNum.moneyTransform($!order.totalFee)*#
+                                    $!utilNum.moneyTransform($!order.mainOrderTotalChangeFee) <br/>
                                 #if($!order.value > 0) 满$!utilNum.moneyTransform($!order.requirement) <br/> 减$!utilNum.moneyTransform($!order.value) #end
                             </div>
                         </td>
