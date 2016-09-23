@@ -433,7 +433,7 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             promotionVO.setGifts(gifts);
             promotionVOList.add(promotionVO);
         }
-        Collections.reverse(promotionVOList);
+//        Collections.reverse(promotionVOList);
         actActivityEditVO.setActActivityVO(actActivityVO);
         actActivityEditVO.setPromotionVOList(promotionVOList);
         return actActivityEditVO;
