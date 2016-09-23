@@ -467,7 +467,7 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             PromotionDO promotionDO = new PromotionDO();
 
             promotionDO.setId(promotionVO.getId());
-            promotionDO.setTitle(actActivityVO.getTitle());
+            promotionDO.setTitle("GF满增活动");
             Double requirementY = Double.valueOf(promotionVO.getRequirementY().toString());
             promotionDO.setRequirement(Math.round(requirementY*100));
             promotionDO.setPromotionType(PromotionType.FREE_GIFT.getType());
