@@ -274,6 +274,7 @@ public class GuideConverter {
     }
 
     private static HashMap<String, GuideFocusDO> getMapFromList(List<GuideFocusDO> guideFocusDOList) {
+    	//FIXME 不要使用隐式类型转换，要指明对象类型
         HashMap hashMap = new HashMap();
         for (GuideFocusDO guideFocusDO : guideFocusDOList) {
             hashMap.put(guideFocusDO.getAudio(), guideFocusDO);
