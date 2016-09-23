@@ -2,6 +2,7 @@
 <script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
 <style>
     .layui-layer-content{color:#333;}
+    .gameName{width: 247px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display: inline-block;cursor: pointer;}
 </style>
 <form class="form-signin" id="giftActivityListForm" name="giftActivityListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/giftActivityManage/list" method="GET" role="form">
     <div class="inputGroup whole">
@@ -63,7 +64,7 @@
             #set($promotionList = $!pageVo.itemList)
             #foreach($promotion in $promotionList)
                 <tr>
-                    <td>$!promotion.title</td>
+                    <td><span class="gameName" title="$!promotion.title">$!promotion.title</span></td>
                     <td>$!utilDate.dateToString($!promotion.startDate,"yyyy-MM-dd HH:mm:ss")</td>
                     <td>$!utilDate.dateToString($!promotion.endDate,"yyyy-MM-dd HH:mm:ss")</td>
                     <td>#PROMOTION_STATUS($!promotion.status)</td>
