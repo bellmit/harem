@@ -102,7 +102,7 @@
                     <th>店铺名称/昵称</th>
                     <th>商户编号</th>
                     <th>订单状态</th>
-                    <th>实收款</th>
+                    <th>订单总额</th>
                     <th>操作</th>
                 </tr>
                     #foreach($order in $result)
