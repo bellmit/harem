@@ -115,11 +115,11 @@
                     <tbody>
                     <tr>
                         <td align="right"><s>*</s><font>赠品名称：</font></td>
-                        <td colspan="2"><input type = "text" class="txt name" value="$!gift.title"/></td>
+                        <td colspan="2"><input type = "text" class="txt name" value="$!gift.title"/><em class="blue">赠品名称最多不超过30个字</em></td>
                     </tr>
                     <tr>
                         <td align="right"><s>*</s><font>价格：</font></td>
-                        <td colspan="2"><input type="text" class="txt price" value="$!gift.priceY"/><font>元</font></td>
+                        <td colspan="2"><input type="text" class="txt price" value="$!gift.priceY"/><font>元</font><em class="blue">保留两位小数</em></td>
                     </tr>
                     <tr>
                         <td align="right"><s>*</s><font>赠品图：</font></td>
@@ -135,7 +135,7 @@
                                     <input type="hidden">
                                 </div>
                                 <input type="hidden" class="picVal" value="$!gift.imgUrl" />
-                            </div>
+                            </div><em class="blue">图片尺寸：64*64</em>
                         </td>
                         <td>
                             <a class="btn btn-primary themeStop addGoodsBtn" data-add="0">添加</a>
@@ -163,11 +163,11 @@
             <tbody>
             <tr>
                 <td align="right"><s>*</s><font>赠品名称：</font></td>
-                <td colspan="2"><input type = "text" class="txt name" value=""/></td>
+                <td colspan="2"><input type = "text" class="txt name" value=""/><em class="blue">赠品名称最多不超过30个字</em></td>
             </tr>
             <tr>
                 <td align="right"><s>*</s><font>价格：</font></td>
-                <td colspan="2"><input type="text" class="txt price" value=""/><font>元</font></td>
+                <td colspan="2"><input type="text" class="txt price" value=""/><font>元</font><em class="blue">保留两位小数</em></td>
             </tr>
             <tr>
                 <td align="right"><s>*</s><font>赠品图：</font></td>
@@ -183,7 +183,7 @@
                             <input type="hidden">
                         </div>
                         <input type="hidden" class="picVal" />
-                    </div>
+                    </div><em class="blue">图片尺寸：64*64</em>
                 </td>
                 <td>
                     <a class="btn btn-primary themeStop addGoodsBtn" data-add="0">添加</a>
