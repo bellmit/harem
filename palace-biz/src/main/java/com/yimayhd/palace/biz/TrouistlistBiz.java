@@ -62,7 +62,6 @@ public class TrouistlistBiz {
             return null;
         }
         GuideLineVO guideLineVO = new GuideLineVO();
-        //FIXME 朱浩 将第三方系统的调用放在Repo类中
         ICResult<GuideLineDTO> result = touristManageService.queryGuideLine(guideId);
         if (result == null) {
             guideLineVO.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
