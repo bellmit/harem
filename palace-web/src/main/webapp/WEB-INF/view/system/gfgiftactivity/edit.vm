@@ -26,6 +26,7 @@
             <td>
                 <input type="hidden" class="id" value="0"/>
                 <a class="btn addTableBtn" data-add="0">添加</a>
+                <a class="btn delTableBtn" data-add="0">删除</a>
             </td>
         </tr>
         </thead>
@@ -88,10 +89,10 @@
             <td align="right"><s>*</s><em>活动类型：</em></td>
             <td align="left">全场参加</td>
         </tr>
-        <tr>
-            <td align="right"><s>*</s><em>优惠设置：</em></td>
-            <td align="left"><em class="blue">注：所有赠品前台默认每款sku只能选择一个</em></td>
-        </tr>
+##        <tr>
+##            <td align="right"><s>*</s><em>优惠设置：</em></td>
+##            <td align="left"><em class="blue">注：所有赠品前台默认每款sku只能选择一个</em></td>
+##        </tr>
         </tbody>
     </table>
     #set($promotionVOList = $!actActivityEditVO.promotionVOList)
@@ -105,9 +106,7 @@
                     <td>
                         <input type="hidden" class="id" value="$!promotionVO.id"/>
                         <a class="btn addTableBtn" data-add="0">添加</a>
-                        #if($velocityCount>1)
-                            <a class="btn delTableBtn" data-add="0">删除</a>
-                        #end
+                        <a class="btn delTableBtn" data-add="0">删除</a>
                     </td>
                 </tr>
                 </thead>

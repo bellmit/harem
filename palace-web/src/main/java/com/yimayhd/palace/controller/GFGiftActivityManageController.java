@@ -11,6 +11,7 @@ import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.helper.PromotionHelper;
 import com.yimayhd.palace.model.*;
 import com.yimayhd.palace.model.query.ActPromotionPageQuery;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.PromotionCommService;
 import com.yimayhd.promotion.client.domain.PromotionDO;
 import com.yimayhd.promotion.client.enums.EntityType;
@@ -47,20 +48,20 @@ public class GFGiftActivityManageController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo add(@RequestBody ActActivityEditVO actActivityEditVO) throws Exception {
-        ResponseVo responseVo = new ResponseVo();
+    public BizResult<Boolean> add(@RequestBody ActActivityEditVO actActivityEditVO) throws Exception {
+        BizResult<Boolean> bizResult = new BizResult<Boolean>();
         try {
             Boolean result = promotionCommService.addGift(actActivityEditVO);
             if(result){
-                responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+                bizResult.setSuccess(true);
             } else {
-                responseVo.setStatus(ResponseStatus.UNSUCCESSFUL.VALUE);
+                bizResult.setSuccess(false);
             }
         } catch (Exception e){
-            responseVo.setStatus(ResponseStatus.UNSUCCESSFUL.VALUE);
-            responseVo.setMessage(e.getMessage());
+            bizResult.setSuccess(false);
+            bizResult.setMsg(e.getMessage());
         }
-        return responseVo;
+        return bizResult;
     }
 
     @RequestMapping(value="/toAdd", method = RequestMethod.GET)
@@ -99,15 +100,15 @@ public class GFGiftActivityManageController {
      */
     @RequestMapping(value = "/close/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo close(@PathVariable("id") long id) throws Exception {
-        ResponseVo responseVo = new ResponseVo();
+    public BizResult<Boolean> close(@PathVariable("id") long id) throws Exception {
+        BizResult<Boolean> bizResult = new BizResult<Boolean>();
         boolean result = promotionCommService.close(id);
         if(result) {
-            responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+            bizResult.setSuccess(true);
         } else {
-            responseVo.setStatus(ResponseStatus.UNSUCCESSFUL.VALUE);
+            bizResult.setSuccess(false);
         }
-        return responseVo;
+        return bizResult;
     }
 
     /**
@@ -118,20 +119,21 @@ public class GFGiftActivityManageController {
      */
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo endTime(@RequestBody ActActivityVO actActivityVO) throws Exception {
-        ResponseVo responseVo = new ResponseVo();
+    public BizResult<Boolean> endTime(@RequestBody ActActivityVO actActivityVO) throws Exception {
+        BizResult<Boolean> bizResult = new BizResult<Boolean>();
         try {
             Boolean reuslt = promotionCommService.updateGiftEndTime(actActivityVO);
             if(reuslt) {
-                responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+                bizResult.setSuccess(true);
             } else {
-                responseVo.setStatus(ResponseStatus.UNSUCCESSFUL.VALUE);
+                bizResult.setSuccess(false);
             }
 
         } catch (Exception e) {
-            responseVo.setStatus(ResponseStatus.UNSUCCESSFUL.VALUE);
+            bizResult.setSuccess(false);
+            bizResult.setMsg(e.toString());
         }
-        return responseVo;
+        return bizResult;
     }
 
     @RequestMapping("/show/{id}")
@@ -148,14 +150,14 @@ public class GFGiftActivityManageController {
     }
     @RequestMapping("/check")
     @ResponseBody
-    public ResponseVo check(@RequestBody ActActivityVO actActivityVO){
-        ResponseVo responseVo = new ResponseVo();
+    public BizResult<Boolean> check(@RequestBody ActActivityVO actActivityVO){
+        BizResult<Boolean> bizResult = new BizResult<Boolean>();
         Boolean result = promotionCommService.checkGift(actActivityVO);
         if(result) {
-            responseVo.setStatus(ResponseStatus.SUCCESS.VALUE);
+            bizResult.setSuccess(true);
         } else {
-            responseVo.setStatus(ResponseStatus.UNSUCCESSFUL.VALUE);
+            bizResult.setSuccess(false);
         }
-        return responseVo;
+        return bizResult;
     }
 }

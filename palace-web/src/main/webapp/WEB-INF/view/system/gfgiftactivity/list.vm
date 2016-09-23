@@ -117,7 +117,7 @@
             var url;
             url = '/GF/giftActivityManage/close/' + id;
             $.post(actionDefaultPath + url ,function(data){
-                if(data.status == 200){
+                if(data.success){
                     layer.msg('操作成功', {
                         icon: 1,
                         time: 1500

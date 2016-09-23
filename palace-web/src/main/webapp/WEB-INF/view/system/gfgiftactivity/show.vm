@@ -35,15 +35,16 @@
         <tr>
             <td align="right"><em>活动时间：</em></td>
             <td align="left">
-                <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")" id="startDate" disabled/>
+                $!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")
+                <input type = "hidden" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")" id="startDate" disabled/>
                 <font>至</font>
                 #if($!onlyshow)
-                    <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")" id="endDate" disabled/>
+                    $!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")
                 #else
                     #if($!actActivityEditVO.actActivityVO.status==2 || $!actActivityEditVO.actActivityVO.status==1)
                         <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")" id="endDate"/>
                     #else
-                        <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")" id="endDate" disabled/>
+                        $!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")
                     #end
                 #end
             </td>
@@ -52,10 +53,10 @@
             <td align="right"><em>活动类型：</em></td>
             <td align="left">全场参加</td>
         </tr>
-        <tr>
-            <td align="right"><em>优惠设置：</em></td>
-            <td align="left"><em class="blue">注：所有赠品前台默认每款sku只能选择一个</em></td>
-        </tr>
+##        <tr>
+##            <td align="right"><em>优惠设置：</em></td>
+##            <td align="left"><em class="blue">注：所有赠品前台默认每款sku只能选择一个</em></td>
+##        </tr>
         </tbody>
     </table>
     #set($promotionVOList = $!actActivityEditVO.promotionVOList)
@@ -65,7 +66,7 @@
                 <thead>
                 <tr>
                     <td align="left" width="20%">档一</td>
-                    <td width="50%"><font>满</font><input type = "text" class="txt price requirement" value="$!promotionVO.requirementY" disabled><font>元</font><font>赠</font></td>
+                    <td width="50%"><font>满</font>$!promotionVO.requirementY<font>元</font><font>赠</font></td>
                     <td>
                         <input type="hidden" class="id" value="$!promotionVO.id"/>
                     </td>
