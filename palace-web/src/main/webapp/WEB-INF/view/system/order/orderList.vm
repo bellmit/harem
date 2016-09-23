@@ -188,8 +188,8 @@
                         
                         <td>
                             <div>
-                                #*$!utilNum.moneyTransform($!order.totalFee)*#
-                                    $!utilNum.moneyTransform($!order.mainOrderTotalChangeFee) <br/>
+                                $!utilNum.moneyTransform($!order.totalFee)<br/>
+                                    #*$!utilNum.moneyTransform($!order.mainOrderTotalChangeFee)*#
                                 #if($!order.value > 0) 满$!utilNum.moneyTransform($!order.requirement) <br/> 减$!utilNum.moneyTransform($!order.value) #end
                             </div>
                         </td>
