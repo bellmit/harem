@@ -450,10 +450,13 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         Date startDate = new Date();
         Date endDate = new Date();
         try {
-            startDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getStartDateStr(), DateUtil.DAY_HORU_FORMAT);
+            startDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getStartDateStr()+":01", DateUtil.DATE_TIME_FORMAT);
             endDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT);
         } catch (Exception e) {
             e.printStackTrace();
+            log.error("PromotionCommService.convertStringToDateUseringFormats  actActivityVO: " + actActivityVO);
+            throw new Exception("时间格式错误");
+
         }
         List<PromotionDO> addPromotionDOList = new ArrayList<PromotionDO>();
         List<PromotionDO> updPromotionDOList = new ArrayList<PromotionDO>();
@@ -528,10 +531,10 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             promotionEditDTO.setAddPromotionDOList(addPromotionDOList);
             ActResultSupport baseResult = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
             if(baseResult == null){
-                log.error("PromotionCommService.addGift save  error: " + promotionEditDTO);
+                log.error("PromotionCommService.addGift save  promotionEditDTO: " + promotionEditDTO + "baseResult" + baseResult);
                 throw new BaseException("返回结果错误");
             } else if(!baseResult.isSuccess()){
-                log.error("PromotionCommService.addGift save error:" + promotionEditDTO);
+                log.error("PromotionCommService.addGift save promotionEditDTO:" + promotionEditDTO + "baseResult" + baseResult);
                 throw new BaseException(baseResult.getMsg());
             }
         }
