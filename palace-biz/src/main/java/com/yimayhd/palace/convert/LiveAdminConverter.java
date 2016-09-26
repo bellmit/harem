@@ -2,12 +2,17 @@ package com.yimayhd.palace.convert;
 
 import com.yimayhd.live.client.domain.record.LiveRecordDO;
 import com.yimayhd.live.client.domain.record.LiveRoomDO;
+import com.yimayhd.live.client.enums.LiveOrder;
 import com.yimayhd.live.client.query.LiveAdminPageQuery;
 import com.yimayhd.live.client.query.LiveRoomPageQuery;
 import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.query.LiveAdminQuery;
 import com.yimayhd.palace.model.query.LiveRoomQuery;
+import com.yimayhd.live.client.enums.LiveOrder;
+
+import static com.yimayhd.live.client.enums.LiveOrder.START_TIME_DESC;
+
 
 /**
  * Created by haozhu on 16/9/22.
@@ -80,7 +85,7 @@ public class LiveAdminConverter {
         liveAdminPageQuery.setOnlineCount(liveAdminQuery.getOnlineCount());
         liveAdminPageQuery.setStartSecondTime(liveAdminQuery.getStartSecondTime());
         liveAdminPageQuery.setReplaySecondTime(liveAdminQuery.getReplaySecondTime());
-        liveAdminPageQuery.setLiveOrder(liveAdminQuery.getLiveOrder());
+        liveAdminPageQuery.setLiveOrder(START_TIME_DESC);
         return liveAdminPageQuery;
     }
 

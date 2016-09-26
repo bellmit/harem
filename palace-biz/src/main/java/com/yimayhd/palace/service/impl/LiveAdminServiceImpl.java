@@ -2,16 +2,15 @@ package com.yimayhd.palace.service.impl;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.yimayhd.live.client.domain.record.*;
+import com.yimayhd.live.client.query.LiveAdminPageQuery;
+import com.yimayhd.live.client.query.LiveRoomPageQuery;
 import com.yimayhd.live.client.result.record.*;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.LiveAdminConverter;
-import com.yimayhd.palace.helper.apply.ApplyHelper;
 import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.query.LiveAdminQuery;
 import com.yimayhd.palace.model.query.LiveRoomQuery;
-import com.yimayhd.live.client.query.LiveAdminPageQuery;
-import com.yimayhd.live.client.query.LiveRoomPageQuery;
 import com.yimayhd.palace.repo.LiveAdminRepo;
 import com.yimayhd.palace.repo.user.UserRepo;
 import com.yimayhd.palace.result.BizResult;
@@ -44,7 +43,7 @@ public class LiveAdminServiceImpl implements LiveAdminService {
     public PageVO<LiveRecordVO> getPageLiveRecord(LiveAdminQuery pageQuery) {
         // 昵称和id同时输入 只有统一才会返回
         List<Long> userQueryIds = new ArrayList<Long>();
-        if (!pageQuery.getNickName().equals("")) {
+        if (pageQuery.getNickName() != null && !pageQuery.getNickName().equals("")) {
             List<UserDO> userDOs = userRepo.getUserByNickname(pageQuery.getNickName());
             if (userDOs.size() == 0)
                 return new PageVO<LiveRecordVO>();

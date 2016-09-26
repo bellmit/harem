@@ -4,8 +4,6 @@ import com.yimayhd.live.client.domain.record.CloseLiveRoomDTO;
 import com.yimayhd.live.client.domain.record.LiveRoomDO;
 import com.yimayhd.live.client.domain.record.UpdateLiveOrderDTO;
 import com.yimayhd.live.client.domain.record.UpdateLiveRecordStatusDTO;
-import com.yimayhd.live.client.query.LiveAdminPageQuery;
-import com.yimayhd.live.client.query.LiveRoomPageQuery;
 import com.yimayhd.live.client.result.record.CloseLiveResult;
 import com.yimayhd.live.client.result.record.CreateLiveRoomResult;
 import com.yimayhd.palace.base.PageVO;
