@@ -4,6 +4,7 @@ import java.text.ParseException;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.pay.client.model.enums.eleaccount.UserType;
@@ -47,7 +48,13 @@ public class AccountQuery extends BaseQuery {
 		}
     	
     	if(StringUtils.isNotEmpty(query.getUserId())){
-    		queryDO.setUserId(Long.parseLong(query.getUserId().trim()));
+    		
+    		String userIdStr = query.getUserId().trim();
+    		long userId = Long.parseLong(userIdStr);
+    		if(!userIdStr.equals(userId+"")){
+    			throw new BaseException("请输入正确的数字编号");
+    		}
+    		queryDO.setUserId(userId);
     	}
     	
     	int userType = 0;
