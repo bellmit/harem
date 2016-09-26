@@ -36,35 +36,35 @@
             <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
             <input type="text" class='form-control form-date startTimeEnd dateInp' readonly name="startTimeEnd" value="$!promotionListQuery.startTimeEnd">
         </div>
-        <div class="input-group inpSingle">
-                    <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">优惠类型：</button>
-                </span>
-            <select class="form-control" name="type">
-                <option value="0">全部</option>
-                #foreach($promotionType in $promotionTypeList)
-                    <option value="$!promotionType.type" #if($!promotionListQuery.type == $!promotionType.type) selected #end>$!promotionType.desc</option>
-                #end
-            </select>
-        </div>
+##        <div class="input-group inpSingle">
+##                    <span class="input-group-btn">
+##                    <button class="btn btn-default" type="button">优惠类型：</button>
+##                </span>
+##            <select class="form-control" name="type">
+##                <option value="0">全部</option>
+##                #foreach($promotionType in $promotionTypeList)
+##                    <option value="$!promotionType.type" #if($!promotionListQuery.type == $!promotionType.type) selected #end>$!promotionType.desc</option>
+##                #end
+##            </select>
+##        </div>
         <div class="btn-group">
             <button class="btn btn-primary" id="btnSubmit">查询</button>
         </div>
     </div>
     <div class="inputGroup whole">
-        <div class="input-group inpSingle">
-                    <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">优惠类型：</button>
-                </span>
-            <select class="form-control addPromotionType">
-                ##<option value="">请选择优惠类型</option>
-                #foreach($promotionType in $promotionTypeList)
-                    <option value="$!promotionType.type" #if($!promotionListQuery.promotionType == $!promotionType.type) selected #end>$!promotionType.desc</option>
-                #end
-            </select>
-        </div>
+##        <div class="input-group inpSingle">
+##                    <span class="input-group-btn">
+##                    <button class="btn btn-default" type="button">优惠类型：</button>
+##                </span>
+##            <select class="form-control addPromotionType">
+##                ##<option value="">请选择优惠类型</option>
+##                #foreach($promotionType in $promotionTypeList)
+##                    <option value="$!promotionType.type" #if($!promotionListQuery.promotionType == $!promotionType.type) selected #end>$!promotionType.desc</option>
+##                #end
+##            </select>
+##        </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-add">新增店铺优惠</button>
+            <button type="button" class="btn btn-add">新增店铺满减优惠</button>
         </div>
     </div>
     <div class="tableGroup whole">
@@ -119,14 +119,15 @@
 
     $(function(){
         $('.btn-add').click(function(){
-            if(!$('.addPromotionType').val() || $('.addPromotionType').val() != 2){
-                layer.msg('店铺优惠暂时只支持满减优惠', {
-                    icon: 2,
-                    time: 1500
-                });
-                return false;
-            }
-            var url = actionDefaultPath +'/GF/promotionShopManage/toAdd?promotionType=' + $('.addPromotionType').val();
+//            if(!$('.addPromotionType').val() || $('.addPromotionType').val() != 2){
+//                layer.msg('店铺优惠暂时只支持满减优惠', {
+//                    icon: 2,
+//                    time: 1500
+//                });
+//                return false;
+//            }
+//            var url = actionDefaultPath +'/GF/promotionShopManage/toAdd?promotionType=' + $('.addPromotionType').val();
+            var url = actionDefaultPath +'/GF/promotionShopManage/toAdd?promotionType=2';
             top.tabsAdd("",url,2,'优惠');
         });
 

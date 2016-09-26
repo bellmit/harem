@@ -587,7 +587,7 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         Date startDate = new Date();
         Date endDate = new Date();
         try {
-            startDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getStartDateStr(), DateUtil.DAY_HORU_FORMAT);
+            startDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getStartDateStr()+":01", DateUtil.DATE_TIME_FORMAT);
             endDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT);
         } catch (Exception e) {
             e.printStackTrace();
