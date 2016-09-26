@@ -2,8 +2,12 @@ package com.yimayhd.palace.convert;
 
 import com.yimayhd.live.client.domain.record.LiveRecordDO;
 import com.yimayhd.live.client.domain.record.LiveRoomDO;
+import com.yimayhd.live.client.query.LiveAdminPageQuery;
+import com.yimayhd.live.client.query.LiveRoomPageQuery;
 import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
+import com.yimayhd.palace.model.query.LiveAdminQuery;
+import com.yimayhd.palace.model.query.LiveRoomQuery;
 
 /**
  * Created by haozhu on 16/9/22.
@@ -57,5 +61,38 @@ public class LiveAdminConverter {
         liveRoomVO.setGmtCreated(liveRoomDO.getGmtCreated());
         liveRoomVO.setGmtModified(liveRoomDO.getGmtModified());
         return liveRoomVO;
+    }
+
+    // 直播列表查询
+    public static LiveAdminPageQuery liveAdminQuery2LiveAdminPageQuery(LiveAdminQuery liveAdminQuery) {
+        if (liveAdminQuery == null) {
+            return null;
+        }
+        LiveAdminPageQuery liveAdminPageQuery = new LiveAdminPageQuery();
+        liveAdminPageQuery.setLiveRoomId(liveAdminQuery.getLiveRoomId());
+        liveAdminPageQuery.setLiveCategory(liveAdminQuery.getLiveCategory());
+        liveAdminPageQuery.setLiveStatus(liveAdminQuery.getLiveStatus());
+        liveAdminPageQuery.setLocationCityCode(liveAdminQuery.getLocationCityCode());
+        liveAdminPageQuery.setLocationCityName(liveAdminQuery.getLocationCityName());
+        liveAdminPageQuery.setStartDate(liveAdminQuery.getStartDate());
+        liveAdminPageQuery.setEndDate(liveAdminQuery.getEndDate());
+        liveAdminPageQuery.setViewCount(liveAdminQuery.getViewCount());
+        liveAdminPageQuery.setOnlineCount(liveAdminQuery.getOnlineCount());
+        liveAdminPageQuery.setStartSecondTime(liveAdminQuery.getStartSecondTime());
+        liveAdminPageQuery.setReplaySecondTime(liveAdminQuery.getReplaySecondTime());
+        liveAdminPageQuery.setLiveOrder(liveAdminQuery.getLiveOrder());
+        return liveAdminPageQuery;
+    }
+
+    // 直播房间查询
+    public static LiveRoomPageQuery liveRoomQuery2LiveRoomPageQuery(LiveRoomQuery liveRoomQuery) {
+        if (liveRoomQuery == null) {
+            return null;
+        }
+        LiveRoomPageQuery liveRoomPageQuery = new LiveRoomPageQuery();
+//        liveRoomPageQuery.setUserIds(liveRoomQuery.getUserIds());
+//        liveRoomPageQuery.setLiveRoomIds(liveRoomQuery.getLiveRoomIds());
+        liveRoomPageQuery.setStatus(liveRoomQuery.getStatus());
+        return liveRoomPageQuery;
     }
 }

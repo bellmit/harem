@@ -33,28 +33,32 @@
         <table>
             <tbody><tr>
                 <td class="tit">达人昵称：</td>
-                <td><input name="nickname" maxlength="30"></td>
+                <td><input name="nickName" maxlength="30"></td>
                 <td class="tit">达人ID：</td>
-                <td><input name="talentID" maxlength="30"></td>
+                <td><input name="userId" maxlength="30"></td>
             </tr>
             <tr>
                 <td class="tit">房间号：</td>
-                <td><input name="roomNumber" maxlength="30"></td>
+                <td><input name="liveRoomId" maxlength="30"></td>
                 <td class="tit">直播分类：</td>
                 <td><select name="liveCategory">
                     <option value="0">全部</option>
                     <option value="1">启用</option>
                     <option value="2">禁用</option>
                 </select></td>
-                <td><button class="searchbtn">查询</button></td>
-                <td><button class="resetbtn">重置</button></td>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary submitBtn">查询</button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="btnReset">重置</button>
+                </div>
             </tr>
             </tbody></table>
     </form>
 </div>
 
 <div class="gridbox">
-    <table class="tbgrid">
+    <table class="table table-bordered table-hover" id="tbLiveAdminList">
         <thead>
         <tr><th>ID</th>
             <th>头图</th>
@@ -85,7 +89,7 @@
                     $!{item.liveCategory}
                 </td>
                 <td>
-                    $!{item.liveDes}
+                    $!{item.liveTitle}
                 </td>
                 <td>
                     $!{item.userDO.likeNickname}
@@ -106,27 +110,94 @@
                     $!{item.liveOrder}
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary weight" liveOrder="$!{item.liveOrder}">权重设置</button>
+                    <button type="button" class="btn btn-primary weight" liveRecordId="$!{item.liveRecordId}" liveOrder="$!{item.liveOrder}">权重设置</button>
                 </td>
             </tr>
             #end
         </tbody>
         ##  直播列表
-        ##  <tbody><tr id="row1"><td class="rowId">12309</td><td><img src="http://img0.imgtn.bdimg.com/it/u=3691748163,484693479&amp;fm=206&amp;gp=0.jpg" alt=""></td><td>吃饭</td><td>额</td><td>话题测试</td><td>达人昵称测试</td><td>123456</td><td>32432</td><td>2016-02-15 15:00</td><td>123</td><td class="priorityValue">45</td><td><label class="exam dialogBtn">权重设置</label></td></tr><tr id="row2"><td class="rowId">12310</td><td><img src="http://img0.imgtn.bdimg.com/it/u=3691748163,484693479&amp;fm=206&amp;gp=0.jpg" alt=""></td><td>吃饭</td><td>额</td><td>话题测试</td><td>达人昵称测试</td><td>123456</td><td>32432</td><td>2016-02-15 15:00</td><td>123</td><td class="priorityValue">40</td><td><label class="exam dialogBtn">权重设置</label></td></tr></tbody>
     </table>
     #*分页*#
     #parse("/page.vm")
     #pageStyle("liveAdminForm")
 
-##    <div class="pagebox">
-##        <div class="actionpage"><button class="prev">上一页</button><label>当前第 </label><label class="curpage">1</label><label> 页</label><button class="next">下一页</button></div>
-##        <div class="pageinfo"><label>共：</label><label class="totalPage">20</label><label>页，</label>
-##            <label class="totalCount">1000</label><label>条</label></div>
-##    </div>
-
 </div>
 
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
-<script type="text/javascript" src="../../src/js/module/md.livelist.js"></script>
-
 </body></html>
+
+<script type="text/javascript">
+    layer.config({
+        extend: 'extend/layer.ext.js',
+        extend: ['skin/mySkin/style.css'],
+        skin: 'layer-ext-mySkin'
+    });
+    function submitEdit(url, type, data) {
+        //alert(1);
+        $.ajax({
+            url: url,
+            type: type,
+            data: data,
+            success: function (res) {
+                if (res.success) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1500
+                    });
+                    setTimeout(function () {
+                        window.location.href = window.location.href;
+                    }, 1500);
+                } else {
+                    layer.msg(res.message, {
+                        icon: 2,
+                        time: 2000
+                    });
+                    $(this).prop('disabled', false);
+                }
+            },
+            error: function (xmlres, status, code) {
+                layer.msg('操作失败', {
+                    icon: 2,
+                    time: 2000
+                });
+                $(this).prop('disabled', false);
+            }
+        });
+    }
+
+    $("#btnReset").on("click",function(){
+        $("#tbLiveAdminList").find(".form-control").val('');
+    });
+
+    function setWeight() {
+        $("#tbLiveAdminList").on("click", ".weight", function () {
+            var liveRecordId = $(this).attr("liveRecordId");
+            layer.open({
+                type: 1, //page层
+                area: '400px',
+                btn: ['确定', '取消'],
+                title: '设置权重',
+                skin:"layui-layer-prompt",
+                shade: 0.6, //遮罩透明度
+                content: '<div style="padding:30px 50px;"><input type="text" class="layui-layer-input" placeholder="请输入1~9999范围内数字"></div>',
+                yes: function(index,layero) {
+                    var weight=layero.find(".layui-layer-input").val().trim();
+                    if(weight.length==0){
+                        layer.msg("请输入权重",{icon:2,time:1500});
+                        return false;
+                    }
+
+                    if(!(/^[1-9]\d{0,3}$/.test(weight))){
+                        layer.msg("请输入1~9999范围内的数字。",{icon:2,time:1500});
+                        return false;
+                    }
+
+                    var data = {liveOrder: weight, liveRecordId: liveRecordId}
+                    submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdminList/updateLiveOrder", "post", data);
+                }
+            });
+        });
+    }
+</script>
+
+

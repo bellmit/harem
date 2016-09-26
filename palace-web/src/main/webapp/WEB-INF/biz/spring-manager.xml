@@ -8,7 +8,7 @@
 	<bean id="commissionBiz" class="com.yimayhd.commission.biz.CommissionBiz" />
 	<bean id="itemRebateBiz" class="com.yimayhd.commission.biz.ItemRebateBiz" />
 	<bean id="userRelationBiz" class="com.yimayhd.commission.biz.UserRelationBiz" />
-	<bean id="LiveAdminBiz" class="com.yimayhd.palace.biz.LiveAdminBiz" />
+	<bean id="liveAdminBiz" class="com.yimayhd.palace.biz.LiveAdminBiz" />
 
 
 

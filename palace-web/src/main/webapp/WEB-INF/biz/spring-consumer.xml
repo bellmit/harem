@@ -18,4 +18,5 @@
     <import resource="spring-consumer-logistics.xml"/>
     <import resource="spring-consumer-promotion.xml"/>
     <import resource="spring-consumer-solr.xml"/>
+    <import resource="spring-consumer-live.xml"/>
 </beans>
