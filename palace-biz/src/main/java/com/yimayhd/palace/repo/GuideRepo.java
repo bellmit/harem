@@ -1,11 +1,27 @@
 package com.yimayhd.palace.repo;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.fhtd.logger.annot.MethodLogger;
 import com.yimayhd.ic.client.model.domain.ScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideAttractionDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicDO;
 import com.yimayhd.ic.client.model.domain.guide.GuideScenicTipsDO;
-import com.yimayhd.ic.client.model.dto.guide.*;
+import com.yimayhd.ic.client.model.dto.guide.AttractionFocusAddDTO;
+import com.yimayhd.ic.client.model.dto.guide.AttractionFocusDTO;
+import com.yimayhd.ic.client.model.dto.guide.AttractionFocusUpdateDTO;
+import com.yimayhd.ic.client.model.dto.guide.GuideAttractionQueryDTO;
+import com.yimayhd.ic.client.model.dto.guide.GuideCascadeAttractionDTO;
+import com.yimayhd.ic.client.model.dto.guide.GuideLineDTO;
+import com.yimayhd.ic.client.model.dto.guide.GuideScenicDTO;
+import com.yimayhd.ic.client.model.dto.guide.GuideScenicPageQueryDTO;
+import com.yimayhd.ic.client.model.dto.guide.GuideScenicUpdateDTO;
+import com.yimayhd.ic.client.model.dto.guide.GuideTipsUpdateDTO;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
@@ -13,11 +29,7 @@ import com.yimayhd.ic.client.service.guide.GuideService;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.error.PalaceReturnCode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
+import com.yimayhd.palace.result.BizResult;
 
 
 /**
@@ -405,6 +417,24 @@ public class GuideRepo {
             throw new BaseException(e, e.getMessage());
         }
 
+    }
+    // 新增景点
+    public BizResult<GuideAttractionDO> addAttractionAndFocusV2(AttractionFocusAddDTO attractionFocusAddDTO) {
+    	BizResult<GuideAttractionDO> rs = new BizResult<GuideAttractionDO>()	;
+    	try {
+    		ICResult<GuideAttractionDO> result = guideServiceRef.addAttractionAndFocus(attractionFocusAddDTO);
+    		if (result == null || !result.isSuccess() ) {
+    			//FIXME 如果错误code需要处理，那么转换成我们自己的code
+    			rs.setPalaceReturnCode(PalaceReturnCode.REMOTE_CALL_FAILED);
+    			return rs ;
+    		}
+    		rs.setValue(result.getModule());
+    	} catch (Exception e) {
+    		log.error("addAttractionAndFocus attractionFocusAddDTO={} exception={}", attractionFocusAddDTO, e);
+    		rs.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+    	}
+    	return rs ;
+    	
     }
 
     // 更新景点

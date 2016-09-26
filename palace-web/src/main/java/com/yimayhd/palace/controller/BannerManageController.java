@@ -81,6 +81,7 @@ public class BannerManageController extends BaseController {
         PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
         model.addAttribute("pageVo",pageVO);
         model.addAttribute("query",baseQuery);
+        model.addAttribute("showcaseStatus",ShowcaseStauts.ONLINE.getStatus());
         return "/system/banner/booth/list";
     }
 
@@ -129,8 +130,11 @@ public class BannerManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/showcase/list/{boothCode}", method = RequestMethod.GET)
-    public String showcaseList(Model model,ShowcaseQuery showcaseQuery, @PathVariable(value = "boothCode") String boothCode,int pageNumber) throws Exception {
-        showcaseQuery.setPageNo( 0 == pageNumber ? Constants.DEFAULT_PAGE_NUMBER : pageNumber );
+    public String showcaseList(Model model,ShowcaseQuery showcaseQuery, @PathVariable(value = "boothCode") String boothCode,Integer pageNumber) throws Exception {
+    	if( pageNumber == null ){
+    		pageNumber = Constants.DEFAULT_PAGE_NUMBER ;
+    	}
+        showcaseQuery.setPageNo( pageNumber );
         PageVO<ShowCaseResult> page = showcaseService.getShowcaseResult(showcaseQuery);
         model.addAttribute("pageVo",page);
         model.addAttribute("boothCode",boothCode);
@@ -138,6 +142,7 @@ public class BannerManageController extends BaseController {
         model.addAttribute("appVersionCode",showcaseQuery.getAppVersionCode());
         model.addAttribute("pageNumber",showcaseQuery.getPageNo());
         model.addAttribute("showcaseQuery",showcaseQuery);
+        model.addAttribute("statuses",ShowcaseStauts.values());
         return "/system/banner/showcase/list";
     }
 
@@ -260,6 +265,12 @@ public class BannerManageController extends BaseController {
             return "/system/banner/showcase/chooseDaRenMeiShiDetail";
         }else if(Constant.SHOWCASE_NEST_BOOTH_LIST == type){//booth列表
             return "/system/banner/showcase/chooseItemListVersion";
+        }else if(Constant.LIVE_PLAYBACK_LIST == type ){
+        	//FIXME 朱浩
+        	return "/system/banner/showcase/chooseLivePlaybackDetail";
+        }else if(Constant.LIVE_ROOM_LIST ==type){
+        	//FIXME 朱浩
+        	return "/system/banner/showcase/chooseLiveRoomDetail";
         }
 
 
@@ -318,6 +329,12 @@ public class BannerManageController extends BaseController {
                 break;
             case Constant.SHOWCASE_CATEGORY_LIST://品类
                 result = getCategoryList(pageNumber,pageSize,result,keyWord);
+            case Constant.LIVE_PLAYBACK_LIST:
+            	//FIXME 朱浩
+            	result =  null;
+            case Constant.LIVE_ROOM_LIST:
+            	//FIXME 朱浩
+            	result =  null;
                 break;
             /*case Constant.SHOWCASE_VIEW_TOPIC_LIST ://选话题列表
                 getScenicList(pageNumber,pageSize,result,keyWord);

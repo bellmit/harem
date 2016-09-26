@@ -46,6 +46,14 @@ public class Constant {
 
 
 	public static final int SHOWCASE_GUIDE_INFORMATION_LIST = 18;//导览列表
+	/**
+	 * 直播回放列表
+	 */
+	public static final int LIVE_PLAYBACK_LIST = 20;
+	/**
+	 * 直播房间列表
+	 */
+	public static final int LIVE_ROOM_LIST = 21;//导览列表
 
 	public static final String DOT = ".";
 	public static final String COMMA = ",";
