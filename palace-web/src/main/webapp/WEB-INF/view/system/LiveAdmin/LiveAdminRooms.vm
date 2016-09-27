@@ -100,7 +100,7 @@
                     $!{item.liveRoom}
                 </td>
                 <td>
-                    $!{item.userDO.likeNickname}
+                    $!{item.userDO.nickname}
                 </td>
                 <td>
                     $!{item.userId}

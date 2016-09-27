@@ -39,6 +39,10 @@ public class LiveRoomVO implements Serializable {
      */
     private long liveCategory;
     /**
+     * 直播分类标签
+     */
+    private String liveCategoryString;
+    /**
      * 直播公告
      */
     private String roomNotice;
@@ -107,6 +111,14 @@ public class LiveRoomVO implements Serializable {
 
     public void setLiveCategory(long liveCategory) {
         this.liveCategory = liveCategory;
+    }
+
+    public String getLiveCategoryString() {
+        return liveCategoryString;
+    }
+
+    public void setLiveCategoryString(String liveCategoryString) {
+        this.liveCategoryString = liveCategoryString;
     }
 
     public String getRoomNotice() {

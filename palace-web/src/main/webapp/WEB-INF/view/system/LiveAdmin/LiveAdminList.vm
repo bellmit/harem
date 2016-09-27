@@ -80,19 +80,19 @@
             <tr>
                 <td>$!{item.id}</td>
                 <td>
-                    <img src="$!utilWebconfig.getTfsRootPath()$!{item.liveCover}" width="150" height="90">
+                    <img src="$!{item.liveCover}" width="150" height="90">
                 </td>
                 <td>
                     $!{item.liveTitle}
                 </td>
                 <td>
-                    $!{item.liveCategory}
+                    $!{item.liveCategoryString}
                 </td>
                 <td>
                     $!{item.liveTitle}
                 </td>
                 <td>
-                    $!{item.userDO.likeNickname}
+                    $!{item.userDO.nickname}
                 </td>
                 <td>
                     $!{item.liveRoom}

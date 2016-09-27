@@ -239,5 +239,4 @@ public class GFTagManagerController {
 			return new ResponseVo(ResponseStatus.ERROR);
 		}
 	}
-
 }

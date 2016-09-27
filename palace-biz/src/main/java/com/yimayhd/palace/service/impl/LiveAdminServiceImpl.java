@@ -1,6 +1,9 @@
 package com.yimayhd.palace.service.impl;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.dto.TagOutIdAndTypeDTO;
+import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.live.client.domain.record.*;
 import com.yimayhd.live.client.query.LiveAdminPageQuery;
 import com.yimayhd.live.client.query.LiveRoomPageQuery;
@@ -11,6 +14,7 @@ import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.query.LiveAdminQuery;
 import com.yimayhd.palace.model.query.LiveRoomQuery;
+import com.yimayhd.palace.repo.CommentRepo;
 import com.yimayhd.palace.repo.LiveAdminRepo;
 import com.yimayhd.palace.repo.user.UserRepo;
 import com.yimayhd.palace.result.BizResult;
@@ -21,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by haozhu on 16/9/21.
@@ -33,6 +38,9 @@ public class LiveAdminServiceImpl implements LiveAdminService {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private CommentRepo commentRepo;
+
     /**
      * 获取直播列表
      *
@@ -41,7 +49,7 @@ public class LiveAdminServiceImpl implements LiveAdminService {
      */
     @Override
     public PageVO<LiveRecordVO> getPageLiveRecord(LiveAdminQuery pageQuery) {
-        // 昵称和id同时输入 只有统一才会返回
+        // 昵称和id同时输入查询 只有统一才会返回
         List<Long> userQueryIds = new ArrayList<Long>();
         if (pageQuery.getNickName() != null && !pageQuery.getNickName().equals("")) {
             List<UserDO> userDOs = userRepo.getUserByNickname(pageQuery.getNickName());
@@ -56,46 +64,76 @@ public class LiveAdminServiceImpl implements LiveAdminService {
                 }
                 if (userQueryIds.size() == 0)
                     return new PageVO<LiveRecordVO>();
-            }else {
+            } else {
                 for (UserDO userDO : userDOs) {
                     if (userDO.getId() == pageQuery.getUserId()) {
                         userQueryIds.add(userDO.getId());
                     }
                 }
             }
-        }else {
-            if(pageQuery.getUserId() >0)
+        } else {
+            if (pageQuery.getUserId() > 0)
                 userQueryIds.add(pageQuery.getUserId());
         }
+        // 查询直播列表
         LiveAdminPageQuery liveRoomPageQuery = LiveAdminConverter.liveAdminQuery2LiveAdminPageQuery(pageQuery);
-        if (userQueryIds.size()>0)
+        if (userQueryIds.size() > 0)
             liveRoomPageQuery.setUserIds(userQueryIds);
         LiveRecordPageResult liveRecordPageResult = liveAdminRepo.getPageLiveRecord(liveRoomPageQuery);
         if (liveRecordPageResult == null) {
             return new PageVO<LiveRecordVO>();
         }
         List<Long> userIds = new ArrayList<Long>();
+        List<Long> categorys = new ArrayList<Long>();
         List<LiveRecordVO> liveRecordVOList = new ArrayList<LiveRecordVO>();
         List<LiveRecordDO> liveRecordDOList = liveRecordPageResult.getList();
         for (LiveRecordDO liveRecordDO : liveRecordDOList) {
             liveRecordVOList.add(LiveAdminConverter.liveRecordDO2LiveRecordVO(liveRecordDO));
             userIds.add(liveRecordDO.getUserId());
+            categorys.add(liveRecordDO.getLiveCategory());
         }
-        // // TODO: 16/9/22 需要优化
+        // 获取昵称
         if (!CollectionUtils.isEmpty(userIds)) {
             List<UserDO> userDOs = userRepo.getUsers(userIds);
-            if (userDOs.size() == liveRecordVOList.size()) {
-                for (int i = 0; i < userDOs.size(); i++) {
-                    UserDO userDO = userDOs.get(i);
-                    LiveRecordVO liveRecordVO = liveRecordVOList.get(i);
-                    if (userDO.getId() == liveRecordVOList.get(i).getUserId()) {
+            for (int i = 0; i < liveRecordDOList.size(); i++) {
+                LiveRecordVO liveRecordVO = liveRecordVOList.get(i);
+                for (int j = 0; j < userDOs.size(); j++) {
+                    UserDO userDO = userDOs.get(j);
+                    if (userDO.getId() == liveRecordVO.getUserId()) {
                         liveRecordVO.setUserDO(userDO);
                     }
                 }
             }
         }
-        /// // TODO: 16/9/23 标签分类
 
+        // 直播分类
+//        TagOutIdAndTypeDTO tagOutIdAndTypeDTO = new TagOutIdAndTypeDTO();
+//        tagOutIdAndTypeDTO.setDomain(1200);
+//        tagOutIdAndTypeDTO.setOutIdList(categorys);
+//        tagOutIdAndTypeDTO.setOutType(TagType.LIVESHOW.name());
+//        Map<Long, List<ComTagDO>> result = commentRepo.getTagInfoByOutIdsAndType(tagOutIdAndTypeDTO);
+//        if (result != null && result.size() > 0) {
+//            for (int i = 0; i < liveRecordDOList.size(); i++) {
+//                LiveRecordVO liveRecordVO = liveRecordVOList.get(i);
+//                List<ComTagDO> comTagDOList = result.get(liveRecordVO.getLiveCategory());
+//                if (comTagDOList != null && comTagDOList.size() > 0) {
+//                    liveRecordVO.setLiveCategoryString(comTagDOList.get(0).getName());
+//                }
+//            }
+//        }
+        // 直播分类
+        List<ComTagDO> comTagDOList = commentRepo.selectTagsIn(categorys);
+        if (comTagDOList != null && comTagDOList.size() > 0) {
+            for (int i = 0; i < liveRecordDOList.size(); i++) {
+                LiveRecordVO liveRecordVO = liveRecordVOList.get(i);
+                for (int j = 0; j < comTagDOList.size(); j++) {
+                    ComTagDO comTagDO = comTagDOList.get(j);
+                    if (comTagDO.getId() == liveRecordVO.getLiveCategory()) {
+                        liveRecordVO.setLiveCategoryString(comTagDO.getName());
+                    }
+                }
+            }
+        }
         liveRecordPageResult.setPageSize(pageQuery.getPageSize());
         return new PageVO<LiveRecordVO>(liveRecordPageResult.getPageNo(), liveRecordPageResult.getPageSize(), liveRecordPageResult.getTotalCount(), liveRecordVOList);
     }
@@ -155,7 +193,7 @@ public class LiveAdminServiceImpl implements LiveAdminService {
     public PageVO<LiveRoomVO> getPageLiveRoom(LiveRoomQuery liveRoomQuery) {
         // 昵称和id同时输入 只有统一才会返回
         List<Long> userQueryIds = new ArrayList<Long>();
-        if (!liveRoomQuery.getNickName().equals("")) {
+        if (liveRoomQuery.getNickName() != null && !liveRoomQuery.getNickName().equals("")) {
             List<UserDO> userDOs = userRepo.getUserByNickname(liveRoomQuery.getNickName());
             if (userDOs.size() == 0)
                 return new PageVO<LiveRoomVO>();
@@ -168,20 +206,20 @@ public class LiveAdminServiceImpl implements LiveAdminService {
                 }
                 if (userQueryIds.size() == 0)
                     return new PageVO<LiveRoomVO>();
-            }else {
+            } else {
                 for (UserDO userDO : userDOs) {
                     if (userDO.getId() == liveRoomQuery.getUserId()) {
                         userQueryIds.add(userDO.getId());
                     }
                 }
             }
-        }else {
-            if(liveRoomQuery.getUserId() >0)
+        } else {
+            if (liveRoomQuery.getUserId() != null && liveRoomQuery.getUserId() > 0)
                 userQueryIds.add(liveRoomQuery.getUserId());
         }
         List<Long> liveQueryRoomIds = new ArrayList<Long>();
         LiveRoomPageQuery liveRoomPageQuery = LiveAdminConverter.liveRoomQuery2LiveRoomPageQuery(liveRoomQuery);
-        if (liveRoomQuery.getLiveRoomId() >0) {
+        if (liveRoomQuery.getLiveRoomId() != null && liveRoomQuery.getLiveRoomId() > 0) {
             liveQueryRoomIds.add(liveRoomQuery.getLiveRoomId());
             liveRoomPageQuery.setLiveRoomIds(liveQueryRoomIds);
         }
@@ -190,28 +228,28 @@ public class LiveAdminServiceImpl implements LiveAdminService {
             return new PageVO<LiveRoomVO>();
         }
         List<Long> userIds = new ArrayList<Long>();
+        List<Long> categorys = new ArrayList<Long>();
         List<LiveRoomVO> liveRoomVOList = new ArrayList<LiveRoomVO>();
         List<LiveRoomDO> liveRoomDOList = liveRoomPageResult.getList();
         for (LiveRoomDO liveRoomDO : liveRoomDOList) {
             liveRoomVOList.add(LiveAdminConverter.liveRoomDO2LiveRoomVO(liveRoomDO));
             userIds.add(liveRoomDO.getUserId());
+            categorys.add(liveRoomDO.getLiveCategory());
         }
-        // // TODO: 16/9/22 需要优化
+
+        // 获取昵称
         if (!CollectionUtils.isEmpty(userIds)) {
             List<UserDO> userDOs = userRepo.getUsers(userIds);
-            if (userDOs.size() == liveRoomVOList.size()) {
-                for (int i = 0; i < userDOs.size(); i++) {
-                    UserDO userDO = userDOs.get(i);
-                    LiveRoomVO liveRoomVO = liveRoomVOList.get(i);
-                    if (userDO.getId() == liveRoomVOList.get(i).getUserId()) {
+            for (int i = 0; i < liveRoomVOList.size(); i++) {
+                LiveRoomVO liveRoomVO = liveRoomVOList.get(i);
+                for (int j = 0; j < userDOs.size(); j++) {
+                    UserDO userDO = userDOs.get(j);
+                    if (userDO.getId() == liveRoomVO.getUserId()) {
                         liveRoomVO.setUserDO(userDO);
                     }
                 }
             }
         }
-        /// // TODO: 16/9/23 标签分类
-
-
         liveRoomPageResult.setPageSize(liveRoomQuery.getPageSize());
         return new PageVO<LiveRoomVO>(liveRoomPageResult.getPageNo(), liveRoomPageResult.getPageSize(), liveRoomPageResult.getTotalCount(), liveRoomVOList);
     }
