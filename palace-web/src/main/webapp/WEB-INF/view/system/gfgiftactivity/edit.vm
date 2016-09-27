@@ -89,10 +89,10 @@
             <td align="right"><s>*</s><em>活动类型：</em></td>
             <td align="left">全场参加</td>
         </tr>
-##        <tr>
-##            <td align="right"><s>*</s><em>优惠设置：</em></td>
-##            <td align="left"><em class="blue">注：所有赠品前台默认每款sku只能选择一个</em></td>
-##        </tr>
+        <tr>
+            <td align="right"></td>
+            <td align="left"><em class="blue">注：所有赠品前台默认每款sku只能选择一个</em></td>
+        </tr>
         </tbody>
     </table>
     #set($promotionVOList = $!actActivityEditVO.promotionVOList)
