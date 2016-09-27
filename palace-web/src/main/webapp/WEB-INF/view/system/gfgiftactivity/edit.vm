@@ -14,8 +14,8 @@
 #set($jses = [
     "$!root_path/resources/zui/lib/datetimepicker/datetimepicker.min.js"
 ])
-#set($full_price_tips="满增金额需大于0.01且最多保留两位小数！")
-#set($gift_price_tips="赠品价格大于0.01且最多保留两位小数！")
+#set($full_price_tips="满赠金额需大于等于1元且最多保留两位小数！")
+#set($gift_price_tips="赠品价格大于0.01元且最多保留两位小数！")
 <!--[if lt IE 8]>
 <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
 <![endif]-->
