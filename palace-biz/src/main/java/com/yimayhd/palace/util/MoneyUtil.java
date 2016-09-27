@@ -40,7 +40,7 @@ public class MoneyUtil {
 	}
 
 	public static String moneyY(Double money) {
-		return new java.text.DecimalFormat("#.00").format(money);
+		return new java.text.DecimalFormat("######0.00").format(money);
 	}
 	public static String centToYuanMoneyFormat(long money) {
 		return moneyFormat(money * 0.01);
