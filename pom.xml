@@ -30,7 +30,8 @@
 		<resourcecenter.client.version>2.1.6-SNAPSHOT</resourcecenter.client.version>
 		<membercenter.client.version>1.1.7-SNAPSHOT</membercenter.client.version>
 		<paycore.client.version>1.0.2-SNAPSHOT</paycore.client.version>
-		<tradecenter.client.version>1.0.15-SNAPSHOT</tradecenter.client.version>
+		<tradecenter.client.version>1.1.0-SNAPSHOT</tradecenter.client.version>
+
 		<fhtd.version>0.1.0-SNAPSHOT</fhtd.version>
 		<logback.version>1.1.1</logback.version>
 		<commons.io.version>2.4</commons.io.version>
@@ -697,7 +698,13 @@
 				<artifactId>refund-client</artifactId>
 				<version>${refund.version}</version>
 			</dependency>
-
+<!-- <<<<<<< HEAD -->
+			<dependency>
+				<groupId>com.yimayhd.solrsearch</groupId>
+  				<artifactId>solrsearch-client</artifactId>
+				<version>${solrsearch.version}</version>
+<!-- ======= -->
+			</dependency>
 			<dependency>
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi</artifactId>
@@ -707,6 +714,7 @@
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi-ooxml</artifactId>
 				<version>3.7-beta3</version>
+<!-- >>>>>>> remotes/origin/master -->
 			</dependency>
 			<dependency>
 				<groupId>com.yimayhd.solrsearch</groupId>
@@ -729,6 +737,4 @@
 
 
 	</dependencyManagement>
-
 </project>
-

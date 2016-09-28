@@ -1,6 +1,7 @@
 package com.yimayhd.palace.service;
 
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.model.attachment.AttachmentListQuery;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.resourcecenter.dto.MediaDTO;
@@ -34,7 +35,7 @@ public interface AttachmentManageService {
      * @param attachmentVO
      * @return
      */
-    public boolean updateAttachment(AttachmentVO attachmentVO);
+    public CheckResult updateAttachment(AttachmentVO attachmentVO);
 
     /**
      * 上架
@@ -42,7 +43,7 @@ public interface AttachmentManageService {
      * @param attachmentId
      * @return
      */
-    public boolean upStatus(final long attachmentId);
+    public CheckResult upStatus(final long attachmentId);
 
     /**
      * 下架
@@ -50,7 +51,7 @@ public interface AttachmentManageService {
      * @param attachmentId
      * @return
      */
-    public boolean downStatus(final long attachmentId);
+    public CheckResult downStatus(final long attachmentId);
 
 
     /**

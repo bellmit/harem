@@ -2,8 +2,10 @@ package com.yimayhd.palace.service.impl;
 
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.AttachmentBiz;
+import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.convert.AttachmentConverter;
+import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.attachment.AttachmentListQuery;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.palace.repo.MediaClientRepo;
@@ -108,8 +110,17 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
      * @return
      */
     @Override
-    public boolean updateAttachment(AttachmentVO attachmentVO) {
-        return mediaClientRepo.updateMedia(AttachmentConverter.attachmentVO2MediaDTO(attachmentVO));
+    public CheckResult updateAttachment(AttachmentVO attachmentVO) {
+        CheckResult checkResult = new CheckResult();
+        MediaDTO mediaDTO = mediaClientRepo.getMediaById(attachmentVO.getId());
+        if (mediaDTO == null) {
+            checkResult.setSuccess(false);
+            checkResult.setPalaceReturnCode(PalaceReturnCode.ADD_ATTACHMENT_ERROR_UP_STATUS);
+            return checkResult;
+        }
+        boolean result = mediaClientRepo.updateMedia(AttachmentConverter.attachmentVO2MediaDTO(attachmentVO));
+        checkResult.setSuccess(result);
+        return checkResult;
     }
 
     /**
@@ -119,8 +130,22 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
      * @return
      */
     @Override
-    public boolean upStatus(long attachmentId) {
-        return mediaClientRepo.updateMediaStatus(attachmentId, MediaFileStatus.ON);
+    public CheckResult upStatus(long attachmentId) {
+        CheckResult checkResult = new CheckResult();
+        MediaDTO mediaDTO = mediaClientRepo.getMediaById(attachmentId);
+        if (mediaDTO == null) {
+            checkResult.setSuccess(false);
+            checkResult.setPalaceReturnCode(PalaceReturnCode.ADD_ATTACHMENT_ERROR_UP_STATUS);
+            return checkResult;
+        }
+        if (mediaDTO.getDuration() <= 0) {
+            checkResult.setSuccess(false);
+            checkResult.setPalaceReturnCode(PalaceReturnCode.ADD_ATTACHMENT_ERROR_UP_STATUS_DURATION);
+            return checkResult;
+        }
+        boolean result = mediaClientRepo.updateMediaStatus(attachmentId, MediaFileStatus.ON);
+        checkResult.setSuccess(result);
+        return checkResult;
     }
 
     /**
@@ -130,8 +155,17 @@ public class AttachmentManageServiceImpl implements AttachmentManageService {
      * @return
      */
     @Override
-    public boolean downStatus(long attachmentId) {
-        return mediaClientRepo.updateMediaStatus(attachmentId, MediaFileStatus.OFF);
+    public CheckResult downStatus(long attachmentId) {
+        CheckResult checkResult = new CheckResult();
+        MediaDTO mediaDTO = mediaClientRepo.getMediaById(attachmentId);
+        if (mediaDTO == null) {
+            checkResult.setSuccess(false);
+            checkResult.setPalaceReturnCode(PalaceReturnCode.ADD_ATTACHMENT_ERROR_UP_STATUS);
+            return checkResult;
+        }
+        boolean result = mediaClientRepo.updateMediaStatus(attachmentId, MediaFileStatus.OFF);
+        checkResult.setSuccess(result);
+        return checkResult;
     }
 
     /**
