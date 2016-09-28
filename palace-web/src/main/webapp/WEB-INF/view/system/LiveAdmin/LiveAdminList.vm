@@ -1,12 +1,12 @@
-<html><head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>直播列表</title>
-    <link rel="stylesheet" href="../../src/css/base.css">
-    <link rel="stylesheet" href="../../src/css/live/livelist.css">
-</head>
-<body>
+##<html><head>
+##    <meta charset="utf-8">
+##    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+##    <meta name="viewport" content="width=device-width, initial-scale=1">
+##    <title>直播列表</title>
+##    <link rel="stylesheet" href="../../src/css/base.css">
+##    <link rel="stylesheet" href="../../src/css/live/livelist.css">
+##</head>
+##<body>
 <div class="dialog" style="display: none;">
     <div class="bgmeng"></div>
     <div class="dlgcont">
@@ -28,18 +28,18 @@
 </div>
 
 <div class="searchbox">
-    <form id="liveAdminForm" name="liveAdminList" method="post"
-          action="$utilWebconfig.getStaticResourcesPath()/jiuxiu/liveAdmin/liveAdminList">
+    <form id="liveAdminForm" name="liveAdminForm"
+          action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/liveAdminList">
         <table>
             <tbody><tr>
                 <td class="tit">达人昵称：</td>
-                <td><input name="nickName" maxlength="30"></td>
+                <td><input class="form-control" name="nickName" maxlength="30" value="$!{liveAdminQuery.nickName}"></td>
                 <td class="tit">达人ID：</td>
-                <td><input name="userId" maxlength="30"></td>
+                <td><input class="form-control" name="userId" maxlength="30" value="$!{liveAdminQuery.userId}"></td>
             </tr>
             <tr>
                 <td class="tit">房间号：</td>
-                <td><input name="liveRoomId" maxlength="30"></td>
+                <td><input class="form-control" name="liveRoomId" maxlength="30" value="$!{liveAdminQuery.liveRoomId}"></td>
                 <td class="tit">直播分类：</td>
                 <td><select name="liveCategory">
                     <option value="0">全部</option>
@@ -53,7 +53,8 @@
                     <button class="btn btn-primary" id="btnReset">重置</button>
                 </div>
             </tr>
-            </tbody></table>
+            </tbody>
+    </table>
     </form>
 </div>
 
@@ -117,14 +118,13 @@
         </tbody>
         ##  直播列表
     </table>
-    #*分页*#
-    #parse("/page.vm")
-    #pageStyle("liveAdminForm")
-
 </div>
-
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
-</body></html>
+##</body></html>
+
+#*分页*#
+#parse("/page.vm")
+#pageStyle("liveAdminForm")
 
 <script type="text/javascript">
     layer.config({
@@ -166,7 +166,7 @@
     }
 
     $("#btnReset").on("click",function(){
-        $("#tbLiveAdminList").find(".form-control").val('');
+        $("#liveAdminForm").find(".form-control").val('');
     });
 
     function setWeight() {

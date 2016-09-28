@@ -44,10 +44,10 @@ public class LiveAdminController extends BaseController {
     @RequestMapping(value = "/liveAdminList", method = RequestMethod.GET)
     public String liveList(Model model, LiveAdminQuery liveAdminQuery) throws Exception {
         try {
-            PageVO<LiveRecordVO> pageVO = liveAdminService.getPageLiveRecord(liveAdminQuery);
-            model.addAttribute("pageVO", pageVO);
+            PageVO<LiveRecordVO> pageVo = liveAdminService.getPageLiveRecord(liveAdminQuery);
+            model.addAttribute("pageVo", pageVo);
             model.addAttribute("liveAdminQuery", liveAdminQuery);
-            model.addAttribute("itemList", pageVO.getItemList());
+            model.addAttribute("itemList", pageVo.getItemList());
             return "/system/LiveAdmin/LiveAdminList";
         } catch (Exception e) {
             log.error(e.getMessage(), e);
