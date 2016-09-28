@@ -1,0 +1,138 @@
+
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/datetimepicker.min.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/topic.css"/>		
+		
+<!--[if lt IE 8]>
+    <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
+<![endif]-->
+<div class="topicbox">
+	<form class="form-signin" id="queryForm" name="topicListForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/audit/summary" method="GET" role="form">
+		
+		<div class="inputGroup whole">
+			<div class="input-group inpSingle">
+				<span class="input-group-btn">
+                    <button class="btn btn-default" type="button">对账日期</button>
+                </span>
+				<input type="text" class="form-control form-date dateInp" readonly id="auditDate" name="auditDate" value="$!query.auditDate">
+			</div>
+			<div class="input-group inpSingle ">
+				<span class="input-group-btn">
+                    <button class="btn btn-default" type="button">对账渠道</button>
+                </span>
+				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="auditType">
+                    <option value="">全部</option>
+                    #AUDIT_TYPE_OPTION($!{query.auditType})
+                </select>
+			</div>
+			<div class="input-group inpSingle ">
+				<span class="input-group-btn">
+                    <button class="btn btn-default" type="button">对账结果</button>
+                </span>
+				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="auditResultStatus">
+                    <option value="">全部</option>
+                    <option value="4" #if($query.auditResultStatus == 4) selected="selected" #end >对账相符</option>
+                    <option value="5" #if($query.auditResultStatus == 5) selected="selected" #end >对账不符</option>
+                </select>
+			</div>
+			<div class="btn-group">
+				<button type="submit" class="btn btn-primary search">查询</button>
+			</div>
+			<div class="btn-group">
+				<button type="button" class="btn btn-primary reset">重置</button>
+			</div>
+		</div>
+		
+		<div class="tableGroup whole">
+			<table class="table table-hover topicTable">
+				<tbody>
+					<tr>
+						<th>对账时间</th>
+						<th>对账渠道</th>
+						<th>平台支付金额 </th>
+						<th>银行支付金额 </th>
+						<th>平台支付笔数 </th>
+						<th>银行支付笔数 </th>
+						<th>差异笔数  </th>
+						<th>差异金额</th>
+						<th>对账结果</th>
+						<th>操作</th>
+					</tr>
+					#foreach($item in $pageVo)
+					<tr>
+						#set($redFont = "")
+						#if($item.auditResultStatus == $AUDIT_FAIL)
+							#set($redFont = "color:red;")
+						#end
+						<td style="$!redFont" >$utilDate.dateToString($item.auditDate,'yyyy-MM-dd')</td>
+						<td style="$!redFont" >#AUDIT_TYPE($!{item.auditType})</td>
+						<td style="$!redFont" >$!item.platformTotalAmountYuan</td>
+						<td style="$!redFont" >$!item.oppositeTotalAmountYuan</td>
+						<td style="$!redFont" >$!item.platformTotalNum</td>
+						<td style="$!redFont" >$!item.oppositeTotalNum</td>
+						<td style="$!redFont" >$!item.failCount</td>
+						<td style="$!redFont" >$!item.diffAmountYuan</td>
+						<td style="$!redFont" >#AUDIT_RESULT_STATUS($!{item.auditResultStatus})</td>
+						<td style="$!redFont" >
+							<button type="button" class="btn btn-primary download" auditDate="$utilDate.dateToString($!{item.auditDate},'yyyy-MM-dd')" 
+							auditType="$!item.auditType" auditTypeDesc="#AUDIT_TYPE($!{item.auditType})">下载对账单</button>
+						</td>
+					</tr>
+					#end
+				</tbody>
+			</table>
+		</div>
+	</form>
+</div>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/plugin/datetimepicker.min.js" ></script>
+<script type="text/javascript">
+	
+	//对账日期默认为前一天
+	function setAuditPreDate(){
+		var today=new Date();
+	    var yesterdayMilliseconds=today.getTime()-1000*60*60*24;  
+	    var yesterday=new   Date();      
+	    yesterday.setTime(yesterdayMilliseconds);    
+	    $("#auditDate").val(yesterday.format("yyyy-MM-dd"));
+	}
+	
+	(function(){
+	
+		$(".form-date").datetimepicker({
+            language:  "zh-CN",
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0,
+            format: "yyyy-mm-dd"
+        });
+        
+        $('.download').click(function(){
+        
+        	var param = [];
+        	param.push("auditDate="+ $(this).attr("auditDate"));
+        	param.push("auditType="+ $(this).attr("auditType"));
+        	param.push("auditTypeDesc="+ $(this).attr("auditTypeDesc"));
+        	
+	        var url = '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/audit/download?'+ param.join("&");
+			window.open(url);
+	    });
+        
+        $('.reset').click(function(){
+           $("#queryForm").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+           setAuditPreDate();
+        });
+        
+        if(!$("#auditDate").val()){
+        	setAuditPreDate();
+        }
+	})();
+	
+</script>

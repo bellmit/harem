@@ -19,7 +19,7 @@
 	<bean id="userRepo" class="com.yimayhd.palace.repo.user.UserRepo"/>
 	<bean id="merchantRepo" class="com.yimayhd.palace.repo.MerchantRepo"/>
 	<bean id="talentRepo" class="com.yimayhd.palace.repo.user.TalentRepo"/>
-	
+
 	<bean class="com.yimayhd.palace.repo.ArticleRepo"></bean>
 	
 	<bean id="commissionRepo" class="com.yimayhd.commission.repo.CommissionRepo"/>
@@ -43,6 +43,10 @@
 	<bean id="destinationRepo" class="com.yimayhd.palace.repo.DestinationRepo" />
 	<bean id="solrsearchRepo" class="com.yimayhd.palace.repo.SolrsearchRepo" />
 
+
+	<bean id="auditRepo" class="com.yimayhd.palace.repo.AuditRepo" />
+	<bean id="accountRepo" class="com.yimayhd.palace.repo.AccountRepo" />
+	<bean id="settlementRepo" class="com.yimayhd.palace.repo.SettlementRepo" />
 	<bean id="mediaClientRepo" class="com.yimayhd.palace.repo.MediaClientRepo"/>
 
 </beans>

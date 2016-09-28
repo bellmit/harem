@@ -21,7 +21,7 @@
     <script>
         layer.config({
             extend: 'extend/layer.ext.js',
-            extend:['skin/mySkin/style.css'],
+            //extend:['skin/mySkin/style.css'],
             skin:'layer-ext-mySkin'
         });
         var actionDefaultPath = '$!{utilWebconfig.getActionDefaultFontPath()}';

@@ -101,6 +101,7 @@
 	                            <td rowspan="$size">
 		                            <button type="button" class="btn btn-primary addRefund detail" orderId="$!bizOrder.bizOrderId">详情</button>
                                     <br>
+
                                     <input type="hidden" value="[$!order.orderShowState , $!subOrder.bizOrderDO.refundStatus]">
 									#if(2==$!order.orderShowState)
                                         #if($!subOrder.bizOrderDO.refundStatus ==0 || $!subOrder.bizOrderDO.refundStatus==6)

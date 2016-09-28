@@ -13,6 +13,7 @@
         <property name="version" value="${dubbo.import.user.version}"/>
         <property name="check" value="${dubbo.import.consumer.user.check}"/>
     </bean>
+
     <bean id="talentServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
         <property name="interface" value="com.yimayhd.user.client.service.TalentService"/>
         <property name="application" ref="dubboApplicationConfig"/>

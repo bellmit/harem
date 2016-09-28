@@ -46,8 +46,9 @@ public interface OrderService {
 
 	boolean closeOrder(long id);
 
-	PageVO<MainOrder> getExportOrderList(OrderListQuery orderListQuery) throws Exception;
 	public boolean adjustFee(AdjustFeeDTO ddjustFeeDTO);
+
+	PageVO<MainOrder> getExportOrderList(OrderListQuery orderListQuery) throws Exception;
 
 
 
