@@ -356,7 +356,7 @@ $(function() {
 
     $('#btnSelectAudio').on("click", function() {
         openModalForForm(
-            '$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=2&fileType=30&maxSize=4',
+            '$utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=2&fileType=30&maxSize=15',
             "选择语音文件",
             function() {
                 var items = win.getItem();

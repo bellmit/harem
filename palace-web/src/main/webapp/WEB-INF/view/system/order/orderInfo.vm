@@ -94,11 +94,12 @@
                 #end
                 <td>付款方式：</td>
                 <td>
-	                #if("$!order.payChannel" == "1") 支付宝条码  
+	             <!--   #if("$!order.payChannel" == "1") 支付宝条码  
 	                #elseif("$!order.payChannel" == "2") 支付宝网页 
 	                #elseif("$!order.payChannel" == "3") 支付宝手机 
 	                #elseif("$!order.payChannel" == "4") 微信支付
-	                 #end
+	                 #end -->
+			$!utilMoney.getPayChannel($!order.payChannel)
                 </td>
                 <td>支付流水号：</td>
                 <td>$!tradeNo</td>

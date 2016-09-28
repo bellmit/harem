@@ -72,7 +72,6 @@ public class MainOrder {
     public void setOldFee(long oldFee) {
         this.oldFee = oldFee;
     }
-
     private ExpressVO express;
 
     public String gyCode;//订单对应商品在管易中的编码

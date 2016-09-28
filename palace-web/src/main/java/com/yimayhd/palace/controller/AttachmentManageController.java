@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
+import com.yimayhd.palace.checker.result.CheckResult;
 import com.yimayhd.palace.constant.AttachmentConstant;
 import com.yimayhd.palace.convert.AttachmentConverter;
 import com.yimayhd.palace.error.PalaceReturnCode;
@@ -222,13 +223,13 @@ public class AttachmentManageController extends BaseController {
     public ResponseVo editAttachment(Model model, AttachmentVO attachmentVO) {
         try {
             MediaDTO mediaDTO = attachmentManageService.getMediaByFileName(attachmentVO.getInputFileTitle());
-            if (mediaDTO != null&&mediaDTO.getId()!=attachmentVO.getId()) {
+            if (mediaDTO != null && mediaDTO.getId() != attachmentVO.getId()) {
                 ResponseVo responseVo = ResponseVoHelper.returnResponseVo(false);
                 responseVo.setMessage(PalaceReturnCode.ADD_ATTACHMENT_ERROR_FILE_NAME_REPEAT.getErrorMsg());
                 return responseVo;
             }
-            boolean result = attachmentManageService.updateAttachment(attachmentVO);
-            return ResponseVoHelper.returnResponseVo(result);
+            CheckResult checkResult = attachmentManageService.updateAttachment(attachmentVO);
+            return ResponseVoHelper.returnResponseVo(checkResult);
         } catch (Exception e) {
             log.error("editAttachment attachmentVO={}, exception={}", JSON.toJSONString(attachmentVO), e);
             return ResponseVoHelper.returnResponseVo(false);
@@ -248,8 +249,8 @@ public class AttachmentManageController extends BaseController {
     @ResponseBody
     public ResponseVo upStatus(Model model, long id) {
         try {
-            boolean result = attachmentManageService.upStatus(id);
-            return ResponseVoHelper.returnResponseVo(result);
+            CheckResult checkResult = attachmentManageService.upStatus(id);
+            return ResponseVoHelper.returnResponseVo(checkResult);
         } catch (Exception e) {
             log.error("upStatus id={}, exception={}", JSON.toJSONString(id), e);
             return ResponseVoHelper.returnResponseVo(false);
@@ -268,8 +269,8 @@ public class AttachmentManageController extends BaseController {
     @ResponseBody
     public ResponseVo downStatus(Model model, long id) {
         try {
-            boolean result = attachmentManageService.downStatus(id);
-            return ResponseVoHelper.returnResponseVo(result);
+            CheckResult checkResult = attachmentManageService.downStatus(id);
+            return ResponseVoHelper.returnResponseVo(checkResult);
         } catch (Exception e) {
             log.error("downStatus id={}, exception={}", JSON.toJSONString(id), e);
             return ResponseVoHelper.returnResponseVo(false);
