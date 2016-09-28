@@ -691,7 +691,13 @@
 				<artifactId>refund-client</artifactId>
 				<version>${refund.version}</version>
 			</dependency>
-
+<!-- <<<<<<< HEAD -->
+			<dependency>
+				<groupId>com.yimayhd.solrsearch</groupId>
+  				<artifactId>solrsearch-client</artifactId>
+				<version>${solrsearch.version}</version>
+<!-- ======= -->
+			</dependency>
 			<dependency>
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi</artifactId>
@@ -701,6 +707,7 @@
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi-ooxml</artifactId>
 				<version>3.7-beta3</version>
+<!-- >>>>>>> remotes/origin/master -->
 			</dependency>
 			<dependency>
 				<groupId>com.yimayhd.solrsearch</groupId>
@@ -723,6 +730,4 @@
 
 
 	</dependencyManagement>
-
 </project>
-

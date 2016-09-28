@@ -1,0 +1,57 @@
+
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/datetimepicker.min.css">
+		
+<!--[if lt IE 8]>
+    <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
+<![endif]-->
+<div class="topicbox">
+	<form class="form-signin" id="queryForm" name="queryForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/settlement/detail" method="GET" role="form">
+		
+		<input type="hidden" name="reqDate" value="$!query.reqDate" />
+		<input type="hidden" name="batchNo" value="$!query.batchNo" />
+		
+		<div class="inputGroup whole" style="min-height:45px;">
+			<div class="input-group inpSingle">
+				发起日期 ：$!query.reqDate
+			</div>
+			<div class="input-group inpSingle">
+				回盘时间：$!query.backTime
+			</div>
+			<div class="input-group inpSingle ">
+				结算批次号：$!query.batchNo
+			</div>
+		</div>
+		
+		<div class="tableGroup whole">
+			<table class="table table-hover topicTable">
+				<tbody>
+					<tr>
+						<th>结算单单号</th>
+						<th>商户编号</th>
+						<th>商户名称</th>
+						<th>结算金额</th>
+						<th>返回结果</th>
+					</tr>
+					#foreach($item in $pageVo.itemList)
+					<tr>
+						<td>$!item.settlementId</td>
+						<td>$!item.sellerId</td>
+						<td>$!item.sellerNick</td>
+						<td>$!item.settlementAmountDouble</td>
+						<td>$!item.resDescription</td>
+					</tr>
+					#end
+				</tbody>
+			</table>
+		</div>
+		#parse("/page.vm")
+		#pageStyle("queryForm")
+	</form>
+</div>
+<script type="text/javascript">
+
+</script>

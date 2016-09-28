@@ -49,15 +49,12 @@ public class TextUtil {
 		}
 		return new ArrayList<String>(set);
 	}
-
 	public static String html(String str) {
 		str = str.replaceAll("\"", "&quot;");
 //		str = str.replace("'", "&#39;");
 //		str = StringEscapeUtils.escapeHtml(str);
 		return str;
 	}
-
-
 	public static String getLiveStatus(int status) {
 		if (status <= 0) {
 			return null;
