@@ -1,0 +1,108 @@
+
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/datetimepicker.min.css">
+		
+<!--[if lt IE 8]>
+    <div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
+<![endif]-->
+<div class="topicbox">
+	<form class="form-signin" id="queryForm" name="queryForm" action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/account/list" method="GET" role="form">
+		
+		<div class="inputGroup whole">
+			<div class="input-group inpSingle">
+				<span class="input-group-btn">
+                    <button class="btn btn-default" type="button">编号</button>
+                </span>
+				<input type="text" class="form-control" name="userId" value="$!query.userId">
+			</div>
+			<div class="input-group inpSingle">
+				<span class="input-group-btn">
+                    <button class="btn btn-default" type="button">名称</button>
+                </span>
+				<input type="text" class="form-control" name="userName" value="$!query.userName">
+			</div>
+			<div class="input-group inpSingle ">
+				<span class="input-group-btn">
+                    <button class="btn btn-default" type="button">用户类型</button>
+                </span>
+				<select data-placeholder="请选择..." class="chosen-select form-control" tabindex="2" name="userType">
+                    <option value="">全部</option>
+                    <option value="1" #if($query.userType == 1) selected="selected" #end >普通用户</option>
+                    <option value="2" #if($query.userType == 2) selected="selected" #end >企业用户</option>
+                    <option value="3" #if($query.userType == 3) selected="selected" #end >达人用户</option>
+                </select>
+			</div>
+			<div class="btn-group">
+				<button type="submit" class="btn btn-primary search">查询</button>
+			</div>
+			<div class="btn-group">
+				<button type="button" class="btn btn-primary reset">重置</button>
+			</div>
+		</div>
+		
+		<div class="btn-single">
+			余额汇总：$!totalAmount
+		</div>
+		
+		<div class="tableGroup whole">
+			<table class="table table-hover topicTable">
+				<tbody>
+					<tr>
+						<th>编号</th>
+						<th>名称</th>
+						<th>用户类型</th>
+						<th>账户余额</th>
+						<th>操作</th>
+					</tr>
+					#foreach($item in $pageVo.itemList)
+					<tr>
+						<td>$!item.userId</td>
+						<td>
+							#if($!item.userType == 2)
+								#set($accountUserName = $item.corpName)
+							#else
+								#set($accountUserName = $item.userName)
+							#end
+							$!accountUserName
+						</td>
+						<td>#USER_TYPE($!item.userType)</td>
+						<td>$!item.accountBalanceYuan</td>
+						<td>
+							<button type="button" class="btn btn-primary detail" userId="$!item.userId" userName="$!accountUserName" userType="$!item.userType" >
+								账户收支明细
+							</button>
+						</td>
+					</tr>
+					#end
+				</tbody>
+			</table>
+		</div>
+		#parse("/page.vm")
+		#pageStyle("queryForm")
+	</form>
+</div>
+<script type="text/javascript">
+	
+	(function(){
+	
+		$('.detail').click(function(){
+			
+			var param = [];
+			param.push("userId="+ $(this).attr("userId"));
+			param.push("userName="+ $(this).attr("userName"));
+			param.push("userType="+ $(this).attr("userType"));
+			
+	        var url = '$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/account/detail?'+ param.join("&");
+			window.parent.tabsAdd("accountDetail", url, 2, "账户余额明细");
+	    });
+	    
+	    $('.reset').click(function(){
+           $("#queryForm").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+        });
+	
+	})();
+
+</script>

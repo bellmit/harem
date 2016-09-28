@@ -668,7 +668,6 @@
         <span>
            	 下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.bizOrder.createTime)
         </span>
-	
     #elseif($type == 3)
         <span>
         	#if($order.bizOrder.orderType == 1200 || $order.bizOrder.orderType == 1100)
@@ -835,6 +834,18 @@
 	#end
 #end
 
+#macro(OPTION_COM_RATE_RATE_STATUS $type)
+    <option value="" >全部</option>
+    <option value="RATE" #if($type == "RATE")selected#end>未回复</option>
+    <option value="REPLY" #if($type == "REPLY")selected#end>已回复</option>
+#end
+
+#macro(OPTION_COM_RATE_BASE_STATUS $type)
+<option value="" >全部</option>
+<option value="AVAILABLE" #if($type == "AVAILABLE")selected#end>否</option>
+<option value="DELETED" #if($type == "DELETED")selected#end>是</option>
+#end
+
 #macro(DEFAULT_COM_RATE_REPLY_BACK_CONTENT)
 感谢您选择婕珞芙，我们会用一如既往的品质让您放心使用哦~祝您生活愉快！
 #end
@@ -845,5 +856,112 @@
 		停用
     #elseif($type == '1')
 		 启用   
+    #end
+#end
+
+#*对账渠道*#
+#macro(AUDIT_TYPE $type)
+    #if($type == '1')
+		支付宝
+    #elseif($type == '2')
+		 微信支付
+    #elseif($type == '3')
+		 光大云支付
+    #elseif($type == '4')
+		 光大电子钱包
+    #end
+#end
+
+#*对账渠道option*#
+#macro(AUDIT_TYPE_OPTION $type)
+    <option value="1" #if($type == 1) selected="selected" #end >支付宝</option>
+    <option value="2" #if($type == 2) selected="selected" #end >微信支付</option>
+    <option value="3" #if($type == 3) selected="selected" #end >光大云支付</option>
+    <option value="4" #if($type == 4) selected="selected" #end >光大电子钱包</option>
+#end
+
+#*对账结果状态*#
+#macro(AUDIT_RESULT_STATUS $type)
+    #if($type == '1')
+		未开始
+    #elseif($type == '2')
+		文件已入库
+    #elseif($type == '3')
+		 对账中
+    #elseif($type == '4')
+		 对账相符
+	#elseif($type == '5')
+		 对账不符
+    #end
+#end
+
+#*对账订单状态*#
+#macro(AUDIT_ORDER_STATUS $type)
+    #if($type == '1')
+		金额不一致
+    #elseif($type == '2')
+		状态不一致
+    #elseif($type == '3')
+		 他有我无
+    #elseif($type == '4')
+		 我有他无
+	#elseif($type == '5')
+		对账相符 
+    #end
+#end
+
+#*用户类型*#
+#macro(USER_TYPE $type)
+    #if($type == '1')
+		普通用户
+    #elseif($type == '2')
+		企业用户
+    #elseif($type == '3')
+		达人用户
+    #end
+#end
+
+#*交易类型*#
+#macro(TRANS_TYPE $type)
+	#if($type == '1')
+		支付
+    #elseif($type == '2')
+		充值
+    #elseif($type == '3')
+		提现
+	#elseif($type == '4')
+		资金转入
+	#elseif($type == '5')
+		资金转出
+    #elseif($type == '6')
+		消费
+	#elseif($type == '7')
+		结算
+	#elseif($type == '8')
+		手续费
+	#elseif($type == '9')
+		服务费
+	#elseif($type == '10')
+		退款
+    #end
+#end
+
+#*账户类型*#
+#macro(ACCOUNT_TYPE $type)
+    #if($type == '1')
+		达人结算
+    #elseif($type == '2')
+		企业提现
+    #end
+#end
+
+#*交易状态*#
+#macro(AUDIT_ORDER_TRADE_STATUS $type)
+    #if($type == '1')
+		成功
+    #elseif($type == '2')
+		失败
+    #elseif($type == '3')
+		不存在
     #end
 #end

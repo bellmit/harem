@@ -24,6 +24,12 @@
 				#end
 			#end
 		</p>
+		<p><em class = "first">头像：</em>
+		
+			#if($!talentInfo.talentInfoDO.avatar.length() > 0)
+			<img class = "img" src="$!tfs/$!talentInfo.talentInfoDO.avatar">
+			#end
+		</p>
 		<div class = "info">
 			<p><em>昵称:</em><strong>$!talentInfo.talentInfoDO.nickName</strong></p>
 			<p><em>真实姓名:</em><strong>$!talentInfo.talentInfoDO.reallyName</strong></p>
@@ -94,4 +100,4 @@
 	});
 </script>
 >
-	
+

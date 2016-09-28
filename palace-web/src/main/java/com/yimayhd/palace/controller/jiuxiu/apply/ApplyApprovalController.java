@@ -39,12 +39,10 @@ import com.yimayhd.palace.model.vo.apply.ApproveVO;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.palace.service.CategoryService;
-import com.yimayhd.pay.client.model.result.ResultSupport;
 import com.yimayhd.user.client.cache.CityDataCacheClient;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.query.MerchantQuery;
 import com.yimayhd.user.client.result.BaseResult;
-import com.yimayhd.user.client.service.DataCacheService;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.session.manager.SessionManager;
 
@@ -57,6 +55,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/jiuxiu/apply")
@@ -111,6 +111,7 @@ public class ApplyApprovalController extends BaseController {
         int type = examineInfoDTOResult.getValue().getType();
         // 如果审核通过并且身份是商户,此处不做任何处理,待商品类目分配完成后集中更新申请状态,新增申请明细,新增商户,新增商户与商品类目关系,发送短信
         if (approveVO.isPass() && type == MerchantType.MERCHANT.getType()) {
+
             checkResult = new BizResultSupport();
             return checkResult;
         }
@@ -203,64 +204,41 @@ public class ApplyApprovalController extends BaseController {
                     List<Map<String, Object>> qualificationPictures = new ArrayList<>();
                     Map<String,Object> certificateMap = new HashMap<>();
                     if(!StringUtils.isEmpty(result.getValue().getTouristCard())) {
-//                    	certificateMap.put("touristCard","导游证");
-//                    	certificateMap.put("touristCard_url",result.getValue().getTouristCard());
                     	certificateMap.put("导游证",result.getValue().getTouristCard());
                         qualificationPictures.add(certificateMap);
                     }
 
                     if(!StringUtils.isEmpty(result.getValue().getDrivingLinence())) {
-                        Map<String,Object> drivingLinenceMap = new HashMap<>();
-//                        certificateMap.put("drivingLinence","行驶证");
-//                        certificateMap.put("drivingLinence_url",result.getValue().getDrivingLinence());
                         certificateMap.put("行驶证",result.getValue().getDrivingLinence());
                         qualificationPictures.add(certificateMap);
                     }
 
                     if(!StringUtils.isEmpty(result.getValue().getDivingLinence())) {
-                        Map<String,Object> divingLinenceMap = new HashMap<>();
-//                        certificateMap.put("divingLinence","潜水证");
-//                        certificateMap.put("divingLinence_url",result.getValue().getDivingLinence());
                         certificateMap.put("潜水证",result.getValue().getDivingLinence());
                         qualificationPictures.add(certificateMap);
                     }
 
                     if(!StringUtils.isEmpty(result.getValue().getPhotographyCertificate())) {
-                        Map<String,Object> photographyCertificateMap = new HashMap<>();
-//                        certificateMap.put("title","摄影证");
-//                        certificateMap.put("url",result.getValue().getPhotographyCertificate());
                         certificateMap.put("摄影证",result.getValue().getPhotographyCertificate());
                         qualificationPictures.add(certificateMap);
                     }
 
                     if(!StringUtils.isEmpty(result.getValue().getClimbingCertificate())) {
-                        Map<String,Object> climbingCertificateMap = new HashMap<>();
-//                        certificateMap.put("climbingCertificate","登山证");
-//                        certificateMap.put("climbingCertificate_url",result.getValue().getClimbingCertificate());
                         certificateMap.put("登山证",result.getValue().getClimbingCertificate());
                         qualificationPictures.add(certificateMap);
                     }
 
                     if(!StringUtils.isEmpty(result.getValue().getTrainingCertificate())) {
-                        Map<String,Object> trainingCertificateMap = new HashMap<>();
-//                        certificateMap.put("trainingCertificate","健身教练证");
-//                        certificateMap.put("trainingCertificate_url",result.getValue().getTrainingCertificate());
                         certificateMap.put("健身教练证",result.getValue().getTrainingCertificate());
                         qualificationPictures.add(certificateMap);
                     }
 
                     if(!StringUtils.isEmpty(result.getValue().getTeacherCertificate())) {
-                        Map<String,Object> teacherCertificateMap = new HashMap<>();
-//                        certificateMap.put("teacherCertificate","教师证");
-//                        certificateMap.put("teacherCertificate_url",result.getValue().getTeacherCertificate());
                         certificateMap.put("教师证",result.getValue().getTeacherCertificate());
                         qualificationPictures.add(certificateMap);
                     }
 
                     if(!StringUtils.isEmpty(result.getValue().getArtCertificate())) {
-                        Map<String,Object> artCertificateMap = new HashMap<>();
-//                        certificateMap.put("artCertificate","美术证");
-//                        certificateMap.put("artCertificate_url",result.getValue().getArtCertificate());
                         certificateMap.put("美术证",result.getValue().getArtCertificate());
                         qualificationPictures.add(certificateMap);
                     }
@@ -604,13 +582,7 @@ public class ApplyApprovalController extends BaseController {
 	            return bizResultSupport;
 			}
 		}
-        //验证银行账户
-//        BizResultSupport checkResult = applyBiz.checkCorBankAccount(examineInfoDTOResult.getValue());
-//        if (checkResult == null || !checkResult.isSuccess()) {
-//			log.error("applyBiz.checkCorBankAccount result:{}",JSON.toJSONString(checkResult));
-//			bizResultSupport.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
-//			return bizResultSupport;
-//		}
+
         String[] array = allocationVO.getCategoryIds().split(",");
         Long[] categoryIds = new Long[array.length];
         for (int i = 0; i < array.length; i++) {
@@ -624,5 +596,33 @@ public class ApplyApprovalController extends BaseController {
 
         return new BizResultSupport();
 
+    }
+    @RequestMapping(value="verifyBankInfo")
+    @ResponseBody
+    public BizResultSupport verifyBankInfo(HttpServletRequest request,long id) {
+    	BizResultSupport result = new BizResultSupport();
+        MemResult<ExamineInfoDTO> examineInfoDTOResult = examineDealServiceRef.queryMerchantExamineInfoById(id);
+        if (examineInfoDTOResult == null || !examineInfoDTOResult.isSuccess() || examineInfoDTOResult.getValue() == null) {
+			result.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
+			return result;
+		}
+        ExamineInfoDTO examineInfoDTO = examineInfoDTOResult.getValue();
+        //if (examineInfoDTO.getType() == MerchantType.MERCHANT.getType()) {
+        log.info("applyBiz.checkCorBankAccount param:ExamineInfoDTO={}",JSON.toJSONString(examineInfoDTO));
+		result = applyBiz.checkCorBankAccount(examineInfoDTO);
+		log.info("applyBiz.checkCorBankAccount result:{}",JSON.toJSONString(result));
+//		}
+//        if (examineInfoDTO.getType() == MerchantType.TALENT.getType()) {
+//			result = applyBiz.checkEleBankAccount(examineInfoDTO);
+//		}
+        if (result == null) {
+			log.error("param:ExamineInfoDTO={}",JSON.toJSONString(examineInfoDTO));
+			return null;
+		}else if (!result.isSuccess()) {
+			log.error("param:ExamineInfoDTO={}",JSON.toJSONString(examineInfoDTO));
+			result.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
+			return result;
+		}
+    	return result;
     }
 }

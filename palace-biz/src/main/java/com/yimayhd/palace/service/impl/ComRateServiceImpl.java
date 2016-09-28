@@ -48,7 +48,7 @@ public class ComRateServiceImpl implements ComRateService {
     private OrderRepo orderRepo;
 
     public PageVO<ComRateVO> getRatePageList(ComRateListQuery comRateListQuery) {
-        PageVO<ComRateVO> pageVO = null;
+        PageVO<ComRateVO> pageVO = new PageVO<ComRateVO>();
         List<ComRateVO> comRateVOs = Lists.newArrayList();
         try {
             RatePageListDTO ratePageListDTO = new RatePageListDTO();

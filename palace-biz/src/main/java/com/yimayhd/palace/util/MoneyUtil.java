@@ -2,6 +2,8 @@ package com.yimayhd.palace.util;
 
 import java.text.NumberFormat;
 
+import com.yimayhd.tradecenter.client.model.enums.TcPayChannel;
+
 /**
  * 钱工具
  * 
@@ -45,4 +47,16 @@ public class MoneyUtil {
 	public static String centToYuanMoneyFormat(long money) {
 		return moneyFormat(money * 0.01);
 	}
+	
+	public static String getPayChannel(int payChannel) {
+		if (payChannel <= 0) {
+			return "";
+		}
+		TcPayChannel tcPayChannel = TcPayChannel.getPayChannel(payChannel);
+		if (tcPayChannel == null) {
+			return "";
+		}
+		return tcPayChannel.getDesc();
+	}
 }
+
