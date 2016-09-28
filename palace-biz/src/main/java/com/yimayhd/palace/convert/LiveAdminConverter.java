@@ -85,6 +85,8 @@ public class LiveAdminConverter {
         liveAdminPageQuery.setOnlineCount(liveAdminQuery.getOnlineCount());
         liveAdminPageQuery.setStartSecondTime(liveAdminQuery.getStartSecondTime());
         liveAdminPageQuery.setReplaySecondTime(liveAdminQuery.getReplaySecondTime());
+        liveAdminPageQuery.setPageNo(liveAdminQuery.getPageNo());
+        liveAdminPageQuery.setPageSize(liveAdminQuery.getOldPageSize());
         liveAdminPageQuery.setLiveOrder(START_TIME_DESC);
         return liveAdminPageQuery;
     }
