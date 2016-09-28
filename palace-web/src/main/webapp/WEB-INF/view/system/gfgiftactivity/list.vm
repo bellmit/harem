@@ -50,7 +50,7 @@
     </div>
     <div class="inputGroup whole">
         <div class="btn-group">
-            <button type="button" class="btn btn-add">新增商品优惠</button>
+            <button type="button" class="btn btn-add">新增活动</button>
         </div>
     </div>
     <div class="tableGroup whole">
