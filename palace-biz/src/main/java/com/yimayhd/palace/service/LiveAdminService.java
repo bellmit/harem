@@ -44,7 +44,7 @@ public interface LiveAdminService {
      * @param liveRecordId
      * @return
      */
-    public CloseLiveResult closeLive(long liveRecordId);
+//    public CloseLiveResult closeLive(long liveRecordId);
 
     /**
      * 创建直播间

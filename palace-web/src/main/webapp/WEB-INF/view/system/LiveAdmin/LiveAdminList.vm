@@ -119,12 +119,15 @@
         ##  直播列表
     </table>
 </div>
-<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
 ##</body></html>
 
 #*分页*#
 #parse("/page.vm")
 #pageStyle("liveAdminForm")
+
+<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
+
+
 
 <script type="text/javascript">
     layer.config({

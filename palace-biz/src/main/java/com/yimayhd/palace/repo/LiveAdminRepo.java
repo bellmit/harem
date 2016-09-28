@@ -108,26 +108,26 @@ public class LiveAdminRepo {
      * @param liveRecordId
      * @return
      */
-    public CloseLiveResult closeLive(long liveRecordId)
-    {
-        try {
-            CloseLiveResult result = liveAdminServiceRef.closeLive(liveRecordId);
-            if (result != null) {
-                if (result.isSuccess()) {
-                    log.info("closeLive liveRecordId={}, result={}", JSON.toJSONString(liveRecordId), JSON.toJSONString(result));
-                    return result;
-                } else {
-                    log.error("closeLive liveRecordId={}, result={}", JSON.toJSONString(liveRecordId), JSON.toJSONString(result));
-                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
-                }
-            } else {
-                throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
-            }
-        } catch (Exception e) {
-            log.error("getPageLiveRecord liveRecordId={}, exception={}", JSON.toJSONString(liveRecordId), e);
-            throw new BaseException(e, e.getMessage());
-        }
-    }
+//    public CloseLiveResult closeLive(long liveRecordId)
+//    {
+//        try {
+//            CloseLiveResult result = liveAdminServiceRef.closeLive(liveRecordId);
+//            if (result != null) {
+//                if (result.isSuccess()) {
+//                    log.info("closeLive liveRecordId={}, result={}", JSON.toJSONString(liveRecordId), JSON.toJSONString(result));
+//                    return result;
+//                } else {
+//                    log.error("closeLive liveRecordId={}, result={}", JSON.toJSONString(liveRecordId), JSON.toJSONString(result));
+//                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
+//                }
+//            } else {
+//                throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
+//            }
+//        } catch (Exception e) {
+//            log.error("getPageLiveRecord liveRecordId={}, exception={}", JSON.toJSONString(liveRecordId), e);
+//            throw new BaseException(e, e.getMessage());
+//        }
+//    }
 
     /**
      * 创建直播间

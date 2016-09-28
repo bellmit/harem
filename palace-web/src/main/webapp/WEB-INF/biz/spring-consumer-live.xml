@@ -7,8 +7,8 @@
         <property name="interface" value="com.yimayhd.live.client.service.LiveAdminService"/>
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
-        <property name="timeout" value="4000"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
         <property name="version" value="${consumer.dubbo.live.version}"/>
-        <property name="check" value="false"/>
+        <property name="check" value="${consumer.dubbo.live.check}"/>
     </bean>
 </beans>

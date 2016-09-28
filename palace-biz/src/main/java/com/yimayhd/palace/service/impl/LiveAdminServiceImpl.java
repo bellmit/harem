@@ -172,9 +172,9 @@ public class LiveAdminServiceImpl implements LiveAdminService {
      * @param liveRecordId
      * @return
      */
-    public CloseLiveResult closeLive(long liveRecordId) {
-        return liveAdminRepo.closeLive(liveRecordId);
-    }
+//    public CloseLiveResult closeLive(long liveRecordId) {
+//        return liveAdminRepo.closeLive(liveRecordId);
+//    }
 
     /**
      * 创建直播间
