@@ -251,8 +251,7 @@ public class LiveAdminServiceImpl implements LiveAdminService {
                 }
             }
         }
-        liveRoomPageResult.setPageSize(liveRoomQuery.getPageSize());
-        return new PageVO<LiveRoomVO>(liveRoomPageResult.getPageNo(), liveRoomPageResult.getPageSize(), liveRoomPageResult.getTotalCount(), liveRoomVOList);
+        return new PageVO<LiveRoomVO>(liveRoomPageResult.getPageNo(), 10, liveRoomPageResult.getTotalCount(), liveRoomVOList);
     }
 
     /**

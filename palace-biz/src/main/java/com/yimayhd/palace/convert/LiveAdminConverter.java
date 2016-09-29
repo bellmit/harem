@@ -3,6 +3,7 @@ package com.yimayhd.palace.convert;
 import com.yimayhd.live.client.domain.record.LiveRecordDO;
 import com.yimayhd.live.client.domain.record.LiveRoomDO;
 import com.yimayhd.live.client.enums.LiveOrder;
+import com.yimayhd.live.client.enums.LiveRoomStatus;
 import com.yimayhd.live.client.query.LiveAdminPageQuery;
 import com.yimayhd.live.client.query.LiveRoomPageQuery;
 import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
@@ -63,6 +64,7 @@ public class LiveAdminConverter {
         liveRoomVO.setRoomOrder(liveRoomDO.getRoomOrder());
         liveRoomVO.setFeature(liveRoomDO.getFeature());
         liveRoomVO.setStatus(liveRoomDO.getStatus());
+        liveRoomVO.setStatusString(LiveRoomStatus.getDesc(liveRoomDO.getStatus()));
         liveRoomVO.setGmtCreated(liveRoomDO.getGmtCreated());
         liveRoomVO.setGmtModified(liveRoomDO.getGmtModified());
         return liveRoomVO;

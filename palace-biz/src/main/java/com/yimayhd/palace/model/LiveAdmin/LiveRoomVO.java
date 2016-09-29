@@ -59,6 +59,10 @@ public class LiveRoomVO implements Serializable {
      */
     private int status;
     /**
+     * 直播间状态
+     */
+    private String statusString;
+    /**
      * 创建时间
      */
     private Date gmtCreated;
@@ -143,6 +147,14 @@ public class LiveRoomVO implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getStatusString() {
+        return statusString;
+    }
+
+    public void setStatusString(String statusString) {
+        this.statusString = statusString;
     }
 
     public Date getGmtCreated() {

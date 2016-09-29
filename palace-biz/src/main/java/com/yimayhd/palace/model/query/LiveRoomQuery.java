@@ -3,11 +3,12 @@ package com.yimayhd.palace.model.query;
 import com.yimayhd.live.client.query.PageQuery;
 import java.util.List;
 import com.yimayhd.live.client.query.PageQuery;
+import com.yimayhd.palace.base.BaseQuery;
 
 /**
  * Created by haozhu on 16/9/23.
  */
-public class LiveRoomQuery extends PageQuery {
+public class LiveRoomQuery extends BaseQuery {
     private static final long serialVersionUID = -2250976141426722525L;
     /**
      * 主播ID

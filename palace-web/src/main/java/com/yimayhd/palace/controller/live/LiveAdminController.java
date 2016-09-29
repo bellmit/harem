@@ -79,10 +79,10 @@ public class LiveAdminController extends BaseController {
     @RequestMapping(value = "/playBackList", method = RequestMethod.GET)
     public String playBackList(Model model, LiveAdminQuery liveAdminQuery) throws Exception {
         try {
-            PageVO<LiveRecordVO> pageVO = liveAdminService.getPageLiveRecord(liveAdminQuery);
-            model.addAttribute("pageVO", pageVO);
-            model.addAttribute("pageQuery", liveAdminQuery);
-            model.addAttribute("itemList", pageVO.getItemList());
+            PageVO<LiveRecordVO> pageVo = liveAdminService.getPageLiveRecord(liveAdminQuery);
+            model.addAttribute("pageVo", pageVo);
+            model.addAttribute("liveAdminQuery", liveAdminQuery);
+            model.addAttribute("itemList", pageVo.getItemList());
             return "/system/LiveAdmin/LiveAdminPlayBackList";
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -120,10 +120,10 @@ public class LiveAdminController extends BaseController {
     @RequestMapping(value = "/rooms", method = RequestMethod.GET)
     public String rooms(Model model, LiveRoomQuery liveRoomQuery) throws Exception {
         try {
-            PageVO<LiveRoomVO> pageVO = liveAdminService.getPageLiveRoom(liveRoomQuery);
-            model.addAttribute("pageVO", pageVO);
-            model.addAttribute("pageQuery", liveRoomQuery);
-            model.addAttribute("itemList", pageVO.getItemList());
+            PageVO<LiveRoomVO> pageVo = liveAdminService.getPageLiveRoom(liveRoomQuery);
+            model.addAttribute("pageVo", pageVo);
+            model.addAttribute("liveRoomQuery", liveRoomQuery);
+            model.addAttribute("itemList", pageVo.getItemList());
             return "/system/LiveAdmin/LiveAdminRooms";
         } catch (Exception e) {
             log.error(e.getMessage(), e);
