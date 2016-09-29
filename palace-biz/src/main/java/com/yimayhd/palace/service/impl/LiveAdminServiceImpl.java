@@ -66,9 +66,7 @@ public class LiveAdminServiceImpl implements LiveAdminService {
                     return new PageVO<LiveRecordVO>();
             } else {
                 for (UserDO userDO : userDOs) {
-                    if (userDO.getId() == pageQuery.getUserId()) {
-                        userQueryIds.add(userDO.getId());
-                    }
+                    userQueryIds.add(userDO.getId());
                 }
             }
         } else {
@@ -209,9 +207,8 @@ public class LiveAdminServiceImpl implements LiveAdminService {
                     return new PageVO<LiveRoomVO>();
             } else {
                 for (UserDO userDO : userDOs) {
-                    if (userDO.getId() == liveRoomQuery.getUserId()) {
-                        userQueryIds.add(userDO.getId());
-                    }
+                    userQueryIds.add(userDO.getId());
+
                 }
             }
         } else {

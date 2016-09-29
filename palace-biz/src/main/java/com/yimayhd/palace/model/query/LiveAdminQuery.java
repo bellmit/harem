@@ -14,7 +14,7 @@ public class LiveAdminQuery extends BaseQuery {
     /**
      * 主播ID
      */
-    private long userId;
+    private Long userId;
     /**
      * 主播昵称
      */
@@ -26,7 +26,7 @@ public class LiveAdminQuery extends BaseQuery {
     /**
      * 直播分类
      */
-    private long liveCategory;
+    private Long liveCategory;
     /**
      * 直播状态
      */

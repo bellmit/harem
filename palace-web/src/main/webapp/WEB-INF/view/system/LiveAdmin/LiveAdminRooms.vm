@@ -173,7 +173,6 @@
     //关闭直播间
     $("#tbRooms").on('click', '.off', function () {
         var liveRoomId = $(this).attr("liveRoomId");
-//      var liveRoomId = $(this).parent().siblings(".liveRoomId").html();
         showDialog({liveRoomId: liveRoomId});
     });
 
