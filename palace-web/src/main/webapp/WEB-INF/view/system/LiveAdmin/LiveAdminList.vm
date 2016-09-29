@@ -7,6 +7,8 @@
 ##    <link rel="stylesheet" href="../../src/css/live/livelist.css">
 ##</head>
 ##<body>
+<link rel="stylesheet" href="http://develop.jiuxiulvxing.com:8080//resources/css/base.css" id="">
+<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/live/livelist.css" id="">
 <div class="dialog" style="display: none;">
     <div class="bgmeng"></div>
     <div class="dlgcont">

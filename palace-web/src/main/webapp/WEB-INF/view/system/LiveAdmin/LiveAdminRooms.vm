@@ -7,8 +7,12 @@
 ##    <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/PC_Admin/src/css/base.css">
 ##    <link rel="stylesheet" href="../../src/css/live/livelist.css">
 ##</head>
+##<script src="$utilWebconfig.getStaticResourcesPath()resources/css/base.css"></script>
+
+<link rel="stylesheet" href="http://develop.jiuxiulvxing.com:8080//resources/css/base.css" id="">
+<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/live/livelist.css" id="">
 <body>
-<div class="dialog">
+<div class="dialog" id ="dialog">
     <div class="bgmeng"></div>
     <div class="dlgcont rooms">
         <table>
@@ -32,7 +36,7 @@
             <tr>
                 <td class="tit">关闭时间：</td>
                 <td>
-                    <select name="closeTime" id="closeTime">
+                    <select name="closeHours" id="closeHours">
                         <option value="1">1小时</option>
                         <option value="2">2小时</option>
                         <option value="3">3小时</option>
@@ -48,10 +52,9 @@
         </div>
     </div>
 </div>
-
 <div class="searchbox">
     <form id="roomsForm" name="roomsForm"
-          action="$utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/playBackList">
+          action="$utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/rooms">
         <table>
             <tr>
                 <td class="tit">达人昵称：</td>
@@ -91,7 +94,7 @@
         <th>状态</th>
         <th>操作</th>
         </thead>
-    ## 房间管理
+        ## 房间管理
         <tbody>
             #set ($i=0)
             #foreach($item in $itemList)
@@ -112,10 +115,10 @@
                 </td>
                 <td>
                     #if($item.status== 1 || $item.status== 2)
-                        <button type="button" class="btn btn-primary off" liveRoomId="$!{item.liveRoomId}">关闭直播间</button>
+                        <button type="button" class="btn btn-primary off" liveRoomId="$!{item.id}">关闭直播间</button>
                     #end
                     #if($item.status== 3)
-                        <button type="button" class="btn btn-primary on" liveRoomId="$!{item.liveRoomId}">恢复直播间</button>
+                        <button type="button" class="btn btn-primary on" liveRoomId="$!{item.id}">恢复直播间</button>
                     #end
                 </td>
             </tr>
@@ -130,7 +133,7 @@
     #pageStyle("roomsForm")
 
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
-</body>
+</>
 ##</html>
 
 <script type="text/javascript">
@@ -180,7 +183,8 @@
 
     //关闭直播间
     $("#tbRooms").on('click', '.off', function () {
-        var liveRoomId = $(this).parent().siblings(".liveRoomId").html();
+        var liveRoomId = $(this).attr("liveRoomId");
+//      var liveRoomId = $(this).parent().siblings(".liveRoomId").html();
         showDialog({liveRoomId: liveRoomId});
     });
 
@@ -192,7 +196,7 @@
     }
 
     //取消
-    $("#tbRooms").on('click', '.cancel,.bgmeng', hideDialog);
+    $("#dialog").on('click', '.cancel,.bgmeng', hideDialog);
 
     function hideDialog() {
         $('#closeReason').val('illegal');
@@ -205,20 +209,20 @@
     //处理事件
     $(function () {
         //确定
-        $("#tbRooms").on('click', '.ok', function () {
-            var liveRoomId = $(this).attr("liveRoomId");
-            var closeReason = $("#closeReason").val().trim();
+        $("#dialog").on('click', '.ok', function () {
+            var liveRoomId = $("#liveRoomId").val();
+            var closeReason = ($("#closeReason").val()||'').trim();
             if (closeReason == 'other') {
-                closeReason = $("#otherCloseReason").val().trim();
+                closeReason = ($("#otherCloseReason").val()||'').trim();
             }
             if (!closeReason) {
                 alert("请选择关闭原因");
                 return;
             }
-            var closeHours = $("#closeHours").val().trim();
+            var closeHours = ($("#closeHours").val()||'').trim();
             // 关闭直播间
             var data = {liveRoomId: liveRoomId,closeHours: closeHours,closeReason: closeReason}
-            submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/updateLiveRecordStatus", "post", data);
+            submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/closeLiveRoom", "post", data);
         });
 
         // 恢复

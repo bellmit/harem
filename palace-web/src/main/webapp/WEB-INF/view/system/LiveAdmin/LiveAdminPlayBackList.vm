@@ -11,26 +11,28 @@
 ##    <link rel="stylesheet" href="../../src/css/live/livelist.css">
 ##</head>
 <body>
-<div class="dialog">
-    <div class="bgmeng"></div>
-    <div class="dlgcont">
-        <table>
-            <tr>
-                <td class="tit">权重：</td>
-                <td>
-                    <input type="text" id="priority"/>
-                    <input type="hidden" id="rowId"/>
-                    <input type="hidden" id="oldPriority"/>
-                </td>
-            </tr>
-        </table>
-        <div class="boxbtn">
-            <button class="ok">确定</button>
-            <button class="cancel">取消</button>
-        </div>
-    </div>
-</div>
+##<div class="dialog">
+##    <div class="bgmeng"></div>
+##    <div class="dlgcont">
+##        <table>
+##            <tr>
+##                <td class="tit">权重：</td>
+##                <td>
+##                    <input type="text" id="priority"/>
+##                    <input type="hidden" id="rowId"/>
+##                    <input type="hidden" id="oldPriority"/>
+##                </td>
+##            </tr>
+##        </table>
+##        <div class="boxbtn">
+##            <button class="ok">确定</button>
+##            <button class="cancel">取消</button>
+##        </div>
+##    </div>
+##</div>
 
+<link rel="stylesheet" href="http://develop.jiuxiulvxing.com:8080//resources/css/base.css" id="">
+<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/live/livelist.css" id="">
 <div class="searchbox">
     <form id="playBackListForm" name="playBackListForm"
           action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/playBackList">
