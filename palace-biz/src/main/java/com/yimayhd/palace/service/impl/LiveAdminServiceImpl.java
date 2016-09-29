@@ -51,8 +51,6 @@ public class LiveAdminServiceImpl implements LiveAdminService {
     public PageVO<LiveRecordVO> getPageLiveRecord(LiveAdminQuery pageQuery) {
         // 昵称和id同时输入查询 只有统一才会返回
         List<Long> userQueryIds = new ArrayList<Long>();
-        pageQuery.setNeedCount(true);
-        pageQuery.setHasNextMod(true);
         if (pageQuery.getNickName() != null && !pageQuery.getNickName().equals("")) {
             List<UserDO> userDOs = userRepo.getUserByNickname(pageQuery.getNickName());
             if (userDOs.size() == 0)
@@ -124,19 +122,20 @@ public class LiveAdminServiceImpl implements LiveAdminService {
 //            }
 //        }
         // 直播分类
-        List<ComTagDO> comTagDOList = commentRepo.selectTagsIn(categorys);
-        if (comTagDOList != null && comTagDOList.size() > 0) {
-            for (int i = 0; i < liveRecordDOList.size(); i++) {
-                LiveRecordVO liveRecordVO = liveRecordVOList.get(i);
-                for (int j = 0; j < comTagDOList.size(); j++) {
-                    ComTagDO comTagDO = comTagDOList.get(j);
-                    if (comTagDO.getId() == liveRecordVO.getLiveCategory()) {
-                        liveRecordVO.setLiveCategoryString(comTagDO.getName());
+        if (categorys.size() > 0) {
+            List<ComTagDO> comTagDOList = commentRepo.selectTagsIn(categorys);
+            if (comTagDOList != null && comTagDOList.size() > 0) {
+                for (int i = 0; i < liveRecordDOList.size(); i++) {
+                    LiveRecordVO liveRecordVO = liveRecordVOList.get(i);
+                    for (int j = 0; j < comTagDOList.size(); j++) {
+                        ComTagDO comTagDO = comTagDOList.get(j);
+                        if (comTagDO.getId() == liveRecordVO.getLiveCategory()) {
+                            liveRecordVO.setLiveCategoryString(comTagDO.getName());
+                        }
                     }
                 }
             }
         }
-        liveRecordPageResult.setPageSize(pageQuery.getPageSize());
         return new PageVO<LiveRecordVO>(liveRecordPageResult.getPageNo(), liveRecordPageResult.getPageSize(), liveRecordPageResult.getTotalCount(), liveRecordVOList);
     }
 

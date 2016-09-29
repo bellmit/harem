@@ -111,7 +111,7 @@
                     $!{item.liveOrder}
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary weight" liveRecordId="$!{item.liveRecordId}" liveOrder="$!{item.liveOrder}">权重设置</button>
+                    <button type="button" class="btn btn-primary weight" liveRecordId="$!{item.id}" liveOrder="$!{item.liveOrder}">权重设置</button>
                 </td>
             </tr>
             #end
@@ -126,8 +126,6 @@
 #pageStyle("liveAdminForm")
 
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
-
-
 
 <script type="text/javascript">
     layer.config({
@@ -196,11 +194,16 @@
                     }
 
                     var data = {liveOrder: weight, liveRecordId: liveRecordId}
-                    submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdminList/updateLiveOrder", "post", data);
+                    submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/updateLiveOrder", "post", data);
                 }
             });
         });
     }
+
+    $(function () {
+        setWeight();
+    });
+
 </script>
 
 
