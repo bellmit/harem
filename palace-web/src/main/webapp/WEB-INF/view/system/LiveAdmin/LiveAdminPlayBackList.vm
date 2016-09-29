@@ -1,36 +1,4 @@
-##<html>
-##<head>
-##    <meta charset="utf-8">
-##    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-##    <meta name="viewport" content="width=device-width, initial-scale=1">
-##    <title>回放管理</title>
-##    <link rel="stylesheet" href="../../src/css/zui.min.css">
-##    <link rel="stylesheet" href="../../src/css/datetimepicker.min.css">
-##    <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/PC_Admin/src/css/common.css">
-##    <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/PC_Admin/src/css/base.css">
-##    <link rel="stylesheet" href="../../src/css/live/livelist.css">
-##</head>
 <body>
-##<div class="dialog">
-##    <div class="bgmeng"></div>
-##    <div class="dlgcont">
-##        <table>
-##            <tr>
-##                <td class="tit">权重：</td>
-##                <td>
-##                    <input type="text" id="priority"/>
-##                    <input type="hidden" id="rowId"/>
-##                    <input type="hidden" id="oldPriority"/>
-##                </td>
-##            </tr>
-##        </table>
-##        <div class="boxbtn">
-##            <button class="ok">确定</button>
-##            <button class="cancel">取消</button>
-##        </div>
-##    </div>
-##</div>
-
 <link rel="stylesheet" href="http://develop.jiuxiulvxing.com:8080//resources/css/base.css" id="">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/live/livelist.css" id="">
 <div class="searchbox">
