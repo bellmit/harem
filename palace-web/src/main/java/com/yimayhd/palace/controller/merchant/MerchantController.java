@@ -300,6 +300,7 @@ public class MerchantController extends BaseController {
 		try {
 			MerchantPageQuery merchantPageQuery = new MerchantPageQuery();
 			JiuxiuHelper.fillMerchantListQuery(merchantPageQuery, jiuxiuMerchantListQuery);
+			
 			BasePageResult<MerchantUserDTO> result = userMerchantServiceRef.getMerchantUserList(merchantPageQuery);
 			List<MerchantUserDTO> merchantUserList = new ArrayList<MerchantUserDTO>();
 			int totalCount = 0;

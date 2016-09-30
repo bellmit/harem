@@ -20,7 +20,28 @@ public class JiuxiuOrderListQuery extends BaseQuery {
     private String orderStat;//订单状态
     private String merchantName;//商户名称
     private String merchantNo;//商户编号
-   
+    private String sellerName;//店铺名称或者达人昵称
+	private String nickName;
+	private String shopName;
+	
+	public String getSellerName() {
+		return sellerName;
+	}
+	public void setSellerName(String sellerName) {
+		this.sellerName = sellerName;
+	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+	public String getShopName() {
+		return shopName;
+	}
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
 	private Integer domain; //1000--b2c、1100--gf;
 
 

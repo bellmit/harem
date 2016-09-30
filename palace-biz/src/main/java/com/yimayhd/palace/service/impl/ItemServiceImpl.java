@@ -36,6 +36,7 @@ import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.biz.MerchantBiz;
 import com.yimayhd.palace.convert.ItemConverter;
 import com.yimayhd.palace.model.ItemListQuery;
 import com.yimayhd.palace.model.item.ItemInfoVO;
@@ -44,6 +45,7 @@ import com.yimayhd.palace.model.line.CityVO;
 import com.yimayhd.palace.repo.CityRepo;
 import com.yimayhd.palace.repo.CommentRepo;
 import com.yimayhd.palace.repo.ItemRepo;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.ItemService;
 import com.yimayhd.user.client.dto.CityDTO;
 
@@ -66,6 +68,8 @@ public class ItemServiceImpl implements ItemService {
 	private UserService userServiceRef;
 	@Autowired
 	private MerchantService userMerchantServiceRef;
+	@Autowired
+	private MerchantBiz merchantBiz;
 	@Override
 	public PageVO<ItemInfoVO> getItemList(ItemListQuery query) throws Exception{
 			
@@ -73,6 +77,12 @@ public class ItemServiceImpl implements ItemService {
 			query = new ItemListQuery();
 		}
 		ItemQryDTO itemQryDTO = ItemConverter.toItemQryDTO(query);
+		BizResult<List<Long>> userIds = merchantBiz.getUserIds(query.getSellerName(), query.getMerchantName());
+		List<Long> userIdList = userIds.getValue();
+		if (CollectionUtils.isNotEmpty(userIdList)) {
+			
+			itemQryDTO.setUserIds(userIdList);
+		}
 		ICPageResult<ItemInfo> icPageResult = itemRepo.getItemList(itemQryDTO);
 		
 		List<ItemInfo> itemInfoList = icPageResult.getList();
