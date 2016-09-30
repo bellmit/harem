@@ -45,4 +45,12 @@
         <property name="check" value="${consumer.dubbo.sns.check}"/>
         <property name="version" value="${consumer.dubbo.sns.version}"/>
     </bean>
+    <bean id="msgCenterServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.msgcenter.client.service.MsgCenterService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="check" value="${consumer.dubbo.msg.check}"/>
+        <property name="version" value="${consumer.dubbo.msg.version}"/>
+    </bean>
 </beans>

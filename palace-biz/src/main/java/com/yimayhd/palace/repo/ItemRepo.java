@@ -33,6 +33,7 @@ import com.yimayhd.ic.client.service.item.ItemBizQueryService;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.ic.client.service.item.ItemSkuService;
+import com.yimayhd.msgcenter.client.service.MsgCenterService;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.util.RepoUtils;
@@ -48,7 +49,8 @@ public class ItemRepo {
 	@Autowired
 	private ItemQueryService itemQueryServiceRef;
 
-
+	@Autowired
+	private MsgCenterService msgCenterServiceRef;
 	public ICPageResult<ItemInfo> getItemList(ItemQryDTO itemQryDTO) {
 		if (itemQryDTO == null) {
 			throw new BaseException("参数为null,查询商品列表失败 ");
