@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="http://develop.jiuxiulvxing.com:8080//resources/css/base.css" id="">
+<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/base.css" id="">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/live/livelist.css" id="">
 <body>
 <div class="dialog" id ="dialog">
@@ -47,25 +47,29 @@
         <table>
             <tr>
                 <td class="tit">达人昵称：</td>
-                <td><input name="nickName" maxlength="30" value="$!{liveRoomQuery.nickName}"/></td>
+                <td><input name="nickName"  class="form-control" maxlength="30" value="$!{liveRoomQuery.nickName}"/></td>
                 <td class="tit">达人ID：</td>
-                <td><input name="userId" maxlength="30" value="$!{liveRoomQuery.userId}"/></td>
+                <td><input name="userId" class="form-control" maxlength="30" value="$!{liveRoomQuery.userId}"/></td>
             </tr>
             <tr>
                 <td class="tit">房间号：</td>
-                <td><input name="liveRoomId" maxlength="30" value="$!{liveRoomQuery.liveRoomId}" /></td>
+                <td><input name="liveRoomId" class="form-control" maxlength="30" value="$!{liveRoomQuery.liveRoomId}" /></td>
                 <td class="tit">状态：</td>
                 <td>
-                    <select name="status">
+                    <select name="status" class="form-control">
                         <option value="">全部</option>
-                        <option value="live">直播中</option>
-                        <option value="idle">空闲中</option>
-                        <option value="closed">关闭</option>
+                        <option value="1">直播中</option>
+                        <option value="2">空闲中</option>
+                        <option value="3">关闭</option>
                     </select>
                 </td>
                 <td colspan="2">
-                    <button class="searchBtn">查询</button>
-                    <button class="resetBtn">重置</button>
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary submitBtn">查询</button>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" id="btnReset">重置</button>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -167,7 +171,7 @@
 
     // 重置
     $("#btnReset").on("click",function(){
-        $("#guideListForm").find(".form-control").val('');
+        $("#roomsForm").find(".form-control").val('');
     });
 
     //关闭直播间

@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="http://develop.jiuxiulvxing.com:8080//resources/css/base.css" id="">
+<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/base.css" id="">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/live/livelist.css" id="">
 <div class="dialog" style="display: none;">
     <div class="bgmeng"></div>
@@ -33,12 +33,18 @@
             <tr>
                 <td class="tit">房间号：</td>
                 <td><input class="form-control" name="liveRoomId" maxlength="30" value="$!{liveAdminQuery.liveRoomId}"></td>
-                <td class="tit">直播分类：</td>
-                <td><select name="liveCategory">
-                    <option value="0">全部</option>
-                    <option value="1">启用</option>
-                    <option value="2">禁用</option>
-                </select></td>
+                <div class="input-group inpSingle">
+                    <td class="tit">直播分类：</td>
+                    <td>
+                    <select class="form-control" name="status">
+                        <option value="-1">全部</option>
+                        #foreach($item in $itemList)
+                            <option value="$!{item.liveCategory}" #if($item.liveCategory == $liveAdminQuery.liveCategory)
+                                    selected #end>$!{item.liveCategoryString}</option>
+                        #end
+                    </select>
+                    </td>
+                </div>
                 <div class="btn-group">
                     <button type="submit" class="btn btn-primary submitBtn">查询</button>
                 </div>

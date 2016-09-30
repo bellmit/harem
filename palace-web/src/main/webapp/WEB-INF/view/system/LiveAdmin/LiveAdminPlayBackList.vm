@@ -1,5 +1,5 @@
 <body>
-<link rel="stylesheet" href="http://develop.jiuxiulvxing.com:8080//resources/css/base.css" id="">
+<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/base.css" id="">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/live/livelist.css" id="">
 <div class="searchbox">
     <form id="playBackListForm" name="playBackListForm"
@@ -7,33 +7,39 @@
         <table>
             <tr>
                 <td class="tit">达人昵称：</td>
-                <td><input name="nickName" maxlength="30" value="$!{liveAdminQuery.nickName}"/></td>
+                <td><input name="nickName" class="form-control" maxlength="30" value="$!{liveAdminQuery.nickName}"/></td>
                 <td class="tit">达人ID：</td>
-                <td><input name="userId" maxlength="30" value="$!{liveAdminQuery.userId}"/></td>
-                <td class="tit">直播分类：</td>
-                <td><select name="liveCategory">
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                </select></td>
+                <td><input name="userId"  class="form-control" maxlength="30" value="$!{liveAdminQuery.userId}"/></td>
+                <div class="input-group inpSingle">
+                    <td class="tit">直播分类：</td>
+                    <td>
+                        <select class="form-control" name="status">
+                            <option value="-1">全部</option>
+                            #foreach($item in $itemList)
+                                <option value="$!{item.liveCategory}" #if($item.liveCategory == $liveAdminQuery.liveCategory)
+                                        selected #end>$!{item.liveCategoryString}</option>
+                            #end
+                        </select>
+                    </td>
+                </div>
                 <td class="tit">状态：</td>
-                <td><select name="status">
-                    <option value="onSale">上架</option>
-                    <option value="offSale">下架</option>
-                    <option value="deleted">用户已删除</option>
+                <td><select name="status" class="form-control">
+                    <option value="1">上架</option>
+                    <option value="3">下架</option>
+                    <option value="2">用户已删除</option>
                 </select></td>
             </tr>
             <tr>
                 <td class="tit">开始时间：</td>
                 <td colspan="3">
-                    <input type = "text" name = "startTime" value="2016-04-21" class = "form-date dateInp startTime inputxt">
+                    <input type = "text"  class="form-control" name = "startTime" value="2016-04-21" class = "form-date dateInp startTime inputxt">
                     &nbsp; &nbsp;至&nbsp; &nbsp;
-                    <input type = "text" name = "endTime" value="2016-04-30"class = "form-date dateInp endTime inputxt">
+                    <input type = "text"  class="form-control" name = "endTime" value="2016-04-30"class = "form-date dateInp endTime inputxt">
                 </td>
                 <td class="tit">排序方式：</td>
-                <td><select name="orderStyle">
-                    <option value="0">时间倒序(最新回放在前)</option>
-                    <option value="1">权重(权重值高在前)</option>
+                <td><select name="liveOrder" class="form-control">
+                    <option value="1">时间倒序(最新回放在前)</option>
+                    <option value="3">权重(权重值高在前)</option>
                     <option value="2">播放次数(次数多在前)</option>
                 </select></td>
                 <td colspan="2">
@@ -110,14 +116,14 @@
                     $!{item.liveOrder}
                 </td>
                 <td>
-                    $!{item.status}
+                    $!{item.statusString}
                 </td>
                 <td>
                     <button type="button" class="btn btn-primary weight" liveOrder="$!{item.liveOrder}" liveRecordId="$!{item.id}">编辑权重</button>
-                    #if($item.status==$guideStatusMap.get("ONLINE").code)
-                        <button type="button" class="btn btn-primary on" gmtModified="$!{item.gmtModified}" liveRecordId="$!{item.liveRecordId}">上架</button>
+                    #if($item.status==3)
+                        <button type="button" class="btn btn-primary on" gmtModified="$!{item.gmtModified}" liveRecordId="$!{item.id}">上架</button>
                     #end
-                    #if($item.status==$guideStatusMap.get("OFFLINE").code)
+                    #if($item.status==1)
                         <button type="button" class="btn btn-primary off" gmtModified="$!{item.gmtModified}" liveRecordId="$!{item.id}">下架</button>
                     #end
                     <button type="button" class="btn btn-primary play" liveOrder="$!{item.liveOrder}" liveRecordId="$!{item.id}">播放</button>
@@ -181,7 +187,7 @@
     }
 
     $("#btnReset").on("click",function(){
-        $("#guideListForm").find(".form-control").val('');
+        $("#playBackListForm").find(".form-control").val('');
     });
 
     // 设置权重

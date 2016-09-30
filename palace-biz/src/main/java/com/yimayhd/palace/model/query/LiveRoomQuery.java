@@ -25,7 +25,7 @@ public class LiveRoomQuery extends BaseQuery {
     /**
      * 直播间状态
      */
-    private int status;
+    private Long status;
 
     public Long getUserId() {
         return userId;
@@ -51,11 +51,11 @@ public class LiveRoomQuery extends BaseQuery {
         this.liveRoomId = liveRoomId;
     }
 
-    public int getStatus() {
+    public Long getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Long status) {
         this.status = status;
     }
 }

@@ -22,7 +22,7 @@ public class LiveAdminQuery extends BaseQuery {
     /**
      * 直播间ID
      */
-    private long liveRoomId;
+    private Long liveRoomId;
     /**
      * 直播分类
      */
@@ -63,20 +63,19 @@ public class LiveAdminQuery extends BaseQuery {
      * 回放时间秒数
      */
     private int replaySecondTime;
+
     /**
      * 排序方式
      */
-    private LiveOrder liveOrder;
+    private Long liveOrder;
 
     private Date gmtCreated;
 
-    private String orderValue;
-
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -88,19 +87,19 @@ public class LiveAdminQuery extends BaseQuery {
         this.nickName = nickName;
     }
 
-    public long getLiveRoomId() {
+    public Long getLiveRoomId() {
         return liveRoomId;
     }
 
-    public void setLiveRoomId(long liveRoomId) {
+    public void setLiveRoomId(Long liveRoomId) {
         this.liveRoomId = liveRoomId;
     }
 
-    public long getLiveCategory() {
+    public Long getLiveCategory() {
         return liveCategory;
     }
 
-    public void setLiveCategory(long liveCategory) {
+    public void setLiveCategory(Long liveCategory) {
         this.liveCategory = liveCategory;
     }
 
@@ -178,7 +177,7 @@ public class LiveAdminQuery extends BaseQuery {
         this.replaySecondTime = replaySecondTime;
     }
 
-    public LiveOrder getLiveOrder() {
+    public Long getLiveOrder() {
         return liveOrder;
     }
 
@@ -186,12 +185,7 @@ public class LiveAdminQuery extends BaseQuery {
         return gmtCreated;
     }
 
-    public void setLiveOrder(LiveOrder liveOrder) {
+    public void setLiveOrder(Long liveOrder) {
         this.liveOrder = liveOrder;
-        this.orderValue = liveOrder.getValue();
-    }
-
-    public String getOrderValue() {
-        return orderValue;
     }
 }

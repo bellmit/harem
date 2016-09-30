@@ -55,10 +55,10 @@ public class LiveAdminServiceImpl implements LiveAdminService {
             List<UserDO> userDOs = userRepo.getUserByNickname(pageQuery.getNickName());
             if (userDOs.size() == 0)
                 return new PageVO<LiveRecordVO>();
-            if (pageQuery.getUserId() > 0) {
+            if (pageQuery.getUserId() != null && pageQuery.getUserId().longValue() >0) {
                 for (UserDO userDO : userDOs) {
-                    if (userDO.getId() == pageQuery.getUserId()) {
-                        userQueryIds.add(pageQuery.getUserId());
+                    if (userDO.getId() == pageQuery.getUserId().longValue()) {
+                        userQueryIds.add(pageQuery.getUserId().longValue());
                         break;
                     }
                 }
@@ -70,7 +70,7 @@ public class LiveAdminServiceImpl implements LiveAdminService {
                 }
             }
         } else {
-            if (pageQuery.getUserId() > 0)
+            if (pageQuery.getUserId() != null && pageQuery.getUserId().longValue() >0)
                 userQueryIds.add(pageQuery.getUserId());
         }
         // 查询直播列表
@@ -196,10 +196,10 @@ public class LiveAdminServiceImpl implements LiveAdminService {
             List<UserDO> userDOs = userRepo.getUserByNickname(liveRoomQuery.getNickName());
             if (userDOs.size() == 0)
                 return new PageVO<LiveRoomVO>();
-            if (liveRoomQuery.getUserId() > 0) {
+            if (liveRoomQuery.getUserId() != null && liveRoomQuery.getUserId().longValue() >0) {
                 for (UserDO userDO : userDOs) {
-                    if (userDO.getId() == liveRoomQuery.getUserId()) {
-                        userQueryIds.add(liveRoomQuery.getUserId());
+                    if (userDO.getId() == liveRoomQuery.getUserId().longValue()) {
+                        userQueryIds.add(liveRoomQuery.getUserId().longValue());
                         break;
                     }
                 }
@@ -212,7 +212,7 @@ public class LiveAdminServiceImpl implements LiveAdminService {
                 }
             }
         } else {
-            if (liveRoomQuery.getUserId() != null && liveRoomQuery.getUserId() > 0)
+            if (liveRoomQuery.getUserId() != null && liveRoomQuery.getUserId().longValue() > 0)
                 userQueryIds.add(liveRoomQuery.getUserId());
         }
         List<Long> liveQueryRoomIds = new ArrayList<Long>();

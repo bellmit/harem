@@ -102,6 +102,10 @@ public class LiveRecordVO implements Serializable {
      */
     private int status;
     /**
+     * 直播记录状态
+     */
+    private String statusString;
+    /**
      * 直播记录创建时间
      */
     private Date gmtCreated;
@@ -277,6 +281,14 @@ public class LiveRecordVO implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getStatusString() {
+        return statusString;
+    }
+
+    public void setStatusString(String statusString) {
+        this.statusString = statusString;
     }
 
     public Date getGmtCreated() {
