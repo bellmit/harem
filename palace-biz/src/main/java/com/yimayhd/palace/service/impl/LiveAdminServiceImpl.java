@@ -89,9 +89,6 @@ public class LiveAdminServiceImpl implements LiveAdminService {
         List<LiveRecordDO> liveRecordDOList = liveRecordPageResult.getList();
         for (LiveRecordDO liveRecordDO : liveRecordDOList) {
             liveRecordVOList.add(LiveAdminConverter.liveRecordDO2LiveRecordVO(liveRecordDO));
-
-            System.out.println("==========================++++++++++++++"+liveRecordDO.getReplayUrl());
-
             userIds.add(liveRecordDO.getUserId());
             categorys.add(liveRecordDO.getLiveCategory());
         }
