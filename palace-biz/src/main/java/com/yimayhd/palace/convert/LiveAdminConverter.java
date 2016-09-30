@@ -115,8 +115,8 @@ public class LiveAdminConverter {
             return null;
         }
         LiveRoomPageQuery liveRoomPageQuery = new LiveRoomPageQuery();
-//        liveRoomPageQuery.setUserIds(liveRoomQuery.getUserIds());
-//        liveRoomPageQuery.setLiveRoomIds(liveRoomQuery.getLiveRoomIds());
+//      liveRoomPageQuery.setUserIds(liveRoomQuery.getUserIds());
+//      liveRoomPageQuery.setLiveRoomIds(liveRoomQuery.getLiveRoomIds());
         if (liveRoomQuery.getStatus() != null)
             liveRoomPageQuery.setStatus(liveRoomQuery.getStatus().intValue());
         return liveRoomPageQuery;

@@ -89,6 +89,9 @@ public class LiveAdminServiceImpl implements LiveAdminService {
         List<LiveRecordDO> liveRecordDOList = liveRecordPageResult.getList();
         for (LiveRecordDO liveRecordDO : liveRecordDOList) {
             liveRecordVOList.add(LiveAdminConverter.liveRecordDO2LiveRecordVO(liveRecordDO));
+
+            System.out.println("==========================++++++++++++++"+liveRecordDO.getReplayUrl());
+
             userIds.add(liveRecordDO.getUserId());
             categorys.add(liveRecordDO.getLiveCategory());
         }
@@ -121,6 +124,10 @@ public class LiveAdminServiceImpl implements LiveAdminService {
                 }
             }
         }
+
+
+
+
         return new PageVO<LiveRecordVO>(liveRecordPageResult.getPageNo(), liveRecordPageResult.getPageSize(), liveRecordPageResult.getTotalCount(), liveRecordVOList);
     }
 

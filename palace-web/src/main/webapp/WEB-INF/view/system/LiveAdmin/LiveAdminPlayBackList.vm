@@ -127,7 +127,9 @@
                     #if($item.status==1)
                         <button type="button" class="btn btn-primary off" liveRecordId="$!{item.id}">下架</button>
                     #end
-                    <button type="button" class="btn btn-primary play" liveOrder="$!{item.liveOrder}" liveRecordId="$!{item.id}">播放</button>
+                    #if($item.replayUrl.size()>0)
+                        <button type="button" class="btn btn-primary play" url="$!{item.replayUrl.get(0)}" liveOrder="$!{item.liveOrder}" liveRecordId="$!{item.id}">播放</button>
+                    #end
                 </td>
             </tr>
             #end
@@ -258,6 +260,21 @@
         });
 
         // todo 播放
+        $("#tbPlayBackList").on("click", ".play", function () {
+            var id = $(this).attr('url');
+            openModalForAttachment(id, "播放", '500px', '400px');
+        });
 
     });
+
+    var openModalForAttachment = function (url, title, width, height) {// 弹出框url，标题，回调返回参数
+        layer.open({
+            type: 2,
+            title: title,
+            fix: false,
+            maxmin: true,
+            area: [width, height],
+            content: url,
+        });
+    }
 </script>

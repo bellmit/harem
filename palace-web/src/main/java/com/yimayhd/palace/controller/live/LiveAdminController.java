@@ -107,12 +107,6 @@ public class LiveAdminController extends BaseController {
         }
     }
 
-    /**
-     * update 播放
-     **/
-    //// TODO: 16/9/21
-
-
     // 房间管理
     /**
      * select获取直播房间列表
