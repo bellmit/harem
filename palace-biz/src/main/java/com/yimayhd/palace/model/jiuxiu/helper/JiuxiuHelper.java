@@ -79,9 +79,9 @@ public class JiuxiuHelper {
 		}
 		merchantPageQuery.setOption(option);
 		merchantPageQuery.setOptionHandle(1);
-//		if(StringUtils.isNotEmpty(jiuxiuMerchantListQuery.getMerchantName())){
-//			merchantPageQuery.setNameLike(jiuxiuMerchantListQuery.getMerchantName().trim());
-//		}
+		if(StringUtils.isNotEmpty(jiuxiuMerchantListQuery.getMerchantName())){
+			merchantPageQuery.setNameLike(jiuxiuMerchantListQuery.getMerchantName().trim());
+		}
 //		if(StringUtils.isNotEmpty(jiuxiuMerchantListQuery.getMerchantNo()) && Common.regularMatches("[0-9]{1,}", jiuxiuMerchantListQuery.getMerchantNo())){
 //			merchantPageQuery.setSellerId(Long.parseLong(jiuxiuMerchantListQuery.getMerchantNo().trim()));
 //		}
@@ -162,9 +162,9 @@ public class JiuxiuHelper {
 		if (StringUtils.isNotEmpty(jiuxiuOrderListQuery.getOrderStat())){
 			dto.setBizOrderStatus(Integer.parseInt(jiuxiuOrderListQuery.getOrderStat()));
 		}
-//		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getMerchantName())){
-//			dto.setMerchantName(jiuxiuOrderListQuery.getMerchantName());
-//		}
+		if(StringUtils.isNotEmpty(jiuxiuOrderListQuery.getMerchantName())){
+			dto.setMerchantName(jiuxiuOrderListQuery.getMerchantName());
+		}
 		//商户编号
 		if (StringUtils.isNotEmpty(jiuxiuOrderListQuery.getMerchantNo())){
 			dto.setSellerId(Long.parseLong(jiuxiuOrderListQuery.getMerchantNo()));
