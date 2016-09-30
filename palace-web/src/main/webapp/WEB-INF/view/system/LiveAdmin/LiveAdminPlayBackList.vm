@@ -1,4 +1,5 @@
 <body>
+<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/datetimepicker.min.css">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/base.css" id="">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/live/livelist.css" id="">
 <div class="searchbox">
@@ -23,7 +24,7 @@
                     </td>
                 </div>
                 <td class="tit">状态：</td>
-                <td><select name="status" class="form-control">
+                <td><select name="liveStatus" class="form-control">
                     <option value="1">上架</option>
                     <option value="3">下架</option>
                     <option value="2">用户已删除</option>
@@ -32,9 +33,9 @@
             <tr>
                 <td class="tit">开始时间：</td>
                 <td colspan="3">
-                    <input type = "text"  class="form-control" name = "startTime" value="2016-04-21" class = "form-date dateInp startTime inputxt">
+                    <input type = "text"  name = "startDate" value="2016-04-21" class = "form-date dateInp startTime inputxt">
                     &nbsp; &nbsp;至&nbsp; &nbsp;
-                    <input type = "text"  class="form-control" name = "endTime" value="2016-04-30"class = "form-date dateInp endTime inputxt">
+                    <input type = "text"  name = "endDate" value="2016-04-30"class = "form-date dateInp endTime inputxt">
                 </td>
                 <td class="tit">排序方式：</td>
                 <td><select name="liveOrder" class="form-control">
@@ -121,10 +122,10 @@
                 <td>
                     <button type="button" class="btn btn-primary weight" liveOrder="$!{item.liveOrder}" liveRecordId="$!{item.id}">编辑权重</button>
                     #if($item.status==3)
-                        <button type="button" class="btn btn-primary on" gmtModified="$!{item.gmtModified}" liveRecordId="$!{item.id}">上架</button>
+                        <button type="button" class="btn btn-primary on" liveRecordId="$!{item.id}">上架</button>
                     #end
                     #if($item.status==1)
-                        <button type="button" class="btn btn-primary off" gmtModified="$!{item.gmtModified}" liveRecordId="$!{item.id}">下架</button>
+                        <button type="button" class="btn btn-primary off" liveRecordId="$!{item.id}">下架</button>
                     #end
                     <button type="button" class="btn btn-primary play" liveOrder="$!{item.liveOrder}" liveRecordId="$!{item.id}">播放</button>
                 </td>
@@ -226,11 +227,23 @@
 
         setWeight();
 
+        //初始化时间控件
+        $(".form-date").datetimepicker({
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            forceParse: 0,
+            showMeridian: 1,
+            format: "yyyy-mm-dd hh:ii"
+        });
+
         //上架
         $("#tbPlayBackList").on("click", ".on", function () {
             var liveRecordId = $(this).attr("liveRecordId");
             layer.confirm("确认要上架此直播？",function(){
-                var data = {liveRecordId: liveRecordId,status: 1,gmtModified: gmtModified}
+                var data = {liveRecordId: liveRecordId,status: 1}
                 submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/updateLiveRecordStatus", "post", data);
             });
         });
@@ -239,7 +252,7 @@
         $("#tbPlayBackList").on("click", ".off", function () {
             var liveRecordId = $(this).attr("liveRecordId");
             layer.confirm("确认要下架此直播？",function(){
-                var data = {liveRecordId: liveRecordId,status: 3,gmtModified: gmtModified}
+                var data = {liveRecordId: liveRecordId,status: 3}
                 submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/updateLiveRecordStatus", "post", data);
             });
         });

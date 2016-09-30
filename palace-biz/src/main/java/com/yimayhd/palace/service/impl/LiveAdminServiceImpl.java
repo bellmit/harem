@@ -20,9 +20,11 @@ import com.yimayhd.palace.repo.user.UserRepo;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.LiveAdminService;
 import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
+import javax.rmi.CORBA.Util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -105,21 +107,6 @@ public class LiveAdminServiceImpl implements LiveAdminService {
         }
 
         // 直播分类
-//        TagOutIdAndTypeDTO tagOutIdAndTypeDTO = new TagOutIdAndTypeDTO();
-//        tagOutIdAndTypeDTO.setDomain(1200);
-//        tagOutIdAndTypeDTO.setOutIdList(categorys);
-//        tagOutIdAndTypeDTO.setOutType(TagType.LIVESHOW.name());
-//        Map<Long, List<ComTagDO>> result = commentRepo.getTagInfoByOutIdsAndType(tagOutIdAndTypeDTO);
-//        if (result != null && result.size() > 0) {
-//            for (int i = 0; i < liveRecordDOList.size(); i++) {
-//                LiveRecordVO liveRecordVO = liveRecordVOList.get(i);
-//                List<ComTagDO> comTagDOList = result.get(liveRecordVO.getLiveCategory());
-//                if (comTagDOList != null && comTagDOList.size() > 0) {
-//                    liveRecordVO.setLiveCategoryString(comTagDOList.get(0).getName());
-//                }
-//            }
-//        }
-        // 直播分类
         if (categorys.size() > 0) {
             List<ComTagDO> comTagDOList = commentRepo.selectTagsIn(categorys);
             if (comTagDOList != null && comTagDOList.size() > 0) {
@@ -158,6 +145,7 @@ public class LiveAdminServiceImpl implements LiveAdminService {
      */
     public BizResult<String> updateLiveRecordStatus(UpdateLiveRecordStatusDTO updateLiveRecordStatusDTO) {
         BizResult<String> bizResult = new BizResult<String>();
+        // // TODO: 16/9/30  增加修改时间
         UpdateLiveRecordStatusResult updateLiveRecordStatusResult = liveAdminRepo.updateLiveRecordStatus(updateLiveRecordStatusDTO);
         bizResult.buildSuccessResult(updateLiveRecordStatusResult);
         return bizResult;
