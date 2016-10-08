@@ -33,6 +33,9 @@ import com.yimayhd.ic.client.service.item.ItemBizQueryService;
 import com.yimayhd.ic.client.service.item.ItemPublishService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.ic.client.service.item.ItemSkuService;
+import com.yimayhd.msgcenter.client.domain.PushRecordDO;
+import com.yimayhd.msgcenter.client.param.SendSmsOption;
+import com.yimayhd.msgcenter.client.result.BaseResult;
 import com.yimayhd.msgcenter.client.service.MsgCenterService;
 import com.yimayhd.palace.base.BaseException;
 import com.yimayhd.palace.constant.Constant;
@@ -72,7 +75,7 @@ public class ItemRepo {
 		RepoUtils.resultLog(log, "itemQueryServiceRef.publish", itemPubResult);
 	}
 
-	public void unshelve(ItemPublishDTO itemPublishDTO) {
+	public ItemCloseResult unshelve(ItemPublishDTO itemPublishDTO) {
 		if (itemPublishDTO == null) {
 			log.warn("ItemRepo.unshelve(itemPublishDTO) error: itemPublishDTO is null");
 			throw new BaseException("参数为null ");
@@ -80,6 +83,7 @@ public class ItemRepo {
 		RepoUtils.requestLog(log, "itemQueryServiceRef.close", itemPublishDTO);
 		ItemCloseResult itemCloseResult = itemPublishServiceRef.close(itemPublishDTO);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.close", itemCloseResult);
+		return itemCloseResult;
 	}
 
 	public void delete(ItemPublishDTO itemPublishDTO) {
@@ -102,7 +106,7 @@ public class ItemRepo {
 		RepoUtils.resultLog(log, "itemQueryServiceRef.batchPublish", batchPublish);
 	}
 
-	public void batchUnshelve(ItemBatchPublishDTO itemBatchPublishDTO) {
+	public ItemCloseResult batchUnshelve(ItemBatchPublishDTO itemBatchPublishDTO) {
 		if (itemBatchPublishDTO == null) {
 			log.warn("ItemRepo.batchUnshelve(itemBatchPublishDTO) error: itemPublishDTO is null");
 			throw new BaseException("参数为null ");
@@ -110,6 +114,7 @@ public class ItemRepo {
 		RepoUtils.requestLog(log, "itemQueryServiceRef.batchClose", itemBatchPublishDTO);
 		ItemCloseResult batchClose = itemPublishServiceRef.batchClose(itemBatchPublishDTO);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.batchClose", batchClose);
+		return batchClose;
 	}
 
 	public void batchDelete(ItemBatchPublishDTO itemBatchPublishDTO) {
@@ -192,5 +197,20 @@ public class ItemRepo {
 		ICResult<Boolean> updateResult = itemPublishServiceRef.updateConsultItemKeyWord(itemKeyWordDTO);
 		log.debug("itemPublishServiceRef.updateConsultItemKeyWord result:{}",JSON.toJSONString(updateResult));
 		return updateResult;
+	}
+	/**
+	 * 
+	* created by zhangxiaoyang
+	* @date 2016年9月30日
+	* @Description:发送短信
+	* @param 
+	* @return BaseResult<Boolean>
+	* @throws
+	 */
+	public BaseResult<Boolean> PushMsg(PushRecordDO paramPushRecordDO) {
+		log.info("param PushRecordDO={}",JSON.toJSONString(paramPushRecordDO));
+		BaseResult<Boolean> sendSmsResult = msgCenterServiceRef.sendPush(paramPushRecordDO);
+		log.info("msgCenterServiceRef.sendPush result:{}",JSON.toJSONString(sendSmsResult));
+		return sendSmsResult;
 	}
 }

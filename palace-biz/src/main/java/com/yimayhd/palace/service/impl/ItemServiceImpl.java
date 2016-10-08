@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.yimayhd.msgcenter.client.domain.PushRecordDO;
+import com.yimayhd.msgcenter.client.param.SendSmsOption;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.item.IcMerchantVO;
 import com.yimayhd.tradecenter.client.model.domain.person.TcMerchantInfo;
@@ -25,6 +27,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemDTO;
 import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.param.item.ItemBatchPublishDTO;
@@ -35,6 +38,7 @@ import com.yimayhd.ic.client.model.param.item.ItemWeightDTO;
 import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.ICResultSupport;
+import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.MerchantBiz;
 import com.yimayhd.palace.convert.ItemConverter;
@@ -160,7 +164,17 @@ public class ItemServiceImpl implements ItemService {
 		ItemPublishDTO itemPublishDTO = new ItemPublishDTO();
 		itemPublishDTO.setSellerId(sellerId);
 		itemPublishDTO.setItemId(itemId);
-		itemRepo.unshelve(itemPublishDTO);
+		ItemCloseResult unshelveResult = itemRepo.unshelve(itemPublishDTO);
+		if (unshelveResult != null && unshelveResult.isSuccess()) {
+			List<Long> idList = new ArrayList<Long>();
+			idList.add(itemId);
+			List<ItemDO> itemDOList = itemRepo.getItemByIds(idList);
+			if (CollectionUtils.isNotEmpty(itemDOList)) {
+				String pushContent = "您的商品["+itemId+"]["+itemDOList.get(0).getTitle()+"]，操作[下线]，请悉知，如有疑问，请联系九休客服。"; 
+				sendPush(pushContent);
+			}
+		}
+		
 	}
 
 	@Override
@@ -184,7 +198,19 @@ public class ItemServiceImpl implements ItemService {
 		ItemBatchPublishDTO itemBatchPublishDTO = new ItemBatchPublishDTO();
 		itemBatchPublishDTO.setSellerId(sellerId);
 		itemBatchPublishDTO.setItemIdList(itemIds);
-		itemRepo.batchUnshelve(itemBatchPublishDTO);
+		ItemCloseResult itemCloseResult = itemRepo.batchUnshelve(itemBatchPublishDTO);
+		if (itemCloseResult != null && itemCloseResult.isSuccess()) {
+//			List<Long> idList = new ArrayList<Long>();
+//			idList.add(itemId);
+			List<ItemDO> itemDOList = itemRepo.getItemByIds(itemIds);
+			if (CollectionUtils.isNotEmpty(itemDOList)) {
+				for (ItemDO itemDO : itemDOList) {
+					
+					String pushContent = "您的商品["+itemDO.getId()+"]["+itemDO.getTitle()+"]，操作[下线]，请悉知，如有疑问，请联系九休客服。"; 
+					sendPush(pushContent);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -284,4 +310,18 @@ public class ItemServiceImpl implements ItemService {
 		}
 		return true;
 	}
+	
+	private boolean sendPush(String pushContent) {
+		PushRecordDO record = new PushRecordDO();
+		record.setPushContent(pushContent);
+		record.setPushTitle(pushContent);
+		com.yimayhd.msgcenter.client.result.BaseResult<Boolean> pushResult = itemRepo.PushMsg(record);
+		if (pushContent == null || !pushResult.isSuccess()) {
+			log.error("push fail,result:{}",JSON.toJSONString(pushResult));
+			return false;
+		}
+		return true;
+		
+	}
+	
 }
