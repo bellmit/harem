@@ -108,6 +108,8 @@ consumer.dubbo.check = ${consumer.dubbo.check}
 consumer.dubbo.solr.check = ${consumer.dubbo.solr.check}
 consumer.dubbo.solr.version = ${consumer.dubbo.solr.version}
 
+consumer.dubbo.msg.check = ${consumer.dubbo.solr.check}
+consumer.dubbo.msg.version = ${consumer.dubbo.solr.version}
 #网宿上传配置开始
 chinanetcenter.config.sk=${chinanetcenter.config.sk}
 chinanetcenter.config.ak=${chinanetcenter.config.ak}
