@@ -103,7 +103,7 @@
                     $!{item.userId}
                 </td>
                 <td>
-                    $!{item.startDate}
+                    $!{item.startDate.toLocaleString()}
                 </td>
                 <td>
                     $!{item.onlineCount}
