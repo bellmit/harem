@@ -24,7 +24,7 @@
                     </td>
                 </div>
                 <td class="tit">状态：</td>
-                <td><select name="liveStatus" class="form-control">
+                <td><select name="liveRecordStatus" class="form-control">
                     <option value="0">全部</option>
                     <option value="1">上架</option>
                     <option value="3">下架</option>

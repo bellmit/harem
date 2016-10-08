@@ -42,7 +42,7 @@ public class LiveAdminConverter {
             }
             liveRecordVO.setLiveTopic(topic);
         }
-        liveRecordVO.setLiveDes(liveRecordDO.getLiveDes());
+//      liveRecordVO.setLiveDes(liveRecordDO.getLiveDes());
         liveRecordVO.setLiveCover(liveRecordDO.getLiveCover());
         liveRecordVO.setLiveStatus(liveRecordDO.getLiveStatus());
         liveRecordVO.setLocationCityCode(liveRecordDO.getLocationCityCode());
@@ -117,6 +117,7 @@ public class LiveAdminConverter {
         liveAdminPageQuery.setReplaySecondTime(liveAdminQuery.getReplaySecondTime());
         liveAdminPageQuery.setPageNo(liveAdminQuery.getPageNumber());
         liveAdminPageQuery.setPageSize(liveAdminQuery.getPageSize());
+        liveAdminPageQuery.setLiveRecordStatus(liveAdminQuery.getLiveRecordStatus());
         if (liveAdminPageQuery.getLiveOrder() != null)
         {
             if (liveAdminQuery.getLiveOrder().intValue() == 1)
@@ -127,7 +128,7 @@ public class LiveAdminConverter {
                 liveAdminPageQuery.setLiveOrder(LIVE_WEIGHT_DESC);
         }
         else
-            liveAdminPageQuery.setLiveOrder(START_TIME_DESC);// 默认
+            liveAdminPageQuery.setLiveOrder(VIEW_COUNT_DESC);// 默认
         return liveAdminPageQuery;
     }
 

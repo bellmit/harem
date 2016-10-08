@@ -81,6 +81,9 @@ public class LiveAdminQuery extends BaseQuery {
      */
     private Long liveOrder;
 
+    /** 直播状态 1 正常 2 删除 3 下架 */
+    private int liveRecordStatus;
+
     private Date gmtCreated;
 
     public Long getUserId() {
@@ -215,6 +218,14 @@ public class LiveAdminQuery extends BaseQuery {
 
     public void setLiveOrder(Long liveOrder) {
         this.liveOrder = liveOrder;
+    }
+
+    public int getLiveRecordStatus() {
+        return liveRecordStatus;
+    }
+
+    public void setLiveRecordStatus(int liveRecordStatus) {
+        this.liveRecordStatus = liveRecordStatus;
     }
 
     public String toLocaleString() {
