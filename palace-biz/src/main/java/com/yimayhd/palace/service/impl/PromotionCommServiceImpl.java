@@ -413,8 +413,6 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             PromotionVO promotionVO = new PromotionVO();
             promotionVO.setId(promotionDO.getId());
             Double requirementY = (double) promotionDO.getRequirement()/100;
-//            String requirement = MoneyUtil.centToYuanMoneyFormat(promotionDO.getRequirement());
-//            Double requirementY = Double.valueOf(requirement.toString());
             promotionVO.setRequirementY(MoneyUtil.moneyY(requirementY));
             List<GiftVO> gifts = new ArrayList<GiftVO>();
             if (StringUtils.isNotBlank(promotionDO.getFeature())) {
@@ -422,8 +420,6 @@ public class PromotionCommServiceImpl implements PromotionCommService {
                 List<FullGiveFeature> fullGiveFeatures = promotionFeature.getFreeGiftList();
                 for (FullGiveFeature fullGiveFeature : fullGiveFeatures) {
                     GiftVO giftVO = new GiftVO();
-//                    String giftPrice = MoneyUtil.centToYuanMoneyFormat(fullGiveFeature.getPrice());
-//                    Double money = Double.valueOf(giftPrice.toString());
                     Double money = (double) fullGiveFeature.getPrice()/100;
                     giftVO.setPriceY(MoneyUtil.moneyY(money));
                     giftVO.setPrice(fullGiveFeature.getPrice());
@@ -435,7 +431,6 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             promotionVO.setGifts(gifts);
             promotionVOList.add(promotionVO);
         }
-//        Collections.reverse(promotionVOList);
         actActivityEditVO.setActActivityVO(actActivityVO);
         actActivityEditVO.setPromotionVOList(promotionVOList);
         return actActivityEditVO;
