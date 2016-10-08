@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.yimayhd.msgcenter.client.domain.PushRecordDO;
+import com.yimayhd.msgcenter.client.enums.PushSendType;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.item.IcMerchantVO;
 import com.yimayhd.user.client.domain.MerchantDO;
@@ -185,7 +186,7 @@ public class ItemServiceImpl implements ItemService {
 			List<ItemDO> itemDOList = itemRepo.getItemByIds(idList);
 			if (CollectionUtils.isNotEmpty(itemDOList)) {
 				String pushContent =  "您的商品["+itemId+"]["+itemDOList.get(0).getTitle()+"]，操作[下线]，请悉知，如有疑问，请联系九休客服。";
-				sendPush(pushContent);
+				sendPush(pushContent,sellerId);
 			}
 		}
 		
@@ -221,7 +222,7 @@ public class ItemServiceImpl implements ItemService {
 				for (ItemDO itemDO : itemDOList) {
 					
 					String pushContent = "您的商品["+itemDO.getId()+"]["+itemDO.getTitle()+"]，操作[下线]，请悉知，如有疑问，请联系九休客服。"; 
-					sendPush(pushContent);
+					sendPush(pushContent,sellerId);
 				}
 			}
 		}
@@ -325,13 +326,16 @@ public class ItemServiceImpl implements ItemService {
 		return true;
 	}
 	
-	private boolean sendPush(String pushContent) {
+	private boolean sendPush(String pushContent,long sellerId) {
 		PushRecordDO record = new PushRecordDO();
 		record.setPushContent(pushContent);
 		record.setPushTitle(PUSH_TITLE);
 		record.setBizType(BIZ_TYPE);
 		record.setBizSubtype(BIZ_SUB_TYPE);
 		record.setApplicationId(APPLICATION_ID);
+		record.setUserId(sellerId);
+		record.setOutId(System.currentTimeMillis());
+		record.setSendType(PushSendType.REGISTRATION_ID.getType());
 		com.yimayhd.msgcenter.client.result.BaseResult<Boolean> pushResult = itemRepo.PushMsg(record);
 		if (pushContent == null || !pushResult.isSuccess()) {
 			log.error("push fail,result:{}",JSON.toJSONString(pushResult));
