@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.yimayhd.msgcenter.client.domain.PushRecordDO;
-import com.yimayhd.msgcenter.client.param.SendSmsOption;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.item.IcMerchantVO;
-import com.yimayhd.tradecenter.client.model.domain.person.TcMerchantInfo;
 import com.yimayhd.user.client.domain.MerchantDO;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.dto.MerchantUserDTO;
@@ -61,7 +59,18 @@ import com.yimayhd.user.client.dto.CityDTO;
  */
 public class ItemServiceImpl implements ItemService {
 	private Logger log = LoggerFactory.getLogger(getClass());
+//	private static final String PUSH = "很抱歉的通知您，您在九休商家中心申请的入驻因以下问题未审核通过，请尽快登陆九休商家中心，修改相关信息后可再次提交申请。" + PARTTEN
+//            + "如您有任何疑问，请直接联系：4000-696-888。";
 
+    private static final String PUSH_TITLE = "商品下架通知";
+
+//    private static final String SPLIT = ";";
+    
+    private static final int BIZ_TYPE = 1;
+    
+    private static final int BIZ_SUB_TYPE = 3001;
+    
+    private static final int APPLICATION_ID = 21;
 	@Autowired
 	private ItemRepo itemRepo;
 	@Autowired
@@ -175,7 +184,7 @@ public class ItemServiceImpl implements ItemService {
 			idList.add(itemId);
 			List<ItemDO> itemDOList = itemRepo.getItemByIds(idList);
 			if (CollectionUtils.isNotEmpty(itemDOList)) {
-				String pushContent = "您的商品["+itemId+"]["+itemDOList.get(0).getTitle()+"]，操作[下线]，请悉知，如有疑问，请联系九休客服。"; 
+				String pushContent =  "您的商品["+itemId+"]["+itemDOList.get(0).getTitle()+"]，操作[下线]，请悉知，如有疑问，请联系九休客服。";
 				sendPush(pushContent);
 			}
 		}
@@ -319,7 +328,10 @@ public class ItemServiceImpl implements ItemService {
 	private boolean sendPush(String pushContent) {
 		PushRecordDO record = new PushRecordDO();
 		record.setPushContent(pushContent);
-		record.setPushTitle(pushContent);
+		record.setPushTitle(PUSH_TITLE);
+		record.setBizType(BIZ_TYPE);
+		record.setBizSubtype(BIZ_SUB_TYPE);
+		record.setApplicationId(APPLICATION_ID);
 		com.yimayhd.msgcenter.client.result.BaseResult<Boolean> pushResult = itemRepo.PushMsg(record);
 		if (pushContent == null || !pushResult.isSuccess()) {
 			log.error("push fail,result:{}",JSON.toJSONString(pushResult));
