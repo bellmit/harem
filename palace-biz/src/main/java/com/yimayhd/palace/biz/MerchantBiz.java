@@ -135,6 +135,7 @@ public class MerchantBiz {
 		List<Long> userIdList = null;
 		if ("shopName".equalsIgnoreCase(merchantName)) {
 			userIdList = getUserIdsByShopName(sellerName);
+			//userIdList = new ArrayList<Long>();
 		}else if ("nickName".equalsIgnoreCase(merchantName)) {
 			userIdList = getUserIdsByNickName(sellerName);
 		}

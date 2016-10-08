@@ -80,17 +80,22 @@ public class ItemServiceImpl implements ItemService {
 		if (query == null) {
 			query = new ItemListQuery();
 		}
+		List<ItemInfoVO> resultList = new ArrayList<ItemInfoVO>();
 		ItemQryDTO itemQryDTO = ItemConverter.toItemQryDTO(query);
-		BizResult<List<Long>> userIds = merchantBiz.getUserIds(query.getSellerName(), query.getMerchantName());
-		List<Long> userIdList = userIds.getValue();
-		if (CollectionUtils.isNotEmpty(userIdList)) {
+		if (StringUtils.isNotBlank(query.getSellerName())) {
 			
+			BizResult<List<Long>> userIds = merchantBiz.getUserIds(query.getSellerName(), query.getMerchantName());
+			List<Long> userIdList = userIds.getValue();
+			if (CollectionUtils.isEmpty(userIdList)) {
+				PageVO<ItemInfoVO> pageVO = new PageVO<ItemInfoVO>(0, query.getPageSize(),
+						0, resultList);
+				return pageVO;
+			}
 			itemQryDTO.setUserIds(userIdList);
 		}
 		ICPageResult<ItemInfo> icPageResult = itemRepo.getItemList(itemQryDTO);
 		
 		List<ItemInfo> itemInfoList = icPageResult.getList();
-		List<ItemInfoVO> resultList = new ArrayList<ItemInfoVO>();
 		if (CollectionUtils.isNotEmpty(itemInfoList)) {
 			List<Long> itemIds = new ArrayList<Long>();
 			for (ItemInfo itemInfo : itemInfoList) {

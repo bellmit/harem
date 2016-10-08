@@ -67,14 +67,16 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 		
 		JiuxiuHelper.fillOrderQueryDTO(dto, jiuxiuOrderListQuery);
 		dto.setNeedExtFeature(true);
+		BatchJiuxiuOrderResult jiuxiuResult = new BatchJiuxiuOrderResult();
+		if (StringUtils.isNotBlank(jiuxiuOrderListQuery.getSellerName())) {
 		BizResult<List<Long>> userIds = merchantBiz.getUserIds(jiuxiuOrderListQuery.getSellerName(), jiuxiuOrderListQuery.getMerchantName());
 		List<Long> userIdList = userIds.getValue();
-		if (CollectionUtils.isNotEmpty(userIdList)) {
-			
-			dto.setSellerId(userIdList.get(0));
+		if (CollectionUtils.isEmpty(userIdList)) {
+			return jiuxiuResult;
+		}
+		dto.setSellerId(userIdList.get(0));
 		}
 		BatchBizQueryResult result = tcBizQueryServiceRef.queryOrderForAdmin(dto);
-		BatchJiuxiuOrderResult jiuxiuResult = new BatchJiuxiuOrderResult();
 		List<JiuxiuTcMainOrder> jiuxiuTcMainOrders = new ArrayList<JiuxiuTcMainOrder>();
 		jiuxiuResult.setTotalCount(result.getTotalCount());
 		if(result.isSuccess() && null!=result.getBizOrderDOList()){
