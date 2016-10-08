@@ -121,10 +121,6 @@ public class LiveAdminServiceImpl implements LiveAdminService {
                 }
             }
         }
-
-
-
-
         return new PageVO<LiveRecordVO>(liveRecordPageResult.getPageNo(), liveRecordPageResult.getPageSize(), liveRecordPageResult.getTotalCount(), liveRecordVOList);
     }
 
