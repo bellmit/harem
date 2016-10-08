@@ -159,6 +159,7 @@
                 <td>
                     <input type="hidden" class="id" value="0"/>
                     <a class="btn addTableBtn" data-add="0">添加</a>
+                    <a class="btn delTableBtn" data-add="0">删除</a>
                 </td>
             </tr>
             </thead>
