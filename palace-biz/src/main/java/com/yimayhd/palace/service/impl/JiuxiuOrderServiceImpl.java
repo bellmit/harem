@@ -76,6 +76,7 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 		}
 		dto.setSellerId(userIdList.get(0));
 		}
+		dto.setMerchantName(null);
 		BatchBizQueryResult result = tcBizQueryServiceRef.queryOrderForAdmin(dto);
 		List<JiuxiuTcMainOrder> jiuxiuTcMainOrders = new ArrayList<JiuxiuTcMainOrder>();
 		jiuxiuResult.setTotalCount(result.getTotalCount());
