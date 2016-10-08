@@ -46,6 +46,10 @@ public class LiveRecordVO implements Serializable {
      */
     private String liveTitle;
     /**
+     * 直播话题
+     */
+    private String liveTopic;
+    /**
      * 直播描述
      */
     private String liveDes;
@@ -193,6 +197,14 @@ public class LiveRecordVO implements Serializable {
 
     public void setLiveTitle(String liveTitle) {
         this.liveTitle = liveTitle;
+    }
+
+    public String getLiveTopic() {
+        return liveTopic;
+    }
+
+    public void setLiveTopic(String liveTopic) {
+        this.liveTopic = liveTopic;
     }
 
     public String getLiveDes() {

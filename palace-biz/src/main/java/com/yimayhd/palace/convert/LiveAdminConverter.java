@@ -10,6 +10,7 @@ import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.query.LiveAdminQuery;
 import com.yimayhd.palace.model.query.LiveRoomQuery;
 
+import java.io.Console;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -30,7 +31,17 @@ public class LiveAdminConverter {
         liveRecordVO.setUserId(liveRecordDO.getUserId());
         liveRecordVO.setLiveRoom(liveRecordDO.getLiveRoom());
         liveRecordVO.setLiveCategory(liveRecordDO.getLiveCategory());
-        liveRecordVO.setLiveTitle(liveRecordDO.getLiveTitle());
+        // 标题和话题
+        if (liveRecordDO.getLiveTitle() != null) {
+            String[] ary = liveRecordDO.getLiveTitle().split("\\#");
+            liveRecordVO.setLiveTitle(ary[0]);
+            String topic = new String();
+            for (int i = 1 ; i <ary.length ; i++ ) {
+                topic += ary[i];
+                topic += "\n";
+            }
+            liveRecordVO.setLiveTopic(topic);
+        }
         liveRecordVO.setLiveDes(liveRecordDO.getLiveDes());
         liveRecordVO.setLiveCover(liveRecordDO.getLiveCover());
         liveRecordVO.setLiveStatus(liveRecordDO.getLiveStatus());
@@ -117,7 +128,6 @@ public class LiveAdminConverter {
         }
         else
             liveAdminPageQuery.setLiveOrder(START_TIME_DESC);// 默认
-
         return liveAdminPageQuery;
     }
 

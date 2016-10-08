@@ -94,7 +94,7 @@
                     $!{item.liveCategoryString}
                 </td>
                 <td>
-                    $!{item.liveTitle}
+                    $!{item.liveTopic}
                 </td>
                 <td>
                     $!{item.userDO.nickname}
