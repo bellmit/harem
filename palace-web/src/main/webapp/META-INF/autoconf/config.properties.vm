@@ -94,8 +94,6 @@ consumer.dubbo.activity.version = ${consumer.dubbo.activity.version}
 consumer.dubbo.marketing.check = ${consumer.dubbo.marketing.check}
 consumer.dubbo.marketing.version = ${consumer.dubbo.marketing.version}
 
-consumer.dubbo.live.version = ${consumer.dubbo.live.version}
-
 consumer.dubbo.logistics.check = ${consumer.dubbo.logistics.check}
 consumer.dubbo.logistics.version = ${consumer.dubbo.logistics.version}
 
@@ -109,6 +107,9 @@ consumer.dubbo.check = ${consumer.dubbo.check}
 
 consumer.dubbo.solr.check = ${consumer.dubbo.solr.check}
 consumer.dubbo.solr.version = ${consumer.dubbo.solr.version}
+
+consumer.dubbo.live.check = ${consumer.dubbo.live.check}
+consumer.dubbo.live.version = ${consumer.dubbo.live.version}
 
 #网宿上传配置开始
 chinanetcenter.config.sk=${chinanetcenter.config.sk}
