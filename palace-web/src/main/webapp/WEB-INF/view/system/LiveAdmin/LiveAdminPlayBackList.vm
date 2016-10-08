@@ -25,6 +25,7 @@
                 </div>
                 <td class="tit">状态：</td>
                 <td><select name="liveStatus" class="form-control">
+                    <option value="0">全部</option>
                     <option value="1">上架</option>
                     <option value="3">下架</option>
                     <option value="2">用户已删除</option>
@@ -33,9 +34,9 @@
             <tr>
                 <td class="tit">开始时间：</td>
                 <td colspan="3">
-                    <input type = "text"  name = "startDate" value="2016-04-21" class = "form-date dateInp startTime inputxt">
+                    <input type = "text"  name = "startDateString" value="$!{liveAdminQuery.startDateString}" class = "form-date dateInp startTime inputxt">
                     &nbsp; &nbsp;至&nbsp; &nbsp;
-                    <input type = "text"  name = "endDate" value="2016-04-30"class = "form-date dateInp endTime inputxt">
+                    <input type = "text"  name = "endDateString" value="$!{liveAdminQuery.endDateString}" class = "form-date dateInp endTime inputxt">
                 </td>
                 <td class="tit">排序方式：</td>
                 <td><select name="liveOrder" class="form-control">

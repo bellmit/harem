@@ -9,6 +9,10 @@ import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.query.LiveAdminQuery;
 import com.yimayhd.palace.model.query.LiveRoomQuery;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import static com.yimayhd.live.client.enums.LiveOrder.*;
 
 
@@ -75,6 +79,7 @@ public class LiveAdminConverter {
 
     // 直播列表查询
     public static LiveAdminPageQuery liveAdminQuery2LiveAdminPageQuery(LiveAdminQuery liveAdminQuery) {
+
         if (liveAdminQuery == null) {
             return null;
         }
@@ -86,8 +91,15 @@ public class LiveAdminConverter {
         liveAdminPageQuery.setLiveStatus(liveAdminQuery.getLiveStatus());
         liveAdminPageQuery.setLocationCityCode(liveAdminQuery.getLocationCityCode());
         liveAdminPageQuery.setLocationCityName(liveAdminQuery.getLocationCityName());
-        liveAdminPageQuery.setStartDate(liveAdminQuery.getStartDate());
-        liveAdminPageQuery.setEndDate(liveAdminQuery.getEndDate());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            if (liveAdminQuery.getStartDateString() != null && liveAdminQuery.getEndDateString() != null) {
+                liveAdminPageQuery.setStartDate(sdf.parse(liveAdminQuery.getStartDateString()));
+                liveAdminPageQuery.setEndDate(sdf.parse(liveAdminQuery.getEndDateString()));
+            }
+        }catch (ParseException e){
+            System.out.println(e.getMessage());
+        }
         liveAdminPageQuery.setViewCount(liveAdminQuery.getViewCount());
         liveAdminPageQuery.setOnlineCount(liveAdminQuery.getOnlineCount());
         liveAdminPageQuery.setStartSecondTime(liveAdminQuery.getStartSecondTime());

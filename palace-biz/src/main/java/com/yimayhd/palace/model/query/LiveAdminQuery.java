@@ -4,6 +4,7 @@ import com.yimayhd.live.client.enums.LiveOrder;
 import com.yimayhd.live.client.query.PageQuery;
 import com.yimayhd.palace.base.BaseQuery;
 
+import java.text.DateFormat;
 import java.util.Date;
 
 /**
@@ -39,6 +40,7 @@ public class LiveAdminQuery extends BaseQuery {
      * 直播城市名
      */
     private String locationCityName;
+
     /**
      * 直播开始时间
      */
@@ -47,6 +49,16 @@ public class LiveAdminQuery extends BaseQuery {
      * 直播开始时间
      */
     private Date endDate;
+
+    /**
+     * 直播开始时间字符串
+     */
+    private String startDateString;
+    /**
+     * 直播开始时间字符串
+     */
+    private String endDateString;
+
     /**
      * 直播人气
      */
@@ -143,6 +155,22 @@ public class LiveAdminQuery extends BaseQuery {
         this.endDate = endDate;
     }
 
+    public String getStartDateString() {
+        return startDateString;
+    }
+
+    public void setStartDateString(String startDateString) {
+        this.startDateString = startDateString;
+    }
+
+    public String getEndDateString() {
+        return endDateString;
+    }
+
+    public void setEndDateString(String endDateString) {
+        this.endDateString = endDateString;
+    }
+
     public int getViewCount() {
         return viewCount;
     }
@@ -187,5 +215,10 @@ public class LiveAdminQuery extends BaseQuery {
 
     public void setLiveOrder(Long liveOrder) {
         this.liveOrder = liveOrder;
+    }
+
+    public String toLocaleString() {
+        DateFormat formatter = DateFormat.getDateTimeInstance();
+        return formatter.format(this);
     }
 }
