@@ -36,7 +36,7 @@
                 <div class="input-group inpSingle">
                     <td class="tit">直播分类：</td>
                     <td>
-                    <select class="form-control" name="status">
+                    <select class="form-control" name="liveCategory">
                         <option value="-1">全部</option>
                         #foreach($item in $itemList)
                             <option value="$!{item.liveCategory}" #if($item.liveCategory == $liveAdminQuery.liveCategory)
