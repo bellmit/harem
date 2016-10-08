@@ -128,7 +128,7 @@ public class LiveAdminConverter {
                 liveAdminPageQuery.setLiveOrder(LIVE_WEIGHT_DESC);
         }
         else
-            liveAdminPageQuery.setLiveOrder(VIEW_COUNT_DESC);// 默认
+            liveAdminPageQuery.setLiveOrder(START_TIME_DESC);// 默认
         return liveAdminPageQuery;
     }
 
