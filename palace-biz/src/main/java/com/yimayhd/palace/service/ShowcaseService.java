@@ -8,7 +8,11 @@ import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.ShowCaseItem;
+import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
+import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
+import com.yimayhd.palace.model.query.LiveAdminQuery;
+import com.yimayhd.palace.model.query.LiveRoomQuery;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
 import com.yimayhd.resourcecenter.domain.BoothDO;
 import com.yimayhd.resourcecenter.domain.OperationDO;
@@ -167,4 +171,15 @@ public interface ShowcaseService {
      */
     public PageVO<ShowCaseItem> getGuideListByQuery(GuideScenicListQuery query);
 
+    /**
+     * 分页查询直播回放列表
+     * @return
+     */
+    public PageVO<LiveRecordVO> getPageLiveRecordListByQuery(LiveAdminQuery pageQuery);
+
+    /**
+     * 分页查询直播管理列表
+     * @return
+     */
+    public PageVO<LiveRoomVO> getPageLiveRoomListByQuery(LiveRoomQuery liveRoomQuery);
 }

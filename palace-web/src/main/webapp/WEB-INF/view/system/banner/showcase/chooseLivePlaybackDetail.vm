@@ -75,33 +75,41 @@
     function showData(itemList) {
         $(".selectResourceTable").empty();
         var table = $("<table class='table table-striped table-hover resourceTable'/>");
-        table.append("<thead><tr><th>编号</th><th>主图</th><th>标题</th><th>类别</th><th>商家名称</th><th>目的地</th><th>单价</th><th>状态</th><th>发布时间</th></tr></thead>");
+        table.append("<thead><tr><th>ID</th><th>头图</th><th>直播标题</th><th>直播分类</th><th>话题</th><th>达人昵称</th><th>达人ID</th><th>开始时间</th><th>结束时间</th><th>时长</th><th>观看次数</th></tr></thead>");
         var tbody = $("<tbody/>");
         table.append(tbody);
         var i= 0 ;
+
         for(i in itemList) {
             var item = itemList[i];
             console.log("xxxxxxxxxxx="+JSON.stringify(item));
             resource_table[item.id] = item;
             var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
             tr.append($("<td>"+item.id+"</td>"));
-            tr.append($("<td><img src='$utilWebconfig.getTfsRootPath()"+item.imgUrl+"' width='100' height='100'></td>"));
-            if(null == item.name || item.name.length==0){
+            tr.append($("<td><img src=item.liveCover width='100' height='100'></td>"));
+            if(null == item.liveTitle || item.liveTitle.length==0){
                 tr.append($("<td>"+ ""+"</td>"));
             }else{
-                tr.append($("<td>"+ item.name.replace(/<[^<>]+?>/g,'')+"</td>"));
+                tr.append($("<td>"+ item.liveTitle.replace(/<[^<>]+?>/g,'')+"</td>"));
             }
-            tr.append($("<td>"+ item.showType+"</td>"));
+            tr.append($("<td>"+ item.liveCategoryString+"</td>"));
 
-            if(null == item.salerName || item.salerName.length==0){
-                tr.append($("<td>"+ item.salerName+"</td>"));
+            if(null == item.liveTopic || item.liveTopic.length==0){
+                tr.append($("<td>"+ ""+"</td>"));
             }else{
-                tr.append($("<td>"+ item.salerName.replace(/<[^<>]+?>/g,'')+"</td>"));
+                tr.append($("<td>"+ item.liveTopic+"</td>"));
             }
-            tr.append($("<td>"+item.destination+"</td>"));
-            tr.append($("<td>"+ item.price+"</td>"));
-            tr.append($("<td>"+item.showStatus+"</td>"));
-            tr.append($("<td>"+item.pushDate+"</td>"));
+            if(null != item.userDO && item.userDO.nickname.length>0){
+                tr.append($("<td>"+ item.nickname+"</td>"));
+            }else{
+                tr.append($("<td>"+ ""+"</td>"));
+            }
+            tr.append($("<td>"+ item.userId+"</td>"));
+            tr.append($("<td>"+ item.startDate+"</td>"));
+            tr.append($("<td>"+ item.endDate+"</td>"));
+            tr.append($("<td>"+ item.replaySecond+"</td>"));
+            tr.append($("<td>"+ item.viewCount+"</td>"));
+
             tbody.append(tr);
         }
         $(".selectResourceTable").append(table);

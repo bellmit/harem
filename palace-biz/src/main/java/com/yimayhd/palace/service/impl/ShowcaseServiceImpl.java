@@ -27,11 +27,16 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.convert.ShowCaseItem;
+import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
+import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.model.guide.ScenicVO;
+import com.yimayhd.palace.model.query.LiveAdminQuery;
+import com.yimayhd.palace.model.query.LiveRoomQuery;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
 import com.yimayhd.palace.service.GuideManageService;
+import com.yimayhd.palace.service.LiveAdminService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.util.DateFormat;
 import com.yimayhd.palace.util.NumUtil;
@@ -107,9 +112,9 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
     @Autowired ArticleBackEndService articleBackEndService;
 
-    @Autowired GuideManageService guideManageService ;
+    @Autowired GuideManageService guideManageService;
 
-
+    @Autowired LiveAdminService liveAdminService;
 
 
     public List<ShowcaseVO> getList(long boothId) throws Exception {
@@ -746,4 +751,23 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         return page;
     }
 
+    /**
+     * 分页查询直播回放列表
+     * @return
+     */
+    public PageVO<LiveRecordVO> getPageLiveRecordListByQuery(LiveAdminQuery pageQuery)
+    {
+        PageVO<LiveRecordVO> pageVo = liveAdminService.getPageLiveRecord(pageQuery);
+        return pageVo;
+    }
+
+    /**
+     * 分页查询直播管理列表
+     * @return
+     */
+    public PageVO<LiveRoomVO> getPageLiveRoomListByQuery(LiveRoomQuery liveRoomQuery)
+    {
+        PageVO<LiveRoomVO> pageVo = liveAdminService.getPageLiveRoom(liveRoomQuery);
+        return pageVo;
+    }
 }
