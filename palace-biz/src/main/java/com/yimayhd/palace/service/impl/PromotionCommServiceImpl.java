@@ -518,10 +518,10 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             actPromotionEditDTO.setDelPromotionIdList(delPromotionDOIds);
             ActResultSupport baseResult = activityPromotionServiceRef.updateActivityPromotion(actPromotionEditDTO);
             if(baseResult == null){
-                log.error("PromotionCommService.addGift update error: " + actPromotionEditDTO +"baseResult:"+baseResult);
+                log.error("baseResult is null error: " + JSON.toJSONString(actPromotionEditDTO) +"baseResult:"+JSON.toJSONString(baseResult));
                 throw new BaseException("返回结果错误");
             } else if(!baseResult.isSuccess()){
-                log.error("PromotionCommService.addGift update error:" + actPromotionEditDTO +"baseResult:"+baseResult);
+                log.error("baseResult is failed error:" + JSON.toJSONString(actPromotionEditDTO) +"baseResult:"+JSON.toJSONString(baseResult));
                 throw new BaseException(baseResult.getMsg());
             }
         } else {
@@ -529,10 +529,10 @@ public class PromotionCommServiceImpl implements PromotionCommService {
             promotionEditDTO.setAddPromotionDOList(addPromotionDOList);
             ActResultSupport baseResult = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
             if(baseResult == null){
-                log.error("PromotionCommService.addGift save  promotionEditDTO: " + promotionEditDTO + "baseResult" + baseResult);
+                log.error("baseResult is null save  promotionEditDTO: " + JSON.toJSONString(promotionEditDTO) + "baseResult:" + JSON.toJSONString(baseResult));
                 throw new BaseException("返回结果错误");
             } else if(!baseResult.isSuccess()){
-                log.error("PromotionCommService.addGift save promotionEditDTO:" + promotionEditDTO + "baseResult" + baseResult);
+                log.error("baseResult is failed save promotionEditDTO:" + JSON.toJSONString(promotionEditDTO) + "baseResult:" + JSON.toJSONString(baseResult));
                 throw new BaseException(baseResult.getMsg());
             }
         }
@@ -543,7 +543,7 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     public boolean updateGiftEndTime(ActActivityVO actActivityVO) throws Exception {
         Boolean checkResult = checkGift(actActivityVO);
         if(!checkResult){
-            log.error("PromotionCommService.updateGiftEndTime error: " + actActivityVO);
+            log.error("PromotionCommService.updateGiftEndTime error: " + JSON.toJSONString(actActivityVO));
             throw new BaseException("有重复活动");
         }
         Date endDate = new Date();
@@ -570,10 +570,10 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 
         ActResultSupport baseResult = activityPromotionServiceRef.updateActivityPromotion(actPromotionEditDTO);
         if(baseResult == null){
-            log.error("PromotionCommService.updateGiftEndTime error: " + actPromotionEditDTO);
+            log.error("PromotionCommService.updateGiftEndTime error: " + JSON.toJSONString(actPromotionEditDTO));
             throw new BaseException("返回结果错误");
         } else if(!baseResult.isSuccess()){
-            log.error("PromotionCommService.updateGiftEndTime error:" + actPromotionEditDTO);
+            log.error("PromotionCommService.updateGiftEndTime error:" + JSON.toJSONString(actPromotionEditDTO) + "baseResult:"+JSON.toJSONString(baseResult));
             throw new BaseException(baseResult.getMsg());
         }
         return true;
