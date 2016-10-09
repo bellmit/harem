@@ -28,8 +28,7 @@
     $(".search").click(function() {
         pageUtils.request(1, $(".pageSize").val(),{tags:$("#itemName").val()});
     });
-    
-    
+
     var checks = {};
     $(".search").click(function() {
         pageUtils.request(1, $(".pageSize").val(),{tags:$("#itemName").val()});
