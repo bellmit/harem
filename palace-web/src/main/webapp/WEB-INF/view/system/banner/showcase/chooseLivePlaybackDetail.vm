@@ -100,13 +100,13 @@
                 tr.append($("<td>"+ item.liveTopic+"</td>"));
             }
             if(null != item.userDO && item.userDO.nickname.length>0){
-                tr.append($("<td>"+ item.nickname+"</td>"));
+                tr.append($("<td>"+ item.userDO.nickname+"</td>"));
             }else{
                 tr.append($("<td>"+ ""+"</td>"));
             }
             tr.append($("<td>"+ item.userId+"</td>"));
-            tr.append($("<td>"+ item.startDate+"</td>"));
-            tr.append($("<td>"+ item.endDate+"</td>"));
+            tr.append($("<td>"+ item.startDateString+"</td>"));
+            tr.append($("<td>"+ item.endDateString+"</td>"));
             tr.append($("<td>"+ item.replaySecond+"</td>"));
             tr.append($("<td>"+ item.viewCount+"</td>"));
 

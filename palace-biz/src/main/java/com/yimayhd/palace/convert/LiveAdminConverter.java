@@ -36,7 +36,7 @@ public class LiveAdminConverter {
             String[] ary = liveRecordDO.getLiveTitle().split("\\#");
             liveRecordVO.setLiveTitle(ary[0]);
             String topic = new String();
-            for (int i = 1 ; i <ary.length ; i++ ) {
+            for (int i = 1; i < ary.length; i++) {
                 topic += ary[i];
                 topic += "\n";
             }
@@ -56,9 +56,13 @@ public class LiveAdminConverter {
         liveRecordVO.setReplaySecond(liveRecordDO.getReplaySecond());
         liveRecordVO.setLiveOrder(liveRecordDO.getLiveOrder());
         liveRecordVO.setStatus(liveRecordDO.getStatus());
+        if (liveRecordVO.getStartDate() != null && liveRecordVO.getEndDate() != null) {
+            liveRecordVO.setStartDateString(liveRecordVO.getStartDate().toString());
+            liveRecordVO.setEndDateString(liveRecordVO.getEndDate().toString());
+        }
         if (liveRecordDO.getStatus() == 1)
             liveRecordVO.setStatusString("正常");
-        else if(liveRecordDO.getStatus() ==2)
+        else if (liveRecordDO.getStatus() == 2)
             liveRecordVO.setStatusString("删除");
         else
             liveRecordVO.setStatusString("下架");
@@ -108,7 +112,7 @@ public class LiveAdminConverter {
                 liveAdminPageQuery.setStartDate(sdf.parse(liveAdminQuery.getStartDateString()));
                 liveAdminPageQuery.setEndDate(sdf.parse(liveAdminQuery.getEndDateString()));
             }
-        }catch (ParseException e){
+        } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
         liveAdminPageQuery.setViewCount(liveAdminQuery.getViewCount());
@@ -118,16 +122,14 @@ public class LiveAdminConverter {
         liveAdminPageQuery.setPageNo(liveAdminQuery.getPageNumber());
         liveAdminPageQuery.setPageSize(liveAdminQuery.getPageSize());
         liveAdminPageQuery.setLiveRecordStatus(liveAdminQuery.getLiveRecordStatus());
-        if (liveAdminQuery.getLiveOrder() != null)
-        {
+        if (liveAdminQuery.getLiveOrder() != null) {
             if (liveAdminQuery.getLiveOrder().intValue() == 1)
                 liveAdminPageQuery.setLiveOrder(START_TIME_DESC);
-            else if(liveAdminQuery.getLiveOrder().intValue() == 2)
+            else if (liveAdminQuery.getLiveOrder().intValue() == 2)
                 liveAdminPageQuery.setLiveOrder(VIEW_COUNT_DESC);
             else
                 liveAdminPageQuery.setLiveOrder(LIVE_WEIGHT_DESC);
-        }
-        else
+        } else
             liveAdminPageQuery.setLiveOrder(START_TIME_DESC);// 默认
         return liveAdminPageQuery;
     }

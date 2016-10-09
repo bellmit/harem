@@ -81,6 +81,15 @@ public class LiveRecordVO implements Serializable {
      * 直播结束时间
      */
     private Date endDate;
+
+    /**
+     * 直播开始时间格式化
+     */
+    private String startDateString;
+    /**
+     * 直播结束时间格式化
+     */
+    private String endDateString;
     /**
      * 在线观看人数
      */
@@ -261,6 +270,22 @@ public class LiveRecordVO implements Serializable {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getStartDateString() {
+        return startDateString;
+    }
+
+    public void setStartDateString(String startDateString) {
+        this.startDateString = startDateString;
+    }
+
+    public String getEndDateString() {
+        return endDateString;
+    }
+
+    public void setEndDateString(String endDateString) {
+        this.endDateString = endDateString;
     }
 
     public int getOnlineCount() {
