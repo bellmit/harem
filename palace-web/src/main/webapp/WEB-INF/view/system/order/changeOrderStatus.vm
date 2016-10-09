@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>订单状态修改</title>
+	<link rel="stylesheet" href="../../src/css/zui.min.css">
+	<link rel="stylesheet" href="../../src/js/plugin/layer-v2.3/skin/layer.css">
+	<link rel="stylesheet" href="../../src/css/changeOrderStatus.css">
+</head>
+
+<body>
+	<div class="search-box">
+		<form id="frmSearchOrder" name="frmSearchOrder">
+			<table class="table no-border">
+				<tr>
+					<td class="v-align-t" style="width:100px;text-align:right">
+						订单编号:
+					</td>
+					<td style="width:400px">
+						<textarea class="form-control" name="name" rows="8" cols="40" id="orderNo" name="orderNo" placeholher="请输入订单编号，使用Enter或者斜杠/分隔"></textarea>
+					</td>
+					<td class="v-align-t">
+						<button type="submit" class="btn btn-primary">查询</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<div class="mb10">
+		<button type="button" class="btn btn-primary" id="btnBatchChange">批量修改</button>
+	</div>
+	<table class="table table-hover table-bordered" id="tbOrderList">
+		<thead>
+			<tr>
+				<th style="text-align:left">
+					<input type="checkbox" name="checkAll" id="checkAll">全选
+				</th>
+				<th>
+					商品
+				</th>
+				<th>
+					单价
+				</th>
+				<th>
+					数量
+				</th>
+				<th>
+					类型
+				</th>
+				<th>
+					买家
+				</th>
+				<th>
+					店铺名称/昵称
+				</th>
+				<th>
+					商户编号
+				</th>
+				<th>
+					订单状态
+				</th>
+				<th>
+					订单总额
+				</th>
+				<th>
+					操作
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td style="text-align:left">
+					<input type="checkbox" class="order-check" orderid="11111">
+				</td>
+				<td colspan="10">
+					<div class="fl">
+						订单号：YM20150215000000
+					</div>
+					<div class="fr">
+						下单时间：2015-02-15 15:04:05:05
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				</td>
+				<td>
+					<div class="goods-item">
+						<div class="item-img">
+							<img src="http://img.test.yimayholiday.com/v1/tfs/T1yH_TByZT1RXrhCrK_180x180.jpg" alt="" />
+						</div>
+						<div class="item-text">
+							<div class="item-name">
+								商品名称名称商品名称名称商品名称名称
+							</div>
+							<div class="item-tag">
+								2016-10-08出发| 北京出发| 四星级| 成人
+							</div>
+						</div>
+					</div>
+				</td>
+				<td>
+					3000.00
+				</td>
+				<td>
+					2
+				</td>
+				<td>
+					跟团游
+				</td>
+				<td>
+					<div class="t-c">
+						tracy
+					</div>
+					<div class="t-c">
+						189****0000
+					</div>
+				</td>
+				<td>
+					怡美
+				</td>
+				<td>
+					abc123456
+				</td>
+				<td>
+					待付款
+				</td>
+				<td>
+					6000.00
+				</td>
+				<td>
+					<button type="button" class="btn btn-primary detail" orderid="0">详情</button>
+					<button type="button" class="btn btn-primary edit" orderid="0">修改订单</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="layerModal">
+		<div class="item">
+			<div class="item-label">
+				<i>*</i>修改后订单状态：
+			</div>
+			<div class="item-control">
+				<select class="form-control" name="">
+					<option value="1">已完成</option>
+					<option value="2">已取消</option>
+				</select>
+			</div>
+		</div>
+		<div class="">
+			<div class="item-label">
+				<i>*</i>原因：
+			</div>
+			<div class="item-control">
+				<textarea rows="5" class="form-control" cols="40"></textarea>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="../../src/js/sea.js"></script>
+	<script type="text/javascript" src="../../src/js/seajs-preload.js"></script>
+	<script type="text/javascript" src="../../src/js/config.js"></script>
+	<script type="text/javascript">
+		seajs.use('changeOrderStatus');
+	</script>
+</body>
+
+</html>

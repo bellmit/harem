@@ -1,4 +1,4 @@
-package com.yimayhd.palace.controller.vo;
+package com.yimayhd.palace.model.param;
 
 import java.io.Serializable;
 import java.util.List;
@@ -6,10 +6,9 @@ import java.util.List;
 /**
  * Created by wangdi on 16/10/9.
  */
-public class OrderStatusChangeVO implements Serializable {
+public class OrderStatusChangeParam implements Serializable{
 
-    private static final long serialVersionUID = -2531177081102535848L;
-
+    private static final long serialVersionUID = 4517316377342549485L;
     private String bizOrderIdStr;
 
     private List<Long> bizOrderIds;
@@ -19,7 +18,6 @@ public class OrderStatusChangeVO implements Serializable {
     private String desc;// 备注
 
     private long userId;//登录人userid
-
 
     public String getBizOrderIdStr() {
         return bizOrderIdStr;
