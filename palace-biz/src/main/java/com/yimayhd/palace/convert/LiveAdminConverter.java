@@ -13,6 +13,8 @@ import com.yimayhd.palace.model.query.LiveRoomQuery;
 import java.io.Console;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.yimayhd.live.client.enums.LiveOrder.*;
 
@@ -33,14 +35,17 @@ public class LiveAdminConverter {
         liveRecordVO.setLiveCategory(liveRecordDO.getLiveCategory());
         // 标题和话题
         if (liveRecordDO.getLiveTitle() != null) {
-            String[] ary = liveRecordDO.getLiveTitle().split("\\#");
-            liveRecordVO.setLiveTitle(ary[0]);
             String topic = new String();
-            for (int i = 1; i < ary.length; i++) {
-                topic += ary[i];
+            //正则表达式，取#和#之间的字符串，不包括#和#
+            Pattern p = Pattern.compile("\\#(.*?)\\#");
+            Matcher m = p.matcher(liveRecordDO.getLiveTitle());
+            while(m.find()) {
+                topic += m.group(1);
                 topic += "\n";
             }
             liveRecordVO.setLiveTopic(topic);
+            String[] ary = liveRecordDO.getLiveTitle().split("\\#");
+            liveRecordVO.setLiveTitle(ary[ary.length-1]);
         }
 //      liveRecordVO.setLiveDes(liveRecordDO.getLiveDes());
         liveRecordVO.setLiveCover(liveRecordDO.getLiveCover());
