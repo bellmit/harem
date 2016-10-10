@@ -103,10 +103,10 @@
                     $!{item.userId}
                 </td>
                 <td>
-                    $!{item.startDate.toLocaleString()}
+                    $!{item.startDateString}
                 </td>
                 <td>
-                    $!{item.endDate.toLocaleString()}
+                    $!{item.endDateString}
                 </td>
                 <td>
                     $!{item.replaySecond}

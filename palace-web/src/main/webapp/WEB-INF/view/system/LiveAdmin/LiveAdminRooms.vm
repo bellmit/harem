@@ -208,7 +208,7 @@
                 closeReason = ($("#otherCloseReason").val()||'').trim();
             }
             if (!closeReason) {
-                alert("请选择关闭原因");
+                alert("请填写关闭原因");
                 return;
             }
             var closeHours = ($("#closeHours").val()||'').trim();
