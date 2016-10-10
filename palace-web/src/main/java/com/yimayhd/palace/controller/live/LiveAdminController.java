@@ -1,5 +1,7 @@
 package com.yimayhd.palace.controller.live;
 
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.live.client.domain.record.CloseLiveRoomDTO;
 import com.yimayhd.live.client.domain.record.UpdateLiveOrderDTO;
 import com.yimayhd.live.client.domain.record.UpdateLiveRecordStatusDTO;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.List;
+
 /**
  * 直播列表管理
  * <p>
@@ -48,6 +52,9 @@ public class LiveAdminController extends BaseController {
             model.addAttribute("pageVo", pageVo);
             model.addAttribute("liveAdminQuery", liveAdminQuery);
             model.addAttribute("itemList", pageVo.getItemList());
+            // 获取直播分类
+            List<ComTagDO> comTagDOList = liveAdminService.getTagListByTagType(TagType.LIVESHOW);
+            model.addAttribute("comTagDOList", comTagDOList);
             return "/system/LiveAdmin/LiveAdminList";
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -83,6 +90,9 @@ public class LiveAdminController extends BaseController {
             model.addAttribute("pageVo", pageVo);
             model.addAttribute("liveAdminQuery", liveAdminQuery);
             model.addAttribute("itemList", pageVo.getItemList());
+            // 获取直播分类
+            List<ComTagDO> comTagDOList = liveAdminService.getTagListByTagType(TagType.LIVESHOW);
+            model.addAttribute("comTagDOList", comTagDOList);
             return "/system/LiveAdmin/LiveAdminPlayBackList";
         } catch (Exception e) {
             log.error(e.getMessage(), e);

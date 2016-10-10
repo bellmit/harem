@@ -1,5 +1,7 @@
 package com.yimayhd.palace.service;
 
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
+import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.live.client.domain.record.CloseLiveRoomDTO;
 import com.yimayhd.live.client.domain.record.LiveRoomDO;
 import com.yimayhd.live.client.domain.record.UpdateLiveOrderDTO;
@@ -13,6 +15,8 @@ import com.yimayhd.palace.model.query.LiveAdminQuery;
 import com.yimayhd.palace.model.query.LiveRoomQuery;
 import com.yimayhd.palace.result.BizResult;
 
+import java.util.List;
+
 /**
  * Created by haozhu on 16/9/21.
  */
@@ -20,20 +24,32 @@ public interface LiveAdminService {
 
     /**
      * 获取直播列表
+     *
      * @param pageQuery
      * @return
      */
     public PageVO<LiveRecordVO> getPageLiveRecord(LiveAdminQuery pageQuery);
 
     /**
+     * 获取直播分类
+     *
+     * @param tagType
+     * @return
+     */
+    public List<ComTagDO> getTagListByTagType(TagType tagType);
+
+
+    /**
      * 更新直播排序
+     *
      * @param updateLiveOrderDTO
      * @return
      */
-    public BizResult<String>  updateLiveOrderById(UpdateLiveOrderDTO updateLiveOrderDTO);
+    public BizResult<String> updateLiveOrderById(UpdateLiveOrderDTO updateLiveOrderDTO);
 
     /**
      * 修改直播记录状态
+     *
      * @param updateLiveRecordStatusDTO
      * @return
      */
@@ -48,6 +64,7 @@ public interface LiveAdminService {
 
     /**
      * 创建直播间
+     *
      * @param liveRoomDO
      * @return
      */
@@ -55,6 +72,7 @@ public interface LiveAdminService {
 
     /**
      * 查询直播间列表
+     *
      * @param liveRoomQuery
      * @return
      */
@@ -62,6 +80,7 @@ public interface LiveAdminService {
 
     /**
      * 关闭直播间
+     *
      * @param closeLiveRoomDTO
      * @return
      */
@@ -69,10 +88,11 @@ public interface LiveAdminService {
 
     /**
      * 恢复直播间
+     *
      * @param liveRoomId
      * @return
      */
-    public  BizResult<String> recoverLiveRoom(long liveRoomId);
+    public BizResult<String> recoverLiveRoom(long liveRoomId);
 }
 
 

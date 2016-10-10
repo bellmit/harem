@@ -2,7 +2,6 @@ package com.yimayhd.palace.service.impl;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
-import com.yimayhd.commentcenter.client.dto.TagOutIdAndTypeDTO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.live.client.domain.record.*;
 import com.yimayhd.live.client.query.LiveAdminPageQuery;
@@ -16,18 +15,16 @@ import com.yimayhd.palace.model.query.LiveAdminQuery;
 import com.yimayhd.palace.model.query.LiveRoomQuery;
 import com.yimayhd.palace.repo.CommentRepo;
 import com.yimayhd.palace.repo.LiveAdminRepo;
+import com.yimayhd.palace.repo.TagRepo;
 import com.yimayhd.palace.repo.user.UserRepo;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.LiveAdminService;
 import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Resource;
-import javax.rmi.CORBA.Util;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by haozhu on 16/9/21.
@@ -42,6 +39,9 @@ public class LiveAdminServiceImpl implements LiveAdminService {
 
     @Autowired
     private CommentRepo commentRepo;
+
+    @Resource
+    private TagRepo tagRepo;
 
     /**
      * 获取直播列表
@@ -122,6 +122,17 @@ public class LiveAdminServiceImpl implements LiveAdminService {
             }
         }
         return new PageVO<LiveRecordVO>(liveRecordPageResult.getPageNo(), liveRecordPageResult.getPageSize(), liveRecordPageResult.getTotalCount(), liveRecordVOList);
+    }
+
+    /**
+     * 获取直播分类
+     *
+     * @param tagType
+     * @return
+     */
+    public List<ComTagDO> getTagListByTagType(TagType tagType) {
+        List<ComTagDO> comTagDOList = tagRepo.getTagListByTagType(tagType);
+        return comTagDOList;
     }
 
     /**
