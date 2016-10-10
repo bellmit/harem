@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html>
 
+<!-- head start-->
+#set ($layout="/system/layout/layout-jiuxiu.vm")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
 <head>
-	<meta charset="utf-8">
-	<title>修改历史</title>
-	<link rel="stylesheet" href="../../src/css/zui.min.css">
-	<!-- <link rel="stylesheet" href="../../src/css/base.css"> -->
-	<!-- <link rel="stylesheet" href="../../src/css/datetimepicker.min.css"> -->
-	<!-- <link rel="stylesheet" href="../../src/js/plugin/layer-v2.3/skin/layer.css"> -->
-	<link rel="stylesheet" href="../../src/css/changeOrderStatus.css">
+<title>修改历史</title>
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/src/css/zui.min.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/src/css/changeOrderStatus.css">
 </head>
-
+<!-- head end-->
 <body>
 
 	<div class="search-box">
@@ -90,12 +87,11 @@
 		</tbody>
 	</table>
 
-	<script type="text/javascript" src="../../src/js/sea.js"></script>
-	<script type="text/javascript" src="../../src/js/seajs-preload.js"></script>
-	<script type="text/javascript" src="../../src/js/config.js"></script>
+	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/src/js/sea.js"></script>
+	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/src/js/seajs-preload.js"></script>
+	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/src/js/config.js"></script>
 	<script type="text/javascript">
 		seajs.use('orderChangeHistory');
 	</script>
 </body>
 
-</html>

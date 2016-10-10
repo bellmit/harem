@@ -46,5 +46,7 @@
 	<bean id="accountRepo" class="com.yimayhd.palace.repo.AccountRepo" />
 	<bean id="settlementRepo" class="com.yimayhd.palace.repo.SettlementRepo" />
 	<bean id="mediaClientRepo" class="com.yimayhd.palace.repo.MediaClientRepo"/>
+	<bean id="tcTradeRepo" class="com.yimayhd.palace.repo.order.TcTradeRepo"/>
+
 
 </beans>

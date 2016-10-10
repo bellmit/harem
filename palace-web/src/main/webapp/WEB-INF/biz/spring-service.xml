@@ -106,4 +106,7 @@
 	<!-- 导览景点-->
 	<bean id="touristManageService" class="com.yimayhd.palace.service.impl.TouristManageServiceImpl"/>
 
+	<bean id="orderStatusChangeService" class="com.yimayhd.palace.service.impl.OrderStatusChangeServiceImpl"/>
+
+
 </beans>

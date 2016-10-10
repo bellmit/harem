@@ -1,10 +1,12 @@
 package com.yimayhd.palace.controller;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.param.OrderStatusChangeParam;
 import com.yimayhd.palace.model.vo.OrderStatusChangeVO;
 import com.yimayhd.palace.result.BizResult;
+import com.yimayhd.palace.service.OrderStatusChangeService;
 import com.yimayhd.user.session.manager.SessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +30,8 @@ public class OrderStatusChangeController {
     private static final int count=100;
     @Autowired
     private SessionManager sessionManager;
+    @Autowired
+    private OrderStatusChangeService orderStatusChangeService;
 
 
     /**
@@ -40,15 +44,22 @@ public class OrderStatusChangeController {
     public String queryList(Model model,OrderStatusChangeParam orderStatusChangeParam){
         if(StringUtils.isBlank(orderStatusChangeParam.getBizOrderIdStr())){
             //没有订单id 默认不显示列表
-            return "";
+            return "/system/order/changeOrderStatus";
         }
         if(orderStatusChangeParam.getBizOrderIds().size()>count){
             logger.error("每次最多查询100,为您选取💰100条进行展示");
             orderStatusChangeParam.setBizOrderIds(orderStatusChangeParam.getBizOrderIds().subList(0,count));
         }
         /**调用接口*/
-
-        return "";
+        BizResult<OrderStatusChangeVO> bizResult = orderStatusChangeService.queryList(orderStatusChangeParam);
+        if(bizResult==null||!bizResult.isSuccess()){
+            logger.error("查询数据异常");
+            return "/system/order/changeOrderStatus";
+        }
+        OrderStatusChangeVO changeVO = bizResult.getValue();
+        model.addAttribute("tcMainOrderVOList", changeVO.getTcMainOrderVOList());
+        model.addAttribute("totalCount", changeVO.getTotalCount());
+        return "/system/order/changeOrderStatus";
     }
 
     /**
@@ -65,7 +76,12 @@ public class OrderStatusChangeController {
         if(orderStatusChangeParam.getOrderChangeStatus()==0){
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),"订单修改状态为空",null);
         }
-        long sellerId = sessionManager.getUserId();
+        orderStatusChangeParam.setUserId(sessionManager.getUserId());
+        BizResult<String> bizResult = orderStatusChangeService.updateStatus(orderStatusChangeParam);
+        if(bizResult==null||!bizResult.isSuccess()){
+            logger.error("更新状态失败,errMsg={}", JSON.toJSONString(bizResult));
+            return BizResult.buildFailResult(PalaceReturnCode.SYSTEM_ERROR.getErrorCode(),bizResult.getMsg(),null);
+        }
 
         return BizResult.buildSuccessResult(null);
     }
