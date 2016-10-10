@@ -61,7 +61,7 @@ public class LiveAdminConverter {
             liveRecordVO.setEndDateString(liveRecordVO.getEndDate().toString());
         }
         if (liveRecordDO.getStatus() == 1)
-            liveRecordVO.setStatusString("正常");
+            liveRecordVO.setStatusString("上架");
         else if (liveRecordDO.getStatus() == 2)
             liveRecordVO.setStatusString("删除");
         else
