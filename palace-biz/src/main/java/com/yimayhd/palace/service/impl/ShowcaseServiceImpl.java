@@ -380,9 +380,10 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             sd.setOperationContent("");
         }else{
             String oc = sw.getOperationContent().replaceAll(" ","");
+            /*页面上直接去掉话题的##
             if(oc.contains(Constant.TOPIC_PREFIX_SUFFIX)){//去掉话题的##
                 oc = oc.replaceAll(Constant.TOPIC_PREFIX_SUFFIX,"");
-            }
+            }*/
             if(oc.contains(Constant.BOOTH_PREFIX_POSTFIX)){
                 List<SimpleBoothDTO> list = new ArrayList<SimpleBoothDTO>();
                 String[] OcArr = oc.split("\\|");
@@ -448,7 +449,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         com.yimayhd.user.client.result.BasePageResult<MerchantUserDTO> result = merchantService.getMerchantUserList(merchantPageQuery);
         if(null == result || !result.isSuccess()){
             LOGGER.error("getMerchants|merchantService.getMerchantUserList result is " + JSON.toJSONString(result) + ",parameter is "+JSON.toJSONString(merchantPageQuery));
-            return null;
+            return new PageVO<ShowCaseItem>();
         }
         List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
         if(CollectionUtils.isNotEmpty(result.getList())){
@@ -620,7 +621,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     public PageVO<ShowCaseItem> getBoothPageList(BoothQuery boothQuery){
         RCPageResult<BoothDO> result = boothClientServer.getBoothDOByQuery(boothQuery);
         if(null == result || !result.isSuccess()){
-            return null;
+            return new PageVO<ShowCaseItem>();
         }
         List<BoothDO> list = result.getList();
         List<ShowCaseItem> listBooth = boothToShowCaseItem(list);
@@ -646,7 +647,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     public PageVO<ShowCaseItem> getArticlePageListByQuery(ArticleQueryDTO articleQueryDTO ){
         ResourcePageResult<ArticleDTO> result =  articleBackEndService.getArticlePageListByQuery(articleQueryDTO);
         if(null == result || !result.isSuccess()){
-            return null;
+            return new PageVO<ShowCaseItem>();
         }
         List<ShowCaseItem> list = ArticleToShowCaseItem(result.getList());
         PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(articleQueryDTO.getPageNo(), articleQueryDTO.getPageSize(),result.getTotalCount(), list);
@@ -676,7 +677,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     public PageVO<ShowCaseItem> getArticleDOPageListByQuery(ArticleQueryDTO  articleQueryDTO  ){
         ResourcePageResult<ArticleDO> result =  articleBackEndService.getArticleDOPageListByQuery(articleQueryDTO);
         if(null == result || !result.isSuccess()){
-            return null;
+            return new PageVO<ShowCaseItem>();
         }
         List<ShowCaseItem> list = ArticleDOShowCaseItem(result.getList());
         PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(articleQueryDTO.getPageNo(), articleQueryDTO.getPageSize(),result.getTotalCount(), list);
@@ -702,7 +703,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     public PageVO<ShowCaseItem> getGuideListByQuery(GuideScenicListQuery query){
         PageVO<GuideScenicVO> pageA =  guideManageService.getGuideList(query);
         if(null == pageA){
-            return null;
+            return new PageVO<ShowCaseItem>();
         }
         List<ShowCaseItem> list = attachmentVOToShowCaseItem(pageA.getItemList());
         PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(query.getPageNumber(), query.getPageSize(),pageA.getTotalCount(), list);
@@ -742,7 +743,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     public PageVO<ShowCaseItem> getCategoryList(CategoryQueryDTO categoryQueryDTO){
         BasePageResult<CategoryResult> result = gfCategoryRepo.getCategoryPage(categoryQueryDTO);
         if(null == result || !result.isSuccess()){
-            return null;
+            return new PageVO<ShowCaseItem>();
         }
         List<CategoryResult> list = result.getList();
         List<ShowCaseItem> listCategory = categoryResultToShowCaseItem(list);
