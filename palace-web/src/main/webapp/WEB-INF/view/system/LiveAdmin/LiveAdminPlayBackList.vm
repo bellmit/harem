@@ -121,7 +121,9 @@
                     $!{item.statusString}
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary weight" liveOrder="$!{item.liveOrder}" liveRecordId="$!{item.id}">编辑权重</button>
+                    #if($item.status != 2)
+                        <button type="button" class="btn btn-primary weight" liveOrder="$!{item.liveOrder}" liveRecordId="$!{item.id}">编辑权重</button>
+                    #end
                     #if($item.status==3)
                         <button type="button" class="btn btn-primary on" liveRecordId="$!{item.id}">上架</button>
                     #end
@@ -191,7 +193,7 @@
     }
 
     $("#btnReset").on("click",function(){
-        $("#playBackListForm").find(".form-control").val('');
+        $("#playBackListForm").find(".form-control,.form-date").val('');
     });
 
     // 设置权重

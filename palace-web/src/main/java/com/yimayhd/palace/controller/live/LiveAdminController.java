@@ -26,6 +26,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import java.util.List;
 
+import static com.yimayhd.live.client.enums.LiveStatus.REPLAY_LIVE;
+import static com.yimayhd.live.client.enums.LiveStatus.START_LIVE;
+
+
 /**
  * 直播列表管理
  * <p>
@@ -48,6 +52,7 @@ public class LiveAdminController extends BaseController {
     @RequestMapping(value = "/liveAdminList", method = RequestMethod.GET)
     public String liveList(Model model, LiveAdminQuery liveAdminQuery) throws Exception {
         try {
+            liveAdminQuery.setLiveStatus(START_LIVE.getStatus());
             PageVO<LiveRecordVO> pageVo = liveAdminService.getPageLiveRecord(liveAdminQuery);
             model.addAttribute("pageVo", pageVo);
             model.addAttribute("liveAdminQuery", liveAdminQuery);
@@ -86,8 +91,9 @@ public class LiveAdminController extends BaseController {
     @RequestMapping(value = "/playBackList", method = RequestMethod.GET)
     public String playBackList(Model model, LiveAdminQuery liveAdminQuery) throws Exception {
         try {
+            liveAdminQuery.setLiveStatus(REPLAY_LIVE.getStatus());
             PageVO<LiveRecordVO> pageVo = liveAdminService.getPageLiveRecord(liveAdminQuery);
-            model.addAttribute("pageVo", pageVo);
+            Model pageVo1 = model.addAttribute("pageVo", pageVo);
             model.addAttribute("liveAdminQuery", liveAdminQuery);
             model.addAttribute("itemList", pageVo.getItemList());
             // 获取直播分类
