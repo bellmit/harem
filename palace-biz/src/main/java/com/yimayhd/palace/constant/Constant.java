@@ -53,7 +53,7 @@ public class Constant {
 	/**
 	 * 直播房间列表
 	 */
-	public static final int LIVE_ROOM_LIST = 21;//导览列表
+	public static final int LIVE_ROOM_LIST = 21;
 
 	public static final String DOT = ".";
 	public static final String COMMA = ",";

@@ -78,14 +78,16 @@
         var tbody = $("<tbody/>");
         table.append(tbody);
         var i= 0 ;
+        #set($i=$i+1)
         for(i in itemList) {
             var item = itemList[i];
             console.log("xxxxxxxxxxx="+JSON.stringify(item));
             resource_table[item.id] = item;
             var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
+            tr.append($("<td>"+i+"</td>"));
             tr.append($("<td>"+item.id+"</td>"));
             if(null != item.userDO && item.userDO.nickname.length>0){
-                tr.append($("<td>"+ item.nickname+"</td>"));
+                tr.append($("<td>"+ item.userDO.nickname+"</td>"));
             }else{
                 tr.append($("<td>"+ ""+"</td>"));
             }
