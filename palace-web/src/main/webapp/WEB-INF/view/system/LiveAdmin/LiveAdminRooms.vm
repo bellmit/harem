@@ -57,10 +57,10 @@
                 <td class="tit">状态：</td>
                 <td>
                     <select name="status" class="form-control">
-                        <option value="">全部</option>
-                        <option value="1">直播中</option>
-                        <option value="2">空闲中</option>
-                        <option value="3">关闭</option>
+                        <option value="0">全部</option>
+                        <option #if($liveRoomQuery.status== 1) selected #end value="1">直播中</option>
+                        <option #if($liveRoomQuery.status== 2) selected #end value="2">空闲中</option>
+                        <option #if($liveRoomQuery.status== 3) selected #end value="3">关闭</option>
                     </select>
                 </td>
                 <td colspan="2">
@@ -208,7 +208,7 @@
                 closeReason = ($("#otherCloseReason").val()||'').trim();
             }
             if (!closeReason) {
-                alert("请选择关闭原因");
+                alert("请填写关闭原因");
                 return;
             }
             var closeHours = ($("#closeHours").val()||'').trim();

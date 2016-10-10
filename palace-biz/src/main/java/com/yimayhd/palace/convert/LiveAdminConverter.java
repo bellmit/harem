@@ -56,12 +56,13 @@ public class LiveAdminConverter {
         liveRecordVO.setReplaySecond(liveRecordDO.getReplaySecond());
         liveRecordVO.setLiveOrder(liveRecordDO.getLiveOrder());
         liveRecordVO.setStatus(liveRecordDO.getStatus());
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
         if (liveRecordVO.getStartDate() != null && liveRecordVO.getEndDate() != null) {
-            liveRecordVO.setStartDateString(liveRecordVO.getStartDate().toString());
-            liveRecordVO.setEndDateString(liveRecordVO.getEndDate().toString());
+            liveRecordVO.setStartDateString(sdf.format(liveRecordVO.getStartDate()));
+            liveRecordVO.setEndDateString(sdf.format(liveRecordVO.getStartDate()));
         }
         if (liveRecordDO.getStatus() == 1)
-            liveRecordVO.setStatusString("正常");
+            liveRecordVO.setStatusString("上架");
         else if (liveRecordDO.getStatus() == 2)
             liveRecordVO.setStatusString("删除");
         else

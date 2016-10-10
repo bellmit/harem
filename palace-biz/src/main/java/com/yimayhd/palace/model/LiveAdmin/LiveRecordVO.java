@@ -3,6 +3,7 @@ package com.yimayhd.palace.model.LiveAdmin;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.live.client.enums.LiveFeatureKey;
 import com.yimayhd.live.client.enums.WangSuInfo;
 import com.yimayhd.live.client.util.FeatureUtil;
@@ -41,6 +42,7 @@ public class LiveRecordVO implements Serializable {
      * 直播分类ID
      */
     private long liveCategory;
+
     /**
      * 直播标题
      */
