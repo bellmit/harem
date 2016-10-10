@@ -26,9 +26,9 @@
                 <td class="tit">状态：</td>
                 <td><select name="liveRecordStatus" class="form-control">
                     <option value="0">全部</option>
-                    <option value="1">上架</option>
-                    <option value="3">下架</option>
-                    <option value="2">用户已删除</option>
+                    <option #if($liveAdminQuery.liveRecordStatus== 1) selected #end value="1">上架</option>
+                    <option #if($liveAdminQuery.liveRecordStatus== 3) selected #end value="3">下架</option>
+                    <option #if($liveAdminQuery.liveRecordStatus== 2) selected #end value="2">用户已删除</option>
                 </select></td>
             </tr>
             <tr>
@@ -40,9 +40,9 @@
                 </td>
                 <td class="tit">排序方式：</td>
                 <td><select name="liveOrder" class="form-control">
-                    <option value="1">时间倒序(最新回放在前)</option>
-                    <option value="3">权重(权重值高在前)</option>
-                    <option value="2">播放次数(次数多在前)</option>
+                    <option #if($liveAdminQuery.liveOrder== 1) selected #end value="1">时间倒序(最新回放在前)</option>
+                    <option #if($liveAdminQuery.liveOrder== 3) selected #end value="3">权重(权重值高在前)</option>
+                    <option #if($liveAdminQuery.liveOrder== 2) selected #end value="2">播放次数(次数多在前)</option>
                 </select></td>
                 <td colspan="2">
                     <div class="btn-group">
