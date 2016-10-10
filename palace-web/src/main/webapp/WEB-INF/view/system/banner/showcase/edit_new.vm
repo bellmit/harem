@@ -177,11 +177,8 @@
             }
             if(obj.length >1){
                 objInfo(obj);
-                return ;
+                //return ;
             }
-
-
-
             var obj=$('input[name="chooseService"]:checked');
             if(obj.attr('jumptype') == 11 ){
                 $(".selectcontent").hide();
@@ -300,6 +297,9 @@
             }
             if(""==radioIdVal||null==radioIdVal){
                 radioIdVal=0;
+            }
+            if(operationContent.indexOf("#")!=-1){
+                operationContent = operationContent.replace(/#/g,"")
             }
             console.log("showcaseId="+showcaseId+" boothId="+boothId+" serialNo="+serialNo
                       +" info="+info+" title="+title +" summary="+summary+" imgUrl="+imgUrl
