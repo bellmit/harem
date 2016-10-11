@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.palace.model.ArticleFoodItemVO;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.solrsearch.client.constant.HotelConstant;
 import com.yimayhd.solrsearch.client.domain.SolrScenicDO;
@@ -78,6 +79,8 @@ public class ArticleBiz {
     private CommentRepo commentRepo;
     @Autowired
     private SolrsearchRepo solrsearchRepo;
+    @Autowired
+    private MerchantService userMerchantServiceRef;
 
     public ArticleProductItemVO getArticleProductItemVO(ItemDO itemDO) {
         if (itemDO == null) {
@@ -242,6 +245,24 @@ public class ArticleBiz {
     	pageResult.setSuccess(true);
     	pageResult.setTotalCount(queryAudioPageResult.getTotalCount());
     	return pageResult;
+    }
+
+    /**
+     * h5 获取美食vo
+     * @param id
+     * @return
+     */
+    public ArticleFoodItemVO getArticleFoodItemVO(long id) {
+        if (id <= 0) {
+            return null;
+        }
+        BaseResult<MerchantDO> merchant = userMerchantServiceRef.getMerchantById(id);
+        if (merchant == null || merchant.getValue() == null) {
+            return null;
+        }
+        MerchantDO merchantDO = merchant.getValue();
+        ArticleFoodItemVO articleFoodItemVO = ArticleConverter.merchantDO2ArticleFoodItemVO(merchantDO);
+        return articleFoodItemVO;
     }
 }
 

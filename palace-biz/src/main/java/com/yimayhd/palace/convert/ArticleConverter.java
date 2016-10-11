@@ -9,6 +9,7 @@ import com.yimayhd.palace.model.*;
 import com.yimayhd.resourcecenter.dto.*;
 import com.yimayhd.solrsearch.client.domain.SolrScenicDO;
 
+import com.yimayhd.user.client.enums.ServiceFacilityOption;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -352,4 +353,28 @@ public class ArticleConverter {
 		}
     	return audios;
     }
+
+    public static ArticleFoodItemVO merchantDO2ArticleFoodItemVO(MerchantDO merchantDO){
+        if(merchantDO==null){
+            return null;
+        }
+        ArticleFoodItemVO articleFoodItemVO = new ArticleFoodItemVO();
+        articleFoodItemVO.setId(merchantDO.getId());
+        articleFoodItemVO.setName(merchantDO.getName());
+        articleFoodItemVO.setImage(merchantDO.getLogo());
+        articleFoodItemVO.setAvgPrice(merchantDO.getAvgprice());
+        articleFoodItemVO.setSellerId(merchantDO.getSellerId());
+//        ServiceFacilityOption
+        long serviceFacility = merchantDO.getServiceFacility();
+        List<ServiceFacilityOption> containedOptions = ServiceFacilityOption.getContainedOptions(serviceFacility);
+        StringBuilder sb = new StringBuilder();
+        for (ServiceFacilityOption containedOption : containedOptions) {
+            if(containedOption!=null){
+                sb.append(containedOption.getDesc()).append("  ");
+            }
+        }
+        articleFoodItemVO.setService(sb.toString());
+        return articleFoodItemVO;
+    }
+
 }
