@@ -10,9 +10,10 @@ import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.query.LiveAdminQuery;
 import com.yimayhd.palace.model.query.LiveRoomQuery;
 
-import java.io.Console;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -146,8 +147,6 @@ public class LiveAdminConverter {
             return null;
         }
         LiveRoomPageQuery liveRoomPageQuery = new LiveRoomPageQuery();
-//      liveRoomPageQuery.setUserIds(liveRoomQuery.getUserIds());
-//      liveRoomPageQuery.setLiveRoomIds(liveRoomQuery.getLiveRoomIds());
         if (liveRoomQuery.getStatus() != null)
             liveRoomPageQuery.setStatus(liveRoomQuery.getStatus().intValue());
         return liveRoomPageQuery;

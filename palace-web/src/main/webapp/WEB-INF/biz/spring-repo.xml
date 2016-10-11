@@ -43,7 +43,6 @@
 	<bean id="destinationRepo" class="com.yimayhd.palace.repo.DestinationRepo" />
 	<bean id="solrsearchRepo" class="com.yimayhd.palace.repo.SolrsearchRepo" />
 
-
 	<bean id="auditRepo" class="com.yimayhd.palace.repo.AuditRepo" />
 	<bean id="accountRepo" class="com.yimayhd.palace.repo.AccountRepo" />
 	<bean id="settlementRepo" class="com.yimayhd.palace.repo.SettlementRepo" />

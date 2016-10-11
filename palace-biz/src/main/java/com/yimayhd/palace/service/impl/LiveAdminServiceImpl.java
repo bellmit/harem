@@ -207,7 +207,6 @@ public class LiveAdminServiceImpl implements LiveAdminService {
             } else {
                 for (UserDO userDO : userDOs) {
                     userQueryIds.add(userDO.getId());
-
                 }
             }
         } else {
@@ -216,7 +215,9 @@ public class LiveAdminServiceImpl implements LiveAdminService {
         }
         List<Long> liveQueryRoomIds = new ArrayList<Long>();
         LiveRoomPageQuery liveRoomPageQuery = LiveAdminConverter.liveRoomQuery2LiveRoomPageQuery(liveRoomQuery);
-        if (liveRoomQuery.getLiveRoomId() != null && liveRoomQuery.getLiveRoomId() > 0) {
+        if (userQueryIds.size() > 0)
+            liveRoomPageQuery.setUserIds(userQueryIds);
+        if (liveRoomQuery.getLiveRoomId() != null) {
             liveQueryRoomIds.add(liveRoomQuery.getLiveRoomId());
             liveRoomPageQuery.setLiveRoomIds(liveQueryRoomIds);
         }
