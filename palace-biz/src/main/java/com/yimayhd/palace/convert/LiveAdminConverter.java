@@ -63,9 +63,11 @@ public class LiveAdminConverter {
         liveRecordVO.setLiveOrder(liveRecordDO.getLiveOrder());
         liveRecordVO.setStatus(liveRecordDO.getStatus());
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        if (liveRecordVO.getStartDate() != null && liveRecordVO.getEndDate() != null) {
+        if (liveRecordVO.getStartDate() != null ) {
             liveRecordVO.setStartDateString(sdf.format(liveRecordVO.getStartDate()));
-            liveRecordVO.setEndDateString(sdf.format(liveRecordVO.getStartDate()));
+        }
+        if ( liveRecordVO.getEndDate() != null) {
+            liveRecordVO.setEndDateString(sdf.format(liveRecordVO.getEndDate()));
         }
         if (liveRecordDO.getStatus() == 1)
             liveRecordVO.setStatusString("上架");
