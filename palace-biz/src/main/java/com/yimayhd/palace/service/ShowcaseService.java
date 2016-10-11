@@ -175,11 +175,11 @@ public interface ShowcaseService {
      * 分页查询直播回放列表
      * @return
      */
-    public PageVO<LiveRecordVO> getPageLiveRecordListByQuery(LiveAdminQuery pageQuery);
+    public PageVO<ShowCaseItem> getPageLiveRecordListByQuery(LiveAdminQuery pageQuery);
 
     /**
      * 分页查询直播管理列表
      * @return
      */
-    public PageVO<LiveRoomVO> getPageLiveRoomListByQuery(LiveRoomQuery liveRoomQuery);
+    public PageVO<ShowCaseItem> getPageLiveRoomListByQuery(LiveRoomQuery liveRoomQuery);
 }

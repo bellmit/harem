@@ -699,7 +699,6 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         return listSC;
     }
 
-
     public PageVO<ShowCaseItem> getGuideListByQuery(GuideScenicListQuery query){
         PageVO<GuideScenicVO> pageA =  guideManageService.getGuideList(query);
         if(null == pageA){
@@ -756,19 +755,56 @@ public class ShowcaseServiceImpl implements ShowcaseService {
      * 分页查询直播回放列表
      * @return
      */
-    public PageVO<LiveRecordVO> getPageLiveRecordListByQuery(LiveAdminQuery pageQuery)
+    public PageVO<ShowCaseItem> getPageLiveRecordListByQuery(LiveAdminQuery pageQuery)
     {
         PageVO<LiveRecordVO> pageVo = liveAdminService.getPageLiveRecord(pageQuery);
-        return pageVo;
+        if(null == pageVo){
+            return new PageVO<ShowCaseItem>();
+        }
+        List<ShowCaseItem> list = liveRecordVOToShowCaseItem(pageVo.getItemList());
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(pageQuery.getPageNumber(), pageQuery.getPageSize(),pageVo.getTotalCount(), list);
+        return page;
+    }
+
+    public List<ShowCaseItem> liveRecordVOToShowCaseItem(List<LiveRecordVO> list){
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        String title = "";
+        for (LiveRecordVO oo:list) {
+            ShowCaseItem sc = new ShowCaseItem();
+            sc.setId(oo.getId());
+            sc.setName(oo.getLiveTitle());//标题
+            sc.setImgUrl(StringUtils.isEmpty(oo.getLiveCover())?"":oo.getLiveCover());
+            sc.setValue(oo);
+            listSC.add(sc);
+        }
+        return listSC;
     }
 
     /**
      * 分页查询直播管理列表
      * @return
      */
-    public PageVO<LiveRoomVO> getPageLiveRoomListByQuery(LiveRoomQuery liveRoomQuery)
+    public PageVO<ShowCaseItem> getPageLiveRoomListByQuery(LiveRoomQuery liveRoomQuery)
     {
         PageVO<LiveRoomVO> pageVo = liveAdminService.getPageLiveRoom(liveRoomQuery);
-        return pageVo;
+        if(null == pageVo){
+            return new PageVO<ShowCaseItem>();
+        }
+        List<ShowCaseItem> list = liveRoomVOToShowCaseItem(pageVo.getItemList());
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(liveRoomQuery.getPageNumber(), liveRoomQuery.getPageSize(),pageVo.getTotalCount(), list);
+        return page;
+    }
+
+    public List<ShowCaseItem> liveRoomVOToShowCaseItem(List<LiveRoomVO> list){
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        String title = "";
+        for (LiveRoomVO oo:list) {
+            ShowCaseItem sc = new ShowCaseItem();
+            sc.setId(oo.getId());
+            sc.setName(oo.getLiveTitle());//标题
+            sc.setValue(oo);
+            listSC.add(sc);
+        }
+        return listSC;
     }
 }

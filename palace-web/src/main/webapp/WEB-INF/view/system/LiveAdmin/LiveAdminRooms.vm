@@ -227,3 +227,26 @@
         });
     });
 </script>
+
+
+<script type="text/javascript">
+    var c = 0
+    var t,tt;
+
+    function timedCount() {
+        document.getElementById('txt').value = c
+        c = c + 1
+        t = setTimeout(timedCount, 1000)
+    }
+
+    function stopCount() {
+        clearTimeout(t)
+        clearTimeout(tt)
+    }
+
+    function lessCount (){
+        document.getElementById('txt').value = c--;
+        tt = setTimeout(lessCount, 1000)
+    }
+
+</script>

@@ -85,30 +85,30 @@
             console.log("xxxxxxxxxxx="+JSON.stringify(item));
             resource_table[item.id] = item;
             var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
-            tr.append($("<td>"+item.id+"</td>"));
-            tr.append($("<td><img src="+item.liveCover+" width='100' height='100'></td>"));
-            if(null == item.liveTitle || item.liveTitle.length==0){
+            tr.append($("<td>"+item.value.id+"</td>"));
+            tr.append($("<td><img src="+item.value.liveCover+" width='100' height='100'></td>"));
+            if(null == item.value.liveTitle || item.value.liveTitle.length==0){
                 tr.append($("<td>"+ ""+"</td>"));
             }else{
-                tr.append($("<td>"+ item.liveTitle.replace(/<[^<>]+?>/g,'')+"</td>"));
+                tr.append($("<td>"+ item.value.liveTitle.replace(/<[^<>]+?>/g,'')+"</td>"));
             }
-            tr.append($("<td>"+ item.liveCategoryString+"</td>"));
+            tr.append($("<td>"+ item.value.liveCategoryString+"</td>"));
 
-            if(null == item.liveTopic || item.liveTopic.length==0){
+            if(null == item.value.liveTopic || item.value.liveTopic.length==0){
                 tr.append($("<td>"+ ""+"</td>"));
             }else{
-                tr.append($("<td>"+ item.liveTopic+"</td>"));
+                tr.append($("<td>"+ item.value.liveTopic+"</td>"));
             }
-            if(null != item.userDO && item.userDO.nickname.length>0){
-                tr.append($("<td>"+ item.userDO.nickname+"</td>"));
+            if(null != item.value.userDO && item.value.userDO.nickname.length>0){
+                tr.append($("<td>"+ item.value.userDO.nickname+"</td>"));
             }else{
                 tr.append($("<td>"+ ""+"</td>"));
             }
-            tr.append($("<td>"+ item.userId+"</td>"));
-            tr.append($("<td>"+ item.startDateString+"</td>"));
-            tr.append($("<td>"+ item.endDateString+"</td>"));
-            tr.append($("<td>"+ item.replaySecond+"</td>"));
-            tr.append($("<td>"+ item.viewCount+"</td>"));
+            tr.append($("<td>"+ item.value.userId+"</td>"));
+            tr.append($("<td>"+ item.value.startDateString+"</td>"));
+            tr.append($("<td>"+ item.value.endDateString+"</td>"));
+            tr.append($("<td>"+ item.value.replaySecond+"</td>"));
+            tr.append($("<td>"+ item.value.viewCount+"</td>"));
 
             tbody.append(tr);
         }

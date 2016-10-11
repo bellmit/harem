@@ -6,7 +6,6 @@ import com.yimayhd.live.client.domain.record.CloseLiveRoomDTO;
 import com.yimayhd.live.client.domain.record.LiveRoomDO;
 import com.yimayhd.live.client.domain.record.UpdateLiveOrderDTO;
 import com.yimayhd.live.client.domain.record.UpdateLiveRecordStatusDTO;
-import com.yimayhd.live.client.result.record.CloseLiveResult;
 import com.yimayhd.live.client.result.record.CreateLiveRoomResult;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;

@@ -354,7 +354,7 @@ public class BannerManageController extends BaseController {
         query.setPageNumber(pageNumber);
         query.setPageSize(pageSize);
 
-        PageVO<LiveRecordVO> page = showcaseService.getPageLiveRecordListByQuery(query);
+        PageVO<ShowCaseItem> page = showcaseService.getPageLiveRecordListByQuery(query);
         result.put("pageVo", page);
         return result;
     }
@@ -370,7 +370,7 @@ public class BannerManageController extends BaseController {
         query.setPageNumber(pageNumber);
         query.setPageSize(pageSize);
 
-        PageVO<LiveRoomVO> page = showcaseService.getPageLiveRoomListByQuery(query);
+        PageVO<ShowCaseItem> page = showcaseService.getPageLiveRoomListByQuery(query);
         result.put("pageVo", page);
         return result;
     }
