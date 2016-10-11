@@ -25,6 +25,17 @@ public class ArticleFoodItemVO implements Serializable {
 	private String top;
 	private long sellerId;
 
+	private String itemTitle;
+
+
+	public String getItemTitle() {
+		return itemTitle;
+	}
+
+	public void setItemTitle(String itemTitle) {
+		this.itemTitle = itemTitle;
+	}
+
 	public long getSellerId() {
 		return sellerId;
 	}

@@ -222,6 +222,10 @@ public class ArticleConverter {
                     ArticleAudioItemVO articleAudioItemVO = getArticleAudioItemVO(articleItemDTO.getArticleAudioItemDTO());
                     articleItemVO.setArticleAudioItemVO(articleAudioItemVO);
                     break;
+                case FOOD:
+                    ArticleFoodItemVO articleFoodItemVO = getArticleFoodItemVO(articleItemDTO.getArticleFoodItemDTO());
+                    articleItemVO.setArticleFoodItemVO(articleFoodItemVO);
+                    break;
                 default:
                     break;
             }
@@ -232,7 +236,21 @@ public class ArticleConverter {
         articleVO.setArticleItemList(articleItemVOs);
         return articleVO;
     }
+    private static ArticleFoodItemVO getArticleFoodItemVO(ArticleFoodItemDTO articleFoodItemDTO) {
+        if (articleFoodItemDTO==null){
+            return null;
+        }
+        ArticleFoodItemVO articleAudioItemVO=new ArticleFoodItemVO();
+        articleAudioItemVO.setAvgPrice( articleFoodItemDTO.getAvgPrice());
+        articleAudioItemVO.setId(articleFoodItemDTO.getId());
+        articleAudioItemVO.setImage(articleFoodItemDTO.getImage());
+        articleAudioItemVO.setName(articleFoodItemDTO.getName());
+        articleAudioItemVO.setService(articleFoodItemDTO.getService());
+        articleAudioItemVO.setTop(articleFoodItemDTO.getTop());
+        articleAudioItemVO.setItemTitle(articleFoodItemDTO.getItemTitle());
 
+        return articleAudioItemVO;
+    }
     private static ArticleAudioItemVO getArticleAudioItemVO(ArticleAudioItemDTO articleAudioItemDTO) {
         if (articleAudioItemDTO==null){
             return null;
