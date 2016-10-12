@@ -456,9 +456,9 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         ) {
             throw new BaseException("活动已经开始不可以进行编辑!");
         } else if(actActivityPromotionDO.getStatus() == PromotionStatus.OVER.getStatus()) {
-            throw new BaseException("活动活动已结束不可以进行编辑!");
+            throw new BaseException("活动已结束不可以进行编辑!");
         } else if(actActivityPromotionDO.getStatus() == PromotionStatus.STOP.getStatus()) {
-            throw new BaseException("活动活动已停用不可以进行编辑!");
+            throw new BaseException("活动已停用不可以进行编辑!");
         }
         return true;
     }
