@@ -89,7 +89,10 @@ public interface ShowcaseService {
     List<RegionDO> getListdestination(RegionType regionType);
 
     PageVO<RegionDO> getRegionDOListByType(RegionQuery regionQuery);
+
+
     //主题
+    @Deprecated
     PageVO<ComTagDO> getTagListByTagType(TagInfoPageDTO tagInfoPageDTO);
 
 
@@ -182,4 +185,8 @@ public interface ShowcaseService {
      * @return
      */
     public PageVO<ShowCaseItem> getPageLiveRoomListByQuery(LiveRoomQuery liveRoomQuery);
+
+    //主题
+    public PageVO<ShowCaseItem> getTagsByTagType(TagInfoPageDTO tagInfoPageDTO);
+
 }

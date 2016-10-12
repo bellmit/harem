@@ -565,7 +565,7 @@ public class BannerManageController extends BaseController {
         tag.setNeedCount(true);
         tag.setPageNo(pageNumber);
         tag.setPageSize(pageSize);
-        PageVO<ComTagDO> page = showcaseService.getTagListByTagType(tag);
+        PageVO<ShowCaseItem> page = showcaseService.getTagsByTagType(tag);
         result.put("pageVo", page);
         return result;
     }
