@@ -225,6 +225,7 @@
 								</div>
 							#end
 								#if($articleItem.type == 9)
+                                    <div class="itemwraptitle">$!articleItem.articleFoodItemVO.itemTitle</div>
                                     <div class="wrap itemwrap foodwrap">
 
                                         <div class="itemimgbox ">
