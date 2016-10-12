@@ -123,7 +123,9 @@ public class AccountController extends BaseController {
 			List<String> subMobiles = mobiles.subList(start, end) ;
 			Map<String, Long> map = userRepo.getUserIdsByMobiles(subMobiles);
 			List<List<String>> rows = map2List(map);
-			result.addAll(rows);
+			if( !CollectionUtils.isEmpty(rows) ){
+				result.addAll(rows);
+			}
 			if( end >= total ){
 				break;
 			}

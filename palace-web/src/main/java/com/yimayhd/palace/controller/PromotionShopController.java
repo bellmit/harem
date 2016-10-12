@@ -47,6 +47,7 @@ public class PromotionShopController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model, ActPromotionPageQuery actPromotionPageQuery) throws Exception {
         actPromotionPageQuery.setLotteryType(EntityType.SHOP.getType());
+        actPromotionPageQuery.setType(PromotionType.SUM_REDUCE.getType());
         PageVO<ActActivityPromotionDO> pageVO = promotionCommService.getList(actPromotionPageQuery);
         List<PromotionType> promotionTypeList = PromotionHelper.getAvaiableShopPromotionTypes();
         List<PromotionStatus> promotionStatusList = Arrays.asList(PromotionStatus.values());

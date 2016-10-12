@@ -45,6 +45,12 @@
                     </tr>
 
 					#set($size = $order.subOrderList.size() )
+                    #set($hidden_send="1")
+                    #foreach($subOrder in $order.subOrderList)
+                        #if(2 == $!subOrder.bizOrderDO.refundStatus)
+                            #set($hidden_send="0")
+                        #end
+                    #end
                     #foreach($subOrder in $order.subOrderList)
 	                    <tr class="order-item-label_$!count" >
 						<!-- 这里是判断子订单的-->
@@ -103,7 +109,7 @@
                                     <br>
 
                                     <input type="hidden" value="[$!order.orderShowState , $!subOrder.bizOrderDO.refundStatus]">
-									#if(2==$!order.orderShowState)
+									#if(2==$!order.orderShowState && $!hidden_send=="1")
                                         #if($!subOrder.bizOrderDO.refundStatus ==0 || $!subOrder.bizOrderDO.refundStatus==6)
 
                                             <button type="button" class="btn btn-primary addRefund sendGoods1" queryOrderState="$!orderListQuery.orderStat" orderId="$!bizOrder.bizOrderId">
