@@ -435,13 +435,40 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         actActivityEditVO.setPromotionVOList(promotionVOList);
         return actActivityEditVO;
     }
-
+    private boolean checkStatus(long id) {
+        ActResult<ActPromotionDTO> actResult = activityPromotionServiceRef.getActPromotionById(id);
+        if (actResult == null) {
+            log.error("activityPromotionServiceRef.getActPromotionById return null and param : " + id);
+            throw new BaseException("返回结果为空");
+        } else if (!actResult.isSuccess()) {
+            log.error("activityPromotionServiceRef.getActPromotionById error:" + actResult + "and param :" + id);
+            throw new BaseException(actResult.getMsg());
+        }
+        Date now = new Date();
+        ActPromotionDTO actPromotionDTO = actResult.getT();
+        ActActivityPromotionDO actActivityPromotionDO = actPromotionDTO.getActActivityPromotionDO();
+        if(
+             actActivityPromotionDO.getStatus() == PromotionStatus.BEING.getStatus()
+             || (
+                 actActivityPromotionDO.getStatus() == PromotionStatus.NOTBEING.getStatus()
+                 && actActivityPromotionDO.getStartDate().getTime()>now.getTime()
+             )
+        ) {
+            throw new BaseException("活动已经开始不可以进行编辑!");
+        } else if(actActivityPromotionDO.getStatus() == PromotionStatus.OVER.getStatus()) {
+            throw new BaseException("活动活动已结束不可以进行编辑!");
+        } else if(actActivityPromotionDO.getStatus() == PromotionStatus.STOP.getStatus()) {
+            throw new BaseException("活动活动已停用不可以进行编辑!");
+        }
+        return true;
+    }
     @Override
     public boolean addGift(ActActivityEditVO actActivityEditVO) throws Exception {
         ActActivityVO actActivityVO = actActivityEditVO.getActActivityVO();
         List<PromotionVO> promotionVOList = actActivityEditVO.getPromotionVOList();
         Map<Long, String> features = new HashMap<Long, String>();
         if(actActivityVO.getId()> 0){
+            checkStatus(actActivityVO.getId());
             features = getPromotionFeatures(actActivityVO.getId());
         }
         Date startDate = new Date();
