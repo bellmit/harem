@@ -7,6 +7,7 @@ import com.yimayhd.palace.model.vo.OrderStatusChangeVO;
 import com.yimayhd.palace.model.vo.TcMainOrderVO;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResult;
+import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogDTO;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import org.slf4j.Logger;
@@ -28,6 +29,15 @@ public class OrderStatusChangeConverter {
 
     public OrderStatusChangeConverter(OrderStatusChangeParam orderStatusChangeParam){
         this.orderStatusChangeParam= orderStatusChangeParam;
+    }
+
+    public OrderOperationLogDTO getLogDto(){
+        OrderOperationLogDTO dto = new OrderOperationLogDTO();
+        dto.setOperationId(orderStatusChangeParam.getUserId());
+        dto.setBizNo(orderStatusChangeParam.getBizOrderIdStr());
+        dto.setContent(orderStatusChangeParam.getDesc());
+        dto.setStatus(orderStatusChangeParam.getOrderChangeStatus());
+        return dto;
     }
 
     public OrderQueryDTO getOrderQueryDTO(){

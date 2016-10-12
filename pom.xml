@@ -44,6 +44,7 @@
 		<lgcenter.client.version>0.0.6-SNAPSHOT</lgcenter.client.version>
 		<refund.version>1.0.0-SNAPSHOT</refund.version>
 		<solrsearch.version>1.0.4-SNAPSHOT</solrsearch.version>
+		<selleradmin.version>1.1.1-SNAPSHOT</selleradmin.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -692,12 +693,10 @@
 				<artifactId>refund-client</artifactId>
 				<version>${refund.version}</version>
 			</dependency>
-<!-- <<<<<<< HEAD -->
 			<dependency>
 				<groupId>com.yimayhd.solrsearch</groupId>
   				<artifactId>solrsearch-client</artifactId>
 				<version>${solrsearch.version}</version>
-<!-- ======= -->
 			</dependency>
 			<dependency>
 				<groupId>org.apache.poi</groupId>
@@ -708,7 +707,6 @@
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi-ooxml</artifactId>
 				<version>3.7-beta3</version>
-<!-- >>>>>>> remotes/origin/master -->
 			</dependency>
 			<dependency>
 				<groupId>com.yimayhd.solrsearch</groupId>
@@ -725,6 +723,12 @@
 				<groupId>com.fasterxml.jackson.module</groupId>
 				<artifactId>jackson-module-jaxb-annotations</artifactId>
 				<version>${jackson.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.yimayhd</groupId>
+				<artifactId>sellerAdmin-client</artifactId>
+				<version>${selleradmin.version}</version>
 			</dependency>
 		</dependencies>
 

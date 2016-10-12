@@ -47,6 +47,6 @@
 	<bean id="settlementRepo" class="com.yimayhd.palace.repo.SettlementRepo" />
 	<bean id="mediaClientRepo" class="com.yimayhd.palace.repo.MediaClientRepo"/>
 	<bean id="tcTradeRepo" class="com.yimayhd.palace.repo.order.TcTradeRepo"/>
-
+	<bean id="orderOperationLogRepo" class="com.yimayhd.palace.repo.selleradmin.OrderOperationLogRepo"/>
 
 </beans>
