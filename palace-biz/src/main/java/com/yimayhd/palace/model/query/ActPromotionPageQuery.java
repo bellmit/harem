@@ -13,6 +13,8 @@ public class ActPromotionPageQuery extends BaseQuery {
     private String beginTime;
     private String endTime;
     private int lotteryType;
+    private String startTimeStart;
+    private String startTimeEnd;
 
     public String getTitle() {
         return title;
@@ -60,5 +62,21 @@ public class ActPromotionPageQuery extends BaseQuery {
 
     public void setLotteryType(int lotteryType) {
         this.lotteryType = lotteryType;
+    }
+
+    public String getStartTimeStart() {
+        return startTimeStart;
+    }
+
+    public void setStartTimeStart(String startTimeStart) {
+        this.startTimeStart = startTimeStart;
+    }
+
+    public String getStartTimeEnd() {
+        return startTimeEnd;
+    }
+
+    public void setStartTimeEnd(String startTimeEnd) {
+        this.startTimeEnd = startTimeEnd;
     }
 }

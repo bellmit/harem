@@ -57,8 +57,8 @@ public class ComRateServiceImpl implements ComRateService {
                 try {
                     ratePageListDTO.setStartTime(DateUtil.convertStringToDate(comRateListQuery.getBeginDate()).getTime());
                 } catch (Exception e) {
-                	//FIXME 输出日志的时候，要将入参也打印出来，因为有很多bug是只有在特定参数下才会出现的
-                    log.error("error ", e);
+                	//FIXED 输出日志的时候，要将入参也打印出来，因为有很多bug是只有在特定参数下才会出现的
+                    log.error("error setStartTime: "+comRateListQuery+" e: "+e);
                 }
             }
             if (!StringUtils.isBlank(comRateListQuery.getEndDate())) {
@@ -67,8 +67,8 @@ public class ComRateServiceImpl implements ComRateService {
                     endDate = DateUtil.formatMaxTimeForDate(endDate);
                     ratePageListDTO.setEndTime(endDate.getTime());
                 } catch (Exception e) {
-                	//FIXME 输出日志的时候，要将入参也打印出来，因为有很多bug是只有在特定参数下才会出现的
-                    log.error("error ", e);
+                	//FIXED 输出日志的时候，要将入参也打印出来，因为有很多bug是只有在特定参数下才会出现的
+                    log.error("error comRateListQuery: "+ comRateListQuery+"e: "+e);
                 }
             }
 
@@ -108,15 +108,16 @@ public class ComRateServiceImpl implements ComRateService {
                     orderIds.add(comRate.getOrderId());
                 }
 
-                //FIXME 获取map的方法可以直接封装在userRepo中
+                //FIXED 获取map的方法可以直接封装在userRepo中
                 List<UserDO> userDOs = userRepo.getUsers(userIds);
                 log.debug("userDOs = {}", JSON.toJSONString(userDOs));
                 Map<Long, UserDO> userDOMap = new HashMap<Long, UserDO>();
+                Map<Long, String> userMobiles = userRepo.getMobilesByUserIds(userIds);
                 if (userDOs != null) {
                     for (int i = 0; i < userDOs.size(); i++) {
                         UserDO userDO = userDOs.get(i);
                         if(StringUtils.isBlank(userDO.getNickname())){
-                            String mobileNo = userRepo.findMobileByUserId(userDO.getId());
+                            String mobileNo = userMobiles.get(userDO.getId());
                             userDO.setMobileNo(mobileNo);
                         }
                         userDOMap.put(userDO.getId(), userDO);

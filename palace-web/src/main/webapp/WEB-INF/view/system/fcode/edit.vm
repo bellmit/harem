@@ -125,16 +125,16 @@
             };
             $.post(actionUrl,params,function (result) {
                 if(result){
-                    if(result.status==0){
-                        layer.msg(result.message, {
+                    if(result.success){
+                        layer.msg(result.msg, {
                             icon: 1,
                             time: 2000
                         });
                         setTimeout(function(){
                             top.$('#myTabList .active i').trigger('click');
                         }, 2000);
-                    } else if(result.status==1){
-                        layer.msg(result.message, {
+                    } else if(result.msg){
+                        layer.msg(result.msg, {
                             icon: 2,
                             time: 2000
                         });

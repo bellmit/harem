@@ -4,6 +4,8 @@ package com.yimayhd.palace.model;
 import com.yimayhd.promotion.client.domain.PromotionDO;
 import org.springframework.beans.BeanUtils;
 
+import java.util.List;
+
 /**
  * Created by czf on 2016/1/11.
  */
@@ -20,7 +22,8 @@ public class PromotionVO extends PromotionDO {
     private String skuTitle;
     private long stockNum;
     private int itemStatus;
-    
+    private List<GiftVO> gifts;
+    private String requirementY;
 
     public static PromotionVO getPromotionVO(PromotionDO promotionDO){
         PromotionVO promotionVO = new PromotionVO();
@@ -116,4 +119,20 @@ public class PromotionVO extends PromotionDO {
 	public void setResultPriceY(double resultPriceY) {
 		this.resultPriceY = resultPriceY;
 	}
+
+    public List<GiftVO> getGifts() {
+        return gifts;
+    }
+
+    public void setGifts(List<GiftVO> gifts) {
+        this.gifts = gifts;
+    }
+
+    public String getRequirementY() {
+        return requirementY;
+    }
+
+    public void setRequirementY(String requirementY) {
+        this.requirementY = requirementY;
+    }
 }

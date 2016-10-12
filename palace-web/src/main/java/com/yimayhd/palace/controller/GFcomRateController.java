@@ -48,8 +48,8 @@ public class GFcomRateController {
 
     @RequestMapping(value = "/batchreplay", method = RequestMethod.POST)
     @ResponseBody
-    //FIXME 参数应该命名为ids，而不是ids[]
-    public BaseResult<Boolean> batchreplay(@RequestParam("ids[]") ArrayList<Long> ids, String content) {
+    //FIXED 参数应该命名为ids，而不是ids[]
+    public BaseResult<Boolean> batchreplay(@RequestParam("ids") ArrayList<Long> ids, String content) {
         BaseResult<Boolean> result = comRateService.replayComRate(ids, content);
         return result;
     }
