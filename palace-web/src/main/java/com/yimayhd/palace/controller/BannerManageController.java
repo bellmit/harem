@@ -649,6 +649,4 @@ public class BannerManageController extends BaseController {
         String str = JSON.toJSONString(listBooth);
         return str;
     }
-
-
 }

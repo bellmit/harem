@@ -773,7 +773,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             ShowCaseItem sc = new ShowCaseItem();
             sc.setId(oo.getId());
             sc.setName(oo.getLiveTitle());//标题
-            sc.setImgUrl(StringUtils.isEmpty(oo.getLiveCover())?"":oo.getLiveCover());
+//          sc.setImgUrl(StringUtils.isEmpty(oo.getLiveCover())?"":oo.getLiveCover()); // 不关联头图
             sc.setValue(oo);
             listSC.add(sc);
         }

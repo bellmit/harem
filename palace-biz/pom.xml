@@ -276,6 +276,10 @@
 			<groupId>com.yimayhd.solrsearch</groupId>
   			<artifactId>solrsearch-client</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>com.yimayhd.live</groupId>
 			<artifactId>live-client</artifactId>
