@@ -167,8 +167,7 @@
         });
     }
 
-    $(".playBackListForm").Validform();
-
+    $(".liveAdminForm").Validform();
 
     $("#btnReset").on("click",function(){
         $("#liveAdminForm").find(".form-control").val('');
