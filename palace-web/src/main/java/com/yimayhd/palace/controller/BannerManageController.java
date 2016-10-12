@@ -56,6 +56,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+import static com.yimayhd.live.client.enums.LiveStatus.REPLAY_LIVE;
+
 
 /**
  * Created by czf on 2016/4/12.
@@ -355,7 +357,7 @@ public class BannerManageController extends BaseController {
         }
         query.setPageNumber(pageNumber);
         query.setPageSize(pageSize);
-
+        query.setLiveStatus(REPLAY_LIVE.getStatus());  // 获取回放列表
         PageVO<ShowCaseItem> page = showcaseService.getPageLiveRecordListByQuery(query);
         result.put("pageVo", page);
         return result;
