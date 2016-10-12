@@ -3,14 +3,14 @@
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/base.css" id="">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/live/livelist.css" id="">
 <div class="searchbox">
-    <form id="playBackListForm" name="playBackListForm"
+    <form id="playBackListForm" name="playBackListForm" class="playBackListForm"
           action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/playBackList">
         <table>
             <tr>
                 <td class="tit">达人昵称：</td>
                 <td><input name="nickName" class="form-control" maxlength="30" value="$!{liveAdminQuery.nickName}"/></td>
                 <td class="tit">达人ID：</td>
-                <td><input name="userId"  class="form-control" maxlength="30" value="$!{liveAdminQuery.userId}"/></td>
+                <td><input name="userId" type="text" class="form-control" maxlength="30" datatype="/^(\d+)?$/" errormsg="请输入数字" value="$!{liveAdminQuery.userId}"/></td>
                 <div class="input-group inpSingle">
                     <td class="tit">直播分类：</td>
                     <td>
@@ -159,6 +159,9 @@
         extend: ['skin/mySkin/style.css'],
         skin: 'layer-ext-mySkin'
     });
+
+    $(".playBackListForm").Validform();
+
     function submitEdit(url, type, data) {
         //alert(1);
         $.ajax({
