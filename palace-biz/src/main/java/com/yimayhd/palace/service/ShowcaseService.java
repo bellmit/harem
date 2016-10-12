@@ -186,7 +186,10 @@ public interface ShowcaseService {
      */
     public PageVO<ShowCaseItem> getPageLiveRoomListByQuery(LiveRoomQuery liveRoomQuery);
 
-    //主题
+    /**
+     * 分页查询标签
+     * @return
+     */
     public PageVO<ShowCaseItem> getTagsByTagType(TagInfoPageDTO tagInfoPageDTO);
 
 }
