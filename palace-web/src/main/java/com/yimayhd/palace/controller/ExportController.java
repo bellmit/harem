@@ -6,6 +6,7 @@ import com.yimayhd.lgcenter.client.domain.ExpressVO;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.enums.ExportType;
 import com.yimayhd.palace.helper.NumberFormatHelper;
 import com.yimayhd.palace.model.enums.OrderShowStatus;
 import com.yimayhd.palace.model.export.ExportGfOrder;
@@ -98,6 +99,7 @@ public class ExportController extends BaseController{
                 mo.setViewName("error");
                 return mo;
             }
+            model.put("type", ExportType.EXPORT_GF.getType());
             model.put("pageVO",pageVO);
             model.put("query",exportQuery);
             model.put("ListExportGfOrder",list);
