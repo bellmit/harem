@@ -20,6 +20,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class PushManageController extends BaseController {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
+    //特定推送对象
+    @RequestMapping(value = "/msg/list", method = RequestMethod.GET)
+    public String msgList1(Model model,BaseQuery baseQuery) throws Exception {
+        return "/system/push/msg/list";
+    }
+
     //短信推送列表
     @RequestMapping(value = "/msg/list", method = RequestMethod.GET)
     public String msgList(Model model,BaseQuery baseQuery) throws Exception {

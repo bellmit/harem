@@ -275,8 +275,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         if(CollectionUtils.isNotEmpty(result.getList())){
             list=result.getList();
         }
-        PageVO<ComTagDO> page  = new PageVO<ComTagDO>(tagInfoPageDTO.getPageNo(), tagInfoPageDTO.getPageSize(),
-                result.getTotalCount(), list);
+        PageVO<ComTagDO> page  = new PageVO<ComTagDO>(tagInfoPageDTO.getPageNo(), tagInfoPageDTO.getPageSize(), result.getTotalCount(), list);
         return page;
     }
 

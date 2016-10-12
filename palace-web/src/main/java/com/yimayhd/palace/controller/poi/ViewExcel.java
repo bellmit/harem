@@ -48,8 +48,7 @@ public class ViewExcel extends AbstractExcelView {
     private static final Logger logger = LoggerFactory.getLogger(ViewExcel.class);
 
     @Override
-    protected void buildExcelDocument(Map<String, Object> obj, HSSFWorkbook workbook,
-                                      HttpServletRequest request, HttpServletResponse response)throws Exception {
+    protected void buildExcelDocument(Map<String, Object> obj, HSSFWorkbook workbook, HttpServletRequest request, HttpServletResponse response)throws Exception {
         OutputStream ouputStream = response.getOutputStream();
         try {
             String fileName = "";
