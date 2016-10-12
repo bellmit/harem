@@ -41,7 +41,15 @@ public interface VoucherTemplateService {
      * @throws Exception
      */
     VcBaseResult<Long> add(VoucherTemplateVO entity) throws Exception;
-
+    /**
+     * 添加F码
+     *
+     * @return F码模板
+     * @param entity
+     *
+     * @throws Exception
+     */
+    Boolean addFcode(VoucherTemplateVO entity) throws Exception;
     /**
      * 根据主键获取优惠券模板
      *

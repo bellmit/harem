@@ -1,8 +1,5 @@
 package com.yimayhd.palace.service;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import com.yimayhd.commentcenter.client.domain.ComRateDO;
-import com.yimayhd.commentcenter.client.dto.RatePageListDTO;
 import com.yimayhd.commentcenter.client.result.BaseResult;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ComRateVO;
