@@ -23,6 +23,7 @@ public class ShowCaseItem implements Serializable{
     public String code;
     public String URL;//外链，url
 
+
     public String getURL() {
         return URL;
     }
