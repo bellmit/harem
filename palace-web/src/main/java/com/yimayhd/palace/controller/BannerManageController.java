@@ -5,8 +5,8 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.CategoryQueryDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
+import com.yimayhd.commentcenter.client.enums.*;
 import com.yimayhd.ic.client.model.enums.GuideStatus;
-import com.yimayhd.commentcenter.client.enums.CategoryStatus;
 import com.yimayhd.commission.client.enums.Domain;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
@@ -261,6 +261,7 @@ public class BannerManageController extends BaseController {
                 || Constant.SHOWCASE_TRAVEL_INFORMATION_LIST == type
                 || Constant.SHOWCASE_GUIDE_INFORMATION_LIST == type
                 || Constant.SHOWCASE_CATEGORY_LIST ==type
+                || Constant.LIVE_CATEGORY ==type
                 ){//选列表
             return "/system/banner/showcase/chooseItemList";
         }else if(Constant.SHOWCASE_ITEM_DETAIL == type){//选详情
@@ -335,6 +336,9 @@ public class BannerManageController extends BaseController {
                 break;
             case Constant.LIVE_ROOM_LIST:   // 直播房间管理列表
                 result = getPageLiveRoomList(pageNumber,pageSize,result,keyWord,code);
+                break;
+            case Constant.LIVE_CATEGORY:   // 直播分类
+                getTagList(pageNumber,pageSize,result,code);
                 break;
             /*case Constant.SHOWCASE_VIEW_TOPIC_LIST ://选话题列表
                 getScenicList(pageNumber,pageSize,result,keyWord);
@@ -431,7 +435,6 @@ public class BannerManageController extends BaseController {
         result.put("pageVo", page);
         return result;
     }
-
 
     public Map<String, Object> getBoothPageList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord){
         BoothQuery boothQuery = new BoothQuery();
@@ -649,4 +652,6 @@ public class BannerManageController extends BaseController {
         String str = JSON.toJSONString(listBooth);
         return str;
     }
+
+
 }

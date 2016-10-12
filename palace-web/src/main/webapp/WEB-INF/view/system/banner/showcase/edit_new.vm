@@ -129,6 +129,7 @@
             autotxt();
             $('.selectpages').change(function(){
                 $('#addsecontentId').text('');
+                $("#chosId").val('');//  更换选择页面 清空之前选择的id 和name
                 isChecked ();
             });
             function isChecked (){

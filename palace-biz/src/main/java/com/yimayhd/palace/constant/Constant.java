@@ -54,6 +54,10 @@ public class Constant {
 	 * 直播房间列表
 	 */
 	public static final int LIVE_ROOM_LIST = 21;
+	/**
+	 * 直播分类
+	 */
+	public static final int LIVE_CATEGORY = 22;
 
 	public static final String DOT = ".";
 	public static final String COMMA = ",";
