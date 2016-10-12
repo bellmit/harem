@@ -3,8 +3,8 @@
 <script src="$!{utilWebconfig.getStaticResourcesPath()}/resources/app/chooseItemDetail.js?t=123" type="text/javascript"></script>
 <div>
     <div class="input-group">
-        <span class="input-group-addon">选择商品详情</span>
-     <input type="text" class="form-control" name="itemName" id="itemName" placeholder="输入标题或商品id查询">
+        <span class="input-group-addon">选择直播回放详情</span>
+     <input type="text" class="form-control" name="itemName" id="itemName" placeholder="请输入直播标题或id">
      <span class="input-group-btn"><button class="btn btn-default search" type="button">搜索</button>
      </span>
     </div>
