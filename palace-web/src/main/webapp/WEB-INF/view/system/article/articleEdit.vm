@@ -123,7 +123,7 @@
 													#set($pri2=$!articleItem.articleProductItemVO.itemPrice / 100.00)
 													￥<em>#set($pri=$!articleItem.articleProductItemVO.itemPrice % 100)#if($pri == 0) $!pri1 #else $!pri2 #end</em>
 												</span>
-												<span class="oprinum">￥<em>$!articleItem.articleProductItemVO.oldPrice</em></span>
+												<span class="oprinum">￥<em>$utilNum.moneyTransform($!articleItem.articleProductItemVO.oldPrice)</em></span>
 											</p>
 											<p class="itemleft">
 												<span class="itemtitle">$!articleItem.articleProductItemVO.itemTitle</span>
@@ -224,6 +224,27 @@
 								</div>
 								</div>
 							#end
+								#if($articleItem.type == 9)
+                                    <div class="wrap itemwrap foodwrap">
+
+                                        <div class="itemimgbox ">
+                                            <img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleFoodItemVO.image"/>
+                                        </div>
+                                        <div class="foodmsgbox clearfix">
+                                            <p class="foodleft"><span class="ftop">TOP</span><span
+                                                    class="fnum">$!articleItem.articleFoodItemVO.top</span>
+                                            <p class="foodright">
+											<span class="fname">$!articleItem.articleFoodItemVO.name
+                                                <em> 人均—￥$utilNum.moneyTransform($!articleItem.articleFoodItemVO.avgPrice)</em>
+											</span>
+                                                <span class="fservice">
+													<i class="icon-service"></i>
+													$!articleItem.articleFoodItemVO.service
+												</span>
+                                            </p>
+                                        </div>
+                                    </div>
+								#end
             				#end																					
 							</div>
 							<div class="hd clearfix">
