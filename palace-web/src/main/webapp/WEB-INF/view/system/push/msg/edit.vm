@@ -38,7 +38,7 @@
                         <div class="plhd"></div>
                         <div class="del">删除文件</div>
                         <a class="upldclik">
-                            <input type="file" class="adpicfile single">
+                            <input type="file" class="adpicfile single" id="logoUrlUploadFile">
                         </a>
                         <input type="hidden" name="userList" id="uploadFile">
                     </div>
@@ -62,4 +62,24 @@
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js"></script>
 <script>seajs.use('module/md.push-sms-edit.js');</script>
+<script>
+   /* $(document).delegate("#logoUrlUploadFile",'change',function(){//上传
+
+        fileUpload('#logoUrlUploadFile',1,LogoPicloadCallBack);
+    })
+
+    var LogoPicloadCallBack = function(data){
+        if(data && data.status == 200){
+            console.log(data.data);
+            $('#logoUrlUploadFileReturnInput').val(data.data);
+            $('#logoUrlUploadFileReturnImg').attr('src',tfsRootPath + data.data);
+
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }*/
+
+
+</script>
