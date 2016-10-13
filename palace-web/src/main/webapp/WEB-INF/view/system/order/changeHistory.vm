@@ -4,8 +4,8 @@
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 <head>
 <title>修改历史</title>
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/src/css/zui.min.css">
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/src/css/changeOrderStatus.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/changeOrderStatus.css">
 </head>
 <!-- head end-->
 <body>
@@ -87,9 +87,9 @@
 		</tbody>
 	</table>
 
-	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/src/js/sea.js"></script>
-	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/src/js/seajs-preload.js"></script>
-	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/src/js/config.js"></script>
+	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
 	<script type="text/javascript">
 		seajs.use('orderChangeHistory');
 	</script>
