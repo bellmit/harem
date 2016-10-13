@@ -3,6 +3,7 @@ package com.yimayhd.palace.repo;
 
 import java.util.List;
 
+import com.yimayhd.user.client.dto.MerchantUserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -247,6 +248,21 @@ public class MerchantRepo {
 		log.info("param:SetMerchantWeightDTO={}",JSON.toJSONString(setMerchantWeightDTO));
 		boolean setResult = userMerchantServiceRef.setMerchantWeight(setMerchantWeightDTO);
 		return setResult;
+	}
+
+	public MerchantUserDTO getMerchantAndUserBySellerId(long sellerId, int domainId){
+		log.info("调用远程接口,sellerId={},domainId={}",sellerId,domainId);
+		BaseResult<MerchantUserDTO> result=null;
+		try{
+			result = userMerchantServiceRef.getMerchantAndUserBySellerId(sellerId, domainId);
+			if(result==null||!result.isSuccess()){
+				log.error(JSON.toJSONString(result));
+				return null;
+			}
+		}catch (Exception e){
+			log.error("远程调用repo失败",e);
+		}
+		return result.getValue();
 	}
 	/*public boolean modifyHotelWeight(HotelPublishDTO hotelPublishDTO) {
 		log.info("param:HotelPublishDTO={}",JSON.toJSONString(hotelPublishDTO));

@@ -1,5 +1,6 @@
 package com.yimayhd.palace.model.vo;
 
+import com.yimayhd.palace.repo.MerchantRepo;
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
@@ -7,6 +8,8 @@ import com.yimayhd.tradecenter.client.model.domain.person.TcMerchantInfo;
 import com.yimayhd.tradecenter.client.model.result.order.create.Address;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.client.dto.MerchantUserDTO;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,7 +27,7 @@ public class TcMainOrderVO implements Serializable {
 
     private LogisticsOrderDO logisticsOrderDO;
     /** 子订单列表 */
-    private List<TcDetailOrder> detailOrders;
+    private List<TcDetailOrderVO> detailOrders;
 //    private ButtonStatus buttonStatus;
     //private LgOrderList lgOrderList;
     //private LogisticsOrder logisticsOrder;
@@ -84,6 +87,11 @@ public class TcMainOrderVO implements Serializable {
     //完成订单来源
     private int finishOrderSource;
 
+    private UserDO userDO;
+    private String userNick;
+    private String merchantName;
+    private long requirement;
+    private long reValue;
     public PayOrderDO getPayOrderDO() {
         return payOrderDO;
     }
@@ -108,11 +116,11 @@ public class TcMainOrderVO implements Serializable {
         this.bizOrder = bizOrder;
     }
 
-    public List<TcDetailOrder> getDetailOrders() {
+    public List<TcDetailOrderVO> getDetailOrders() {
         return detailOrders;
     }
 
-    public void setDetailOrders(List<TcDetailOrder> detailOrders) {
+    public void setDetailOrders(List<TcDetailOrderVO> detailOrders) {
         this.detailOrders = detailOrders;
     }
 
@@ -323,5 +331,45 @@ public class TcMainOrderVO implements Serializable {
 
     public void setFinishOrderSource(int finishOrderSource) {
         this.finishOrderSource = finishOrderSource;
+    }
+
+    public UserDO getUserDO() {
+        return userDO;
+    }
+
+    public void setUserDO(UserDO userDO) {
+        this.userDO = userDO;
+    }
+
+    public String getUserNick() {
+        return userNick;
+    }
+
+    public void setUserNick(String userNick) {
+        this.userNick = userNick;
+    }
+
+    public String getMerchantName() {
+        return merchantName;
+    }
+
+    public void setMerchantName(String merchantName) {
+        this.merchantName = merchantName;
+    }
+
+    public long getRequirement() {
+        return requirement;
+    }
+
+    public void setRequirement(long requirement) {
+        this.requirement = requirement;
+    }
+
+    public long getReValue() {
+        return reValue;
+    }
+
+    public void setReValue(long reValue) {
+        this.reValue = reValue;
     }
 }

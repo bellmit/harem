@@ -67,8 +67,8 @@
 				</th>
 			</tr>
 		</thead>
+		#foreach($tcMainOrder in $tcMainOrderVOList)
 		<tbody>
-			#foreach($tcMainOrder in $tcMainOrderVOList)
 				<tr>
 					<td style="text-align:left">
 						<input type="checkbox" class="order-check" orderid="$!tcMainOrder.bizOrder.bizOrderId">
@@ -83,60 +83,76 @@
 						</div>
 					</td>
 				</tr>
+				<!--for 子订单-->
+				#set( $size = $tcMainOrder.detailOrders.size())
+				#foreach($subOrder in $tcMainOrder.detailOrders)
 				<tr>
 					<td>
 					</td>
 					<td>
 						<div class="goods-item">
 							<div class="item-img">
-								<img src="http://img.test.yimayholiday.com/v1/tfs/T1yH_TByZT1RXrhCrK_180x180.jpg" alt="" />
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{imageUtil.getImgUrl($!{subOrder.itemPic}, 160)}"> alt="" />
 							</div>
 							<div class="item-text">
-								<div class="item-name">
-									商品名称名称商品名称名称商品名称名称
-								</div>
-								<div class="item-tag">
-									2016-10-08出发| 北京出发| 四星级| 成人
-								</div>
+								#ROUTE_ORDER_LIST_SKU($!subOrder.bizOrder.orderType)
 							</div>
 						</div>
 					</td>
 					<td>
-						3000.00
+						$!utilNum.getOrderUnitPrice($!subOrder.bizOrder.subOrderActualFee ,$!subOrder.bizOrder.buyAmount)
 					</td>
 					<td>
-						2
+						$!subOrder.bizOrder.buyAmount
 					</td>
 					<td>
-						跟团游
+						#ORDER_BIZ_TYPES($!tcMainOrder.bizOrder.orderType)
 					</td>
 					<td>
 						<div class="t-c">
-							tracy
+							$!tcMainOrder.userDO.nickname
 						</div>
 						<div class="t-c">
-							189****0000
+							$!utilPhone.phoneFormat($!order.userDO.buyerPhone)
 						</div>
 					</td>
 					<td>
-						怡美
+						#if($!tcMainOrder.merchantName && $!tcMainOrder.userNick)
+							$!tcMainOrder.merchantName/$!tcMainOrder.userNick
+						#else
+							$!tcMainOrder.merchantName$!tcMainOrder.userNick
+						#end
 					</td>
 					<td>
-						abc123456
+						$!tcMainOrder.bizOrder.sellerId
 					</td>
 					<td>
-						待付款
+						#if($!tcMainOrder.bizOrder.orderType == 3100 || $!tcMainOrder.bizOrder.orderType == 3200
+						|| $!tcMainOrder.bizOrder.orderType == 3300
+						|| $!tcMainOrder.bizOrder.orderType == 3500 || $!tcMainOrder.bizOrder.orderType == 3600)
+                            	    #ORDER_BIZ_STATUS_LINE($!tcMainOrder.bizOrder.orderStatus)
+                                #elseif($!tcMainOrder.bizOrder.orderType == 200)
+							#ORDER_BIZ_STATUS_NORMAL($!tcMainOrder.bizOrder.orderStatus)
+						#elseif($!tcMainOrder.bizOrder.orderType == 1200)
+							#ORDER_BIZ_STATUS_SPOTS($!tcMainOrder.bizOrder.orderStatus)
+						#elseif($!tcMainOrder.bizOrder.orderType == 1100 || $!tcMainOrder.bizOrder.orderType == 3400)
+							#ORDER_BIZ_STATUS_HOTEL($!tcMainOrder.bizOrder.orderStatus)
+						#elseif($!tcMainOrder.bizOrder.orderType == 4000 )
+							#ORDER_BIZ_STATUS_PROCESS($!tcMainOrder.bizOrder.orderStatus)
+						#end
 					</td>
 					<td>
-						6000.00
+						$!utilNum.moneyTransform($!tcMainOrder.totalFee) <br/>
+						#if($!order.value > 0) 满$!utilNum.moneyTransform($!tcMainOrder.requirement) <br/> 减$!utilNum.moneyTransform($!tcMainOrder.reValue) #end
 					</td>
 					<td>
-						<button type="button" class="btn btn-primary detail" orderid="0">详情</button>
-						<button type="button" class="btn btn-primary edit" orderid="0">修改订单</button>
+						<button type="button" class="btn btn-primary detail" orderId="$!tcMainOrder.bizOrder.bizOrderId">详情</button>
+						<button type="button" class="btn btn-primary edit" orderId="$!tcMainOrder.bizOrder.bizOrderId">修改订单</button>
 					</td>
 				</tr>
-			#end
+				#end
 		</tbody>
+		#end
 	</table>
 	<div id="layerModal">
 		<div class="item">

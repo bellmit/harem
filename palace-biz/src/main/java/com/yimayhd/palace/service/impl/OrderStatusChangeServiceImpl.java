@@ -8,6 +8,7 @@ import com.yimayhd.palace.model.vo.OrderStatusChangeVO;
 import com.yimayhd.palace.model.vo.TcMainOrderVO;
 import com.yimayhd.palace.repo.order.TcTradeRepo;
 import com.yimayhd.palace.repo.selleradmin.OrderOperationLogRepo;
+import com.yimayhd.palace.repo.user.UserRepo;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.OrderStatusChangeService;
@@ -35,6 +36,9 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
 
     @Autowired
     private OrderOperationLogRepo orderOperationLogRepo;
+
+    @Autowired
+    private UserRepo userRepo;
 
 
 
@@ -112,7 +116,9 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
                 return BizResult.buildFailResult(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorCode(),repoResult.getResultMsg(),null);
             }
             List<TcMainOrder> tcMainOrderList=   repoResult.getBizOrderDOList();
-            result.setTcMainOrderVOList(converter.getTcMainOrderVOList(tcMainOrderList));
+            List<TcMainOrderVO> tcMainOrderVOList = converter.getTcMainOrderVOList(tcMainOrderList);// 中台返回订单信息
+            /**订单信息出里*/
+            result.setTcMainOrderVOList(converter.secondaryTcMainOrder(tcMainOrderVOList));
             result.setTotalCount(repoResult.getTotalCount());
 
         }catch(Exception e){
