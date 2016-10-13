@@ -451,7 +451,7 @@ public class PromotionCommServiceImpl implements PromotionCommService {
              actActivityPromotionDO.getStatus() == PromotionStatus.BEING.getStatus()
              || (
                  actActivityPromotionDO.getStatus() == PromotionStatus.NOTBEING.getStatus()
-                 && actActivityPromotionDO.getStartDate().getTime()>now.getTime()
+                 && actActivityPromotionDO.getStartDate().getTime()<=now.getTime()
              )
         ) {
             throw new BaseException("活动已经开始不可以进行编辑!");
