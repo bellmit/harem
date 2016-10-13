@@ -1,4 +1,5 @@
 <!-- head start-->
+#set($layout = "/system/layout/layout_non.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 <head>
 	<title>订单状态修改</title>
