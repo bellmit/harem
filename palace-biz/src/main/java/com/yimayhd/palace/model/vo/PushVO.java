@@ -20,6 +20,10 @@ public class PushVO implements Serializable{
     public int pushModelType;//推广对象类型
     public String pushModelFilePath;//特定的推广对象文件地址
     public String pushDate;//推送时间
+    public int status;//推送状态
+    public long operationUserId;//操作人ID
+    public long sendPeople;//发送人数
+    public long seePeople;//查看人数
     public Date createDate;
     public Date updateDate;
 
@@ -126,5 +130,37 @@ public class PushVO implements Serializable{
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public long getOperationUserId() {
+        return operationUserId;
+    }
+
+    public void setOperationUserId(long operationUserId) {
+        this.operationUserId = operationUserId;
+    }
+
+    public long getSendPeople() {
+        return sendPeople;
+    }
+
+    public void setSendPeople(long sendPeople) {
+        this.sendPeople = sendPeople;
+    }
+
+    public long getSeePeople() {
+        return seePeople;
+    }
+
+    public void setSeePeople(long seePeople) {
+        this.seePeople = seePeople;
     }
 }
