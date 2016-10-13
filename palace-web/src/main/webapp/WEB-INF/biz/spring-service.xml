@@ -80,10 +80,10 @@
 	<bean class="com.yimayhd.palace.service.impl.BoothServiceImpl"></bean>
 	<bean class="com.yimayhd.palace.service.impl.ShowcaseServiceImpl"></bean>
 	
-	<bean class="com.yimayhd.palace.service.impl.ItemServiceImpl"></bean>
+	<bean class="com.yimayhd.epalace.service.impl.ItemServiceImpl"></bean>
 	
 	<!-- 九休订单 -->
-	<bean class="com.yimayhd.palace.service.impl.JiuxiuOrderServiceImpl"></bean>
+	<bean id = "jiuxiuOrderService" class="com.yimayhd.palace.service.impl.JiuxiuOrderServiceImpl"></bean>
 	<!-- 对账 -->
 	<bean class="com.yimayhd.palace.service.impl.AuditServiceImpl"></bean>
 	
