@@ -1,11 +1,18 @@
 package com.yimayhd.palace.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.alibaba.dubbo.common.json.JSONObject;
+import com.yimayhd.activitycenter.query.ActivityPromotionQueryDTO;
+import com.yimayhd.activitycenter.result.track.ActivityResult;
+import com.yimayhd.palace.constant.B2CConstant;
+import com.yimayhd.palace.model.*;
+import com.yimayhd.palace.util.MoneyUtil;
+import com.yimayhd.promotion.client.domain.FullGiveFeature;
+import com.yimayhd.promotion.client.domain.PromotionFeature;
+import com.yimayhd.promotion.client.enums.PromotionFeatureKey;
+import com.yimayhd.promotion.client.result.*;
+import com.yimayhd.promotion.client.service.PromotionPublishService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -35,9 +42,6 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.ActActivityEditVOConverter;
 import com.yimayhd.palace.convert.ActPromotionEditDTOConverter;
 import com.yimayhd.palace.convert.PromotionEditDTOConverter;
-import com.yimayhd.palace.model.ActActivityEditVO;
-import com.yimayhd.palace.model.ActActivityVO;
-import com.yimayhd.palace.model.PromotionVO;
 import com.yimayhd.palace.model.query.ActPromotionPageQuery;
 import com.yimayhd.palace.result.BizResultSupport;
 import com.yimayhd.palace.service.PromotionCommService;
@@ -50,10 +54,6 @@ import com.yimayhd.promotion.client.enums.EntityType;
 import com.yimayhd.promotion.client.enums.PromotionType;
 import com.yimayhd.promotion.client.query.EntityQueryPair;
 import com.yimayhd.promotion.client.query.PromotionPageQuery;
-import com.yimayhd.promotion.client.result.BasePageResult;
-import com.yimayhd.promotion.client.result.ItemPromotionQueryResult;
-import com.yimayhd.promotion.client.result.PcBaseItem;
-import com.yimayhd.promotion.client.result.PromotionDTO;
 import com.yimayhd.promotion.client.service.PromotionQueryService;
 
 /**
@@ -65,7 +65,6 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     private ActivityPromotionService activityPromotionServiceRef;
     @Autowired
     private PromotionQueryService promotionQueryService;
-
     @Autowired
     private ItemQueryService itemQueryServiceRef;
 
@@ -76,12 +75,37 @@ public class PromotionCommServiceImpl implements PromotionCommService {
         PageVO<ActActivityPromotionDO> promotionDOPageVO = null;
         //构建查询条件
         com.yimayhd.activitycenter.query.ActPromotionPageQuery actPromotionPageQueryRef = new com.yimayhd.activitycenter.query.ActPromotionPageQuery();
-        BeanUtils.copyProperties(actPromotionPageQuery,actPromotionPageQueryRef);
-        actPromotionPageQueryRef.setPageNo(actPromotionPageQuery.getPageNumber());
 
+        String title = actPromotionPageQuery.getTitle();
+        if(null!=title){
+            title = title.trim();
+        }
+        if(StringUtils.isNotBlank(title)) {
+            actPromotionPageQueryRef.setTitle(title);
+        }
+        actPromotionPageQueryRef.setStatus(actPromotionPageQuery.getStatus());
+        actPromotionPageQueryRef.setLotteryType(actPromotionPageQuery.getLotteryType());
+        actPromotionPageQueryRef.setType(actPromotionPageQuery.getType());
+        actPromotionPageQueryRef.setPageNo(actPromotionPageQuery.getPageNumber());
+        actPromotionPageQueryRef.setPageSize(actPromotionPageQuery.getPageSize());
+//        BeanUtils.copyProperties(actPromotionPageQuery,actPromotionPageQueryRef);
+        if(StringUtils.isNotBlank(actPromotionPageQuery.getBeginTime())) {
+            Date startTime = DateUtil.formatMinTimeForDate(actPromotionPageQuery.getBeginTime());
+            actPromotionPageQueryRef.setStart(startTime);
+            actPromotionPageQueryRef.setBeginTime(DateUtil.date2String(startTime));
+        }
         if(StringUtils.isNotBlank(actPromotionPageQuery.getEndTime())) {
             Date endTime = DateUtil.formatMaxTimeForDate(actPromotionPageQuery.getEndTime());
-            actPromotionPageQuery.setEndTime(DateUtil.date2String(endTime));
+            actPromotionPageQueryRef.setEnd(endTime);
+            actPromotionPageQueryRef.setEndTime(DateUtil.date2String(endTime));
+        }
+        if(StringUtils.isNotBlank(actPromotionPageQuery.getStartTimeStart())) {
+            Date startTimeStart = DateUtil.formatMinTimeForDate(actPromotionPageQuery.getStartTimeStart());
+            actPromotionPageQueryRef.setStartTimeStart(startTimeStart);
+        }
+        if(StringUtils.isNotBlank(actPromotionPageQuery.getStartTimeEnd())) {
+            Date startTimeEnd = DateUtil.formatMaxTimeForDate(actPromotionPageQuery.getStartTimeEnd());
+            actPromotionPageQueryRef.setStartTimeEnd(startTimeEnd);
         }
         ActPageResult<ActActivityPromotionDO> basePageResult = activityPromotionServiceRef.queryActPromotions(actPromotionPageQueryRef);
         if(basePageResult == null){
@@ -96,11 +120,6 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     }
 
     public void modify(ActActivityEditVO actActivityEditVO) throws Exception {
-        ActResult<ActPromotionDTO> result = activityPromotionServiceRef.getActPromotionById(actActivityEditVO.getActActivityVO().getId());
-
-        if (result != null && result.getT()!= null && result.getT().getActActivityPromotionDO() != null && PromotionStatus.NOTBEING.getStatus() != result.getT().getActActivityPromotionDO().getStatus()){
-            throw new BaseException("只有未开始活动允许修改");
-        }
 
         ActPromotionEditDTO actPromotionEditDTO = ActPromotionEditDTOConverter.getActPromotionEditDTO(actActivityEditVO);
 //        List<PromotionDO> addPromotionDOList = actPromotionEditDTO.getAddPromotionDOList() ;
@@ -333,8 +352,11 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 
     @Override
     public boolean close(long id) throws Exception {
-        boolean res = activityPromotionServiceRef.closeActPromotion(id).isSuccess();
-        return res;
+        ActResultSupport actResultSupport= activityPromotionServiceRef.closeActPromotion(id);
+        if(!actResultSupport.isSuccess()) {
+            log.error("closeActPromotion :"+JSON.toJSONString(actResultSupport)+" isSuccess : "+actResultSupport.isSuccess());
+        }
+        return actResultSupport.isSuccess();
     }
 
     @Override
@@ -363,5 +385,255 @@ public class PromotionCommServiceImpl implements PromotionCommService {
 //        actActivityDO.setTitle(name);
 //        actActivityDO.setType(type);
 //        return activityPromotionServiceRef.checkDuplicationActivityName(actActivityDO);
+    }
+    public ActActivityEditVO getGiftById(long id) throws Exception {
+
+        ActResult<ActPromotionDTO> actResult = activityPromotionServiceRef.getActPromotionById(id);
+        if(actResult == null){
+            log.error("activityPromotionServiceRef.getActPromotionById return null and param : " + id);
+            throw new BaseException("返回结果为空");
+        } else if(!actResult.isSuccess()){
+            log.error("activityPromotionServiceRef.getActPromotionById error:" + actResult + "and param :" + id);
+            throw new BaseException(actResult.getMsg());
+        }
+        ActActivityEditVO actActivityEditVO = new ActActivityEditVO();
+        ActActivityVO actActivityVO = new ActActivityVO();
+        List<PromotionVO> promotionVOList = new ArrayList<PromotionVO>();
+        ActPromotionDTO actPromotionDTO = actResult.getT();
+        List<PromotionDO> promotionDOList = actPromotionDTO.getPromotionDOList();
+        ActActivityPromotionDO actActivityPromotionDO = actPromotionDTO.getActActivityPromotionDO();
+
+        actActivityVO.setId(actActivityPromotionDO.getId());
+        actActivityVO.setTitle(actActivityPromotionDO.getTitle());
+        actActivityVO.setStartDate(actActivityPromotionDO.getStartDate());
+        actActivityVO.setEndDate(actActivityPromotionDO.getEndDate());
+        actActivityVO.setStatus(actActivityPromotionDO.getStatus());
+
+        for(PromotionDO promotionDO:promotionDOList) {
+            PromotionVO promotionVO = new PromotionVO();
+            promotionVO.setId(promotionDO.getId());
+            Double requirementY = (double) promotionDO.getRequirement()/100;
+            promotionVO.setRequirementY(MoneyUtil.moneyY(requirementY));
+            List<GiftVO> gifts = new ArrayList<GiftVO>();
+            if (StringUtils.isNotBlank(promotionDO.getFeature())) {
+                PromotionFeature promotionFeature = new PromotionFeature(promotionDO.getFeature());
+                List<FullGiveFeature> fullGiveFeatures = promotionFeature.getFreeGiftList();
+                for (FullGiveFeature fullGiveFeature : fullGiveFeatures) {
+                    GiftVO giftVO = new GiftVO();
+                    Double money = (double) fullGiveFeature.getPrice()/100;
+                    giftVO.setPriceY(MoneyUtil.moneyY(money));
+                    giftVO.setPrice(fullGiveFeature.getPrice());
+                    giftVO.setTitle(fullGiveFeature.getGiftName());
+                    giftVO.setImgUrl(fullGiveFeature.getGiftPicture());
+                    gifts.add(giftVO);
+                }
+            }
+            promotionVO.setGifts(gifts);
+            promotionVOList.add(promotionVO);
+        }
+        actActivityEditVO.setActActivityVO(actActivityVO);
+        actActivityEditVO.setPromotionVOList(promotionVOList);
+        return actActivityEditVO;
+    }
+
+    @Override
+    public boolean addGift(ActActivityEditVO actActivityEditVO) throws Exception {
+        ActActivityVO actActivityVO = actActivityEditVO.getActActivityVO();
+        List<PromotionVO> promotionVOList = actActivityEditVO.getPromotionVOList();
+        Map<Long, String> features = new HashMap<Long, String>();
+        if(actActivityVO.getId()> 0){
+            features = getPromotionFeatures(actActivityVO.getId());
+        }
+        Date startDate = new Date();
+        Date endDate = new Date();
+        try {
+            startDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getStartDateStr()+":01", DateUtil.DATE_TIME_FORMAT);
+            endDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("PromotionCommService.convertStringToDateUseringFormats  actActivityVO: " + actActivityVO);
+            throw new Exception("时间格式错误");
+
+        }
+        List<PromotionDO> addPromotionDOList = new ArrayList<PromotionDO>();
+        List<PromotionDO> updPromotionDOList = new ArrayList<PromotionDO>();
+        List<Long> delPromotionDOIds = new ArrayList<Long>();
+
+        for(PromotionVO promotionVO:promotionVOList) {
+            if(promotionVO.getId()>0 && promotionVO.isDel()){
+                delPromotionDOIds.add(promotionVO.getId());
+                continue;
+            }
+            PromotionDO promotionDO = new PromotionDO();
+
+            promotionDO.setId(promotionVO.getId());
+//            promotionDO.setTitle("GF满"+promotionVO.getRequirementY()+"赠品活动");
+            promotionDO.setTitle(actActivityVO.getTitle());
+            Double requirementY = Double.valueOf(promotionVO.getRequirementY().toString());
+            promotionDO.setRequirement(Math.round(requirementY*100));
+            promotionDO.setPromotionType(PromotionType.FREE_GIFT.getType());
+            promotionDO.setEntityType(EntityType.SHOP.getType());
+            promotionDO.setEntityId(B2CConstant.GF_OFFICIAL_ID);
+            promotionDO.setDomain(B2CConstant.GF_DOMAIN);
+
+            //PromotionFeatureKey
+            List<FullGiveFeature> fullGiveFeatures = new ArrayList<FullGiveFeature>();
+            for(GiftVO gift: promotionVO.getGifts()) {
+                FullGiveFeature fullGiveFeature = new FullGiveFeature();
+                Double priceY = Double.valueOf(gift.getPriceY().toString());
+                fullGiveFeature.setPrice(Math.round(priceY*100));
+                fullGiveFeature.setGiftName(gift.getTitle());
+                fullGiveFeature.setGiftPicture(gift.getImgUrl());
+                fullGiveFeatures.add(fullGiveFeature);
+            }
+            String feature = "";
+            if(promotionVO.getId()>0) {
+                feature = features.get(promotionVO.getId());
+            }
+            PromotionFeature promotionFeature = new PromotionFeature(feature);
+            promotionFeature.put(PromotionFeatureKey.FREE_GIFT, fullGiveFeatures);
+            String new_feature = promotionFeature.getFeature();
+            promotionDO.setFeature(new_feature);
+
+            promotionDO.setStartTime(startDate);
+            promotionDO.setEndTime(endDate);
+            if(promotionVO.getId()>0){
+                updPromotionDOList.add(promotionDO);
+            } else {
+                addPromotionDOList.add(promotionDO);
+            }
+        }
+
+        if(actActivityVO.getId()>0){
+            ActPromotionEditDTO actPromotionEditDTO = new ActPromotionEditDTO();
+            ActActivityPromotionDO actActivityPromotionDO = new ActActivityPromotionDO();
+            actActivityPromotionDO.setId(actActivityVO.getId());
+            actActivityPromotionDO.setStartDate(startDate);
+            actActivityPromotionDO.setEndDate(endDate);
+            actActivityPromotionDO.setTitle(actActivityVO.getTitle());
+            actPromotionEditDTO.setActActivityPromotionDO(actActivityPromotionDO);
+
+            actPromotionEditDTO.setUpdPromotionDOList(updPromotionDOList);
+            actPromotionEditDTO.setAddPromotionDOList(addPromotionDOList);
+            actPromotionEditDTO.setDelPromotionIdList(delPromotionDOIds);
+            ActResultSupport baseResult = activityPromotionServiceRef.updateActivityPromotion(actPromotionEditDTO);
+            if(baseResult == null){
+                log.error("baseResult is null error: " + JSON.toJSONString(actPromotionEditDTO) +"baseResult:"+JSON.toJSONString(baseResult));
+                throw new BaseException("返回结果错误");
+            } else if(!baseResult.isSuccess()){
+                log.error("baseResult is failed error:" + JSON.toJSONString(actPromotionEditDTO) +"baseResult:"+JSON.toJSONString(baseResult));
+                throw new BaseException(baseResult.getMsg());
+            }
+        } else {
+            PromotionEditDTO promotionEditDTO = new PromotionEditDTO();
+            promotionEditDTO.setAddPromotionDOList(addPromotionDOList);
+            ActResultSupport baseResult = activityPromotionServiceRef.saveActivityPromotion(promotionEditDTO);
+            if(baseResult == null){
+                log.error("baseResult is null save  promotionEditDTO: " + JSON.toJSONString(promotionEditDTO) + "baseResult:" + JSON.toJSONString(baseResult));
+                throw new BaseException("返回结果错误");
+            } else if(!baseResult.isSuccess()){
+                log.error("baseResult is failed save promotionEditDTO:" + JSON.toJSONString(promotionEditDTO) + "baseResult:" + JSON.toJSONString(baseResult));
+                throw new BaseException(baseResult.getMsg());
+            }
+        }
+
+        return true;
+    }
+
+    public boolean updateGiftEndTime(ActActivityVO actActivityVO) throws Exception {
+        Boolean checkResult = checkGift(actActivityVO);
+        if(!checkResult){
+            log.error("PromotionCommService.updateGiftEndTime error: " + JSON.toJSONString(actActivityVO));
+            throw new BaseException("有重复活动");
+        }
+        Date endDate = new Date();
+        try {
+            endDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ActResult<ActPromotionDTO> actResult = activityPromotionServiceRef.getActPromotionById(actActivityVO.getId());
+        ActPromotionDTO actPromotionDTO = actResult.getT();
+        List<PromotionDO> promotionDOList = actPromotionDTO.getPromotionDOList();
+        ActActivityPromotionDO actActivityPromotionDO = actPromotionDTO.getActActivityPromotionDO();
+        List<PromotionDO> updPromotionDOList = new ArrayList<PromotionDO>();
+
+        for(PromotionDO promotionDO:promotionDOList) {
+            promotionDO.setEndTime(endDate);
+            updPromotionDOList.add(promotionDO);
+        }
+
+        ActPromotionEditDTO actPromotionEditDTO = new ActPromotionEditDTO();
+        actActivityPromotionDO.setEndDate(endDate);
+        actPromotionEditDTO.setActActivityPromotionDO(actActivityPromotionDO);
+        actPromotionEditDTO.setUpdPromotionDOList(updPromotionDOList);
+
+        ActResultSupport baseResult = activityPromotionServiceRef.updateActivityPromotion(actPromotionEditDTO);
+        if(baseResult == null){
+            log.error("PromotionCommService.updateGiftEndTime error: " + JSON.toJSONString(actPromotionEditDTO));
+            throw new BaseException("返回结果错误");
+        } else if(!baseResult.isSuccess()){
+            log.error("PromotionCommService.updateGiftEndTime error:" + JSON.toJSONString(actPromotionEditDTO) + "baseResult:"+JSON.toJSONString(baseResult));
+            throw new BaseException(baseResult.getMsg());
+        }
+        return true;
+    }
+
+    public boolean checkGift(ActActivityVO actActivityVO){
+        ActivityPromotionQueryDTO activityPromotionQueryDTO = new ActivityPromotionQueryDTO();
+        Date startDate = new Date();
+        Date endDate = new Date();
+        try {
+            startDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getStartDateStr()+":01", DateUtil.DATE_TIME_FORMAT);
+            endDate = DateUtil.convertStringToDateUseringFormats(actActivityVO.getEndDateStr(), DateUtil.DAY_HORU_FORMAT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        int[] statuses = {
+                PromotionStatus.BEING.getStatus()
+                , PromotionStatus.NOTBEING.getStatus()
+        };
+        activityPromotionQueryDTO.setStatuses(statuses);
+        activityPromotionQueryDTO.setStart(startDate);
+        activityPromotionQueryDTO.setEnd(endDate);
+        activityPromotionQueryDTO.setType(PromotionType.FREE_GIFT.getType());
+        ActResult<List<ActActivityPromotionDO>> actResult = activityPromotionServiceRef.queryActivityPromotionsByActivityDate(activityPromotionQueryDTO);
+        if(!actResult.isSuccess()){
+            log.error("queryActivityPromotionsByActivityDate actActivityVO: "+actActivityVO+" result : "+actResult);
+        }
+        List<ActActivityPromotionDO> actActivityPromotionDOs = actResult.getT();
+        if(null == actActivityPromotionDOs) {
+            return true;
+        }
+        if(actActivityPromotionDOs.size()>0){
+            if(actActivityPromotionDOs.size()>1){
+                return false;
+            }
+            if(actActivityPromotionDOs.size()==1){
+                ActActivityPromotionDO actActivityPromotionDO = actActivityPromotionDOs.get(0);
+                if(actActivityPromotionDO.getId()==actActivityVO.getId()){
+                    return true;
+                }
+                return false;
+            }
+        }
+        return true;
+    }
+    private Map<Long, String> getPromotionFeatures(long id){
+        Map<Long, String> promotionFeatures = new HashMap<Long, String>();
+        ActResult<ActPromotionDTO> actResult = activityPromotionServiceRef.getActPromotionById(id);
+        if(actResult == null){
+            log.error("activityPromotionServiceRef.getActPromotionById return null and param : " + id);
+            return null;
+        } else if(!actResult.isSuccess()){
+            log.error("activityPromotionServiceRef.getActPromotionById error:" + actResult + "and param :" + id);
+            return null;
+        }
+        ActPromotionDTO actPromotionDTO = actResult.getT();
+        List<PromotionDO> promotionDOList = actPromotionDTO.getPromotionDOList();
+        for(PromotionDO promotionDO:promotionDOList) {
+            promotionFeatures.put(promotionDO.getId(), promotionDO.getFeature());
+        }
+        return promotionFeatures;
     }
 }

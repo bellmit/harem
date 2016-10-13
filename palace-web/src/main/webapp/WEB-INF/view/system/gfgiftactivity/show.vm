@@ -1,0 +1,123 @@
+#set($layout = "/system/layout/layout-gf.vm")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+#set($title = "查看新增自助商品")
+#set($styles = [
+    "$!rs_js_css_path_jiuxiu/css/zui.min.css"
+,"$!rs_js_css_path_jiuxiu/css/base.css"
+,"$!root_path/resources/zui/lib/datetimepicker/datetimepicker.min.css"
+,"$!rs_js_css_path_jiuxiu/css/promotion/edit.css"
+,"$!rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css"
+,"$!rs_js_css_path_jiuxiu/css/imgupload.css"
+,"$!rs_js_css_path_jiuxiu/css/addgoods.css"
+])
+
+#set($jses = [
+    "$!root_path/resources/zui/lib/datetimepicker/datetimepicker.min.js"
+])
+<!--[if lt IE 8]>
+<div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
+<![endif]-->
+<div id = "addGoods">
+    <table width="100%" class="baseInfo">
+        <thead>
+        <tr>
+            <td colspan="2">规则设置</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td align="right" width="20%"><em>活动名称：</em></td>
+            <td align="left">
+                <input type="hidden" id="id" value="$!actActivityEditVO.actActivityVO.id" />
+                <font>$!actActivityEditVO.actActivityVO.title</font>
+            </td>
+        </tr>
+        <tr>
+            <td align="right"><em>活动时间：</em></td>
+            <td align="left">
+                $!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")
+                <input type = "hidden" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")" id="startDate" disabled/>
+                <font>至</font>
+                #if($!onlyshow)
+                    $!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")
+                #else
+                    #if($!actActivityEditVO.actActivityVO.status==2 || $!actActivityEditVO.actActivityVO.status==1)
+                        <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")" id="endDate"/>
+                    #else
+                        $!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")
+                    #end
+                #end
+            </td>
+        </tr>
+        <tr>
+            <td align="right"><em>活动类型：</em></td>
+            <td align="left">全场参加</td>
+        </tr>
+        <tr>
+            <td align="right"></td>
+            <td align="left"><em class="blue">注：所有赠品前台默认每款sku只能选择一个</em></td>
+        </tr>
+        </tbody>
+    </table>
+    #set($promotionVOList = $!actActivityEditVO.promotionVOList)
+    #if($promotionVOList.size()>0)
+        #foreach($promotionVO in $promotionVOList)
+            <table width="100%" class="mainTable">
+                <thead>
+                <tr>
+                    <td align="left" width="20%">档一</td>
+                    <td width="50%"><font>满</font>$!promotionVO.requirementY<font>元</font><font>赠</font></td>
+                    <td>
+                        <input type="hidden" class="id" value="$!promotionVO.id"/>
+                    </td>
+                </tr>
+                </thead>
+                #set($gifts = $!promotionVO.gifts)
+                #foreach($gift in $!gifts)
+                    <tbody>
+                    <tr>
+                        <td align="right"><font>赠品名称：</font></td>
+                        <td colspan="2">$!gift.title</td>
+                    </tr>
+                    <tr>
+                        <td align="right"><font>价格：</font></td>
+                        <td colspan="2">$!gift.priceY<font>元</font></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><font>赠品图：</font></td>
+                        <td>
+                            <div class="imgallbox showImg" data-num="1">
+                                <div class="imgbox imgno">
+                                    <div class="imgcon">
+                                        <img src="$!tfs$!gift.imgUrl">
+                                    </div>
+                                </div>
+                                <input type="hidden" class="picVal" value="$!gift.imgUrl" />
+                            </div>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    </tbody>
+                #end
+            </table>
+        #end
+    #end
+
+        <p class ="sBtn">
+            #if($!onlyshow)
+                <a class = "btn btn-primary themeStop" id="closeBtn">返回</a>
+            #else
+                #if($actActivityEditVO.actActivityVO.status==1 || $actActivityEditVO.actActivityVO.status==2)
+                    <a class = "btn btn-primary themeStop" id="updateBtn">保存</a>
+                    <a class = "btn btn-primary themeStop" id="closeBtn">取消</a>
+                #end
+            #end
+        </p>
+
+</div>
+<input type="hidden" id="actionDefaultPath" value="$!utilWebconfig.getActionDefaultFontPath()" />
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+<script>seajs.use("addgoods");</script>

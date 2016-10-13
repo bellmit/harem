@@ -1,0 +1,207 @@
+#set($layout = "/system/layout/layout-gf.vm")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+#set($title = "查看新增自助商品")
+#set($styles = [
+    "$!rs_js_css_path_jiuxiu/css/zui.min.css"
+,"$!rs_js_css_path_jiuxiu/css/base.css"
+,"$!root_path/resources/zui/lib/datetimepicker/datetimepicker.min.css"
+,"$!rs_js_css_path_jiuxiu/css/promotion/edit.css"
+,"$!rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css"
+,"$!rs_js_css_path_jiuxiu/css/imgupload.css"
+,"$!rs_js_css_path_jiuxiu/css/addgoods.css"
+])
+
+#set($jses = [
+    "$!root_path/resources/zui/lib/datetimepicker/datetimepicker.min.js"
+])
+#set($full_price_tips="满赠金额需大于等于1元且最多保留两位小数！")
+#set($gift_price_tips="赠品价格大于0.01元且最多保留两位小数！")
+<!--[if lt IE 8]>
+<div class="alert alert-danger">您正在使用 <strong>过时的</strong> 浏览器. 是时候 <a href="http://browsehappy.com/">更换一个更好的浏览器</a> 来提升用户体验.</div>
+<![endif]-->
+<div id="giftGood" style="display:none">
+    <table width="100%" class="mainTable">
+        <thead>
+        <tr>
+            <td align="left" width="20%">档一</td>
+            <td width="50%"><s>*</s><font>满</font><input type = "text" class="txt price requirement" value=""><font>元</font><font>赠</font><span class = "pricetip" style = "display:none">$!full_price_tips</span></td>
+            <td>
+                <input type="hidden" class="id" value="0"/>
+                <a class="btn addTableBtn" data-add="0">添加</a>
+                <a class="btn delTableBtn" data-add="0">删除</a>
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td align="right"><s>*</s><font>赠品名称：</font></td>
+            <td colspan="2"><input type = "text" class="txt name" value=""/></td>
+        </tr>
+        <tr>
+            <td align="right"><s>*</s><font>价格：</font></td>
+            <td colspan="2"><input type="text" class="txt price" value=""/><font>元</font><span class="pricetip" style="display:none;">$!gift_price_tips</span></td>
+        </tr>
+        <tr>
+            <td align="right"><s>*</s><font>赠品图：</font></td>
+            <td>
+                <div class="imgallbox showImg" data-num="1">
+                    <div class="imgbox imgno">
+                        <div class="imgcon">
+                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+                        </div>
+                        <div class="imgwait"></div>
+                        <div class="imgdelbtn">删除图片</div>
+                        <a class="imguplbtn"><input type="file" name="adpicfile" class="adpicfile"></a>
+                        <input type="hidden">
+                    </div>
+                    <input type="hidden" class="picVal" />
+                </div><em class="blue">图片尺寸：64*64</em>
+            </td>
+            <td>
+                <a class="btn btn-primary themeStop addGoodsBtn" data-add="0">添加</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+    <div id = "addGoods">
+    <table width="100%" class="baseInfo">
+        <thead>
+        <tr>
+            <td colspan="2">规则设置</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td align="right" width="20%"><s>*</s><em>活动名称：</em></td>
+            <td align="left">
+                <input type="hidden" id="id" value="$!actActivityEditVO.actActivityVO.id" />
+                <input type = "text" class="txt" value="$!actActivityEditVO.actActivityVO.title" id="title"/>
+            </td>
+        </tr>
+        <tr>
+            <td align="right"><s>*</s><em>活动时间：</em></td>
+            <td align="left">
+                <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.startDate},"yyyy-MM-dd HH:mm")" id="startDate"/>
+                <font>至</font>
+                <input type = "text" class="txt form-date" readonly value="$!utilDate.dateToString($!{actActivityEditVO.actActivityVO.endDate},"yyyy-MM-dd HH:mm")" id="endDate"/>
+            </td>
+        </tr>
+        <tr>
+            <td align="right"><s>*</s><em>活动类型：</em></td>
+            <td align="left">全场参加</td>
+        </tr>
+        <tr>
+            <td align="right"></td>
+            <td align="left"><em class="blue">注：所有赠品前台默认每款sku只能选择一个</em></td>
+        </tr>
+        </tbody>
+    </table>
+    #set($promotionVOList = $!actActivityEditVO.promotionVOList)
+    #if($promotionVOList.size()>0)
+        #foreach($promotionVO in $promotionVOList)
+            <table width="100%" class="mainTable">
+                <thead>
+                <tr>
+                    <td align="left" width="20%">档一</td>
+                    <td width="50%"><s>*</s><font>满</font><input type = "text" class="txt price requirement" value="$!promotionVO.requirementY"><font>元</font><font>赠</font><span class="pricetip" style="display:none;">$!full_price_tips</span></td>
+                    <td>
+                        <input type="hidden" class="id" value="$!promotionVO.id"/>
+                        <a class="btn addTableBtn" data-add="0">添加</a>
+                        <a class="btn delTableBtn" data-add="0">删除</a>
+                    </td>
+                </tr>
+                </thead>
+                #set($gifts = $!promotionVO.gifts)
+                #foreach($gift in $!gifts)
+                    <tbody>
+                    <tr>
+                        <td align="right"><s>*</s><font>赠品名称：</font></td>
+                        <td colspan="2"><input type = "text" class="txt name" value="$!gift.title"/></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><s>*</s><font>价格：</font></td>
+                        <td colspan="2"><input type="text" class="txt price" value="$!gift.priceY"/><font>元</font><span class="pricetip" style="display:none;">$!gift_price_tips</span></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><s>*</s><font>赠品图：</font></td>
+                        <td>
+                            <div class="imgallbox showImg" data-num="1">
+                                <div class="imgbox imgno">
+                                    <div class="imgcon">
+                                        <img src="$!tfs$!gift.imgUrl">
+                                    </div>
+                                    <div class="imgwait"></div>
+                                    <div class="imgdelbtn">删除图片</div>
+                                    <a class="imguplbtn"><input type="file" name="adpicfile" class="adpicfile"></a>
+                                    <input type="hidden">
+                                </div>
+                                <input type="hidden" class="picVal" value="$!gift.imgUrl" />
+                            </div><em class="blue">图片尺寸：64*64</em>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary themeStop addGoodsBtn" data-add="0">添加</a>
+                            #if($velocityCount>1)
+                                <a class="btn btn-primary themeStop delGoodsBtn" data-add="0">删除</a>
+                            #end
+                        </td>
+                    </tr>
+                    </tbody>
+                #end
+            </table>
+        #end
+    #else
+        <table width="100%" class="mainTable">
+            <thead>
+            <tr>
+                <td align="left" width="20%">档一</td>
+                <td width="50%"><s>*</s><font>满</font><input type = "text" class="txt price requirement" value=""><font>元</font><font>赠</font><span class="pricetip" style="display:none;">$!full_price_tips</span></td>
+                <td>
+                    <input type="hidden" class="id" value="0"/>
+                    <a class="btn addTableBtn" data-add="0">添加</a>
+                    <a class="btn delTableBtn" data-add="0">删除</a>
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td align="right"><s>*</s><font>赠品名称：</font></td>
+                <td colspan="2"><input type = "text" class="txt name" value=""/></td>
+            </tr>
+            <tr>
+                <td align="right"><s>*</s><font>价格：</font></td>
+                <td colspan="2"><input type="text" class="txt price" value=""/><font>元</font><span class="pricetip" style="display:none;">$!gift_price_tips</span></td>
+            </tr>
+            <tr>
+                <td align="right"><s>*</s><font>赠品图：</font></td>
+                <td>
+                    <div class="imgallbox showImg" data-num="1">
+                        <div class="imgbox imgno">
+                            <div class="imgcon">
+                                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+                            </div>
+                            <div class="imgwait"></div>
+                            <div class="imgdelbtn">删除图片</div>
+                            <a class="imguplbtn"><input type="file" name="adpicfile" class="adpicfile"></a>
+                            <input type="hidden">
+                        </div>
+                        <input type="hidden" class="picVal" />
+                    </div><em class="blue">图片尺寸：64*64</em>
+                </td>
+                <td>
+                    <a class="btn btn-primary themeStop addGoodsBtn" data-add="0">添加</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    #end
+    <p class ="sBtn">
+        <a class = "btn btn-primary themeStop" id="saveBtn">保存</a>
+        <a class = "btn btn-primary themeStop" id="closeBtn">取消</a>
+    </p>
+</div>
+<input type="hidden" id="actionDefaultPath" value="$!utilWebconfig.getActionDefaultFontPath()" />
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+<script>seajs.use("addgoods");</script>
