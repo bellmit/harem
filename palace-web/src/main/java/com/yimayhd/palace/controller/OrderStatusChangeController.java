@@ -47,6 +47,7 @@ public class OrderStatusChangeController {
      */
     @RequestMapping(value = "/queryList", method = RequestMethod.GET)
     public String queryList(Model model,OrderStatusChangeParam orderStatusChangeParam){
+        logger.info("query list start");
         if(StringUtils.isBlank(orderStatusChangeParam.getBizOrderIdStr())){
             //没有订单id 默认不显示列表
             return "/system/order/changeOrderStatus";

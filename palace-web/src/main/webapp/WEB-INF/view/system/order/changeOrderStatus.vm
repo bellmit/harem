@@ -10,7 +10,7 @@
 <!-- head end-->
 <body>
 	<div class="search-box">
-		<form id="frmSearchOrder" name="frmSearchOrder" action="$!utilWebconfig.getActionDefaultFontPath()/order/status/queryList" method="GET" role="form">
+		<form id="orderStatusChangeParam" name="orderStatusChangeParam" action="$!utilWebconfig.getActionDefaultFontPath()/order/status/queryList" method="GET" role="form">
 			<table class="table no-border">
 				<tr>
 					<td class="v-align-t" style="width:100px;text-align:right" >
