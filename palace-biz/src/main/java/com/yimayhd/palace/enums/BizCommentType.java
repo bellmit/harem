@@ -10,8 +10,8 @@ import com.yimayhd.commentcenter.client.enums.CommentType;
  */
 public enum BizCommentType {
 	DYNAMICCOM(CommentType.LIVECOM, "直播"), 
-	EXPERTSTORY(CommentType.EXPERTSTORY, "达人故事"), 
-	TRAVELINFOMATION(CommentType.TRAVELINFOMATION, "旅行资讯");
+	EXPERTSTORY(CommentType.EXPERTSTORY, "达人故事");
+//	TRAVELINFOMATION(CommentType.TRAVELINFOMATION, "旅行资讯");
 	private String text;
 	private CommentType commentType;
 

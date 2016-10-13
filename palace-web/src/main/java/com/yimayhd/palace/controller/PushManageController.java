@@ -37,4 +37,16 @@ public class PushManageController extends BaseController {
     public String msgAdd(Model model) throws Exception {
         return "/system/push/msg/add";
     }
+
+    //短信推送列表
+    @RequestMapping(value = "/push/list", method = RequestMethod.GET)
+    public String pushList(Model model,BaseQuery baseQuery) throws Exception {
+        return "/system/push/push/list";
+    }
+
+
+    @RequestMapping(value = "/push/add", method = RequestMethod.GET)
+    public String pushAdd(Model model) throws Exception {
+        return "/system/push/push/add";
+    }
 }
