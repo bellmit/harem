@@ -1,5 +1,5 @@
-
-<!-- head start-->
+<!DOCTYPE html>
+<html lang="zh_CN">
 #set($layout = "/system/layout/layout_non.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 <head>
@@ -94,4 +94,5 @@
 		seajs.use('orderChangeHistory');
 	</script>
 </body>
+</html>
 
