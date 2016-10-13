@@ -1,7 +1,6 @@
 
 <!-- head start-->
 #set ($layout="/system/layout/layout-jiuxiu.vm")
-#parse("/system/layout/layout-jiuxiu-meta.vm")
 <head>
 <title>修改历史</title>
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
