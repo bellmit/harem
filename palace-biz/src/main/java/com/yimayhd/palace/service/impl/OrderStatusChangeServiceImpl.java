@@ -121,7 +121,9 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
             /**订单信息出里*/
             result.setTcMainOrderVOList(converter.secondaryTcMainOrder(tcMainOrderVOList));
             result.setTotalCount(repoResult.getTotalCount());
+
             logger.info("query list info :"+JSON.toJSONString(result));
+
 
         }catch(Exception e){
             logger.error("调用rep异常",e);
