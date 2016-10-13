@@ -19,10 +19,21 @@
 					<td style="width:400px">
 						<textarea class="form-control" name="name" rows="8" cols="40" id="orderNo" name="orderNo" placeholher="请输入订单编号，使用Enter或者斜杠/分隔"></textarea>
 					</td>
-					<td class="v-align-t">
+					<td class="v-align-t" rowspan="2">
 						<button type="submit" class="btn btn-primary">查询</button>
+						<button type="button" class="btn btn-primary" id="btnClear" >清除</button>
 					</td>
 				</tr>
+				<tr>
+					<td class="v-align-t" style="width:100px;text-align:right">
+						订单状态:
+					</td>
+					<td style="width:400px">
+						<select name="" id="">
+							<option value="">处理中/待确认/已付款</option>
+							<option value="">处出行/待使用/预定成功/已发货</option>
+						</select>
+					</td>
 			</table>
 		</form>
 	</div>
@@ -144,7 +155,7 @@
 				<i>*</i>修改后订单状态：
 			</div>
 			<div class="item-control">
-				<select class="form-control" name="">
+				<select class="form-control" id="orderChangeStatus>
 					<option value="1">已完成</option>
 					<option value="2">已取消</option>
 				</select>
@@ -155,7 +166,7 @@
 				<i>*</i>原因：
 			</div>
 			<div class="item-control">
-				<textarea rows="5" class="form-control" cols="40"></textarea>
+				<textarea rows="5" class="form-control" cols="40" id="desc" ></textarea>
 			</div>
 		</div>
 	</div>
