@@ -248,6 +248,7 @@ public class ArticleConverter {
         articleAudioItemVO.setService(articleFoodItemDTO.getService());
         articleAudioItemVO.setTop(articleFoodItemDTO.getTop());
         articleAudioItemVO.setItemTitle(articleFoodItemDTO.getItemTitle());
+        articleAudioItemVO.setCityName(articleFoodItemDTO.getCityName());
 
         return articleAudioItemVO;
     }
