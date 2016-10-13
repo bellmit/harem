@@ -109,7 +109,7 @@
                     $!{item.endDateString}
                 </td>
                 <td>
-                    $!{item.replaySecond}
+                    $!{item.replaySecondString}
                 </td>
                 <td>
                     $!{item.viewCount}

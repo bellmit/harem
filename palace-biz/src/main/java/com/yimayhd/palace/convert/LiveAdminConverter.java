@@ -1,5 +1,6 @@
 package com.yimayhd.palace.convert;
 
+import com.mysql.jdbc.Util;
 import com.yimayhd.live.client.domain.record.LiveRecordDO;
 import com.yimayhd.live.client.domain.record.LiveRoomDO;
 import com.yimayhd.live.client.enums.LiveRoomStatus;
@@ -9,11 +10,13 @@ import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.query.LiveAdminQuery;
 import com.yimayhd.palace.model.query.LiveRoomQuery;
+import com.yimayhd.palace.util.DateUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,6 +63,7 @@ public class LiveAdminConverter {
         liveRecordVO.setViewCount(liveRecordDO.getViewCount());
         liveRecordVO.setPeakCount(liveRecordDO.getPeakCount());
         liveRecordVO.setReplaySecond(liveRecordDO.getReplaySecond());
+        liveRecordVO.setReplaySecondString(DateUtil.secToTime(liveRecordVO.getReplaySecond()));
         liveRecordVO.setLiveOrder(liveRecordDO.getLiveOrder());
         liveRecordVO.setStatus(liveRecordDO.getStatus());
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
