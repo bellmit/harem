@@ -89,7 +89,7 @@ public class OrderStatusChangeConverter {
      * @param tcMainOrderVOList
      * @return
      */
-    public  List<TcMainOrderVO> secondaryTcMainOrder(List<TcMainOrderVO> tcMainOrderVOList ){
+    public  List<TcMainOrderVO> secondaryTcMainOrder(List<TcMainOrderVO> tcMainOrderVOList ) throws Exception{
         if (CollectionUtils.isEmpty(tcMainOrderVOList)){
             return null;
         }
@@ -104,7 +104,7 @@ public class OrderStatusChangeConverter {
      * @param tcDetailOrderVOList
      * @return
      */
-    public List<TcDetailOrderVO> secondaryTcDetailOrder(List<TcDetailOrderVO> tcDetailOrderVOList){
+    public List<TcDetailOrderVO> secondaryTcDetailOrder(List<TcDetailOrderVO> tcDetailOrderVOList) throws Exception{
 
         if(CollectionUtils.isEmpty(tcDetailOrderVOList)){
             return null;
@@ -121,27 +121,32 @@ public class OrderStatusChangeConverter {
      * @param tcMainOrderVO
      * @return
      */
-    public TcMainOrderVO handleTcMainOrderVO(TcMainOrderVO tcMainOrderVO){
+    public TcMainOrderVO handleTcMainOrderVO(TcMainOrderVO tcMainOrderVO) {
 
         if(tcMainOrderVO!=null&&tcMainOrderVO.getBizOrder()!=null){
             return tcMainOrderVO;
         }
-        /**添加用户信息*/
-        tcMainOrderVO.setUserDO(userRepo.getUserDOByUserId(tcMainOrderVO.getBizOrder().getBuyerId()));
-        /**添加昵称*/
-        long sellerId =  tcMainOrderVO.getBizOrder().getSellerId();
-        BaseResult<TcMerchantInfo> resultTc =  jiuxiuOrderService.getTcMerchantInfo(sellerId);
-        if(resultTc.isSuccess()&&resultTc.getValue()!=null){
-            tcMainOrderVO.setUserNick(resultTc.getValue().getUserNick());
-            tcMainOrderVO.setMerchantName(resultTc.getValue().getMerchantName());
+        try{
+            /**添加用户信息*/
+            tcMainOrderVO.setUserDO(userRepo.getUserDOByUserId(tcMainOrderVO.getBizOrder().getBuyerId()));
+            /**添加昵称*/
+            long sellerId =  tcMainOrderVO.getBizOrder().getSellerId();
+            BaseResult<TcMerchantInfo> resultTc =  jiuxiuOrderService.getTcMerchantInfo(sellerId);
+            if(resultTc.isSuccess()&&resultTc.getValue()!=null){
+                tcMainOrderVO.setUserNick(resultTc.getValue().getUserNick());
+                tcMainOrderVO.setMerchantName(resultTc.getValue().getMerchantName());
+            }
+            /***添加优惠劵信息*/
+            VoucherInfo voucherInfo = BizOrderUtil.getVoucherInfo(tcMainOrderVO.getBizOrder().getBizOrderDO());
+            if(null!=voucherInfo){
+                logger.error("优惠劵信息不存在,errMsg={}", JSON.toJSONString(tcMainOrderVO.getBizOrder().getBizOrderDO()));
+                tcMainOrderVO.setRequirement(voucherInfo.getRequirement());
+                tcMainOrderVO.setReValue(voucherInfo.getValue());
+            }
+        }catch(Exception e){
+            logger.error("处理主订单信息异常",e);
         }
-        /***添加优惠劵信息*/
-        VoucherInfo voucherInfo = BizOrderUtil.getVoucherInfo(tcMainOrderVO.getBizOrder().getBizOrderDO());
-        if(null!=voucherInfo){
-            logger.error("优惠劵信息不存在,errMsg={}", JSON.toJSONString(tcMainOrderVO.getBizOrder().getBizOrderDO()));
-            tcMainOrderVO.setRequirement(voucherInfo.getRequirement());
-            tcMainOrderVO.setReValue(voucherInfo.getValue());
-        }
+
         return tcMainOrderVO;
     }
 
@@ -150,7 +155,7 @@ public class OrderStatusChangeConverter {
      * @param tcDetailOrderVO
      * @return
      */
-    public TcDetailOrderVO handleTcDetailOrderVO(TcDetailOrderVO tcDetailOrderVO ){
+    public TcDetailOrderVO handleTcDetailOrderVO(TcDetailOrderVO tcDetailOrderVO ) throws Exception{
         long totalFee = BizOrderUtil.getSubOrderActualFee(tcDetailOrderVO.getBizOrder().getBizOrderDO());//子订单实付金额
         tcDetailOrderVO.setSubOrderActualFee(totalFee);
         return tcDetailOrderVO;
