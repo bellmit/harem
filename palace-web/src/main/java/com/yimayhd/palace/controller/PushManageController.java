@@ -2,6 +2,7 @@ package com.yimayhd.palace.controller;
 
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseQuery;
+import com.yimayhd.palace.model.vo.PushVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,12 @@ public class PushManageController extends BaseController {
 
     //特定推送对象
     @RequestMapping(value = "/msg/list", method = RequestMethod.GET)
-    public String msgList1(Model model,BaseQuery baseQuery) throws Exception {
+    public String msgList1(Model model,PushVO PushVO) throws Exception {
+        if(1==PushVO.getPushModelType()){//短信
+
+        }else(2==PushVO.getPushModelType()){//推送
+
+        }
         return "/system/push/msg/list";
     }
 
