@@ -102,6 +102,7 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
      */
     @Override
     public BizResult<OrderStatusChangeVO> queryList(OrderStatusChangeParam orderStatusChangeParam) {
+        logger.info("调用queryList 接口 ");
         OrderStatusChangeConverter converter = new OrderStatusChangeConverter(orderStatusChangeParam);
         OrderStatusChangeVO result = new OrderStatusChangeVO();
         BizResult checkResult =  converter.checkQueryList();
