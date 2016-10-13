@@ -227,7 +227,7 @@
 								#if($articleItem.type == 9)
                                     <div class="itemwraptitle">$!articleItem.articleFoodItemVO.itemTitle</div>
                                     <div class="item movesection saved">
-                                    	<div class="wrap itemwrap foodwrap" sellerId="$articleItem.sellerId" itemid="$articleItem.content" itemType="$articleItem.type" itemSubType="$articleItem.subType">
+                                    	<div class="wrap itemwrap foodwrap" sellerId="$articleItem.articleFoodItemVO.sellerId" itemid="$articleItem.content" itemType="$articleItem.type" itemSubType="$articleItem.subType">
 											<div class="itemimgbox">
 												<img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleFoodItemVO.image"/>
 											</div>
@@ -240,7 +240,7 @@
 												</span>
 													<span class="fservice">
 														<i class="icon-service"></i>
-														$!articleItem.articleFoodItemVO.service
+														$!articleItem.articleFoodItemVO.cityName &nbsp;&nbsp;$!articleItem.articleFoodItemVO.service
 													</span>
 												</p>
 											</div>
