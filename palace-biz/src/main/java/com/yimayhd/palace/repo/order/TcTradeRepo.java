@@ -38,7 +38,7 @@ public class TcTradeRepo {
         }
         BatchBizQueryResult result=null;
         try{
-//             result =  tcBizQueryServiceRef.queryOrderForUpdateStatus(orderQueryDTO);
+             result =  tcBizQueryServiceRef.queryOrderForUpdateStatus(orderQueryDTO);
             return result;
         }catch (Exception e){
             logger.error("远程调用异常,",e);
@@ -61,7 +61,7 @@ public class TcTradeRepo {
         }
         ResultSupport result=null;
         try{
-//            result =  tcTradeServiceRef.updateOrderStatusToFinish(bizOrderIds);
+            result =  tcTradeServiceRef.updateOrderStatusToFinish(bizOrderIds);
             return result;
         }catch (Exception e){
             logger.error("远程调用异常,",e);
