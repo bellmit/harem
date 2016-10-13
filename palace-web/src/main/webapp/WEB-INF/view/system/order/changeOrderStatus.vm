@@ -21,7 +21,7 @@
 
 					</td>
 					<td class="v-align-t" rowspan="2">
-						<button type="submit" class="btn btn-primary">查询</button>
+						<button type="submit" class="btn btn-primary" id="btnQuery">查询</button>
 						<button type="button" class="btn btn-primary" id="btnClear" >清除</button>
 					</td>
 				</tr>
