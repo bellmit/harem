@@ -143,6 +143,12 @@ public class JiuniuScenicManageController extends BaseController {
 		toEdit(model,id);
 		return "/system/scenicSpot/edit-jiuniu";
 	}
+
+	@RequestMapping(value = "/viewForGuide/{id}", method = RequestMethod.GET)
+	public String viewForGuide(Model model, @PathVariable(value = "id") long id) throws Exception {
+		toEdit(model,id);
+		return "/system/scenicSpot/view-jiuniuForGuide";
+	}
 	/**
 	 * 保存景区（资源）
 	 * 
