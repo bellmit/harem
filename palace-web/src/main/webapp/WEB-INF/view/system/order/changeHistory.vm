@@ -1,7 +1,7 @@
-#set($layout = "/system/layout/layout_non.vm")
-<!-- head start-->
 <!DOCTYPE html>
 <html lang="zh_CN">
+#set($layout = "/system/layout/layout_non.vm")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
 <head>
 <title>修改历史</title>
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
@@ -9,7 +9,7 @@
 </head>
 <!-- head end-->
 <body>
-	#parse("/system/layout/layout-jiuxiu-meta.vm")
+
 	<div class="search-box">
 		<form id="frmChangeHistory" name="frmChangeHistory">
 			<div class="input-group">
