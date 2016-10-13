@@ -3,8 +3,11 @@ package com.yimayhd.palace.service;
 import com.yimayhd.activitycenter.domain.ActActivityPromotionDO;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.ActActivityEditVO;
+import com.yimayhd.palace.model.ActActivityVO;
+import com.yimayhd.palace.model.GiftActivityVO;
 import com.yimayhd.palace.model.query.ActPromotionPageQuery;
 import com.yimayhd.palace.result.BizResultSupport;
+import com.yimayhd.promotion.client.domain.PromotionDO;
 
 /**
  * Created by czf on 2016/1/19.
@@ -36,8 +39,7 @@ public interface PromotionCommService {
      * @throws Exception
      */
     boolean add(ActActivityEditVO entity) throws Exception;
-    
-    
+
     BizResultSupport check(ActActivityEditVO entity) ;
 
     /**
@@ -48,7 +50,7 @@ public interface PromotionCommService {
      * @throws Exception
      */
     ActActivityEditVO getById(long id) throws Exception;
-
+    ActActivityEditVO getGiftById(long id) throws Exception;
     /**
      * 优惠上架
      * @param id 优惠ID
@@ -62,4 +64,10 @@ public interface PromotionCommService {
     boolean close(long id)throws Exception;
 
     boolean isActivityNameRepeat(String name, int type, long activityId);
+
+    boolean addGift(ActActivityEditVO actActivityEditVO) throws Exception;
+
+    boolean updateGiftEndTime(ActActivityVO actActivityVO) throws Exception;
+
+    boolean checkGift(ActActivityVO actActivityVO);
 }

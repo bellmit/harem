@@ -68,71 +68,74 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td style="text-align:left">
-					<input type="checkbox" class="order-check" orderid="11111">
-				</td>
-				<td colspan="10">
-					<div class="fl">
-						订单号：YM20150215000000
-					</div>
-					<div class="fr">
-						下单时间：2015-02-15 15:04:05:05
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-				</td>
-				<td>
-					<div class="goods-item">
-						<div class="item-img">
-							<img src="http://img.test.yimayholiday.com/v1/tfs/T1yH_TByZT1RXrhCrK_180x180.jpg" alt="" />
+			#foreach($tcMainOrder in $tcMainOrderVOList)
+				<tr>
+					<td style="text-align:left">
+						<input type="checkbox" class="order-check" orderid="$!tcMainOrder.bizOrder.bizOrderId">
+					</td>
+					<td colspan="10">
+						<div class="fl">
+							订单号：$!tcMainOrder.bizOrder.bizOrderId
 						</div>
-						<div class="item-text">
-							<div class="item-name">
-								商品名称名称商品名称名称商品名称名称
+						<div class="fr">
+							下单时间：$!date.format(
+							'yyyy-MM-dd HH:mm:ss',$!order.tcMainOrder.bizOrder.createTime)
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					</td>
+					<td>
+						<div class="goods-item">
+							<div class="item-img">
+								<img src="http://img.test.yimayholiday.com/v1/tfs/T1yH_TByZT1RXrhCrK_180x180.jpg" alt="" />
 							</div>
-							<div class="item-tag">
-								2016-10-08出发| 北京出发| 四星级| 成人
+							<div class="item-text">
+								<div class="item-name">
+									商品名称名称商品名称名称商品名称名称
+								</div>
+								<div class="item-tag">
+									2016-10-08出发| 北京出发| 四星级| 成人
+								</div>
 							</div>
 						</div>
-					</div>
-				</td>
-				<td>
-					3000.00
-				</td>
-				<td>
-					2
-				</td>
-				<td>
-					跟团游
-				</td>
-				<td>
-					<div class="t-c">
-						tracy
-					</div>
-					<div class="t-c">
-						189****0000
-					</div>
-				</td>
-				<td>
-					怡美
-				</td>
-				<td>
-					abc123456
-				</td>
-				<td>
-					待付款
-				</td>
-				<td>
-					6000.00
-				</td>
-				<td>
-					<button type="button" class="btn btn-primary detail" orderid="0">详情</button>
-					<button type="button" class="btn btn-primary edit" orderid="0">修改订单</button>
-				</td>
-			</tr>
+					</td>
+					<td>
+						3000.00
+					</td>
+					<td>
+						2
+					</td>
+					<td>
+						跟团游
+					</td>
+					<td>
+						<div class="t-c">
+							tracy
+						</div>
+						<div class="t-c">
+							189****0000
+						</div>
+					</td>
+					<td>
+						怡美
+					</td>
+					<td>
+						abc123456
+					</td>
+					<td>
+						待付款
+					</td>
+					<td>
+						6000.00
+					</td>
+					<td>
+						<button type="button" class="btn btn-primary detail" orderid="0">详情</button>
+						<button type="button" class="btn btn-primary edit" orderid="0">修改订单</button>
+					</td>
+				</tr>
+			#end
 		</tbody>
 	</table>
 	<div id="layerModal">

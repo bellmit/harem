@@ -102,6 +102,10 @@
 		
 		<property name="consumer.dubbo.promotion.version" defaultValue="1.0.0.test" description="#" />
 
+
+		<property name="consumer.dubbo.selleradmin.check" defaultValue="false" description="#" />
+		<property name="consumer.dubbo.selleradmin.version" defaultValue="1.0.0.test" description="#" />
+
 	</group>
 
 	<group name="session">

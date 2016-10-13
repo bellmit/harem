@@ -107,6 +107,6 @@
 	<bean id="touristManageService" class="com.yimayhd.palace.service.impl.TouristManageServiceImpl"/>
 
 	<bean id="orderStatusChangeService" class="com.yimayhd.palace.service.impl.OrderStatusChangeServiceImpl"/>
-
+	<bean id="orderStatusChangeLogService" class="com.yimayhd.palace.service.impl.OrderStatusChangeLogServiceImpl"/>
 
 </beans>

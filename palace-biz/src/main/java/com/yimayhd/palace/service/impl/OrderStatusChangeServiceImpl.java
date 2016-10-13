@@ -7,18 +7,18 @@ import com.yimayhd.palace.model.param.OrderStatusChangeParam;
 import com.yimayhd.palace.model.vo.OrderStatusChangeVO;
 import com.yimayhd.palace.model.vo.TcMainOrderVO;
 import com.yimayhd.palace.repo.order.TcTradeRepo;
+import com.yimayhd.palace.repo.selleradmin.OrderOperationLogRepo;
 import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.OrderStatusChangeService;
-import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
+import com.yimayhd.sellerAdmin.client.enums.OrderOperationLogStatus;
+import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogDTO;
 import com.yimayhd.tradecenter.client.model.result.ResultSupport;
 import com.yimayhd.tradecenter.client.model.result.order.BatchBizQueryResult;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
-import com.yimayhd.tradecenter.client.service.trade.TcTradeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -32,6 +32,11 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
     private static final int CANCEL=2;
     @Autowired
     private TcTradeRepo tcTradeRepo;
+
+    @Autowired
+    private OrderOperationLogRepo orderOperationLogRepo;
+
+
 
     /**
      * 订单状态修改
@@ -47,6 +52,8 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
              return checkResult;
          }
         ResultSupport result= null;
+        OrderOperationLogDTO logDTO = converter.getLogDto();
+        logDTO.setContent(OrderOperationLogStatus.getByType(orderStatusChangeParam.getOrderChangeStatus()).getName());//最终修改状态
         try{
             switch (orderStatusChangeParam.getOrderChangeStatus()) {
                 case FINISH:
@@ -62,12 +69,23 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
             }
             if (result==null||!result.isSuccess()){
                 logger.error("修改订单状态失败,result={}",result);
+                logDTO.setStatus(OrderOperationLogStatus.FAIL.getType());
                 return BizResult.buildFailResult(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorCode(),PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg(),null);
             }
 
         }catch (Exception e){
             logger.error("远程调用repo异常",e);
+            logDTO.setStatus(OrderOperationLogStatus.SUCCESS.getType());
             return BizResult.buildFailResult(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorCode(),PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg(),null);
+        }
+        try{
+            /**更新状态成功,插入日志*/
+            logDTO.setStatus(OrderOperationLogStatus.SUCCESS.getType());
+            orderOperationLogRepo.insertOrderOperationLogDO(logDTO);
+        }catch (Exception e){
+            logger.error("记录操作日志异常",e);
+            return BizResult.buildFailResult(PalaceReturnCode.SYSTEM_ERROR.getErrorCode(),PalaceReturnCode.SYSTEM_ERROR.getErrorMsg(),null);
+
         }
 
         return BizResult.buildSuccessResult(null);

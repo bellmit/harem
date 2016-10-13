@@ -3,9 +3,12 @@ package com.yimayhd.palace.controller;
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.error.PalaceReturnCode;
+import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogQuery;
+import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogResult;
 import com.yimayhd.palace.model.param.OrderStatusChangeParam;
 import com.yimayhd.palace.model.vo.OrderStatusChangeVO;
 import com.yimayhd.palace.result.BizResult;
+import com.yimayhd.palace.service.OrderStatusChangeLogService;
 import com.yimayhd.palace.service.OrderStatusChangeService;
 import com.yimayhd.user.session.manager.SessionManager;
 import org.slf4j.Logger;
@@ -32,6 +35,8 @@ public class OrderStatusChangeController {
     private SessionManager sessionManager;
     @Autowired
     private OrderStatusChangeService orderStatusChangeService;
+    @Autowired
+    private OrderStatusChangeLogService orderStatusChangeLogService;
 
 
     /**
@@ -85,6 +90,27 @@ public class OrderStatusChangeController {
 
         return BizResult.buildSuccessResult(null);
     }
+
+    /**
+     * 查询修改状态日志
+     * @param model
+     * @param orderStatusChangeLogQuery
+     * @return
+     */
+    @RequestMapping(value = "/queryLogList", method = RequestMethod.GET)
+    public String queryLogList(Model model,OrderStatusChangeLogQuery orderStatusChangeLogQuery){
+        BizResult<OrderStatusChangeLogResult> result=  orderStatusChangeLogService.queryOrderStatusChangeLogList(orderStatusChangeLogQuery);
+        if(result==null||!result.isSuccess()){
+            return "/error";
+        }
+        OrderStatusChangeLogResult orderLog =  result.getValue();
+        model.addAttribute("logList",orderLog.getOrderStatusChangeLogDTOList());
+        model.addAttribute("totalCount",orderLog.getTotalCount());
+        return "/system/order/changeHistory";
+    }
+
+
+
 
 
 }
