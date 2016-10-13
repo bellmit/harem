@@ -2,6 +2,7 @@ package com.yimayhd.palace.controller;
 
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseQuery;
+import com.yimayhd.palace.model.vo.PushVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -35,5 +36,17 @@ public class PushManageController extends BaseController {
     @RequestMapping(value = "/msg/add", method = RequestMethod.GET)
     public String msgAdd(Model model) throws Exception {
         return "/system/push/msg/add";
+    }
+
+    //短信推送列表
+    @RequestMapping(value = "/push/list", method = RequestMethod.GET)
+    public String pushList(Model model,BaseQuery baseQuery) throws Exception {
+        return "/system/push/push/list";
+    }
+
+
+    @RequestMapping(value = "/push/add", method = RequestMethod.GET)
+    public String pushAdd(Model model) throws Exception {
+        return "/system/push/push/add";
     }
 }
