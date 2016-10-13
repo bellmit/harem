@@ -1159,8 +1159,8 @@ public class DateUtil {
 	 * created by zhuhao
 	 * @date 2016年8月30日
 	 * @Title: parseLong2Time
-	 * @Description: 将毫秒值转换为时长
-	 * @param  ms
+	 * @Description: 将毫秒值转换为时长类似1分2秒
+	 * @param  sec
 	 * @param
 	 * @return String    返回类型
 	 * @throws
@@ -1186,7 +1186,7 @@ public class DateUtil {
 	 * @date 2016年8月30日
 	 * @Title: parseLong2Time
 	 * @Description: 将毫秒值转换为时长类似1h2'23'
-	 * @param  ms
+	 * @param  time
 	 * @param
 	 * @return String    返回类型
 	 * @throws
