@@ -232,6 +232,7 @@ public class AccountController extends BaseController {
 	
 	
 	private void write2Stream(HttpServletResponse response, List<List<String>> rows, String fileName){
+		logger.info("write2Stream start!  fileName={}, content={}", fileName, JSON.toJSONString(rows));
 		String result = list2String(rows);
 		OutputStream toClient = null;
 		try {
