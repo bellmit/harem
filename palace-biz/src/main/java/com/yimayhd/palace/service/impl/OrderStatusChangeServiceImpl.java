@@ -114,7 +114,7 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
             BatchBizQueryResult repoResult = tcTradeRepo.queryOrderForUpdateStatus(converter.getOrderQueryDTO());
             if(repoResult==null||!repoResult.isSuccess()){
                 logger.error("查询订单列表失败,result={}", JSON.toJSONString(repoResult));
-                return BizResult.buildFailResult(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorCode(),repoResult.getResultMsg(),null);
+                return BizResult.buildFailResult(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorCode(),PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg(),null);
             }
             List<TcMainOrder> tcMainOrderList=   repoResult.getBizOrderDOList();
             List<TcMainOrderVO> tcMainOrderVOList = converter.getTcMainOrderVOList(tcMainOrderList);// 中台返回订单信息
