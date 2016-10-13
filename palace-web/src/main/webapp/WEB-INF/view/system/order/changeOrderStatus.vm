@@ -13,11 +13,11 @@
 		<form id="frmSearchOrder" name="frmSearchOrder" action="$!utilWebconfig.getActionDefaultFontPath()/order/status/queryList" method="GET" role="form">
 			<table class="table no-border">
 				<tr>
-					<td class="v-align-t" style="width:100px;text-align:right" name="bizOrderIdStr">
+					<td class="v-align-t" style="width:100px;text-align:right" >
 						订单编号:
 					</td>
 					<td style="width:400px">
-						<textarea class="form-control" name="name" rows="8" cols="40" id="orderNo" name="orderNo" placeholher="请输入订单编号，使用Enter或者斜杠/分隔"></textarea>
+						<textarea class="form-control" name="bizOrderIdStr" rows="8" cols="40" id="orderNo" name="orderNo" placeholher="请输入订单编号，使用Enter或者斜杠/分隔"></textarea>
 					</td>	
 					<td class="v-align-t" rowspan="2">
 						<button type="submit" class="btn btn-primary">查询</button>
