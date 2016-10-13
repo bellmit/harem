@@ -1,5 +1,9 @@
 package com.yimayhd.palace.model.param;
 
+import com.sun.tools.javac.util.Convert;
+import com.yimayhd.palace.util.ConvertUtil;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -10,7 +14,7 @@ public class OrderStatusChangeParam implements Serializable{
 
     private static final long serialVersionUID = 4517316377342549485L;
     private String bizOrderIdStr;
-
+    private String formOrderIdStr;//form 表单提交ids
     private List<Long> bizOrderIds;
 
     private int OrderChangeStatus; //订单修改状态
@@ -57,5 +61,16 @@ public class OrderStatusChangeParam implements Serializable{
 
     public void setUserId(long userId) {
         this.userId = userId;
+    }
+
+    public String getFormOrderIdStr() {
+        return formOrderIdStr;
+    }
+
+    public void setFormOrderIdStr(String formOrderIdStr) {
+        this.formOrderIdStr = formOrderIdStr;
+        if(StringUtils.isNotBlank(bizOrderIdStr)){
+            this.bizOrderIds = ConvertUtil.stringTolong(bizOrderIdStr.split(";"));
+        }
     }
 }
