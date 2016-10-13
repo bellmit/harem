@@ -1,6 +1,6 @@
 
 <!-- head start-->
-#set ($layout="/system/layout/layout-jiuxiu.vm")
+#set($layout = "/system/layout/layout_non.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 <head>
 <title>修改历史</title>

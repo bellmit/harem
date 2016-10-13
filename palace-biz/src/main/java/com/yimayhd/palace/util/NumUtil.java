@@ -1,5 +1,6 @@
 package com.yimayhd.palace.util;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 /**
@@ -66,8 +67,26 @@ public class NumUtil {
             return 0;
         }
     }
+
+    /**
+     * 获取商品单价
+      * @param money 订单金额
+     * @param num 总数量
+     * @return
+     */
+    public static String getOrderUnitPrice(long money,long num){
+        BigDecimal bmoney = new BigDecimal(money);
+        BigDecimal bnum = new BigDecimal(num);
+        bmoney.divide(bnum,BigDecimal.ROUND_HALF_UP);
+        DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+        return  decimalFormat.format(bmoney.divide(bnum)).toString();
+    }
+
+
     public static void main(String[] args){
         System.out.println(moneyTransformString("1.99"));
         //System.out.println(totalFee(2,100));
     }
+
+
 }
