@@ -11,5 +11,12 @@
         <property name="version" value="${consumer.dubbo.promotion.version}"/>
         <property name="check" value="${consumer.dubbo.check}"/>
     </bean>
-
+    <bean id="promotionPublishServiceRef" class="com.alibaba.dubbo.config.spring.ReferenceBean">
+        <property name="interface" value="com.yimayhd.promotion.client.service.PromotionPublishService"/>
+        <property name="application" ref="dubboApplicationConfig"/>
+        <property name="registry" ref="dubboRegistryConfig"/>
+        <property name="timeout" value="${consumer.dubbo.timeout}"/>
+        <property name="version" value="${consumer.dubbo.promotion.version}"/>
+        <property name="check" value="${consumer.dubbo.check}"/>
+    </bean>
 </beans>

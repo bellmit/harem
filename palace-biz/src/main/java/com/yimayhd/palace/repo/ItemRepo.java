@@ -1,16 +1,21 @@
 package com.yimayhd.palace.repo;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.alibaba.fastjson.JSON;
+import com.yimayhd.ic.client.model.domain.item.ItemDO;
+import com.yimayhd.ic.client.model.result.ICResult;
+import com.yimayhd.ic.client.service.item.ItemQueryService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
-import com.alibaba.fastjson.JSON;
 import com.yimayhd.fhtd.logger.annot.MethodLogger;
-import com.yimayhd.ic.client.model.domain.item.ItemDO;
 import com.yimayhd.ic.client.model.domain.item.ItemInfo;
 import com.yimayhd.ic.client.model.domain.item.ItemSkuDO;
 import com.yimayhd.ic.client.model.enums.ItemSkuStatus;
@@ -22,7 +27,6 @@ import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.param.item.ItemSkuQueryDTO;
 import com.yimayhd.ic.client.model.param.item.ItemWeightDTO;
 import com.yimayhd.ic.client.model.result.ICPageResult;
-import com.yimayhd.ic.client.model.result.ICResult;
 import com.yimayhd.ic.client.model.result.ICResultSupport;
 import com.yimayhd.ic.client.model.result.item.ItemCloseResult;
 import com.yimayhd.ic.client.model.result.item.ItemDeleteResult;
@@ -119,7 +123,14 @@ public class ItemRepo {
 		ItemDeleteResult batchDelete = itemPublishServiceRef.batchDelete(itemBatchPublishDTO);
 		RepoUtils.resultLog(log, "itemQueryServiceRef.batchClose", batchDelete);
 	}
-
+	public boolean changeToFItem(long id) {
+		ItemPubResult result = itemPublishServiceRef.changeToFItem(id);
+		if(!result.isSuccess()){
+			log.error("changeToFItem itemPublishService id: " + id + "ItemPubResult" + result);
+			return false;
+		}
+		return true;
+	}
 	/**
 	 * 获取item sku的库存，（所有sku的库存之和）
 	 * @return
@@ -175,7 +186,6 @@ public class ItemRepo {
 		}
 		return itemPublishServiceRef.updateItemOrderNum(itemWeightDTO);
 	}
-
 	/**
 	 * 
 	* created by zhangxiaoyang
