@@ -1,3 +1,4 @@
+##<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=21"></script>
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/base.css" id="">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/live/livelist.css" id="">
 <body>
@@ -42,7 +43,7 @@
     </div>
 </div>
 <div class="searchbox">
-    <form id="roomsForm" name="roomsForm"
+    <form id="roomsForm" name="roomsForm" class="roomsForm"
           action="$utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/rooms">
         <table>
             <tr>
@@ -130,14 +131,11 @@
 #*分页*#
     #parse("/page.vm")
     #pageStyle("roomsForm")
-
-<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
 </>
 ##</html>
-
+<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
+<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/plugin/jquery.validform.js"></script>
 <script type="text/javascript">
-
-    $(".roomsForm").Validform();
 
     layer.config({
         extend: 'extend/layer.ext.js',
@@ -176,6 +174,8 @@
             }
         });
     }
+
+    $(".roomsForm").Validform();
 
     // 重置
     $("#btnReset").on("click",function(){
