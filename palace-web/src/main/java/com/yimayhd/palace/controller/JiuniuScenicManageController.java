@@ -144,6 +144,13 @@ public class JiuniuScenicManageController extends BaseController {
 		return "/system/scenicSpot/edit-jiuniu";
 	}
 
+	/**
+	 * 导览 查看景区详情 没有保存按钮
+	 * @param model
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/viewForGuide/{id}", method = RequestMethod.GET)
 	public String viewForGuide(Model model, @PathVariable(value = "id") long id) throws Exception {
 		toEdit(model,id);
