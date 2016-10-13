@@ -70,7 +70,6 @@ public class OrderStatusChangeParam implements Serializable{
     public void setFormOrderIdStr(String formOrderIdStr) {
         this.formOrderIdStr = formOrderIdStr;
         if(StringUtils.isNotBlank(bizOrderIdStr)){
-
             this.bizOrderIds = ConvertUtil.stringTolong(bizOrderIdStr.split(";"));
         }
     }

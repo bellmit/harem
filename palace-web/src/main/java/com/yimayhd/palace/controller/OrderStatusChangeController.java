@@ -50,10 +50,11 @@ public class OrderStatusChangeController {
         logger.info("query list start");
         if(StringUtils.isBlank(orderStatusChangeParam.getBizOrderIdStr())){
             //没有订单id 默认不显示列表
+            logger.info("orderIds is empty");
             return "/system/order/changeOrderStatus";
         }
-        if(orderStatusChangeParam.getBizOrderIds().size()>count){
-            logger.error("每次最多查询100,为您选取💰100条进行展示");
+        if(StringUtils.isBlank(orderStatusChangeParam.getBizOrderIdStr())&&orderStatusChangeParam.getBizOrderIds().size()>count){
+            logger.error("每次最多查询100,为您选取100条进行展示");
             orderStatusChangeParam.setBizOrderIds(orderStatusChangeParam.getBizOrderIds().subList(0,count));
         }
         /**调用接口*/
