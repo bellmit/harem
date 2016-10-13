@@ -382,6 +382,7 @@ public class ArticleConverter {
         articleFoodItemVO.setImage(merchantDO.getLogo());
         articleFoodItemVO.setAvgPrice(merchantDO.getAvgprice());
         articleFoodItemVO.setSellerId(merchantDO.getSellerId());
+        articleFoodItemVO.setCityName(merchantDO.getCityName());
 //        ServiceFacilityOption
         long serviceFacility = merchantDO.getServiceFacility();
         List<ServiceFacilityOption> containedOptions = ServiceFacilityOption.getContainedOptions(serviceFacility);
