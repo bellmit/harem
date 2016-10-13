@@ -269,11 +269,11 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         return result.getT() ;
     }
 
+    @Deprecated
     public PageVO<ComTagDO> getTagListByTagType(TagInfoPageDTO tagInfoPageDTO){
         BasePageResult<ComTagDO> result = comTagCenterService.pageTagList(tagInfoPageDTO);
         if(null == result || !result.isSuccess()){
-            LOGGER.error("getTagListByTagType|comTagCenterService.getTagListByTagType result is "
-                    + JSON.toJSONString(result) +",parameter is "+JSON.toJSONString(tagInfoPageDTO));
+            LOGGER.error("getTagListByTagType|comTagCenterService.getTagListByTagType result is {},parameter is {}",result,tagInfoPageDTO);
             return null;
         }
         List<ComTagDO> list = new ArrayList<ComTagDO>();
@@ -807,4 +807,34 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         }
         return listSC;
     }
+
+    public PageVO<ShowCaseItem> getTagsByTagType(TagInfoPageDTO tagInfoPageDTO){
+        BasePageResult<ComTagDO> result = comTagCenterService.pageTagList(tagInfoPageDTO);
+        if(null == result || !result.isSuccess()){
+            LOGGER.error("getTagListByTagType|comTagCenterService.getTagListByTagType result is {},parameter is {}",result,tagInfoPageDTO);
+            return new PageVO<ShowCaseItem>();
+        }
+        List<ComTagDO> list = new ArrayList<ComTagDO>();
+        if(CollectionUtils.isNotEmpty(result.getList())){
+            list=result.getList();
+        }
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(tagInfoPageDTO.getPageNo(), tagInfoPageDTO.getPageSize(), result.getTotalCount(),  ComTagDOToShowCaseItem(list));
+        return page;
+    }
+
+    public List<ShowCaseItem> ComTagDOToShowCaseItem(List<ComTagDO> list){
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        if(CollectionUtils.isEmpty(list)){
+            return listSC;
+        }
+        for (ComTagDO adt:list ) {
+            ShowCaseItem sc = new ShowCaseItem();
+            sc.setId(adt.getId());
+            sc.setName(adt.getName());//标题
+           sc.setValue(adt);
+            listSC.add(sc);
+        }
+        return listSC;
+    }
+
 }

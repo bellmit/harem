@@ -56,6 +56,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+import static com.yimayhd.live.client.enums.LiveStatus.REPLAY_LIVE;
+
 
 /**
  * Created by czf on 2016/4/12.
@@ -296,6 +298,7 @@ public class BannerManageController extends BaseController {
                 getRegion(pageNumber,pageSize,result);
                 break;
             case Constant.SHOWCASE_SHOE_TYPE_THEME : //选主题
+            case Constant.LIVE_CATEGORY:   // 直播分类
                 getTagList(pageNumber,pageSize,result,code);
                 break;
             case Constant.SHOWCASE_HOTEL_LIST : //选酒店列表
@@ -337,9 +340,6 @@ public class BannerManageController extends BaseController {
             case Constant.LIVE_ROOM_LIST:   // 直播房间管理列表
                 result = getPageLiveRoomList(pageNumber,pageSize,result,keyWord,code);
                 break;
-            case Constant.LIVE_CATEGORY:   // 直播分类
-                getTagList(pageNumber,pageSize,result,code);
-                break;
             /*case Constant.SHOWCASE_VIEW_TOPIC_LIST ://选话题列表
                 getScenicList(pageNumber,pageSize,result,keyWord);
                 break;*/
@@ -357,7 +357,7 @@ public class BannerManageController extends BaseController {
         }
         query.setPageNumber(pageNumber);
         query.setPageSize(pageSize);
-
+        query.setLiveStatus(REPLAY_LIVE.getStatus());  // 获取回放列表
         PageVO<ShowCaseItem> page = showcaseService.getPageLiveRecordListByQuery(query);
         result.put("pageVo", page);
         return result;
@@ -565,7 +565,7 @@ public class BannerManageController extends BaseController {
         tag.setNeedCount(true);
         tag.setPageNo(pageNumber);
         tag.setPageSize(pageSize);
-        PageVO<ComTagDO> page = showcaseService.getTagListByTagType(tag);
+        PageVO<ShowCaseItem> page = showcaseService.getTagsByTagType(tag);
         result.put("pageVo", page);
         return result;
     }
@@ -652,6 +652,4 @@ public class BannerManageController extends BaseController {
         String str = JSON.toJSONString(listBooth);
         return str;
     }
-
-
 }

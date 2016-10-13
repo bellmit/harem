@@ -3,6 +3,7 @@ package com.yimayhd.palace.model.LiveAdmin;
 import com.yimayhd.live.client.enums.LiveFeatureKey;
 import com.yimayhd.live.client.util.FeatureUtil;
 import com.yimayhd.user.client.domain.UserDO;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -206,5 +207,21 @@ public class LiveRoomVO implements Serializable {
             return null;
         }
         return featureMap.get(key.getCode());
+    }
+
+    public String getRecoverTime(){
+        String text = null;
+        if (MapUtils.isNotEmpty(featureMap)){
+            String recoverDate = featureMap.get(LiveFeatureKey.RECOVER_LIVE_ROOM_DATE.getCode());
+            if (StringUtils.isNoneEmpty(recoverDate)){
+                long recoverTime = Long.parseLong(recoverDate);
+                long now = new Date().getTime() / 1000;
+                long remain = recoverTime - now;
+                long h = remain /3600;
+                long m = (remain  - h * 3600) / 60;
+                text = h + "h" + m + "'";
+            }
+        }
+        return text;
     }
 }

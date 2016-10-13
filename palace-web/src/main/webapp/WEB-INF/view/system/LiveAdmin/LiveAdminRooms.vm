@@ -104,7 +104,13 @@
                     $!{item.userId}
                 </td>
                 <td>
-                    $!{item.statusString}
+                    #if($item.status== 1 || $item.status== 2)
+                        $!{item.statusString}
+                    #end
+                    #if($item.status== 3)
+                        <span>至开启还有：</span>
+                        $!{item.recoverTime}
+                    #end
                 </td>
                 <td>
                     #if($item.status== 1 || $item.status== 2)
