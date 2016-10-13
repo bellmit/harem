@@ -17,8 +17,9 @@
 						订单编号:
 					</td>
 					<td style="width:400px">
-						<textarea class="form-control" name="bizOrderIdStr" rows="8" cols="40" id="orderNo" name="orderNo" placeholher="请输入订单编号，使用Enter或者斜杠/分隔"></textarea>
-					</td>	
+						<textarea class="form-control" name="formOrderIdStr" rows="8" cols="40" id="orderNo" name="orderNo" placeholher="请输入订单编号，使用Enter或者斜杠/分隔"></textarea>
+                        <input type="hidden" id="queryOrderNo" name="bizOrderIdStr">
+					</td>
 					<td class="v-align-t" rowspan="2">
 						<button type="submit" class="btn btn-primary">查询</button>
 						<button type="button" class="btn btn-primary" id="btnClear" >清除</button>
