@@ -119,6 +119,8 @@
                         	商品
                         	#elseif($!theme.outType == "14")
                         	城市活动
+                            #elseif($!theme.outType == "15")
+                                视频直播
                         	#end
                         </td>
                         <td>#if($!theme.domain == 1200) 九休 #elseif($!theme.domain == 1000) B2C #else $!theme.domain  #end </td>
