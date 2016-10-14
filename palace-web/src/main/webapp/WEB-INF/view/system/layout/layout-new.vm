@@ -8,11 +8,6 @@
 	#if( $!title )
 		<title>$!title</title>
 	#end
-	#if( $!styles )
-		#foreach($style in $!styles)
-			<link href="$!style?t=$!v" rel="stylesheet"/>
-		#end 
-	#end
 </head>
 <body>
     $screen_content

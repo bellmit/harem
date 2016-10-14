@@ -1,20 +1,7 @@
-
 #set($layout = "/system/layout/layout-new.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 #set($title = "订单状态修改")
-#set($styles = [
-"$rs_js_css_path_jiuxiu/css/zui.min.css", 
-"$rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css",
-"$rs_js_css_path_jiuxiu/css/changeOrderStatus.css"
-])
-<!--<head>
-	<title></title>
-	<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
-	<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css">
-	<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/changeOrderStatus.css">
-</head>
-<body>-->
-	<div class="search-box">
+<div class="search-box">
 		<form id="orderStatusChangeParam" name="orderStatusChangeParam" action="$!utilWebconfig.getActionDefaultFontPath()/order/status/queryList" method="GET" role="form">
 			<table class="table no-border">
 				<tr>
@@ -195,6 +182,7 @@
 		</div>
 	</div>
 	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-css.js"></script>
 	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
 	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
 	<script type="text/javascript">
