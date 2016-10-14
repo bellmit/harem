@@ -166,7 +166,6 @@ public class BannerManageController extends BaseController {
         
     }
 
-
     /**
      * 新增showcase提交
      * @param model

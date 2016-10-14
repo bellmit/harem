@@ -51,7 +51,7 @@ public class LiveAdminServiceImpl implements LiveAdminService {
      */
     @Override
     public PageVO<LiveRecordVO> getPageLiveRecord(LiveAdminQuery pageQuery) {
-        // 昵称和id同时输入查询 只有统一才会返回
+        // 昵称和id同时输入查询 只有一致才会返回
         List<Long> userQueryIds = new ArrayList<Long>();
         if (pageQuery.getNickName() != null && !pageQuery.getNickName().equals("")) {
             List<UserDO> userDOs = userRepo.getUserByNickname(pageQuery.getNickName());

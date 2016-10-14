@@ -54,7 +54,7 @@
             </tr>
             <tr>
                 <td class="tit">房间号：</td>
-                <td><input name="liveRoomId" class="form-control" maxlength="30" value="$!{liveRoomQuery.liveRoomId}" /></td>
+                <td><input name="liveRoomId" type="text" class="form-control" maxlength="30" datatype="/^(\d+)?$/" errormsg="请输入数字" value="$!{liveRoomQuery.liveRoomId}" /></td>
                 <td class="tit">状态：</td>
                 <td>
                     <select name="status" class="form-control">

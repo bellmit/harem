@@ -1121,7 +1121,7 @@ public class DateUtil {
 	* @date 2016年8月30日
 	* @Title: parseLong2Time 
 	* @Description: 将毫秒值转换为时长
-	* @param  ms
+	* @param  sec
 	* @param
 	* @return String    返回类型 
 	* @throws
