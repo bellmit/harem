@@ -159,11 +159,17 @@ public class OrderStatusChangeConverter {
      * @param tcDetailOrderVO
      * @return
      */
-    public TcDetailOrderVO handleTcDetailOrderVO(TcDetailOrderVO tcDetailOrderVO ) throws Exception{
+    public TcDetailOrderVO handleTcDetailOrderVO(TcDetailOrderVO tcDetailOrderVO ) {
         TcDetailOrder tcDetailOrder = new TcDetailOrder();
-        tcDetailBean.copy(tcDetailOrderVO,tcDetailOrder,null);
-        long totalFee = BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder().getBizOrderDO());//子订单实付金额
-        tcDetailOrderVO.setSubOrderActualFee(totalFee);
+        try{
+            logger.info("tcDetailOrderVO ={}",JSON.toJSONString(tcDetailOrderVO));
+            tcDetailBean.copy(tcDetailOrderVO,tcDetailOrder,null);
+            long totalFee = BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder().getBizOrderDO());//子订单实付金额
+            tcDetailOrderVO.setSubOrderActualFee(totalFee);
+        }catch (Exception e){
+            logger.error("bean 转化异常",e);
+        }
+
         return tcDetailOrderVO;
     }
 
