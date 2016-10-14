@@ -90,8 +90,8 @@
 					</td>
 				</tr>
 				<!--for 子订单-->
-				#set( $size = $tcMainOrder.detailOrders.size())
-				#foreach($subOrder in $tcMainOrder.detailOrders)
+				#set( $size = $tcMainOrder.tcDetailOrdersView.size())
+				#foreach($subOrder in $tcMainOrder.tcDetailOrdersView)
 				<tr>
 					<td>
 					</td>
