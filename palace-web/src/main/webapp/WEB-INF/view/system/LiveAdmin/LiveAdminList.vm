@@ -21,7 +21,7 @@
 </div>
 
 <div class="searchbox">
-    <form id="liveAdminForm" name="liveAdminForm"
+    <form id="liveAdminForm" name="liveAdminForm" class="liveAdminForm"
           action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/liveAdminList">
         <table>
             <tbody><tr>
