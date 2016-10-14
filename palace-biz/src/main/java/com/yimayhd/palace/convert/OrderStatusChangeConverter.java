@@ -14,6 +14,8 @@ import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogDTO;
 import com.yimayhd.tradecenter.client.model.domain.order.VoucherInfo;
 import com.yimayhd.tradecenter.client.model.domain.person.TcMerchantInfo;
 import com.yimayhd.tradecenter.client.model.param.order.OrderQueryDTO;
+import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
+import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.result.BaseResult;
@@ -32,6 +34,7 @@ public class OrderStatusChangeConverter {
     private static final Logger logger = LoggerFactory.getLogger(OrderStatusChangeConverter.class);
     private OrderStatusChangeParam orderStatusChangeParam;
     private BeanCopier beanCopier = BeanCopier.create(TcMainOrder.class, TcMainOrderVO.class, false);
+    private BeanCopier tcDetailBean= BeanCopier.create(TcDetailOrderVO.class, TcDetailOrder.class, false);
     private List<TcMainOrderVO> TcMainOrderVOList;
     private UserRepo userRepo ;
     private JiuxiuOrderService jiuxiuOrderService;
@@ -157,7 +160,9 @@ public class OrderStatusChangeConverter {
      * @return
      */
     public TcDetailOrderVO handleTcDetailOrderVO(TcDetailOrderVO tcDetailOrderVO ) throws Exception{
-        long totalFee = BizOrderUtil.getSubOrderActualFee(tcDetailOrderVO.getBizOrder().getBizOrderDO());//子订单实付金额
+        TcDetailOrder tcDetailOrder = new TcDetailOrder();
+        tcDetailBean.copy(tcDetailOrderVO,tcDetailOrder,null);
+        long totalFee = BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder().getBizOrderDO());//子订单实付金额
         tcDetailOrderVO.setSubOrderActualFee(totalFee);
         return tcDetailOrderVO;
     }
