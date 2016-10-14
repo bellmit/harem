@@ -136,7 +136,7 @@ public class OrderStatusChangeConverter {
      */
     public TcMainOrderVO handleTcMainOrderVO(TcMainOrderVO tcMainOrderVO) {
 
-        if(tcMainOrderVO!=null&&tcMainOrderVO.getBizOrder()!=null){
+        if(tcMainOrderVO==null||tcMainOrderVO.getBizOrder()==null){
             return tcMainOrderVO;
         }
         try{
