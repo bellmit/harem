@@ -123,7 +123,7 @@
 													#set($pri2=$!articleItem.articleProductItemVO.itemPrice / 100.00)
 													￥<em>#set($pri=$!articleItem.articleProductItemVO.itemPrice % 100)#if($pri == 0) $!pri1 #else $!pri2 #end</em>
 												</span>
-												<span class="oprinum">￥<em>$!articleItem.articleProductItemVO.oldPrice</em></span>
+												<span class="oprinum">￥<em>$utilNum.moneyTransform($!articleItem.articleProductItemVO.oldPrice)</em></span>
 											</p>
 											<p class="itemleft">
 												<span class="itemtitle">$!articleItem.articleProductItemVO.itemTitle</span>
