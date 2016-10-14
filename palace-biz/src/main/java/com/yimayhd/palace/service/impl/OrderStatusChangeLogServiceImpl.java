@@ -45,7 +45,7 @@ public class OrderStatusChangeLogServiceImpl implements OrderStatusChangeLogServ
             SellerResult<OrderOperationLogResult>  sellerResult  = orderOperationLogRepo.queryOrderOperationLogDOList(conver.getLogQuery());
             if(sellerResult==null||!sellerResult.isSuccess()){
                 logger.error("查询信息失败,errormsg={}", JSON.toJSONString(result));
-                return BizResult.buildFailResult(sellerResult.getCode(),sellerResult.getMsg(),null);
+                return BizResult.buildFailResult(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorCode(),PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg(),null);
             }
             OrderOperationLogResult operResult = sellerResult.getResultObject();
             result.setOrderStatusChangeLogDTOList(conver.getLogDTOList(operResult.getOrderOperationLogDTOList()));
