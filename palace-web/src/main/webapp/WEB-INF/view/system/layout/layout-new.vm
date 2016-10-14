@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	#if( $!title )
+		<title>$!title</title>
+	#end
+	#if( $!styles )
+		#foreach($style in $!styles)
+			<link href="$!style?t=$!v" rel="stylesheet"/>
+		#end 
+	#end
+</head>
+<body>
+    $screen_content
+</body>
+</html>
+
