@@ -19,8 +19,35 @@ public class JiuxiuMerchantListQuery extends BaseQuery {
  	private String merchantPrincipal; // 店铺负责人
 
  	private String merchantPrincipalTel;// 店铺负责人电话
- 	
- 	private String status;
+ 	private String sellerName;//店铺名称或者达人昵称
+	private String nickName;
+	private String shopName;
+	
+ 	public String getSellerName() {
+		return sellerName;
+	}
+
+	public void setSellerName(String sellerName) {
+		this.sellerName = sellerName;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public String getShopName() {
+		return shopName;
+	}
+
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
+
+	private String status;
  	private Date gmtCreated;
  	
 	public Date getGmtCreated() {

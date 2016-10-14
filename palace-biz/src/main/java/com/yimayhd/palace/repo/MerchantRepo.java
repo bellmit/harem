@@ -34,6 +34,7 @@ import com.yimayhd.user.client.dto.MerchantDTO;
 import com.yimayhd.user.client.dto.RegisterDTO;
 import com.yimayhd.user.client.dto.SetMerchantWeightDTO;
 import com.yimayhd.user.client.enums.RegisterType;
+import com.yimayhd.user.client.query.MerchantQuery;
 import com.yimayhd.user.client.result.BaseResult;
 import com.yimayhd.user.client.service.MerchantService;
 import com.yimayhd.user.client.service.UserService;
@@ -259,5 +260,35 @@ public class MerchantRepo {
 		boolean setResult = scenicPublishService.setScenicWeight(dto);
 		return setResult;
 	}*/
-	
+	/**
+	 * 根据昵称查询用户id
+	* created by zhangxiaoyang
+	* @date 2016年9月29日
+	* @Description:
+	* @param 
+	* @return BaseResult<List<UserDO>>
+	* @throws
+	 */
+	public BaseResult<List<UserDO>> getUserIds(String nickName) {
+		log.info("param nickName:{}",nickName);
+		BaseResult<List<UserDO>> userList = userServiceRef.getUserByNickname(nickName);
+		log.info("userServiceRef.getUserByNickname  result:{}",JSON.toJSONString(userList));
+		return userList;
+	}
+	/**
+	 * 
+	* created by zhangxiaoyang
+	* @date 2016年9月29日
+	* @Description:根据店铺名称查询用户id
+	* @param 
+	* @return BaseResult<List<MerchantDO>>
+	* @throws
+	 */
+	public BaseResult<List<MerchantDO>> getUserIds(MerchantQuery merchantQuery) {
+		log.info("param MerchantQuery={}",JSON.toJSONString(merchantQuery));
+		BaseResult<List<MerchantDO>> merchantList = userMerchantServiceRef.getMerchantList(merchantQuery);
+		log.info("userMerchantServiceRef.getMerchantList result:{}",JSON.toJSONString(merchantList));
+		
+		return merchantList; 
+	}
 }
