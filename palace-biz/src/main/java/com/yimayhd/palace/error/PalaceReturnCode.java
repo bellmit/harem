@@ -55,6 +55,7 @@ public class PalaceReturnCode implements Serializable {
     public static final PalaceReturnCode VERIFY_BANK_INFO_ERROR = new PalaceReturnCode(25003003, "银行账户信息验证不通过");
 
     public static final PalaceReturnCode UPDATE_WEIGHT_FAILED = new PalaceReturnCode(25003004, "设置权重失败");
+   // public static final PalaceReturnCode GET = new PalaceReturnCode(25003005, "设置权重失败");
 
     /***************************************** 导览相关********************************************************/
 

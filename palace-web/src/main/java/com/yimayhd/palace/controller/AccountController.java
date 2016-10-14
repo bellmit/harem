@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.repo.user.UserRepo;
 import com.yimayhd.palace.util.CommonUtil;
@@ -140,6 +141,7 @@ public class AccountController extends BaseController {
 	
 	
 	private List<String> readFile(MultipartHttpServletRequest request){
+		logger.info("read file start!");
 		List<String> values = new ArrayList<>() ;
 		Iterator<String> iterator = request.getFileNames();
 		while (iterator.hasNext()) {
@@ -161,6 +163,7 @@ public class AccountController extends BaseController {
 			}
 			break ;
 		}
+		logger.info("read file end!  content={}",JSON.toJSONString(values));
 		return values ;
 	}
 	private String getFileName(MultipartHttpServletRequest request){
@@ -229,6 +232,7 @@ public class AccountController extends BaseController {
 	
 	
 	private void write2Stream(HttpServletResponse response, List<List<String>> rows, String fileName){
+		logger.info("write2Stream start!  fileName={}, content={}", fileName, JSON.toJSONString(rows));
 		String result = list2String(rows);
 		OutputStream toClient = null;
 		try {
