@@ -1,6 +1,7 @@
 package com.yimayhd.palace.convert;
 
 import com.alibaba.fastjson.JSON;
+import com.taobao.tair.json.Json;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.param.OrderStatusChangeParam;
@@ -18,6 +19,7 @@ import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcMainOrder;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
+import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.result.BaseResult;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -139,13 +141,18 @@ public class OrderStatusChangeConverter {
         }
         try{
             /**添加用户信息*/
-            tcMainOrderVO.setUserDO(userRepo.getUserDOByUserId(tcMainOrderVO.getBizOrder().getBuyerId()));
+            UserDO userDO =  userRepo.getUserDOByUserId(tcMainOrderVO.getBizOrder().getBuyerId());
+            logger.info("tcMainOrder--userDO"+ JSON.toJSONString(userDO));
+            tcMainOrderVO.setUserDO(userDO);
             /**添加昵称*/
             long sellerId =  tcMainOrderVO.getBizOrder().getSellerId();
             BaseResult<TcMerchantInfo> resultTc =  jiuxiuOrderService.getTcMerchantInfo(sellerId);
+            logger.info("tcMainOrder--TcMerchantInfo"+ JSON.toJSONString(resultTc));
             if(resultTc.isSuccess()&&resultTc.getValue()!=null){
                 tcMainOrderVO.setUserNick(resultTc.getValue().getUserNick());
+                logger.info("tcMainOrder--.userNick--"+resultTc.getValue().getUserNick());
                 tcMainOrderVO.setMerchantName(resultTc.getValue().getMerchantName());
+                logger.info("tcMainOrder--.merchantName--"+resultTc.getValue().getMerchantName());
             }
             /***添加优惠劵信息*/
             VoucherInfo voucherInfo = BizOrderUtil.getVoucherInfo(tcMainOrderVO.getBizOrder().getBizOrderDO());

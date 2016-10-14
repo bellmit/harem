@@ -106,7 +106,7 @@
 						</div>
 					</td>
 					<td>
-						$!utilNum.getOrderUnitPrice($!subOrder.bizOrder.subOrderActualFee,$!subOrder.bizOrder.buyAmount)
+						$!utilNum.getOrderUnitPrice($!subOrder.subOrderActualFee,$!subOrder.bizOrder.buyAmount)
 					</td>
 					<td>
 						$!subOrder.bizOrder.buyAmount
