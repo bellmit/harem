@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/changeOrderStatus.css">
 </head>
 <body>-->
+	#parse("/system/layout/layout-jiuxiu-meta.vm")
 	<div class="search-box">
 		<form id="orderStatusChangeParam" name="orderStatusChangeParam" action="$!utilWebconfig.getActionDefaultFontPath()/order/status/queryList" method="GET" role="form">
 			<table class="table no-border">
