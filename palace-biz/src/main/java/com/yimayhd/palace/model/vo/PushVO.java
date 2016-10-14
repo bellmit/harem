@@ -9,6 +9,7 @@ import java.util.Set;
  * @Description 推送对象
  */
 public class PushVO implements Serializable{
+    private long id;
     private int domain;
     private String subject;//主题
     private int pushType;//推送类型
@@ -18,8 +19,8 @@ public class PushVO implements Serializable{
     public String operation;//跳转类型
     public String operationContent;//跳转内容
     public int pushModelType;//推广对象类型
-    public String pushModelFilePath;//特定的推广对象文件地址
-    public String pushDate;//推送时间
+    public String pushModelFileName;//特定的推广对象文件
+    public Date pushDate;//推送时间
     public int status;//推送状态
     public long operationUserId;//操作人ID
     public long sendPeople;//发送人数
@@ -27,6 +28,13 @@ public class PushVO implements Serializable{
     public Date createDate;
     public Date updateDate;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public int getDomain() {
         return domain;
@@ -100,19 +108,19 @@ public class PushVO implements Serializable{
         this.pushModelType = pushModelType;
     }
 
-    public String getPushModelFilePath() {
-        return pushModelFilePath;
+    public String getPushModelFileName() {
+        return pushModelFileName;
     }
 
-    public void setPushModelFilePath(String pushModelFilePath) {
-        this.pushModelFilePath = pushModelFilePath;
+    public void setPushModelFileName(String pushModelFileName) {
+        this.pushModelFileName = pushModelFileName;
     }
 
-    public String getPushDate() {
+    public Date getPushDate() {
         return pushDate;
     }
 
-    public void setPushDate(String pushDate) {
+    public void setPushDate(Date pushDate) {
         this.pushDate = pushDate;
     }
 

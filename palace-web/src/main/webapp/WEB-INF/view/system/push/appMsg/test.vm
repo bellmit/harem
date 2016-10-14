@@ -1,0 +1,24 @@
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+<form class="" id="frmEdit">
+    <input type="file"  id="logoUrlUploadFile">
+</form>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js"></script>
+<script>
+   $(document).delegate("#logoUrlUploadFile",'change',function(){//上传
+       alert("hello");
+       fileUpload('#logoUrlUploadFile',1,LogoPicloadCallBack);
+    })
+
+    var LogoPicloadCallBack = function(data){
+        if(data && data.status == 200){
+            console.log(data.data);
+            $('#logoUrlUploadFileReturnInput').val(data.data);
+            $('#logoUrlUploadFileReturnImg').attr('src',tfsRootPath + data.data);
+
+        }else{
+            layer.msg('图片上传失败，请重试', {icon: 2});
+        }
+    }
+
+
+</script>
