@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	#if( $!title )
+		<title>$!title</title>
+	#end
+	#if( $!styles )
+		#foreach($style in $!styles)
+			<link href="$!style?t=$!v" rel="stylesheet"/>
+		#end 
+	#end
+</head>
+<body>
+    
+    #set( $rs_path_jiuxiu = $utilWebconfig.getResourcePathJiuXiu() )
+    #set( $root_path = $utilWebconfig.getRootPath() )
+    #set( $filegw_url = $utilWebconfig.getFilegwUrl() )
+    #set( $palace_update_file = $utilWebconfig.getActionUploadFilePath() )
+    #set( $audio_root_path = $utilWebconfig.getAudioRootPath() )
+
+    #set( $test = $utilWebconfig.isTestMode())
+    #if( $test )
+        #set( $rs_js_css_path_jiuxiu = $!rs_path_jiuxiu+"/src" )
+    #else
+        #set( $rs_js_css_path_jiuxiu = $!rs_path_jiuxiu+"/dist" )
+    #end
+    #set( $tfs = $utilWebconfig.getTfsRootPath())
+    #set( $v = $utilWebconfig.getResourceVersion())
+    #set( $filegw_domain = $utilWebconfig.getFilegwDomain())
+
+    <input type="hidden" id="rs_js_css_path_jiuxiu" value="$rs_js_css_path_jiuxiu">
+    <input type="hidden" id="test" value="$test">
+    <input type="hidden" id="root_path" value="$root_path">
+    <input type="hidden" id="tfs" value="$tfs">
+    <input type="hidden" id="filegw_url" value="$filegw_url">
+    <input type="hidden" id="palace_update_file" value="$palace_update_file">
+    <input type="hidden" id="static_path" value="$rs_js_css_path_jiuxiu">
+    <input type="hidden" id="filegw_domain" value="$filegw_domain">
+    <input type="hidden" id="audio_root_path" value="$audio_root_path">
+    $screen_content
+</body>
+</html>
+
