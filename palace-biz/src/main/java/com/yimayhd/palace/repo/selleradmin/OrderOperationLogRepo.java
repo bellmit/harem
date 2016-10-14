@@ -30,6 +30,7 @@ public class OrderOperationLogRepo {
         try{
             SellerResult<OrderOperationLogResult> result =  orderOperationLogService.queryOrderOperationLogDOList(query);
             logger.info("queryOrderOperationLogDOList,result={}",JSON.toJSONString(result));
+            return result;
         }catch(Exception e){
             logger.error("远程调用异常",e);
         }
@@ -66,6 +67,7 @@ public class OrderOperationLogRepo {
         try{
             SellerResult<Boolean>  result = orderOperationLogService.insertOrderOperationLogDO(orderOperationLogDTO);
             logger.info("result="+JSON.toJSONString(result));
+            return result;
         }catch(Exception e){
             logger.error("远程调用异常",e);
         }
