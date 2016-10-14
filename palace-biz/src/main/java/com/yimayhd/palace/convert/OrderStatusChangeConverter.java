@@ -108,14 +108,19 @@ public class OrderStatusChangeConverter {
      * @param tcDetailOrderVOList
      * @return
      */
-    public List<TcDetailOrderVO> secondaryTcDetailOrder(List<TcDetailOrderVO> tcDetailOrderVOList) throws Exception{
+    public List<TcDetailOrderVO> secondaryTcDetailOrder(List<TcDetailOrderVO> tcDetailOrderVOList) {
 
         if(CollectionUtils.isEmpty(tcDetailOrderVOList)){
             return null;
         }
-        for(TcDetailOrderVO tcDetailOrderVO :tcDetailOrderVOList){
-            handleTcDetailOrderVO(tcDetailOrderVO);
+        try{
+            for(TcDetailOrderVO tcDetailOrderVO :tcDetailOrderVOList){
+                handleTcDetailOrderVO(tcDetailOrderVO);
+            }
+        }catch (Exception e){
+            logger.error("子订单数据处理异常转换异常",e);
         }
+
         return tcDetailOrderVOList;
 
     }

@@ -1,15 +1,12 @@
 package com.yimayhd.palace.model.vo;
 
-import com.yimayhd.palace.repo.MerchantRepo;
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 import com.yimayhd.tradecenter.client.model.domain.person.TcMerchantInfo;
 import com.yimayhd.tradecenter.client.model.result.order.create.Address;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
-import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
 import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.dto.MerchantUserDTO;
 
 import java.io.Serializable;
 import java.util.List;
