@@ -105,6 +105,7 @@ public class OrderStatusChangeController {
     @RequestMapping(value = "/queryLogList", method = RequestMethod.GET)
     public String queryLogList(Model model,OrderStatusChangeLogQuery orderStatusChangeLogQuery){
         BizResult<OrderStatusChangeLogResult> result=  orderStatusChangeLogService.queryOrderStatusChangeLogList(orderStatusChangeLogQuery);
+        model.addAttribute("model", orderStatusChangeLogQuery);
         if(result==null||!result.isSuccess()){
             return "/system/order/changeHistory";
         }

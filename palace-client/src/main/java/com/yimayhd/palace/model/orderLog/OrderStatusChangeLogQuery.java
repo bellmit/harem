@@ -21,6 +21,7 @@ public class OrderStatusChangeLogQuery extends PageQuery {
     private Date gmtCreatedEnd;
 
     private String gmtCreatedStartStr;
+
     private String gmtCreatedEndStr;
 
 
