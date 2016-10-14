@@ -33,7 +33,7 @@ public class OrderOperationLogRepo {
         }catch(Exception e){
             logger.error("远程调用异常",e);
         }
-        logger.info("result={}",result);
+        logger.info("result={}",JSON.toJSONString(result));
         return result;
     }
 
