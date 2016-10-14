@@ -1,97 +1,86 @@
-<!DOCTYPE html>
-<html lang="zh_CN">
 #set($layout = "/system/layout/layout-new.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
-<head>
-<title>修改历史</title>
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/changeOrderStatus.css">
-</head>
-<!-- head end-->
-<body>
+#set($title = "创建短信推送")
+<div class="search-box">
+	<form id="frmChangeHistory" name="frmChangeHistory" action="$!utilWebconfig.getActionDefaultFontPath()/order/status/queryLogList" method="GET" role="form">
+		<div class="input-group">
+			<span class="input-group-btn">
+						<button class="btn btn-default" type="button">订单编号：</button>
+					</span>
+			<input type="text" class="form-control" name="bizNo" value="">
+		</div>
+		<div class="input-group">
+			<span class="input-group-btn">
+						<button class="btn btn-default" type="button">修改人ID：</button>
+					</span>
+			<input type="text" class="form-control" name="operationId" value="">
+		</div>
+		<div class="input-group">
+			<span class="input-group-btn">
+						<button class="btn btn-default" type="button">修改时间</button>
+					</span>
+			<input type="text" class='form-control form-date date start-time' placeholder='' readonly name="gmtCreatedStart" value="">
+			<span class="input-group-addon fix-border fix-padding date-addon">至</span>
+			<input type="text" class='form-control form-date date end-time' placeholder='' readonly name="gmtCreatedEnd" value="">
+		</div>
+		<div class="btn-group">
+			<button type="submit" class="btn btn-primary" id="btnQuery">查询</button>
+		</div>
+		<div class="btn-group">
+			<button type="button" class="btn btn-primary" id="btnReset">重置</button>
+		</div>
+	</form>
+</div>
+<table class="table table-hover table-bordered">
+	<thead>
+		<tr>
+			<th>
+				订单编号
+			</th>
+			<th>
+				修改人ID
+			</th>
+			<th>
+				修改日期
+			</th>
+			<th>
+				修改内容
+			</th>
+			<th>
+				原因备注
+			</th>
+		</tr>
+	</thead>
+	#foreach($orderLog in $logList)
+	<tbody>
+		<tr>
 
-	<div class="search-box">
-		<form id="frmChangeHistory" name="frmChangeHistory" action="$!utilWebconfig.getActionDefaultFontPath()/order/status/queryLogList" method="GET" role="form">
-			<div class="input-group">
-				<span class="input-group-btn">
-							<button class="btn btn-default" type="button">订单编号：</button>
-						</span>
-				<input type="text" class="form-control" name="bizNo" value="">
-			</div>
-			<div class="input-group">
-				<span class="input-group-btn">
-							<button class="btn btn-default" type="button">修改人ID：</button>
-						</span>
-				<input type="text" class="form-control" name="operationId" value="">
-			</div>
-			<div class="input-group">
-				<span class="input-group-btn">
-		                    <button class="btn btn-default" type="button">修改时间</button>
-		                </span>
-				<input type="text" class='form-control form-date date start-time' placeholder='' readonly name="gmtCreatedStart" value="">
-				<span class="input-group-addon fix-border fix-padding date-addon">至</span>
-				<input type="text" class='form-control form-date date end-time' placeholder='' readonly name="gmtCreatedEnd" value="">
-			</div>
-			<div class="btn-group">
-				<button type="submit" class="btn btn-primary">查询</button>
-			</div>
-			<div class="btn-group">
-				<button type="button" class="btn btn-primary" id="btnReset">重置</button>
-			</div>
-		</form>
-	</div>
-	<table class="table table-hover table-bordered">
-		<thead>
-			<tr>
-				<th>
-					订单编号
-				</th>
-				<th>
-					修改人ID
-				</th>
-				<th>
-					修改日期
-				</th>
-				<th>
-					修改内容
-				</th>
-				<th>
-					原因备注
-				</th>
-			</tr>
-		</thead>
-		#foreach($orderLog in $logList)
-		<tbody>
-			<tr>
-
-				<td>
-					$!orderLog.bizNo
-				</td>
-				<td>
-					$!orderLog.operationId
-				</td>
-				<td>
-					$!orderLog.gmtCreatedStr
-				</td>
-				<td>
-					$!orderLog.content
-				</td>
-				<td style="width:40%">
-					$!orderLog.desc
-				</td>
-			</tr>
-		</tbody>
-		#end
-	</table>
-	#parse("/page.vm")
-	#pageStyle("tradeListForm")
-
-	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
-	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
-	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
-	<script type="text/javascript">
-		seajs.use('orderChangeHistory');
-	</script>
-</body>
-</html>
+			<td>
+				$!orderLog.bizNo
+			</td>
+			<td>
+				$!orderLog.operationId
+			</td>
+			<td>
+				$!orderLog.gmtCreatedStr
+			</td>
+			<td>
+				$!orderLog.content
+			</td>
+			<td style="width:40%">
+				$!orderLog.desc
+			</td>
+		</tr>
+	</tbody>
+	#end
+</table>
+#parse("/page.vm")
+#pageStyle("frmChangeHistory")
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-css.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+<script type="text/javascript">
+	seajs.use('orderChangeHistory');
+</script>
 
