@@ -118,7 +118,7 @@ public class OrderStatusChangeConverter {
         List<TcDetailOrderVO> detailOrderVOList = new ArrayList<TcDetailOrderVO>(tcDetailOrders.size());
         try{
             for(TcDetailOrder tcDetailOrder :tcDetailOrders){
-                handleTcDetailOrderVO(tcDetailOrder);
+                detailOrderVOList.add(handleTcDetailOrderVO(tcDetailOrder));
             }
         }catch (Exception e){
             logger.error("子订单数据处理异常转换异常",e);
@@ -173,10 +173,12 @@ public class OrderStatusChangeConverter {
             if(tcDetailOrder==null){
                 return null;
             }
-            logger.info("tcDetailOrderVO ={}",JSON.toJSONString(tcDetailOrder));
+            logger.info("tcDetailOrder--- ={}",JSON.toJSONString(tcDetailOrder));
             detailBeanCopier.copy(tcDetailOrder,detailVO,null);
             long totalFee = BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder().getBizOrderDO());//子订单实付金额
             detailVO.setSubOrderActualFee(totalFee);
+            logger.info("tcDetailOrderVO--- ={}",JSON.toJSONString(detailVO));
+
         }catch (Exception e){
             logger.error("bean 转化异常",e);
         }
