@@ -87,6 +87,7 @@ public class JiuxiuOrderManageController extends BaseController {
 			opt.setNeedDetailOrder(true);
 			opt.setNeedExtFeature(true);
 			opt.setNeedLogisticsOrder(true);
+			//// FIXME: 16/9/23  这个连接口也不封装, 业务跟本没法拓展!
 			TcSingleQueryResult result = tcBizQueryServiceRef.querySingle(id, opt);
 			
 			if(result.isSuccess() && null!=result.getTcMainOrder()){
@@ -103,6 +104,8 @@ public class JiuxiuOrderManageController extends BaseController {
 				}
 				JiuxiuTcMainOrder jiuxiuTcMainOrder = new JiuxiuTcMainOrder();
 				BeanUtils.copyProperties(tcMainOrder, jiuxiuTcMainOrder);
+				long mainOrderTotalChangeFee  = BizOrderUtil.getActualAmountPaid(tcMainOrder.getBizOrder().getBizOrderDO());//订单实际支付金额
+				jiuxiuTcMainOrder.setMainOrderTotalChangeFee(mainOrderTotalChangeFee);
 				//添加主订单原价
 				jiuxiuTcMainOrder.setIteamPrice_(BizOrderUtil.getMainOrderTotalFee(tcMainOrder.getBizOrder().getBizOrderDO()));
 				//获取优惠劵优惠金额
