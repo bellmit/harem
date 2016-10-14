@@ -33,8 +33,8 @@ import java.util.List;
 public class OrderStatusChangeConverter {
     private static final Logger logger = LoggerFactory.getLogger(OrderStatusChangeConverter.class);
     private OrderStatusChangeParam orderStatusChangeParam;
-    private BeanCopier beanCopier = BeanCopier.create(TcMainOrder.class, TcMainOrderVO.class, false);
-    private BeanCopier tcDetailBean= BeanCopier.create(TcDetailOrderVO.class, TcDetailOrder.class, false);
+    private BeanCopier mainBeanCopier = BeanCopier.create(TcMainOrder.class, TcMainOrderVO.class, false);
+    private BeanCopier detailBeanCopier= BeanCopier.create(TcDetailOrder.class, TcDetailOrderVO.class, false);
     private List<TcMainOrderVO> TcMainOrderVOList;
     private UserRepo userRepo ;
     private JiuxiuOrderService jiuxiuOrderService;
@@ -77,7 +77,7 @@ public class OrderStatusChangeConverter {
 
             for(TcMainOrder tcMainOrder :bizOrderDOList){
                 TcMainOrderVO vo = new TcMainOrderVO();
-                beanCopier.copy(tcMainOrder,vo,null);
+                mainBeanCopier.copy(tcMainOrder,vo,null);
                 voList.add(vo);
             }
         }catch (Exception e){
@@ -99,29 +99,32 @@ public class OrderStatusChangeConverter {
         }
         for(TcMainOrderVO tcMainOrderVO :tcMainOrderVOList ){
             handleTcMainOrderVO(tcMainOrderVO);//处理主订单信息
-            secondaryTcDetailOrder(tcMainOrderVO.getDetailOrders());//处理子订单信息
+            /*二次封装子订单信息,形成视图层bean**/
+            List<TcDetailOrderVO> detailOrderVOList =secondaryTcDetailOrder(tcMainOrderVO.getDetailOrders());//处理子订单信息
+            tcMainOrderVO.setTcDetailOrdersView(detailOrderVOList);
         }
         return tcMainOrderVOList;
     }
     /**
      * 为页面展示,重新拼装子订单信息
-     * @param tcDetailOrderVOList
+     * @param tcDetailOrders
      * @return
      */
-    public List<TcDetailOrderVO> secondaryTcDetailOrder(List<TcDetailOrderVO> tcDetailOrderVOList) {
+    public List<TcDetailOrderVO> secondaryTcDetailOrder(List<TcDetailOrder> tcDetailOrders) {
 
-        if(CollectionUtils.isEmpty(tcDetailOrderVOList)){
+        if(CollectionUtils.isEmpty(tcDetailOrders)){
             return null;
         }
+        List<TcDetailOrderVO> detailOrderVOList = new ArrayList<TcDetailOrderVO>(tcDetailOrders.size());
         try{
-            for(TcDetailOrderVO tcDetailOrderVO :tcDetailOrderVOList){
-                handleTcDetailOrderVO(tcDetailOrderVO);
+            for(TcDetailOrder tcDetailOrder :tcDetailOrders){
+                handleTcDetailOrderVO(tcDetailOrder);
             }
         }catch (Exception e){
             logger.error("子订单数据处理异常转换异常",e);
         }
 
-        return tcDetailOrderVOList;
+        return detailOrderVOList;
 
     }
 
@@ -161,21 +164,24 @@ public class OrderStatusChangeConverter {
 
     /**
      * 处理子订单
-     * @param tcDetailOrderVO
+     * @param tcDetailOrder
      * @return
      */
-    public TcDetailOrderVO handleTcDetailOrderVO(TcDetailOrderVO tcDetailOrderVO ) {
-        TcDetailOrder tcDetailOrder = new TcDetailOrder();
+    public TcDetailOrderVO handleTcDetailOrderVO(TcDetailOrder tcDetailOrder ) {
+        TcDetailOrderVO detailVO = new TcDetailOrderVO();
         try{
-            logger.info("tcDetailOrderVO ={}",JSON.toJSONString(tcDetailOrderVO));
-            tcDetailBean.copy(tcDetailOrderVO,tcDetailOrder,null);
+            if(tcDetailOrder==null){
+                return null;
+            }
+            logger.info("tcDetailOrderVO ={}",JSON.toJSONString(tcDetailOrder));
+            detailBeanCopier.copy(tcDetailOrder,detailVO,null);
             long totalFee = BizOrderUtil.getSubOrderActualFee(tcDetailOrder.getBizOrder().getBizOrderDO());//子订单实付金额
-            tcDetailOrderVO.setSubOrderActualFee(totalFee);
+            detailVO.setSubOrderActualFee(totalFee);
         }catch (Exception e){
             logger.error("bean 转化异常",e);
         }
 
-        return tcDetailOrderVO;
+        return detailVO;
     }
 
 
