@@ -106,10 +106,6 @@ public class OrderStatusChangeController {
     public String queryLogList(Model model,OrderStatusChangeLogQuery orderStatusChangeLogQuery){
         BizResult<OrderStatusChangeLogResult> result=  orderStatusChangeLogService.queryOrderStatusChangeLogList(orderStatusChangeLogQuery);
         if(result==null||!result.isSuccess()){
-            PageVO<OrderStatusChangeLogDTO> pageModel = new PageVO<OrderStatusChangeLogDTO>(0,0,0,null);
-            model.addAttribute("pageVo", pageModel);
-            model.addAttribute("totalPage", 0);
-            model.addAttribute("totalCount", 0);
             return "/system/order/changeHistory";
         }
         OrderStatusChangeLogResult orderLog =  result.getValue();
