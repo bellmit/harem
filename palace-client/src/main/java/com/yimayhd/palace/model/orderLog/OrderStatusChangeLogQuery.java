@@ -20,6 +20,9 @@ public class OrderStatusChangeLogQuery extends PageQuery {
 
     private Date gmtCreatedEnd;
 
+    private String gmtCreatedStartStr;
+    private String gmtCreatedEndStr;
+
 
     public long getOperationId() {
         return operationId;
@@ -51,5 +54,21 @@ public class OrderStatusChangeLogQuery extends PageQuery {
 
     public void setGmtCreatedEnd(Date gmtCreatedEnd) {
         this.gmtCreatedEnd = gmtCreatedEnd;
+    }
+
+    public String getGmtCreatedStartStr() {
+        return gmtCreatedStartStr;
+    }
+
+    public void setGmtCreatedStartStr(String gmtCreatedStartStr) {
+        this.gmtCreatedStartStr = gmtCreatedStartStr;
+    }
+
+    public String getGmtCreatedEndStr() {
+        return gmtCreatedEndStr;
+    }
+
+    public void setGmtCreatedEndStr(String gmtCreatedEndStr) {
+        this.gmtCreatedEndStr = gmtCreatedEndStr;
     }
 }
