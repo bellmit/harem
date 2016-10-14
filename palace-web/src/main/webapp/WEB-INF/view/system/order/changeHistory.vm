@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
-#set($layout = "/system/layout/layout_non.vm")
+#set($layout = "/system/layout/layout-new.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 <head>
 <title>修改历史</title>
@@ -11,26 +11,26 @@
 <body>
 
 	<div class="search-box">
-		<form id="frmChangeHistory" name="frmChangeHistory">
+		<form id="frmChangeHistory" name="frmChangeHistory" action="$!utilWebconfig.getActionDefaultFontPath()/order/status/queryLogList" method="GET" role="form">
 			<div class="input-group">
 				<span class="input-group-btn">
 							<button class="btn btn-default" type="button">订单编号：</button>
 						</span>
-				<input type="text" class="form-control" name="orderNo" value="">
+				<input type="text" class="form-control" name="bizNo" value="">
 			</div>
 			<div class="input-group">
 				<span class="input-group-btn">
 							<button class="btn btn-default" type="button">修改人ID：</button>
 						</span>
-				<input type="text" class="form-control" name="orderNo" value="">
+				<input type="text" class="form-control" name="operationId" value="">
 			</div>
 			<div class="input-group">
 				<span class="input-group-btn">
 		                    <button class="btn btn-default" type="button">修改时间</button>
 		                </span>
-				<input type="text" class='form-control form-date date start-time' placeholder='' readonly name="changeTimeStart" value="">
+				<input type="text" class='form-control form-date date start-time' placeholder='' readonly name="gmtCreatedStart" value="">
 				<span class="input-group-addon fix-border fix-padding date-addon">至</span>
-				<input type="text" class='form-control form-date date end-time' placeholder='' readonly name="changeTimeEnd" value="">
+				<input type="text" class='form-control form-date date end-time' placeholder='' readonly name="gmtCreatedEnd" value="">
 			</div>
 			<div class="btn-group">
 				<button type="submit" class="btn btn-primary">查询</button>
@@ -60,31 +60,28 @@
 				</th>
 			</tr>
 		</thead>
+		#foreach($orderLog in $logList)
 		<tbody>
 			<tr>
 
 				<td>
-					abc123123
+					$!orderLog.bizNo
 				</td>
 				<td>
-					2u11010101
+					$!orderLog.operationId
 				</td>
 				<td>
-					2016-10-08 16:00
+					$!orderLog.gmtCreatedStr
 				</td>
 				<td>
-					<div class="t-c">
-						订单状态
-					</div>
-					<div class="t-c">
-						已付款--取消
-					</div>
+					$!orderLog.content
 				</td>
 				<td style="width:40%">
-					买家退货
+					$!orderLog.desc
 				</td>
 			</tr>
 		</tbody>
+		#end
 	</table>
 	#parse("/page.vm")
 	#pageStyle("tradeListForm")
