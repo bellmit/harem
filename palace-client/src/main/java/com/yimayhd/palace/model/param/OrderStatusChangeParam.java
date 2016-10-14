@@ -18,7 +18,8 @@ public class OrderStatusChangeParam implements Serializable{
     private List<Long> bizOrderIds;
 
     private int OrderChangeStatus; //订单修改状态
-    private String currOrderStatus;//'当前订单状态'
+    private String currOrderStatusStr;//'当前订单状态'
+    private int    currOrderStatus;
     private String content;//'修改内容'
 
     private String desc;// 备注
@@ -76,11 +77,19 @@ public class OrderStatusChangeParam implements Serializable{
         }
     }
 
-    public String getCurrOrderStatus() {
+    public String getCurrOrderStatusStr() {
+        return currOrderStatusStr;
+    }
+
+    public void setCurrOrderStatusStr(String currOrderStatusStr) {
+        this.currOrderStatusStr = currOrderStatusStr;
+    }
+
+    public int getCurrOrderStatus() {
         return currOrderStatus;
     }
 
-    public void setCurrOrderStatus(String currOrderStatus) {
+    public void setCurrOrderStatus(int currOrderStatus) {
         this.currOrderStatus = currOrderStatus;
     }
 
@@ -89,7 +98,7 @@ public class OrderStatusChangeParam implements Serializable{
     }
 
     public void setContent(String content) {
-        if(StringUtils.isNotBlank(currOrderStatus)&&OrderChangeStatus!=0){
+        if(StringUtils.isNotBlank(currOrderStatusStr)&&OrderChangeStatus!=0){
             content = currOrderStatus+"-"+ OrderOperationLogStatus.getByType(OrderChangeStatus);
         }
         this.content = content;
