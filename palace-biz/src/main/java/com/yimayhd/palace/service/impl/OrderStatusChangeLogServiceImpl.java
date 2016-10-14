@@ -48,6 +48,10 @@ public class OrderStatusChangeLogServiceImpl implements OrderStatusChangeLogServ
                 return BizResult.buildFailResult(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorCode(),PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg(),null);
             }
             OrderOperationLogResult operResult = sellerResult.getResultObject();
+            if(operResult==null){
+                logger.error("没有可查询数据,operResult is null");
+                return BizResult.buildSuccessResult(result);
+            }
             result.setOrderStatusChangeLogDTOList(conver.getLogDTOList(operResult.getOrderOperationLogDTOList()));
             result.setTotalCount(operResult.getTotalCount());
         }catch (Exception e){

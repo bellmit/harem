@@ -29,10 +29,11 @@ public class OrderOperationLogRepo {
         SellerResult result=null;
         try{
             result = orderOperationLogService.queryOrderOperationLogDOList(query);
+
         }catch(Exception e){
             logger.error("远程调用异常",e);
         }
-
+        logger.info("result={}",result);
         return result;
     }
 
