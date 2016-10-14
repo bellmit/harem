@@ -39,7 +39,7 @@ public class OrderStatusChangeLogServiceImpl implements OrderStatusChangeLogServ
             logger.error("参数错误,query is null");
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),PalaceReturnCode.PARAM_ERROR.getErrorMsg(),null);
         }
-        OrderStatusChangeLogResult result =null;
+        OrderStatusChangeLogResult result =new OrderStatusChangeLogResult();
         try{
 
             SellerResult<OrderOperationLogResult>  sellerResult  = orderOperationLogRepo.queryOrderOperationLogDOList(conver.getLogQuery());

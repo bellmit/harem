@@ -1,6 +1,7 @@
 package com.yimayhd.palace.repo.selleradmin;
 
 import com.alibaba.fastjson.JSON;
+import com.taobao.tair.json.Json;
 import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogDTO;
 import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery;
 import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogResult;
@@ -26,15 +27,13 @@ public class OrderOperationLogRepo {
      */
     public SellerResult<OrderOperationLogResult> queryOrderOperationLogDOList(OrderOperationLogQuery query){
         logger.info(JSON.toJSONString(query));
-        SellerResult result=null;
         try{
-            result = orderOperationLogService.queryOrderOperationLogDOList(query);
-
+            SellerResult<OrderOperationLogResult> result =  orderOperationLogService.queryOrderOperationLogDOList(query);
+            logger.info("result={}",JSON.toJSONString(result));
         }catch(Exception e){
             logger.error("远程调用异常",e);
         }
-        logger.info("result={}",JSON.toJSONString(result));
-        return result;
+        return null;
     }
 
     /**
@@ -44,13 +43,13 @@ public class OrderOperationLogRepo {
      */
     public SellerResult<Integer> queryOrderOperationLogDOListCount(OrderOperationLogQuery query){
         logger.info(JSON.toJSONString(query));
-        SellerResult result=null;
         try{
-            result = orderOperationLogService.queryOrderOperationLogDOListCount(query);
+            SellerResult<Integer> result = orderOperationLogService.queryOrderOperationLogDOListCount(query);
+            return result;
         }catch(Exception e){
             logger.error("远程调用异常",e);
         }
-        return result;
+        return null;
     }
 
     /**
@@ -64,12 +63,12 @@ public class OrderOperationLogRepo {
             logger.error("参数错误,orderOperationLogDTO is null");
            return null;
         }
-        SellerResult result= null;
         try{
-            result = orderOperationLogService.insertOrderOperationLogDO(orderOperationLogDTO);
+            SellerResult<Boolean>  result = orderOperationLogService.insertOrderOperationLogDO(orderOperationLogDTO);
+            logger.info("result="+JSON.toJSONString(result));
         }catch(Exception e){
             logger.error("远程调用异常",e);
         }
-        return  result ;
+        return  null ;
     }
 }
