@@ -32,7 +32,7 @@
             </tr>
             <tr>
                 <td class="tit">房间号：</td>
-                <td><input class="form-control" name="liveRoomId" maxlength="30" value="$!{liveAdminQuery.liveRoomId}"></td>
+                <td><input class="form-control" type="text" name="liveRoomId" maxlength="30" datatype="/^(\d+)?$/" errormsg="请输入数字" value="$!{liveAdminQuery.liveRoomId}"></td>
                 <div class="input-group inpSingle">
                     <td class="tit">直播分类：</td>
                     <td>
@@ -127,7 +127,7 @@
 #pageStyle("liveAdminForm")
 
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
-
+<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/plugin/jquery.validform.js"></script>
 <script type="text/javascript">
     layer.config({
         extend: 'extend/layer.ext.js',
