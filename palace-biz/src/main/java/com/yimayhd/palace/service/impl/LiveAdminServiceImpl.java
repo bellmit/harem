@@ -167,7 +167,6 @@ public class LiveAdminServiceImpl implements LiveAdminService {
      */
     public BizResult<String> updateLiveRecordStatus(UpdateLiveRecordStatusDTO updateLiveRecordStatusDTO) {
         BizResult<String> bizResult = new BizResult<String>();
-        // // TODO: 16/9/30  增加修改时间
         UpdateLiveRecordStatusResult updateLiveRecordStatusResult = liveAdminRepo.updateLiveRecordStatus(updateLiveRecordStatusDTO);
         bizResult.buildSuccessResult(updateLiveRecordStatusResult);
         return bizResult;
