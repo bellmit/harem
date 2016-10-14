@@ -135,6 +135,7 @@ public class LiveAdminConverter {
         liveAdminPageQuery.setPageNo(liveAdminQuery.getPageNumber());
         liveAdminPageQuery.setPageSize(liveAdminQuery.getPageSize());
         liveAdminPageQuery.setLiveRecordStatus(liveAdminQuery.getLiveRecordStatus());
+        liveAdminPageQuery.setLiveTitle(liveAdminQuery.getLiveTitle());
         if (liveAdminQuery.getLiveOrder() != null) {
             if (liveAdminQuery.getLiveOrder().intValue() == 1)
                 liveAdminPageQuery.setLiveOrder(START_TIME_DESC);

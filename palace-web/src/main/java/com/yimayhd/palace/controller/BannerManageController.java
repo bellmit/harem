@@ -13,6 +13,7 @@ import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
+import com.yimayhd.live.client.query.LiveRecordQuery;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
@@ -348,17 +349,22 @@ public class BannerManageController extends BaseController {
 
     // 获取直播回放列表
     public Map<String, Object> getPageLiveRecordList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord,String code){
-        LiveAdminQuery query = new LiveAdminQuery();
-        if(NumberUtils.isNumber(keyWord)){
-            query.setUserId(Long.parseLong(keyWord));
-        }else if(StringUtils.isNotEmpty(keyWord)){
-            query.setNickName(keyWord);
+        if(NumberUtils.isNumber(keyWord)){ // 精确查询
+            LiveRecordQuery query = new LiveRecordQuery();
+            query.setLiveRecordId(Long.parseLong(keyWord));
+            PageVO<ShowCaseItem> page = showcaseService.getLiveRecordQuery(query);
+            result.put("pageVo", page);
+        }else{ // 模糊查询
+            LiveAdminQuery query = new LiveAdminQuery();
+            if(StringUtils.isNotEmpty(keyWord)) {
+                query.setLiveTitle(keyWord);
+            }
+            query.setPageNumber(pageNumber);
+            query.setPageSize(pageSize);
+            query.setLiveStatus(REPLAY_LIVE.getStatus());  // 获取回放列表
+            PageVO<ShowCaseItem> page = showcaseService.getPageLiveRecordListByQuery(query);
+            result.put("pageVo", page);
         }
-        query.setPageNumber(pageNumber);
-        query.setPageSize(pageSize);
-        query.setLiveStatus(REPLAY_LIVE.getStatus());  // 获取回放列表
-        PageVO<ShowCaseItem> page = showcaseService.getPageLiveRecordListByQuery(query);
-        result.put("pageVo", page);
         return result;
     }
 

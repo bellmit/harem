@@ -5,6 +5,7 @@ import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
 import com.yimayhd.live.client.domain.record.*;
 import com.yimayhd.live.client.query.LiveAdminPageQuery;
+import com.yimayhd.live.client.query.LiveRecordQuery;
 import com.yimayhd.live.client.query.LiveRoomPageQuery;
 import com.yimayhd.live.client.result.record.*;
 import com.yimayhd.palace.base.PageVO;
@@ -122,6 +123,16 @@ public class LiveAdminServiceImpl implements LiveAdminService {
             }
         }
         return new PageVO<LiveRecordVO>(liveRecordPageResult.getPageNo(), liveRecordPageResult.getPageSize(), liveRecordPageResult.getTotalCount(), liveRecordVOList);
+    }
+
+    /**
+     * 查询单个直播
+     * @param recordQuery
+     * @return
+     */
+    public LiveRecordVO getLiveRecord(LiveRecordQuery recordQuery){
+        QueryLiveRecordResult queryLiveRecordResult = liveAdminRepo.getLiveRecord(recordQuery);
+        return LiveAdminConverter.liveRecordDO2LiveRecordVO(queryLiveRecordResult.getValue());
     }
 
     /**

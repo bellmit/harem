@@ -33,6 +33,10 @@ public class LiveAdminQuery extends BaseQuery {
      */
     private int liveStatus;
     /**
+     * 直播标题
+     */
+    private String liveTitle;
+    /**
      * 直播CityCode
      */
     private String locationCityCode;
@@ -124,6 +128,14 @@ public class LiveAdminQuery extends BaseQuery {
 
     public void setLiveStatus(int liveStatus) {
         this.liveStatus = liveStatus;
+    }
+
+    public String getLiveTitle() {
+        return liveTitle;
+    }
+
+    public void setLiveTitle(String liveTitle) {
+        this.liveTitle = liveTitle;
     }
 
     public String getLocationCityCode() {
