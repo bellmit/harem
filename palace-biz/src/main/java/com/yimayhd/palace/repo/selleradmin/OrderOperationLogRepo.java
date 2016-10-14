@@ -29,7 +29,7 @@ public class OrderOperationLogRepo {
         logger.info(JSON.toJSONString(query));
         try{
             SellerResult<OrderOperationLogResult> result =  orderOperationLogService.queryOrderOperationLogDOList(query);
-            logger.info("result={}",JSON.toJSONString(result));
+            logger.info("queryOrderOperationLogDOList,result={}",JSON.toJSONString(result));
         }catch(Exception e){
             logger.error("远程调用异常",e);
         }
