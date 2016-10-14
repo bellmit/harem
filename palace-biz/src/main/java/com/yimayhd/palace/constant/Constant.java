@@ -85,4 +85,7 @@ public class Constant {
 	public static final String BOOTH_PREFIX_SUFFIX = ",";
 	public static final String BOOTH_PREFIX_POSTFIX = "|";
 
+	public static final int PUSH_ALL = 1;//推送发送给全部人
+	public static final int PUSH_SPECIFIC = 2;//推送发送给指定的人
+
 }

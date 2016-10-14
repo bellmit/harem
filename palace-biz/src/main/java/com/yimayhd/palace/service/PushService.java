@@ -1,10 +1,8 @@
 package com.yimayhd.palace.service;
 
-import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
-import com.yimayhd.palace.model.ActivityVO;
+import com.yimayhd.palace.model.vo.PushQueryVO;
 import com.yimayhd.palace.model.vo.PushVO;
-import com.yimayhd.palace.model.vo.booth.BoothVO;
 import com.yimayhd.palace.result.BizResult;
 
 /**
@@ -13,8 +11,8 @@ import com.yimayhd.palace.result.BizResult;
  */
 public interface PushService {
 
-    PageVO<BoothVO> getList(BaseQuery baseQuery)throws Exception;
+    PageVO<PushVO> getList(PushQueryVO pushQueryVO)throws Exception;
 
-    BizResult<Boolean> saveOrUpdate(PushVO pushVO) throws Exception;
+    boolean saveOrUpdate(PushVO pushVO) throws Exception;
 
 }

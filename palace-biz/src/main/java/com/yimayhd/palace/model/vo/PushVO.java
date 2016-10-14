@@ -19,7 +19,7 @@ public class PushVO implements Serializable{
     private String operationContent;//跳转内容
     private int pushModelType;//推广对象类型
     private String pushModelFilePath;//特定的推广对象文件地址
-    private String pushDate;//推送时间
+    private Date pushDate;//推送时间
     private int status;//推送状态
     private long operationUserId;//操作人ID
     private long sendPeople;//发送人数
@@ -30,38 +30,6 @@ public class PushVO implements Serializable{
     private long outId; // 关联id
     private String transformFileUrl;//转换后的文件地址
     private long sendDomainId;
-
-    public long getSendDomainId() {
-        return sendDomainId;
-    }
-
-    public void setSendDomainId(long sendDomainId) {
-        this.sendDomainId = sendDomainId;
-    }
-
-    public String getTransformFileUrl() {
-        return transformFileUrl;
-    }
-
-    public void setTransformFileUrl(String transformFileUrl) {
-        this.transformFileUrl = transformFileUrl;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getOutId() {
-        return outId;
-    }
-
-    public void setOutId(long outId) {
-        this.outId = outId;
-    }
 
     public int getDomain() {
         return domain;
@@ -143,28 +111,12 @@ public class PushVO implements Serializable{
         this.pushModelFilePath = pushModelFilePath;
     }
 
-    public String getPushDate() {
+    public Date getPushDate() {
         return pushDate;
     }
 
-    public void setPushDate(String pushDate) {
+    public void setPushDate(Date pushDate) {
         this.pushDate = pushDate;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
     }
 
     public int getStatus() {
@@ -197,5 +149,53 @@ public class PushVO implements Serializable{
 
     public void setSeePeople(long seePeople) {
         this.seePeople = seePeople;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getOutId() {
+        return outId;
+    }
+
+    public void setOutId(long outId) {
+        this.outId = outId;
+    }
+
+    public String getTransformFileUrl() {
+        return transformFileUrl;
+    }
+
+    public void setTransformFileUrl(String transformFileUrl) {
+        this.transformFileUrl = transformFileUrl;
+    }
+
+    public long getSendDomainId() {
+        return sendDomainId;
+    }
+
+    public void setSendDomainId(long sendDomainId) {
+        this.sendDomainId = sendDomainId;
     }
 }

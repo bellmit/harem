@@ -109,4 +109,8 @@
 	<bean id="orderStatusChangeService" class="com.yimayhd.palace.service.impl.OrderStatusChangeServiceImpl"/>
 	<bean id="orderStatusChangeLogService" class="com.yimayhd.palace.service.impl.OrderStatusChangeLogServiceImpl"/>
 
+	<bean id="pushService" class="com.yimayhd.palace.service.impl.PushServiceImpl"/>
+
+
+
 </beans>
