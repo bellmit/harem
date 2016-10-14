@@ -62,8 +62,7 @@ public class OrderStatusChangeConverter {
 
     public OrderQueryDTO getOrderQueryDTO(){
         OrderQueryDTO dto = new OrderQueryDTO();
-        //dto.setDomain(Constant.DOMAIN_JIUXIU);
-        dto.setDomain(1000);
+        dto.setDomain(Constant.DOMAIN_JIUXIU);
         dto.setBizOrderIds(orderStatusChangeParam.getBizOrderIds());
         return dto;
     }

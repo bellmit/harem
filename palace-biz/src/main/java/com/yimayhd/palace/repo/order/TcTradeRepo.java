@@ -38,7 +38,7 @@ public class TcTradeRepo {
         }
         try{
             BatchBizQueryResult result =  tcBizQueryServiceRef.queryOrderForUpdateStatus(orderQueryDTO);
-            logger.info("repo result={}",JSON.toJSONString(result));
+            logger.info("queryList-- repo result={}",JSON.toJSONString(result));
             return result;
         }catch (Exception e){
             logger.error("远程调用异常,",e);
