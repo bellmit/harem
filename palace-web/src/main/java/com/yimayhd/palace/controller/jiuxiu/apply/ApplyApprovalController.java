@@ -601,7 +601,7 @@ public class ApplyApprovalController extends BaseController {
     @ResponseBody
     public BizResultSupport verifyBankInfo(HttpServletRequest request,long id) {
     	BizResultSupport result = new BizResultSupport();
-        MemResult<ExamineInfoDTO> examineInfoDTOResult = examineDealServiceRef.queryMerchantExamineInfoById(id);
+        /*MemResult<ExamineInfoDTO> examineInfoDTOResult = examineDealServiceRef.queryMerchantExamineInfoById(id);
         if (examineInfoDTOResult == null || !examineInfoDTOResult.isSuccess() || examineInfoDTOResult.getValue() == null) {
 			result.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
 			return result;
@@ -622,7 +622,7 @@ public class ApplyApprovalController extends BaseController {
 			log.error("param:ExamineInfoDTO={}",JSON.toJSONString(examineInfoDTO));
 			result.setPalaceReturnCode(PalaceReturnCode.VERIFY_BANK_INFO_ERROR);
 			return result;
-		}
+		}*/
     	return result;
     }
 }

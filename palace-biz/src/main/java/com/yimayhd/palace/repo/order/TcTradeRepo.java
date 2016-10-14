@@ -36,14 +36,14 @@ public class TcTradeRepo {
             logger.error("参数 orderQueryDTO is null");
             return null;
         }
-        BatchBizQueryResult result=null;
         try{
-//             result =  tcBizQueryServiceRef.queryOrderForUpdateStatus(orderQueryDTO);
+            BatchBizQueryResult result =  tcBizQueryServiceRef.queryOrderForUpdateStatus(orderQueryDTO);
+            logger.info("repo result={}",JSON.toJSONString(result));
             return result;
         }catch (Exception e){
             logger.error("远程调用异常,",e);
         }
-        return result;
+        return null;
 
     }
 
@@ -59,14 +59,14 @@ public class TcTradeRepo {
             logger.error("参数 bizOrderIds is null");
             return null;
         }
-        ResultSupport result=null;
         try{
-//            result =  tcTradeServiceRef.updateOrderStatusToFinish(bizOrderIds);
+            ResultSupport result =  tcTradeServiceRef.updateOrderStatusToFinish(bizOrderIds);
+            logger.info("repo result={}",JSON.toJSONString(result));
             return result;
         }catch (Exception e){
             logger.error("远程调用异常,",e);
         }
-        return result;
+        return null;
     }
 
     /**
@@ -81,14 +81,14 @@ public class TcTradeRepo {
             logger.error("参数 bizOrderIds is null");
             return null;
         }
-        ResultSupport result=null;
         try{
-            result =  tcTradeServiceRef.updateOrderStatusToCancel(bizOrderIds);
+            ResultSupport result =  tcTradeServiceRef.updateOrderStatusToCancel(bizOrderIds);
+            logger.info("repo result={}",JSON.toJSONString(result));
             return result;
         }catch (Exception e){
             logger.error("远程调用异常,",e);
         }
-        return result;
+        return null;
     }
 
 }

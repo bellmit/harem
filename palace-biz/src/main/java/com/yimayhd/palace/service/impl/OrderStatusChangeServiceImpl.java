@@ -102,6 +102,7 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
      */
     @Override
     public BizResult<OrderStatusChangeVO> queryList(OrderStatusChangeParam orderStatusChangeParam) {
+        logger.info("调用queryList 接口 ");
         OrderStatusChangeConverter converter = new OrderStatusChangeConverter(orderStatusChangeParam);
         OrderStatusChangeVO result = new OrderStatusChangeVO();
         BizResult checkResult =  converter.checkQueryList();
@@ -113,13 +114,16 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
             BatchBizQueryResult repoResult = tcTradeRepo.queryOrderForUpdateStatus(converter.getOrderQueryDTO());
             if(repoResult==null||!repoResult.isSuccess()){
                 logger.error("查询订单列表失败,result={}", JSON.toJSONString(repoResult));
-                return BizResult.buildFailResult(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorCode(),repoResult.getResultMsg(),null);
+                return BizResult.buildFailResult(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorCode(),PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg(),null);
             }
             List<TcMainOrder> tcMainOrderList=   repoResult.getBizOrderDOList();
             List<TcMainOrderVO> tcMainOrderVOList = converter.getTcMainOrderVOList(tcMainOrderList);// 中台返回订单信息
             /**订单信息出里*/
             result.setTcMainOrderVOList(converter.secondaryTcMainOrder(tcMainOrderVOList));
             result.setTotalCount(repoResult.getTotalCount());
+
+            logger.info("query list info :"+JSON.toJSONString(result));
+
 
         }catch(Exception e){
             logger.error("调用rep异常",e);

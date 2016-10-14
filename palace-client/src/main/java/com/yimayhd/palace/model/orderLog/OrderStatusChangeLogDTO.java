@@ -17,6 +17,7 @@ public class OrderStatusChangeLogDTO implements Serializable {
     private String desc;//'备注'
     private Date gmtCreated;
     private Date gmtModified;
+    private String gmtCreatedStr;// 创建日期
 
     public long getId() {
         return id;
@@ -80,5 +81,13 @@ public class OrderStatusChangeLogDTO implements Serializable {
 
     public void setGmtModified(Date gmtModified) {
         this.gmtModified = gmtModified;
+    }
+
+    public String getGmtCreatedStr() {
+        return gmtCreatedStr;
+    }
+
+    public void setGmtCreatedStr(String gmtCreatedStr) {
+        this.gmtCreatedStr = gmtCreatedStr;
     }
 }

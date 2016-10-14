@@ -83,7 +83,7 @@
 	<bean class="com.yimayhd.palace.service.impl.ItemServiceImpl"></bean>
 	
 	<!-- 九休订单 -->
-	<bean class="com.yimayhd.palace.service.impl.JiuxiuOrderServiceImpl"></bean>
+	<bean id="jiuxiuOrderService" class="com.yimayhd.palace.service.impl.JiuxiuOrderServiceImpl"></bean>
 	<!-- 对账 -->
 	<bean class="com.yimayhd.palace.service.impl.AuditServiceImpl"></bean>
 	

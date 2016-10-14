@@ -56,7 +56,7 @@ public class OrderStatusChangeLogConverter {
         return logDTO;
     }
 
-    public List<OrderStatusChangeLogDTO> getLogDTOList (List<OrderOperationLogDTO> list){
+    public List<OrderStatusChangeLogDTO> getLogDTOList (List<OrderOperationLogDTO> list) throws Exception{
         if(CollectionUtils.isEmpty(list)){
             return null;
         }

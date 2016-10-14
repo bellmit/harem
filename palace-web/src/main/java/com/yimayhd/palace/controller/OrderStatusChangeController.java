@@ -2,7 +2,9 @@ package com.yimayhd.palace.controller;
 
 import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.error.PalaceReturnCode;
+import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogDTO;
 import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogQuery;
 import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogResult;
 import com.yimayhd.palace.model.param.OrderStatusChangeParam;
@@ -19,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.List;
 
 
 /**
@@ -47,12 +50,14 @@ public class OrderStatusChangeController {
      */
     @RequestMapping(value = "/queryList", method = RequestMethod.GET)
     public String queryList(Model model,OrderStatusChangeParam orderStatusChangeParam){
+        logger.info("query list start");
         if(StringUtils.isBlank(orderStatusChangeParam.getBizOrderIdStr())){
             //没有订单id 默认不显示列表
+            logger.info("orderIds is empty");
             return "/system/order/changeOrderStatus";
         }
-        if(orderStatusChangeParam.getBizOrderIds().size()>count){
-            logger.error("每次最多查询100,为您选取💰100条进行展示");
+        if(StringUtils.isBlank(orderStatusChangeParam.getBizOrderIdStr())&&orderStatusChangeParam.getBizOrderIds().size()>count){
+            logger.error("每次最多查询100,为您选取100条进行展示");
             orderStatusChangeParam.setBizOrderIds(orderStatusChangeParam.getBizOrderIds().subList(0,count));
         }
         /**调用接口*/
@@ -101,11 +106,28 @@ public class OrderStatusChangeController {
     public String queryLogList(Model model,OrderStatusChangeLogQuery orderStatusChangeLogQuery){
         BizResult<OrderStatusChangeLogResult> result=  orderStatusChangeLogService.queryOrderStatusChangeLogList(orderStatusChangeLogQuery);
         if(result==null||!result.isSuccess()){
-            return "/error";
+            PageVO<OrderStatusChangeLogDTO> pageModel = new PageVO<OrderStatusChangeLogDTO>(0,0,0,null);
+            model.addAttribute("pageVo", pageModel);
+            model.addAttribute("totalPage", 0);
+            model.addAttribute("totalCount", 0);
+            return "/system/order/changeHistory";
         }
         OrderStatusChangeLogResult orderLog =  result.getValue();
+
+        PageVO<OrderStatusChangeLogDTO> pageModel = new PageVO<OrderStatusChangeLogDTO>(orderStatusChangeLogQuery.getCurrentPage(),
+                        orderStatusChangeLogQuery.getPageSize(),
+                        orderLog.getTotalCount(),
+                orderLog.getOrderStatusChangeLogDTOList());
+        int totalPage = 0;
+        if (pageModel.getTotalCount()%pageModel.getPageSize() > 0) {
+            totalPage += pageModel.getTotalCount()/pageModel.getPageSize()+1;
+        }else {
+            totalPage += pageModel.getTotalCount()/pageModel.getPageSize();
+        }
         model.addAttribute("logList",orderLog.getOrderStatusChangeLogDTOList());
-        model.addAttribute("totalCount",orderLog.getTotalCount());
+        model.addAttribute("pageVo", pageModel);
+        model.addAttribute("totalPage", totalPage);
+        model.addAttribute("totalCount", orderLog.getTotalCount());
         return "/system/order/changeHistory";
     }
 

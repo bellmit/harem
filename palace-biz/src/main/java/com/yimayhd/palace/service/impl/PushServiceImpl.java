@@ -52,11 +52,11 @@ public class PushServiceImpl implements PushService {
 
     @Override
     public boolean saveOrUpdate(PushVO pushVO) throws Exception {
-        if(Constant.PUSH_SPECIFIC == pushVO.getPushModelType() && StringUtils.isNotEmpty(pushVO.getPushModelFileName())){
-            String fileName = pushVO.getPushModelFileName();
+        if(Constant.PUSH_SPECIFIC == pushVO.getPushModelType() && StringUtils.isNotEmpty(pushVO.getPushModelFilePath())){
+            String fileName = pushVO.getPushModelFilePath();
             String newFileName = convertCsvToTxtPaht(fileName);
             if (StringUtils.isNotEmpty(newFileName)){
-                pushVO.setPushModelFileName(newFileName);
+                pushVO.setTransformFileUrl(newFileName);
             }
         }
         RcDelayPush dbPush = null;

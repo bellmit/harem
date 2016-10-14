@@ -1,13 +1,18 @@
 package com.yimayhd.palace.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.palace.model.vo.PushQueryVO;
 import com.yimayhd.palace.model.vo.PushVO;
-import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.PushService;
-import org.apache.commons.lang3.StringUtils;
+import com.yimayhd.palace.service.impl.RcDelayPushServiceImpl;
+import com.yimayhd.palace.util.Enums;
+import com.yimayhd.resourcecenter.model.enums.*;
+import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +33,8 @@ import java.util.Date;
 @RequestMapping("/push")
 public class PushManageController extends BaseController {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
-    @Autowired PushService pushService;
+    @Autowired
+    PushService pushService;
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String getMsgAdd(Model model,int type) throws Exception {
@@ -49,6 +55,8 @@ public class PushManageController extends BaseController {
         return null;
     }
 
+    private RcDelayPushServiceImpl rcDelayPushService;
+
     //短信推送列表
     @RequestMapping(value = "/msg/list", method = RequestMethod.GET)
     public String msgList(Model model,PushQueryVO pushQueryVO) throws Exception {
@@ -66,8 +74,21 @@ public class PushManageController extends BaseController {
 
     //短信推送列表
     @RequestMapping(value = "/push/list", method = RequestMethod.GET)
-    public String pushList(Model model,BaseQuery baseQuery) throws Exception {
-        return "/system/push/appMsg/list";
+    public String pushList(Model model,RcDelayPushPageQuery rcDelayPushPageQuery) throws Exception {
+
+        try {
+            PageVO<PushVO> pageVO = rcDelayPushService.getPushList(rcDelayPushPageQuery);
+
+            model.addAttribute("pageVo", pageVO);
+            model.addAttribute("itemList", pageVO.getItemList());
+            model.addAttribute("rcDelayStatus", Enums.toList(RcDelayStatus.class));
+            model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
+            model.addAttribute("rcDelayPushPageQuery", rcDelayPushPageQuery);
+            return "/system/push/push/list";
+        } catch (Exception e) {
+            log.error("pushList rcDelayPushPageQuery={}, exception={}", JSON.toJSONString(rcDelayPushPageQuery), e);
+            return "/error";
+        }
     }
 
 

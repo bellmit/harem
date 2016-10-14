@@ -213,62 +213,67 @@ public class OrderConverter {
 
 
     public static MainOrder orderVOConverter(BizOrderDO bizOrderDO) {
-        if(bizOrderDO!=null){
-            if (BizOrderUtil.hasDetailOrder(bizOrderDO)) {
-                List<SubOrder> subOrderList = new ArrayList<SubOrder>();
-                if (!CollectionUtils.isEmpty(bizOrderDO.getDetailOrderList())){
-                    for (BizOrderDO detailOrder : bizOrderDO.getDetailOrderList()) {
-                        SubOrder subOrder =  new SubOrder();
-                        subOrder.setBizOrderDO(detailOrder);
-                        if (bizOrderDO.getBizType() == OrderBizType.LINE.getBizType() ||bizOrderDO.getBizType() == OrderBizType.FLIGHT_HOTEL.getBizType() ||bizOrderDO.getBizType() == OrderBizType.SPOTS_HOTEL.getBizType()){
-                            long departDate = BizOrderUtil.getLineDepartDate(bizOrderDO);
-                            subOrder.setExecuteTime(departDate);//出发时间
-                            //sku
-                            SkuInfo skuInfo = detailOrder.getSkuInfo();
-                            if (skuInfo!=null){
-                                List<SkuPropertyInfo> skuPropertyInfoList = skuInfo.getSkuPropertyInfoList();
-                                for (SkuPropertyInfo skuPropertyInfo : skuPropertyInfoList) {
-                                    //{"skuPropertyInfoList":[{"pId":1,"pTxt":"出行日期","pType":2,"vId":5,"vTxt":"1448625207921"},{"pId":2,"pTxt":"人员","pType":1,"vId":6,"vTxt":"儿童"}]}
-                                    //为了获取购买类型（无枚举）
-                                    if (skuPropertyInfo.getPId() == 2){
-                                        subOrder.setvTxt(skuPropertyInfo.getVTxt());
-                                    }
+        if(bizOrderDO==null){
+            return null;
+        }
+        List<SubOrder> subOrderList = new ArrayList<SubOrder>();
+        if (BizOrderUtil.hasDetailOrder(bizOrderDO)) {
+            if (!CollectionUtils.isEmpty(bizOrderDO.getDetailOrderList())){
+                for (BizOrderDO detailOrder : bizOrderDO.getDetailOrderList()) {
+                    SubOrder subOrder =  new SubOrder();
+                    subOrder.setBizOrderDO(detailOrder);
+                    if (bizOrderDO.getBizType() == OrderBizType.LINE.getBizType() ||bizOrderDO.getBizType() == OrderBizType.FLIGHT_HOTEL.getBizType() ||bizOrderDO.getBizType() == OrderBizType.SPOTS_HOTEL.getBizType()){
+                        long departDate = BizOrderUtil.getLineDepartDate(bizOrderDO);
+                        subOrder.setExecuteTime(departDate);//出发时间
+                        //sku
+                        SkuInfo skuInfo = detailOrder.getSkuInfo();
+                        if (skuInfo!=null){
+                            List<SkuPropertyInfo> skuPropertyInfoList = skuInfo.getSkuPropertyInfoList();
+                            for (SkuPropertyInfo skuPropertyInfo : skuPropertyInfoList) {
+                                //{"skuPropertyInfoList":[{"pId":1,"pTxt":"出行日期","pType":2,"vId":5,"vTxt":"1448625207921"},{"pId":2,"pTxt":"人员","pType":1,"vId":6,"vTxt":"儿童"}]}
+                                //为了获取购买类型（无枚举）
+                                if (skuPropertyInfo.getPId() == 2){
+                                    subOrder.setvTxt(skuPropertyInfo.getVTxt());
                                 }
                             }
-                        }else if (bizOrderDO.getBizType() == OrderBizType.SPOTS.getBizType()){
-                            long spotStartDate = BizOrderUtil.getSpotStartDate(bizOrderDO);
-                            subOrder.setExecuteTime(spotStartDate);//入院时间
-                        }else if (bizOrderDO.getBizType() == OrderBizType.HOTEL.getBizType()){
-                            long hotelStartDate = BizOrderUtil.getHotelStartDate(bizOrderDO);
-                            long hotelEndDate = BizOrderUtil.getHotelEndDate(bizOrderDO);
-                            subOrder.setStartTime(hotelStartDate);//入住日期
-                            subOrder.setEndTime(hotelEndDate);//离店日期
                         }
-                        subOrderList.add(subOrder);
-                    }
-                    return new MainOrder(bizOrderDO,subOrderList);
-                }else{
-                    subOrderList.add(new SubOrder(bizOrderDO));
-                    return new MainOrder(bizOrderDO,subOrderList);
-                }
-            } else {
-                List<SubOrder> subOrderList = new ArrayList<SubOrder>();
-                subOrderList.add(new SubOrder(bizOrderDO));
-                for (SubOrder subOrder : subOrderList) {
-                    if (subOrder.getBizOrderDO().getBizType() == OrderBizType.SPOTS.getBizType()){
+                    }else if (bizOrderDO.getBizType() == OrderBizType.SPOTS.getBizType()){
                         long spotStartDate = BizOrderUtil.getSpotStartDate(bizOrderDO);
                         subOrder.setExecuteTime(spotStartDate);//入院时间
-                    }else if (subOrder.getBizOrderDO().getBizType() == OrderBizType.HOTEL.getBizType()){
+                    }else if (bizOrderDO.getBizType() == OrderBizType.HOTEL.getBizType()){
                         long hotelStartDate = BizOrderUtil.getHotelStartDate(bizOrderDO);
                         long hotelEndDate = BizOrderUtil.getHotelEndDate(bizOrderDO);
                         subOrder.setStartTime(hotelStartDate);//入住日期
                         subOrder.setEndTime(hotelEndDate);//离店日期
                     }
+                    subOrderList.add(subOrder);
                 }
-                return new MainOrder(bizOrderDO,subOrderList);
+                //return new MainOrder(bizOrderDO,subOrderList);
+            }else{
+                subOrderList.add(new SubOrder(bizOrderDO));
+                //return new MainOrder(bizOrderDO,subOrderList);
             }
+        } else {
+            subOrderList.add(new SubOrder(bizOrderDO));
+            for (SubOrder subOrder : subOrderList) {
+                if (subOrder.getBizOrderDO().getBizType() == OrderBizType.SPOTS.getBizType()){
+                    long spotStartDate = BizOrderUtil.getSpotStartDate(bizOrderDO);
+                    subOrder.setExecuteTime(spotStartDate);//入院时间
+                }else if (subOrder.getBizOrderDO().getBizType() == OrderBizType.HOTEL.getBizType()){
+                    long hotelStartDate = BizOrderUtil.getHotelStartDate(bizOrderDO);
+                    long hotelEndDate = BizOrderUtil.getHotelEndDate(bizOrderDO);
+                    subOrder.setStartTime(hotelStartDate);//入住日期
+                    subOrder.setEndTime(hotelEndDate);//离店日期
+                }
+            }
+            //return new MainOrder(bizOrderDO,subOrderList);
         }
-        return null;
+        MainOrder mainOrder  = new MainOrder(bizOrderDO,subOrderList);
+
+        long mainOrderTotalChangeFee  = BizOrderUtil.getActualAmountPaid(bizOrderDO);//订单实际支付金额
+        mainOrder.setMainOrderTotalChangeFee(mainOrderTotalChangeFee);
+        return mainOrder;
+
     }
 
 

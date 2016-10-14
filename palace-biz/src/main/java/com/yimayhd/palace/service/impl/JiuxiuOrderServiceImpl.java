@@ -9,11 +9,14 @@ import java.util.regex.Pattern;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.enums.UserOptions;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.yimayhd.palace.biz.MerchantBiz;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.jiuxiu.JiuxiuTcBizOrder;
 import com.yimayhd.palace.model.jiuxiu.JiuxiuTcDetailOrder;
@@ -21,6 +24,7 @@ import com.yimayhd.palace.model.jiuxiu.JiuxiuTcMainOrder;
 import com.yimayhd.palace.model.jiuxiu.helper.JiuxiuHelper;
 import com.yimayhd.palace.model.query.JiuxiuOrderListQuery;
 import com.yimayhd.palace.result.BatchJiuxiuOrderResult;
+import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.JiuxiuOrderService;
 import com.yimayhd.palace.util.Common;
 import com.yimayhd.palace.util.DateUtil;
@@ -55,15 +59,25 @@ public class JiuxiuOrderServiceImpl implements JiuxiuOrderService {
 	private UserService userServiceRef;
 	@Autowired
 	private MerchantService userMerchantServiceRef;
-
+	@Autowired
+	private MerchantBiz merchantBiz;
 	@Override
 	public BatchJiuxiuOrderResult getOrderList(JiuxiuOrderListQuery jiuxiuOrderListQuery) throws Exception {
 		OrderQueryDTO dto = new OrderQueryDTO();
 		
 		JiuxiuHelper.fillOrderQueryDTO(dto, jiuxiuOrderListQuery);
 		dto.setNeedExtFeature(true);
-		BatchBizQueryResult result = tcBizQueryServiceRef.queryOrderForAdmin(dto);
 		BatchJiuxiuOrderResult jiuxiuResult = new BatchJiuxiuOrderResult();
+		if (StringUtils.isNotBlank(jiuxiuOrderListQuery.getSellerName())) {
+		BizResult<List<Long>> userIds = merchantBiz.getUserIds(jiuxiuOrderListQuery.getSellerName(), jiuxiuOrderListQuery.getMerchantName());
+		List<Long> userIdList = userIds.getValue();
+		if (CollectionUtils.isEmpty(userIdList)) {
+			return jiuxiuResult;
+		}
+		dto.setSellerId(userIdList.get(0));
+		}
+		dto.setMerchantName(null);
+		BatchBizQueryResult result = tcBizQueryServiceRef.queryOrderForAdmin(dto);
 		List<JiuxiuTcMainOrder> jiuxiuTcMainOrders = new ArrayList<JiuxiuTcMainOrder>();
 		jiuxiuResult.setTotalCount(result.getTotalCount());
 		if(result.isSuccess() && null!=result.getBizOrderDOList()){

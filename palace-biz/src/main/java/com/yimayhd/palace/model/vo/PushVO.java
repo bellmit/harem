@@ -9,32 +9,27 @@ import java.util.Set;
  * @Description 推送对象
  */
 public class PushVO implements Serializable{
-    private long id;
     private int domain;
     private String subject;//主题
     private int pushType;//推送类型
     private String msgTitle;//消息栏标题
     private String msgContent;//消息栏内容
-    public String pushContent;//推送内容
-    public String operation;//跳转类型
-    public String operationContent;//跳转内容
-    public int pushModelType;//推广对象类型
-    public String pushModelFileName;//特定的推广对象文件
-    public Date pushDate;//推送时间
-    public int status;//推送状态
-    public long operationUserId;//操作人ID
-    public long sendPeople;//发送人数
-    public long seePeople;//查看人数
-    public Date createDate;
-    public Date updateDate;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+    private String pushContent;//推送内容
+    private String operation;//跳转类型
+    private String operationContent;//跳转内容
+    private int pushModelType;//推广对象类型
+    private String pushModelFilePath;//特定的推广对象文件地址
+    private Date pushDate;//推送时间
+    private int status;//推送状态
+    private long operationUserId;//操作人ID
+    private long sendPeople;//发送人数
+    private long seePeople;//查看人数
+    private Date createDate;
+    private Date updateDate;
+    private long id; //主键
+    private long outId; // 关联id
+    private String transformFileUrl;//转换后的文件地址
+    private long sendDomainId;
 
     public int getDomain() {
         return domain;
@@ -108,12 +103,12 @@ public class PushVO implements Serializable{
         this.pushModelType = pushModelType;
     }
 
-    public String getPushModelFileName() {
-        return pushModelFileName;
+    public String getPushModelFilePath() {
+        return pushModelFilePath;
     }
 
-    public void setPushModelFileName(String pushModelFileName) {
-        this.pushModelFileName = pushModelFileName;
+    public void setPushModelFilePath(String pushModelFilePath) {
+        this.pushModelFilePath = pushModelFilePath;
     }
 
     public Date getPushDate() {
@@ -122,22 +117,6 @@ public class PushVO implements Serializable{
 
     public void setPushDate(Date pushDate) {
         this.pushDate = pushDate;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
     }
 
     public int getStatus() {
@@ -170,5 +149,53 @@ public class PushVO implements Serializable{
 
     public void setSeePeople(long seePeople) {
         this.seePeople = seePeople;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getOutId() {
+        return outId;
+    }
+
+    public void setOutId(long outId) {
+        this.outId = outId;
+    }
+
+    public String getTransformFileUrl() {
+        return transformFileUrl;
+    }
+
+    public void setTransformFileUrl(String transformFileUrl) {
+        this.transformFileUrl = transformFileUrl;
+    }
+
+    public long getSendDomainId() {
+        return sendDomainId;
+    }
+
+    public void setSendDomainId(long sendDomainId) {
+        this.sendDomainId = sendDomainId;
     }
 }

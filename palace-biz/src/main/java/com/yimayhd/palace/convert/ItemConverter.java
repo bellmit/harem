@@ -57,9 +57,9 @@ public class ItemConverter {
 		itemQryDTO.setPageNo(query.getPageNumber());
 		itemQryDTO.setPageSize(query.getPageSize());
 		itemQryDTO.setOrderNumFilter(query.getOrderNumFilter());
-		if(query.getMerchantName()!=null) {
-			itemQryDTO.setMerchantName(query.getMerchantName()!=null? query.getMerchantName().trim():query.getMerchantName());
-		}
+//		if(query.getMerchantName()!=null) {
+//			itemQryDTO.setMerchantName(query.getMerchantName()!=null? query.getMerchantName().trim():query.getMerchantName());
+//		}
 		
 		if(query.getOutId()!=null) {
 			itemQryDTO.setOutId(query.getOutId());

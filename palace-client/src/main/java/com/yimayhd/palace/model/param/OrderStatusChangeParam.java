@@ -1,7 +1,7 @@
 package com.yimayhd.palace.model.param;
 
-import com.sun.tools.javac.util.Convert;
 import com.yimayhd.palace.util.ConvertUtil;
+import com.yimayhd.sellerAdmin.client.enums.OrderOperationLogStatus;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -18,6 +18,9 @@ public class OrderStatusChangeParam implements Serializable{
     private List<Long> bizOrderIds;
 
     private int OrderChangeStatus; //订单修改状态
+    private String currOrderStatusStr;//'当前订单状态'
+    private int    currOrderStatus;
+    private String content;//'修改内容'
 
     private String desc;// 备注
 
@@ -70,8 +73,34 @@ public class OrderStatusChangeParam implements Serializable{
     public void setFormOrderIdStr(String formOrderIdStr) {
         this.formOrderIdStr = formOrderIdStr;
         if(StringUtils.isNotBlank(bizOrderIdStr)){
-
             this.bizOrderIds = ConvertUtil.stringTolong(bizOrderIdStr.split(";"));
         }
+    }
+
+    public String getCurrOrderStatusStr() {
+        return currOrderStatusStr;
+    }
+
+    public void setCurrOrderStatusStr(String currOrderStatusStr) {
+        this.currOrderStatusStr = currOrderStatusStr;
+    }
+
+    public int getCurrOrderStatus() {
+        return currOrderStatus;
+    }
+
+    public void setCurrOrderStatus(int currOrderStatus) {
+        this.currOrderStatus = currOrderStatus;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        if(StringUtils.isNotBlank(currOrderStatusStr)&&OrderChangeStatus!=0){
+            content = currOrderStatus+"-"+ OrderOperationLogStatus.getByType(OrderChangeStatus);
+        }
+        this.content = content;
     }
 }
