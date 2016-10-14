@@ -85,7 +85,7 @@
 						</div>
 						<div class="fr">
 							下单时间：$!date.format(
-							'yyyy-MM-dd HH:mm:ss',$!order.tcMainOrder.bizOrder.createTime)
+							'yyyy-MM-dd HH:mm:ss',$!tcMainOrder.bizOrder.createTime)
 						</div>
 					</td>
 				</tr>
