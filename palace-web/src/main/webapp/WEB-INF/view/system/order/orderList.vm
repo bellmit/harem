@@ -73,7 +73,7 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">店铺名称/昵称</button>
                     </span>
-                <select style="width:30%;" class="form-control" name="merchantName">
+                <select style="width:30%;" class="form-control changeSelect" name="merchantName">
                 <option value="shopName" #if($!{orderListQuery.merchantName} == 'shopName') selected #end>店铺名称</option>
                 <option value="nickName" #if($!{orderListQuery.merchantName} == 'nickName') selected #end>达人昵称</option>
              </select>
@@ -301,6 +301,8 @@
             $("select[name='orderStat']").val("");
             $("input[name='merchantName']").val("");
              $("input[name='merchantNo']").val("");
+             $("input[name='sellerName']").val("");
+             $(".changeSelect option:first").attr("selected","selected");
         });
         
         $(".detail").click(function () {
