@@ -1,5 +1,5 @@
 
-#set($layout = "/system/layout/layout_new.vm")
+#set($layout = "/system/layout/layout-new.vm")
 #set($title = "订单状态修改")
 #set($styles = [
 "$rs_js_css_path_jiuxiu/css/zui.min.css", 
