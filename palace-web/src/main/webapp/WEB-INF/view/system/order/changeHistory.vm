@@ -13,7 +13,7 @@
 			<span class="input-group-btn">
 						<button class="btn btn-default" type="button">修改人ID：</button>
 					</span>
-			<input type="text" class="form-control" name="operationId" value="$!{model.operationId}">
+			<input type="text" class="form-control" name="operationId" value="#if($!model.operationId!=0) $!{model.operationId} #end">
 		</div>
 		<div class="input-group">
 			<span class="input-group-btn">

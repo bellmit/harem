@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -110,18 +111,21 @@ public class OrderStatusChangeController {
             return "/system/order/changeHistory";
         }
         OrderStatusChangeLogResult orderLog =  result.getValue();
-
+        List<OrderStatusChangeLogDTO> resultList = new ArrayList<OrderStatusChangeLogDTO>();
+        if(orderLog.getOrderStatusChangeLogDTOList()!=null){
+            resultList =orderLog.getOrderStatusChangeLogDTOList() ;
+        }
         PageVO<OrderStatusChangeLogDTO> pageModel = new PageVO<OrderStatusChangeLogDTO>(orderStatusChangeLogQuery.getCurrentPage(),
                         orderStatusChangeLogQuery.getPageSize(),
                         orderLog.getTotalCount(),
-                orderLog.getOrderStatusChangeLogDTOList());
+                        resultList);
         int totalPage = 0;
         if (pageModel.getTotalCount()%pageModel.getPageSize() > 0) {
             totalPage += pageModel.getTotalCount()/pageModel.getPageSize()+1;
         }else {
             totalPage += pageModel.getTotalCount()/pageModel.getPageSize();
         }
-        model.addAttribute("logList",orderLog.getOrderStatusChangeLogDTOList());
+        model.addAttribute("logList",resultList);
         model.addAttribute("pageVo", pageModel);
         model.addAttribute("totalPage", totalPage);
         model.addAttribute("totalCount", orderLog.getTotalCount());
