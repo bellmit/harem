@@ -80,7 +80,7 @@ public class OrderStatusChangeController {
      * @return
      */
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
-    public BizResult<String>  updateStatus(Model model , OrderStatusCh angeParam orderStatusChangeParam){
+    public BizResult<String>  updateStatus(Model model , OrderStatusChangeParam orderStatusChangeParam){
         if(orderStatusChangeParam==null){
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),PalaceReturnCode.PARAM_ERROR.getErrorMsg(),null);
         }
@@ -105,6 +105,7 @@ public class OrderStatusChangeController {
      */
     @RequestMapping(value = "/queryLogList", method = RequestMethod.GET)
     public String queryLogList(Model model,OrderStatusChangeLogQuery orderStatusChangeLogQuery){
+
         BizResult<OrderStatusChangeLogResult> result=  orderStatusChangeLogService.queryOrderStatusChangeLogList(orderStatusChangeLogQuery);
         model.addAttribute("model", orderStatusChangeLogQuery);
         if(result==null||!result.isSuccess()){
