@@ -8,12 +8,12 @@ import java.io.Serializable;
 /**
  * Created by wangdi on 16/10/10.
  */
-public class OrderStatusChangeLogQuery implements Serializable {
+public class OrderStatusChangeLogParam implements Serializable {
 
-    private static final long serialVersionUID = -8196260883114296399L;
     private static final int DEFAULT__SIZE = 10;
     private static final int DEFAULT__PAGE = 1;
-    private long operationId;
+    private static final long serialVersionUID = 5290334909198183143L;
+    private String operationId;
 
     private String  bizNo;
 
@@ -33,11 +33,15 @@ public class OrderStatusChangeLogQuery implements Serializable {
     private Integer pageSize = DEFAULT__SIZE;
 
 
-    public long getOperationId() {
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getOperationId() {
         return operationId;
     }
 
-    public void setOperationId(long operationId) {
+    public void setOperationId(String operationId) {
         this.operationId = operationId;
     }
 

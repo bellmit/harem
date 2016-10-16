@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogDTO;
+import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogParam;
 import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogQuery;
 import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogResult;
 import com.yimayhd.palace.model.param.OrderStatusChangeParam;
@@ -100,14 +101,21 @@ public class OrderStatusChangeController {
     /**
      * 查询修改状态日志
      * @param model
-     * @param orderStatusChangeLogQuery
+     * @param orderStatusChangeLogParam
      * @return
      */
     @RequestMapping(value = "/queryLogList", method = RequestMethod.GET)
-    public String queryLogList(Model model,OrderStatusChangeLogQuery orderStatusChangeLogQuery){
+    public String queryLogList(Model model,OrderStatusChangeLogParam orderStatusChangeLogParam){
         logger.info("queryLogList start");
+        OrderStatusChangeLogQuery query = new OrderStatusChangeLogQuery();
+        if(!StringUtils.isBlank(orderStatusChangeLogParam.getBizNo())){
+            query.setBizNo(orderStatusChangeLogParam.getBizNo());
+        }
+        if(!StringUtils.isBlank(orderStatusChangeLogParam.getOperationId())){
+            query.setOperationId(Long.valueOf(orderStatusChangeLogParam.getOperationId()));
+        }
         BizResult<OrderStatusChangeLogResult> result=  orderStatusChangeLogService.queryOrderStatusChangeLogList(orderStatusChangeLogQuery);
-        model.addAttribute("model", orderStatusChangeLogQuery);
+        model.addAttribute("model", orderStatusChangeLogParam);
         if(result==null||!result.isSuccess()){
             return "/system/order/changeHistory";
         }
@@ -116,8 +124,8 @@ public class OrderStatusChangeController {
         if(orderLog.getOrderStatusChangeLogDTOList()!=null){
             resultList =orderLog.getOrderStatusChangeLogDTOList() ;
         }
-        PageVO<OrderStatusChangeLogDTO> pageModel = new PageVO<OrderStatusChangeLogDTO>(orderStatusChangeLogQuery.getCurrentPage(),
-                        orderStatusChangeLogQuery.getPageSize(),
+        PageVO<OrderStatusChangeLogDTO> pageModel = new PageVO<OrderStatusChangeLogDTO>(orderStatusChangeLogParam.getCurrentPage(),
+                orderStatusChangeLogParam.getPageSize(),
                         orderLog.getTotalCount(),
                         resultList);
         int totalPage = 0;
