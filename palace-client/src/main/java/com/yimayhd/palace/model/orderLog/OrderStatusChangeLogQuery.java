@@ -18,9 +18,7 @@ public class OrderStatusChangeLogQuery implements Serializable {
 
     private String  bizNo;
 
-    private Date gmtCreatedStart;
 
-    private Date gmtCreatedEnd;
 
     private String gmtCreatedStartStr;
 
@@ -52,21 +50,7 @@ public class OrderStatusChangeLogQuery implements Serializable {
         this.bizNo = bizNo;
     }
 
-    public Date getGmtCreatedStart() {
-        return gmtCreatedStart;
-    }
-
-    public void setGmtCreatedStart(Date gmtCreatedStart) {
-        this.gmtCreatedStart = gmtCreatedStart;
-    }
-
-    public Date getGmtCreatedEnd() {
-        return gmtCreatedEnd;
-    }
-
-    public void setGmtCreatedEnd(Date gmtCreatedEnd) {
-        this.gmtCreatedEnd = gmtCreatedEnd;
-    }
+   
 
     public String getGmtCreatedStartStr() {
         return gmtCreatedStartStr;
