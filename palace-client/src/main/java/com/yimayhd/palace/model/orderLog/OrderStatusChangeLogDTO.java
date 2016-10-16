@@ -1,5 +1,7 @@
 package com.yimayhd.palace.model.orderLog;
 
+import com.yimayhd.palace.util.DateUtil;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -73,6 +75,9 @@ public class OrderStatusChangeLogDTO implements Serializable {
 
     public void setGmtCreated(Date gmtCreated) {
         this.gmtCreated = gmtCreated;
+        if(gmtCreated!=null){
+            setGmtCreatedStr(DateUtil.date2String(gmtCreated));
+        }
     }
 
     public Date getGmtModified() {
