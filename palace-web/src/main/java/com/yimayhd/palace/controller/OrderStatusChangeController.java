@@ -114,7 +114,7 @@ public class OrderStatusChangeController {
         if(!StringUtils.isBlank(orderStatusChangeLogParam.getOperationId())){
             query.setOperationId(Long.valueOf(orderStatusChangeLogParam.getOperationId()));
         }
-        BizResult<OrderStatusChangeLogResult> result=  orderStatusChangeLogService.queryOrderStatusChangeLogList(orderStatusChangeLogQuery);
+        BizResult<OrderStatusChangeLogResult> result=  orderStatusChangeLogService.queryOrderStatusChangeLogList(query);
         model.addAttribute("model", orderStatusChangeLogParam);
         if(result==null||!result.isSuccess()){
             return "/system/order/changeHistory";

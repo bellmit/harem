@@ -33,8 +33,8 @@ public class OrderStatusChangeLogConverter {
         OrderOperationLogQuery query = new OrderOperationLogQuery();
 
         query.setBizNo(orderStatusChangeLogQuery.getBizNo());
-        query.setGmtCreatedStart(orderStatusChangeLogQuery.getGmtCreatedStart());
-        query.setGmtCreatedEnd(orderStatusChangeLogQuery.getGmtCreatedEnd());
+        //query.setGmtCreatedStart(orderStatusChangeLogQuery.getGmtCreatedStart());
+        //query.setGmtCreatedEnd(orderStatusChangeLogQuery.getGmtCreatedEnd());
         query.setOperationId(orderStatusChangeLogQuery.getOperationId());
         query.setNeedCount(true);
         return query;
