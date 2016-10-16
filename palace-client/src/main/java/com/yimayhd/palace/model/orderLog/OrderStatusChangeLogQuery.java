@@ -2,18 +2,17 @@ package com.yimayhd.palace.model.orderLog;
 
 
 
-import java.io.Serializable;
+import com.yimayhd.palace.base.PageQuery;
+
 
 
 /**
  * Created by wangdi on 16/10/10.
  */
-public class OrderStatusChangeLogQuery implements Serializable {
+public class OrderStatusChangeLogQuery extends PageQuery{
 
     private static final long serialVersionUID = -8196260883114296399L;
-    private static final int DEFAULT__SIZE = 10;
-    private static final int DEFAULT__PAGE = 1;
-    private long operationId;
+    private String operationId;
 
     private String  bizNo;
 
@@ -23,21 +22,13 @@ public class OrderStatusChangeLogQuery implements Serializable {
 
     private String gmtCreatedEndStr;
 
-    /**
-     * 分页时的第几页
-     */
-    private Integer currentPage = DEFAULT__PAGE;
-    /**
-     * 每页数目，默认为 DEFAULT__SIZE
-     */
-    private Integer pageSize = DEFAULT__SIZE;
 
 
-    public long getOperationId() {
+    public String getOperationId() {
         return operationId;
     }
 
-    public void setOperationId(long operationId) {
+    public void setOperationId(String operationId) {
         this.operationId = operationId;
     }
 
@@ -67,19 +58,5 @@ public class OrderStatusChangeLogQuery implements Serializable {
         this.gmtCreatedEndStr = gmtCreatedEndStr;
     }
 
-    public Integer getCurrentPage() {
-        return currentPage;
-    }
 
-    public void setCurrentPage(Integer currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-    }
 }

@@ -101,21 +101,15 @@ public class OrderStatusChangeController {
     /**
      * 查询修改状态日志
      * @param model
-     * @param orderStatusChangeLogParam
+     * @param orderStatusChangeLogQuery
      * @return
      */
     @RequestMapping(value = "/queryLogList", method = RequestMethod.GET)
-    public String queryLogList(Model model,OrderStatusChangeLogParam orderStatusChangeLogParam){
+    public String queryLogList(Model model,OrderStatusChangeLogQuery orderStatusChangeLogQuery){
         logger.info("queryLogList start");
         OrderStatusChangeLogQuery query = new OrderStatusChangeLogQuery();
-        if(StringUtils.isNotBlank(orderStatusChangeLogParam.getBizNo())){
-            query.setBizNo(orderStatusChangeLogParam.getBizNo());
-        }
-        if(StringUtils.isBlank(orderStatusChangeLogParam.getOperationId())){
-            query.setOperationId(Long.valueOf(orderStatusChangeLogParam.getOperationId()));
-        }
         BizResult<OrderStatusChangeLogResult> result=  orderStatusChangeLogService.queryOrderStatusChangeLogList(query);
-        model.addAttribute("model", orderStatusChangeLogParam);
+        model.addAttribute("model", orderStatusChangeLogQuery);
         if(result==null||!result.isSuccess()){
             return "/system/order/changeHistory";
         }
@@ -124,8 +118,8 @@ public class OrderStatusChangeController {
         if(orderLog.getOrderStatusChangeLogDTOList()!=null){
             resultList =orderLog.getOrderStatusChangeLogDTOList() ;
         }
-        PageVO<OrderStatusChangeLogDTO> pageModel = new PageVO<OrderStatusChangeLogDTO>(orderStatusChangeLogParam.getCurrentPage(),
-                orderStatusChangeLogParam.getPageSize(),
+        PageVO<OrderStatusChangeLogDTO> pageModel = new PageVO<OrderStatusChangeLogDTO>(orderStatusChangeLogQuery.getCurrentPage(),
+                orderStatusChangeLogQuery.getPageSize(),
                         orderLog.getTotalCount(),
                         resultList);
         int totalPage = 0;

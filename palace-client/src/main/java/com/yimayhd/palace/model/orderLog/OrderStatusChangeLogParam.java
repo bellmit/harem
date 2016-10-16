@@ -33,9 +33,6 @@ public class OrderStatusChangeLogParam implements Serializable {
     private Integer pageSize = DEFAULT__SIZE;
 
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public String getOperationId() {
         return operationId;

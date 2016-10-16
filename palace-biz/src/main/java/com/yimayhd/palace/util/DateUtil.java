@@ -1003,6 +1003,7 @@ public class DateUtil {
 		return format.parse(dataStr + DAY_BEGIN);
 	}
 
+
 	/**
 	 * 周*
 	 * 
@@ -1179,5 +1180,16 @@ public class DateUtil {
 			sb.append(Math.round(min)+"分"+Math.round(secIn)+"秒");
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * 字符串转日期
+	 * @param dataStr
+	 * @return
+	 * @throws ParseException
+     */
+	public static Date formatStrTimeForDate(String dataStr) throws ParseException {
+		SimpleDateFormat format = new SimpleDateFormat(DATE_TIME_FORMAT);
+		return format.parse(dataStr);
 	}
 }
