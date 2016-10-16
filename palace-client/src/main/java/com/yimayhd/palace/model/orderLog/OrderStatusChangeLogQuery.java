@@ -12,6 +12,8 @@ import java.util.Date;
 public class OrderStatusChangeLogQuery implements Serializable {
 
     private static final long serialVersionUID = -8196260883114296399L;
+    private static final int DEFAULT__SIZE = 10;
+    private static final int DEFAULT__PAGE = 1;
     private long operationId;
 
     private String  bizNo;
@@ -23,6 +25,15 @@ public class OrderStatusChangeLogQuery implements Serializable {
     private String gmtCreatedStartStr;
 
     private String gmtCreatedEndStr;
+
+    /**
+     * 分页时的第几页
+     */
+    private Integer currentPage = DEFAULT__PAGE;
+    /**
+     * 每页数目，默认为 DEFAULT__SIZE
+     */
+    private Integer pageSize = DEFAULT__SIZE;
 
 
     public long getOperationId() {
@@ -71,5 +82,21 @@ public class OrderStatusChangeLogQuery implements Serializable {
 
     public void setGmtCreatedEndStr(String gmtCreatedEndStr) {
         this.gmtCreatedEndStr = gmtCreatedEndStr;
+    }
+
+    public Integer getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 }

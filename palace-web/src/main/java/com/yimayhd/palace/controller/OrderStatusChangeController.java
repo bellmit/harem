@@ -80,7 +80,7 @@ public class OrderStatusChangeController {
      * @return
      */
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
-    public BizResult<String>  updateStatus(Model model , OrderStatusChangeParam orderStatusChangeParam){
+    public BizResult<String>  updateStatus(Model model , OrderStatusCh angeParam orderStatusChangeParam){
         if(orderStatusChangeParam==null){
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),PalaceReturnCode.PARAM_ERROR.getErrorMsg(),null);
         }

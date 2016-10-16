@@ -35,6 +35,7 @@ public class OrderStatusChangeLogServiceImpl implements OrderStatusChangeLogServ
     @Override
     public BizResult<OrderStatusChangeLogResult> queryOrderStatusChangeLogList(OrderStatusChangeLogQuery query) {
         OrderStatusChangeLogConverter conver = new OrderStatusChangeLogConverter(query);
+        logger.info(" query order log start");
         if(query==null){
             logger.error("参数错误,query is null");
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),PalaceReturnCode.PARAM_ERROR.getErrorMsg(),null);
