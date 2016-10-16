@@ -1,6 +1,5 @@
 package com.yimayhd.palace.controller;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.error.PalaceReturnCode;
@@ -14,6 +13,7 @@ import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.OrderStatusChangeLogService;
 import com.yimayhd.palace.service.OrderStatusChangeService;
 import com.yimayhd.user.session.manager.SessionManager;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,10 +108,10 @@ public class OrderStatusChangeController {
     public String queryLogList(Model model,OrderStatusChangeLogParam orderStatusChangeLogParam){
         logger.info("queryLogList start");
         OrderStatusChangeLogQuery query = new OrderStatusChangeLogQuery();
-        if(!StringUtils.isBlank(orderStatusChangeLogParam.getBizNo())){
+        if(StringUtils.isNotBlank(orderStatusChangeLogParam.getBizNo())){
             query.setBizNo(orderStatusChangeLogParam.getBizNo());
         }
-        if(!StringUtils.isBlank(orderStatusChangeLogParam.getOperationId())){
+        if(StringUtils.isBlank(orderStatusChangeLogParam.getOperationId())){
             query.setOperationId(Long.valueOf(orderStatusChangeLogParam.getOperationId()));
         }
         BizResult<OrderStatusChangeLogResult> result=  orderStatusChangeLogService.queryOrderStatusChangeLogList(query);
