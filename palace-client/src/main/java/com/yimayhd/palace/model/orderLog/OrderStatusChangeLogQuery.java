@@ -1,15 +1,15 @@
 package com.yimayhd.palace.model.orderLog;
 
 
-import com.yimayhd.palace.base.PageQuery;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
 /**
  * Created by wangdi on 16/10/10.
  */
-public class OrderStatusChangeLogQuery extends PageQuery {
+public class OrderStatusChangeLogQuery implements Serializable {
 
     private static final long serialVersionUID = -8196260883114296399L;
     private long operationId;

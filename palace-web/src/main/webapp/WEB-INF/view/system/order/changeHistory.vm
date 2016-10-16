@@ -1,8 +1,8 @@
 #set($layout = "/system/layout/layout-new.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 #set($title = "创建短信推送")
-<form id="frmChangeHistory" name="orderStatusChangeLogQuery" action="$!utilWebconfig.getActionDefaultFontPath()/order/status/queryLogList" method="GET" role="form">
 <div class="search-box">
+	<form id="frmChangeHistory" name="orderStatusChangeLogQuery" action="$!utilWebconfig.getActionDefaultFontPath()/order/status/queryLogList" method="GET" role="form">
 		<div class="input-group">
 			<span class="input-group-btn">
 						<button class="btn btn-default" type="button">订单编号：</button>
@@ -29,7 +29,7 @@
 		<div class="btn-group">
 			<button type="button" class="btn btn-primary" id="btnReset">重置</button>
 		</div>
-
+	</form>
 </div>
 <table class="table table-hover table-bordered">
 	<thead>
@@ -76,8 +76,6 @@
 </table>
 #parse("/page.vm")
 #pageStyle("frmChangeHistory")
-</form>
-
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-css.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
