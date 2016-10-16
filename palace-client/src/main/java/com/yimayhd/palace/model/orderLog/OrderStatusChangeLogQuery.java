@@ -3,7 +3,7 @@ package com.yimayhd.palace.model.orderLog;
 
 
 import com.yimayhd.palace.base.PageQuery;
-
+import org.apache.commons.lang3.StringUtils;
 
 
 /**
@@ -30,6 +30,9 @@ public class OrderStatusChangeLogQuery extends PageQuery{
 
     public void setOperationId(String operationId) {
         this.operationId = operationId;
+        if(StringUtils.isNotBlank(operationId)){
+            this.operationId = operationId.trim();
+        }
     }
 
     public String getBizNo() {
@@ -38,6 +41,9 @@ public class OrderStatusChangeLogQuery extends PageQuery{
 
     public void setBizNo(String bizNo) {
         this.bizNo = bizNo;
+        if(StringUtils.isNotBlank(bizNo)){
+            this.bizNo = bizNo.trim();
+        }
     }
 
 

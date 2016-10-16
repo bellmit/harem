@@ -32,13 +32,16 @@ public class OrderStatusChangeLogConverter {
     }
 
     public OrderOperationLogQuery getLogQuery(){
+        if(orderStatusChangeLogQuery==null){
+            return null;
+        }
         OrderOperationLogQuery query = new OrderOperationLogQuery();
         try{
             if(StringUtils.isNotBlank(orderStatusChangeLogQuery.getBizNo())){
                 query.setBizNo(orderStatusChangeLogQuery.getBizNo());
             }
             if(StringUtils.isNotBlank(orderStatusChangeLogQuery.getOperationId())){
-                query.setOperationId(Long.valueOf(orderStatusChangeLogQuery.getOperationId()));
+                query.setOperationId(Long.valueOf(orderStatusChangeLogQuery.getOperationId()).longValue());
             }
             if(StringUtils.isNotBlank(orderStatusChangeLogQuery.getGmtCreatedStartStr())){
                 query.setGmtCreatedStart(DateUtil.formatStrTimeForDate(orderStatusChangeLogQuery.getGmtCreatedStartStr()));
