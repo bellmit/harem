@@ -88,5 +88,8 @@ public class Constant {
 	public static final int PUSH_ALL = 1;//推送发送给全部人
 	public static final int PUSH_SPECIFIC = 2;//推送发送给指定的人
 
+	public static final int PUSH_MSG = 1;//短信推送
+	public static final int PUSH_PUSH = 2;//push推送
+
 
 }

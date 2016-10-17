@@ -3,6 +3,7 @@ package com.yimayhd.palace.service.impl;
 import com.taobao.common.tfs.TfsManager;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.convert.RcDelayPushConverter;
 import com.yimayhd.palace.model.vo.PushQueryVO;
 import com.yimayhd.palace.model.vo.PushVO;
 import com.yimayhd.palace.repo.RcDelayRepo;
@@ -10,6 +11,7 @@ import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.PushService;
 import com.yimayhd.palace.util.HandleFilesUtils;
 import com.yimayhd.resourcecenter.domain.RcDelayPush;
+import com.yimayhd.resourcecenter.model.enums.RcDelayStatus;
 import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import org.apache.commons.lang3.StringUtils;
@@ -37,17 +39,34 @@ public class PushServiceImpl implements PushService {
 
     @Override
     public PageVO<PushVO> getList(PushQueryVO pushQueryVO) throws Exception {
-        List<PushVO> PushVOList = new ArrayList<PushVO>();
+        List<PushVO> pushVOList = new ArrayList<PushVO>();
         RcDelayPushPageQuery rcDelayPushPageQuery = new RcDelayPushPageQuery();
         rcDelayPushPageQuery.setPageNo(pushQueryVO.getPageNumber());
         rcDelayPushPageQuery.setPageSize(pushQueryVO.getPageSize());
         rcDelayPushPageQuery.setNeedCount(true);
+        rcDelayPushPageQuery.setStatus(RcDelayStatus.PROCESS.getCode());
 
-        RCPageResult<RcDelayPush> rcResult = rcDelayRepo.listMsg(rcDelayPushPageQuery);
+        RCPageResult<RcDelayPush> rcResult = null;
+        if(Constant.PUSH_MSG == pushQueryVO.getPushType()){
+            rcResult = rcDelayRepo.listMsg(rcDelayPushPageQuery);
+        }else if(Constant.PUSH_PUSH== pushQueryVO.getPushType()){
+            rcResult = rcDelayRepo.listPush(rcDelayPushPageQuery);
+        }
         if(null == rcResult || !rcResult.isSuccess() ){
             return new PageVO<PushVO>();
         }
-        return new PageVO<PushVO>(pushQueryVO.getPageNumber(),pushQueryVO.getPageSize(),rcResult.getTotalCount(),PushVOList);
+        List<RcDelayPush> list =  rcResult.getList();
+        pushVOList = getPushVoList(list);
+        return new PageVO<PushVO>(pushQueryVO.getPageNumber(),pushQueryVO.getPageSize(),rcResult.getTotalCount(),pushVOList);
+    }
+
+    public List<PushVO> getPushVoList(List<RcDelayPush> list ){
+        List<PushVO> pushVOList = new ArrayList<PushVO>();
+        for (RcDelayPush rc :list ) {
+            PushVO pv = RcDelayPushConverter.convertRcDelayPushToPushVo(rc);
+            pushVOList.add(pv);
+        }
+        return pushVOList;
     }
 
     @Override

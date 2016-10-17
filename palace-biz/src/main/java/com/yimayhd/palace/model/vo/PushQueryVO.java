@@ -12,8 +12,17 @@ public class PushQueryVO extends BaseQuery implements Serializable{
     private String subject;//主题
     public String beginPushDate;//推送时间
     public String endPushDate;//推送时间
-    public int pushModelType;//推广对象类型
-    public int status;//推送状态
+    public int pushModelType;//推广对象类型 1全部，2特定
+    public int status;//推送状态 1全部，2特定
+    public int pushType;//推送类型 1短信 2push
+
+    public int getPushType() {
+        return pushType;
+    }
+
+    public void setPushType(int pushType) {
+        this.pushType = pushType;
+    }
 
     public String getSubject() {
         return subject;
