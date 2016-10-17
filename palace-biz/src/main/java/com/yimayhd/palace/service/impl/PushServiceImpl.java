@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class PushServiceImpl implements PushService {
         rcDelayPushPageQuery.setPageNo(pushQueryVO.getPageNumber());
         rcDelayPushPageQuery.setPageSize(pushQueryVO.getPageSize());
         rcDelayPushPageQuery.setNeedCount(true);
-        rcDelayPushPageQuery.setStatus(RcDelayStatus.PROCESS.getCode());
+        rcDelayPushPageQuery.setStatus(RcDelayStatus.ALL.getCode());
 
         RCPageResult<RcDelayPush> rcResult = null;
         if(Constant.PUSH_MSG == pushQueryVO.getPushType()){
@@ -52,7 +53,7 @@ public class PushServiceImpl implements PushService {
         }else if(Constant.PUSH_PUSH== pushQueryVO.getPushType()){
             rcResult = rcDelayRepo.listPush(rcDelayPushPageQuery);
         }
-        if(null == rcResult || !rcResult.isSuccess() ){
+        if(null == rcResult || !rcResult.isSuccess() && CollectionUtils.isEmpty(rcResult.getList())){
             return new PageVO<PushVO>();
         }
         List<RcDelayPush> list =  rcResult.getList();
@@ -78,27 +79,40 @@ public class PushServiceImpl implements PushService {
                 pushVO.setTransformFileUrl(newFileName);
             }
         }
-        RcDelayPush dbPush = null;
-        RcDelayPush rp = new RcDelayPush();
-        //插入
         if(pushVO.getId()==0){
-            dbPush  =  rcDelayRepo.insertMsg(rp);
-            return isSuccess(dbPush);
+            return save(pushVO);
         }
-        //更新
+        return update(pushVO);
+    }
+
+    //插入
+    private boolean save(PushVO pushVO) throws Exception {
+        RcDelayPush dbPush = null;
+        RcDelayPush webDp = RcDelayPushConverter.convertPushVOToRcDelayPush(pushVO);
+        dbPush  =  rcDelayRepo.insertMsg(webDp);
+        return isSuccess(dbPush);
+    }
+
+    //更新
+    private boolean update(PushVO pushVO) throws Exception {
+        RcDelayPush dbPush = null;
+        RcDelayPush webDp = RcDelayPushConverter.convertPushVOToRcDelayPush(pushVO);
         if(updateCheck(pushVO)){
             throw new Exception("参数校验不合法");
         }
-        dbPush = rcDelayRepo.updateMsg(rp);
+        dbPush = rcDelayRepo.getById(webDp.getId());
+        if(null == dbPush){
+            throw new Exception("数据不存在");
+        }
+        dbPush = rcDelayRepo.updateMsg(webDp);
         return isSuccess(dbPush);
-
     }
 
     public boolean updateCheck(PushVO push){
-        if(push.getStatus()==1){//枚举值
+        if(push.getStatus() != RcDelayStatus.NO_PUSH.getCode()){//不是在待发送状态下
             return false;
         }
-        if(null !=push.getPushDate() && push.getPushDate().getTime()<System.currentTimeMillis()){
+        if(null !=push.getPushDate() && push.getPushDate().getTime() > System.currentTimeMillis()){//时间要大于当前时间
             return false;
         }
         return true;
