@@ -1,6 +1,6 @@
 #set($layout = "/system/layout/layout-new.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
-#set($title = "订单状态修改")
+#set($title = "App推送列表")
 <div class="search-box">
     <form id="frmSearch" name="frmSearch">
         <div class="input-group">
