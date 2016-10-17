@@ -27,6 +27,7 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.live.client.domain.record.LiveRecordDO;
 import com.yimayhd.live.client.query.LiveRecordQuery;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.biz.LiveAdminBiz;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.convert.ShowCaseItem;
 import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
@@ -130,8 +131,10 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     GuideManageService guideManageService;
 
     @Autowired
-    LiveAdminService liveAdminService;
+    LiveAdminBiz liveAdminBiz;
 
+    @Autowired
+    LiveAdminService liveAdminService;
 
     public List<ShowcaseVO> getList(long boothId) throws Exception {
         return null;
@@ -782,7 +785,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
      * @return
      */
     public PageVO<ShowCaseItem> getPageLiveRecordListByQuery(LiveAdminQuery pageQuery) {
-        PageVO<LiveRecordVO> pageVo = liveAdminService.getPageLiveRecord(pageQuery);
+        PageVO<LiveRecordVO> pageVo = liveAdminBiz.getPageLiveRecord(pageQuery);
         if (null == pageVo) {
             return new PageVO<ShowCaseItem>();
         }
@@ -839,7 +842,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
      * @return
      */
     public PageVO<ShowCaseItem> getPageLiveRoomListByQuery(LiveRoomQuery liveRoomQuery) {
-        PageVO<LiveRoomVO> pageVo = liveAdminService.getPageLiveRoom(liveRoomQuery);
+        PageVO<LiveRoomVO> pageVo = liveAdminBiz.getPageLiveRoom(liveRoomQuery);
         if (null == pageVo) {
             return new PageVO<ShowCaseItem>();
         }

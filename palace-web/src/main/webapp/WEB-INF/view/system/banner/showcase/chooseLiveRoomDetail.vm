@@ -84,7 +84,7 @@
             console.log("xxxxxxxxxxx="+JSON.stringify(item));
             resource_table[item.id] = item;
             var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
-            tr.append($("<td>"+i+"</td>"));
+            tr.append($("<td>"+i+1+"</td>"));
             tr.append($("<td>"+item.value.id+"</td>"));
             if(null != item.value.userDO && item.value.userDO.nickname.length>0){
                 tr.append($("<td>"+ item.value.userDO.nickname+"</td>"));

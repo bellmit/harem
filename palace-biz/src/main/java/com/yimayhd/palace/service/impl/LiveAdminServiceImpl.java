@@ -47,17 +47,17 @@ public class LiveAdminServiceImpl implements LiveAdminService {
     @Override
     public PageVO<LiveRecordVO> getPageLiveRecord(LiveAdminQuery pageQuery) {
         // 查询直播列表
-        LiveAdminPageQuery liveRoomPageQuery = LiveAdminConverter.liveAdminQuery2LiveAdminPageQuery(pageQuery);
+        LiveAdminPageQuery liveAdminPageQuery = LiveAdminConverter.liveAdminQuery2LiveAdminPageQuery(pageQuery);
         if(StringUtils.isNotEmpty(pageQuery.getNickName()) || pageQuery.getUserId() != null){
             List<Long>userQueryIds = liveAdminBiz.filterSearchNickNameToUserId(pageQuery);
             if (userQueryIds.size() > 0) {
-                liveRoomPageQuery.setUserIds(userQueryIds);
+                liveAdminPageQuery.setUserIds(userQueryIds);
             }
             else {
                 return new PageVO<LiveRecordVO>();
             }
         }
-        LiveRecordPageResult liveRecordPageResult = liveAdminRepo.getPageLiveRecord(liveRoomPageQuery);
+        LiveRecordPageResult liveRecordPageResult = liveAdminRepo.getPageLiveRecord(liveAdminPageQuery);
         if (liveRecordPageResult == null) {
             return new PageVO<LiveRecordVO>();
         }
