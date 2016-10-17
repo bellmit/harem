@@ -57,9 +57,9 @@
             <div class="input-group" style="width: 149px;">
                 <span class="input-group-addon">每页</span>
                 <select class="form-control pageSize" name="" id="pageSize" data-pageSize="$!pageVo.pageSize" style="width: 60px;">
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
+                    <option value="10" #if($!pageVo.pageSize == 10) selected = "selected" #end >10</option>
+                    <option value="20" #if($!pageVo.pageSize == 10) selected = "selected" #end >20</option>
+                    <option value="50" #if($!pageVo.pageSize == 10) selected = "selected" #end >50</option>
                 </select>
                 <span class="input-group-addon">条</span>
 				<span class="input-group-addon">共 ${pageVo.totalCount} 条</span>
