@@ -123,6 +123,7 @@ public class PushManageController extends BaseController {
         model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
         model.addAttribute("pushTypeList", Enums.toList(RcDelayType.class));
         model.addAttribute("pushTypeMap", Enums.toMap(RcDelayType.class, null));
+        model.addAttribute("operationDetailId",0);
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
         Collections.sort(operationDOs);
         model.addAttribute("operationDOs",operationDOs);
