@@ -80,7 +80,7 @@
                     </div>
                     <div id="radioHtml" class="jump-setting-item padding"></div>
                     <div class="jump-setting-item">
-                        <a href="javascript:void(0);" class="btn btn-primary" d="btnSelectContent" style="width:100px">选择内容</a>
+                        <a href="javascript:void(0);" class="btn btn-primary" id="btnSelectContent" style="width:100px">选择内容</a>
                     </div>
                     <div class="jump-setting-item">
                         <input type="hidden" name="chosId" id="chosId">
