@@ -2,9 +2,11 @@ package com.yimayhd.palace.convert;
 
 import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogDTO;
 import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogQuery;
+import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogDTO;
 import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogQuery;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cglib.beans.BeanCopier;
@@ -30,12 +32,26 @@ public class OrderStatusChangeLogConverter {
     }
 
     public OrderOperationLogQuery getLogQuery(){
+        if(orderStatusChangeLogQuery==null){
+            return null;
+        }
         OrderOperationLogQuery query = new OrderOperationLogQuery();
-
-        query.setBizNo(orderStatusChangeLogQuery.getBizNo());
-        query.setGmtCreatedStart(orderStatusChangeLogQuery.getGmtCreatedStart());
-        query.setGmtCreatedEnd(orderStatusChangeLogQuery.getGmtCreatedEnd());
-        query.setOperationId(orderStatusChangeLogQuery.getOperationId());
+        try{
+            if(StringUtils.isNotBlank(orderStatusChangeLogQuery.getBizNo())){
+                query.setBizNo(orderStatusChangeLogQuery.getBizNo());
+            }
+            if(StringUtils.isNotBlank(orderStatusChangeLogQuery.getOperationId())){
+                query.setOperationId(Long.valueOf(orderStatusChangeLogQuery.getOperationId()).longValue());
+            }
+            if(StringUtils.isNotBlank(orderStatusChangeLogQuery.getGmtCreatedStartStr())){
+                query.setGmtCreatedStart(DateUtil.formatStrTimeForDate(orderStatusChangeLogQuery.getGmtCreatedStartStr()));
+            }
+            if(StringUtils.isNotBlank(orderStatusChangeLogQuery.getGmtCreatedEndStr())){
+                query.setGmtCreatedEnd(DateUtil.formatStrTimeForDate(orderStatusChangeLogQuery.getGmtCreatedEndStr()));
+            }
+        }catch(Exception e){
+            logger.error("bean 转换异常",e);
+        }
         query.setNeedCount(true);
         return query;
     }

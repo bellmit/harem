@@ -2,26 +2,26 @@
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 #set($title = "创建短信推送")
 <div class="search-box">
-	<form id="frmChangeHistory" name="frmChangeHistory" action="$!utilWebconfig.getActionDefaultFontPath()/order/status/queryLogList" method="GET" role="form">
+	<form id="frmChangeHistory" name="orderStatusChangeLogQuery" action="$!utilWebconfig.getActionDefaultFontPath()/order/status/queryLogList" method="GET" role="form">
 		<div class="input-group">
 			<span class="input-group-btn">
 						<button class="btn btn-default" type="button">订单编号：</button>
 					</span>
-			<input type="text" class="form-control" name="bizNo" value="">
+			<input type="text" class="form-control" name="bizNo" value="$!{model.bizNo}">
 		</div>
 		<div class="input-group">
 			<span class="input-group-btn">
 						<button class="btn btn-default" type="button">修改人ID：</button>
 					</span>
-			<input type="text" class="form-control" name="operationId" value="">
+			<input type="text" class="form-control" name="operationId" value="#if($!model.operationId!=0) $!{model.operationId} #end">
 		</div>
 		<div class="input-group">
 			<span class="input-group-btn">
 						<button class="btn btn-default" type="button">修改时间</button>
 					</span>
-			<input type="text" class='form-control form-date date start-time' placeholder='' readonly name="gmtCreatedStart" value="">
+			<input type="text" class='form-control form-date date start-time' placeholder='' readonly name="gmtCreatedStartStr" value="$!{model.gmtCreatedStartStr}">
 			<span class="input-group-addon fix-border fix-padding date-addon">至</span>
-			<input type="text" class='form-control form-date date end-time' placeholder='' readonly name="gmtCreatedEnd" value="">
+			<input type="text" class='form-control form-date date end-time' placeholder='' readonly name="gmtCreatedEndStr" value="$!{model.gmtCreatedEndStr}">
 		</div>
 		<div class="btn-group">
 			<button type="submit" class="btn btn-primary" id="btnQuery">查询</button>

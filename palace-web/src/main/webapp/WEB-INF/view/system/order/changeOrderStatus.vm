@@ -85,20 +85,20 @@
 						</div>
 						<div class="fr">
 							下单时间：$!date.format(
-							'yyyy-MM-dd HH:mm:ss',$!order.tcMainOrder.bizOrder.createTime)
+							'yyyy-MM-dd HH:mm:ss',$!tcMainOrder.bizOrder.createTime)
 						</div>
 					</td>
 				</tr>
 				<!--for 子订单-->
-				#set( $size = $tcMainOrder.detailOrders.size())
-				#foreach($subOrder in $tcMainOrder.detailOrders)
+				#set( $size = $tcMainOrder.tcDetailOrdersView.size())
+				#foreach($subOrder in $tcMainOrder.tcDetailOrdersView)
 				<tr>
 					<td>
 					</td>
 					<td>
 						<div class="goods-item">
 							<div class="item-img">
-								<img src="$!{utilWebconfig.getTfsRootPath()}$!{imageUtil.getImgUrl($!{subOrder.itemPic}, 160)}"> alt="" />
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{imageUtil.getImgUrl($!{subOrder.itemPic}, 160)}">
 							</div>
 							<div class="item-text">
 								#ROUTE_ORDER_LIST_SKU($!subOrder.bizOrder.orderType)
@@ -106,7 +106,7 @@
 						</div>
 					</td>
 					<td>
-						$!utilNum.getOrderUnitPrice($!subOrder.bizOrder.subOrderActualFee ,$!subOrder.bizOrder.buyAmount)
+						$!utilNum.getOrderUnitPrice($!subOrder.subOrderActualFee,$!subOrder.bizOrder.buyAmount)
 					</td>
 					<td>
 						$!subOrder.bizOrder.buyAmount
@@ -149,7 +149,7 @@
 					</td>
 					<td>
 						$!utilNum.moneyTransform($!tcMainOrder.totalFee) <br/>
-						#if($!order.value > 0) 满$!utilNum.moneyTransform($!tcMainOrder.requirement) <br/> 减$!utilNum.moneyTransform($!tcMainOrder.reValue) #end
+						#if($!order.reValue gt 0) 满$!utilNum.moneyTransform($!tcMainOrder.requirement) <br/> 减$!utilNum.moneyTransform($!tcMainOrder.reValue) #end
 					</td>
 					<td>
 						<button type="button" class="btn btn-primary detail" orderId="$!tcMainOrder.bizOrder.bizOrderId">详情</button>

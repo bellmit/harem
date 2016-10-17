@@ -2,16 +2,17 @@ package com.yimayhd.palace.model.orderLog;
 
 
 
-import com.yimayhd.palace.base.PageQuery;
-import org.apache.commons.lang3.StringUtils;
+import java.io.Serializable;
 
 
 /**
  * Created by wangdi on 16/10/10.
  */
-public class OrderStatusChangeLogQuery extends PageQuery{
+public class OrderStatusChangeLogParam implements Serializable {
 
-    private static final long serialVersionUID = -8196260883114296399L;
+    private static final int DEFAULT__SIZE = 10;
+    private static final int DEFAULT__PAGE = 1;
+    private static final long serialVersionUID = 5290334909198183143L;
     private String operationId;
 
     private String  bizNo;
@@ -22,6 +23,15 @@ public class OrderStatusChangeLogQuery extends PageQuery{
 
     private String gmtCreatedEndStr;
 
+    /**
+     * 分页时的第几页
+     */
+    private Integer currentPage = DEFAULT__PAGE;
+    /**
+     * 每页数目，默认为 DEFAULT__SIZE
+     */
+    private Integer pageSize = DEFAULT__SIZE;
+
 
 
     public String getOperationId() {
@@ -30,9 +40,6 @@ public class OrderStatusChangeLogQuery extends PageQuery{
 
     public void setOperationId(String operationId) {
         this.operationId = operationId;
-        if(StringUtils.isNotBlank(operationId)){
-            this.operationId = operationId.trim();
-        }
     }
 
     public String getBizNo() {
@@ -41,9 +48,6 @@ public class OrderStatusChangeLogQuery extends PageQuery{
 
     public void setBizNo(String bizNo) {
         this.bizNo = bizNo;
-        if(StringUtils.isNotBlank(bizNo)){
-            this.bizNo = bizNo.trim();
-        }
     }
 
 
@@ -64,5 +68,19 @@ public class OrderStatusChangeLogQuery extends PageQuery{
         this.gmtCreatedEndStr = gmtCreatedEndStr;
     }
 
+    public Integer getCurrentPage() {
+        return currentPage;
+    }
 
+    public void setCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
 }

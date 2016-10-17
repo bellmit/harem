@@ -38,7 +38,7 @@ public class TcTradeRepo {
         }
         try{
             BatchBizQueryResult result =  tcBizQueryServiceRef.queryOrderForUpdateStatus(orderQueryDTO);
-            logger.info("repo result={}",JSON.toJSONString(result));
+            logger.info("queryList-- repo result={}",JSON.toJSONString(result));
             return result;
         }catch (Exception e){
             logger.error("远程调用异常,",e);
@@ -54,14 +54,14 @@ public class TcTradeRepo {
      */
     public ResultSupport updateOrderStatusToFinish(List<Long> bizOrderIds){
 
-        logger.info(JSON.toJSONString(bizOrderIds));
+        logger.info("repo---:"+JSON.toJSONString(bizOrderIds));
         if(CollectionUtils.isEmpty(bizOrderIds)){
             logger.error("参数 bizOrderIds is null");
             return null;
         }
         try{
             ResultSupport result =  tcTradeServiceRef.updateOrderStatusToFinish(bizOrderIds);
-            logger.info("repo result={}",JSON.toJSONString(result));
+            logger.info("repo--- result={}",JSON.toJSONString(result));
             return result;
         }catch (Exception e){
             logger.error("远程调用异常,",e);
@@ -76,14 +76,14 @@ public class TcTradeRepo {
      */
     public ResultSupport updateOrderStatusToCancel(List<Long> bizOrderIds){
 
-        logger.info(JSON.toJSONString(bizOrderIds));
+        logger.info("repo---"+JSON.toJSONString(bizOrderIds));
         if(CollectionUtils.isEmpty(bizOrderIds)){
             logger.error("参数 bizOrderIds is null");
             return null;
         }
         try{
             ResultSupport result =  tcTradeServiceRef.updateOrderStatusToCancel(bizOrderIds);
-            logger.info("repo result={}",JSON.toJSONString(result));
+            logger.info("repo--- result={}",JSON.toJSONString(result));
             return result;
         }catch (Exception e){
             logger.error("远程调用异常,",e);

@@ -1,6 +1,5 @@
 package com.yimayhd.palace.model.vo;
 
-import com.yimayhd.palace.repo.MerchantRepo;
 import com.yimayhd.tradecenter.client.model.domain.order.LogisticsOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.order.PayOrderDO;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
@@ -9,10 +8,10 @@ import com.yimayhd.tradecenter.client.model.result.order.create.Address;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcBizOrder;
 import com.yimayhd.tradecenter.client.model.result.order.create.TcDetailOrder;
 import com.yimayhd.user.client.domain.UserDO;
-import com.yimayhd.user.client.dto.MerchantUserDTO;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wangdi on 16/10/9.
@@ -27,7 +26,7 @@ public class TcMainOrderVO implements Serializable {
 
     private LogisticsOrderDO logisticsOrderDO;
     /** 子订单列表 */
-    private List<TcDetailOrderVO> detailOrders;
+    private List<TcDetailOrder> detailOrders;
 //    private ButtonStatus buttonStatus;
     //private LgOrderList lgOrderList;
     //private LogisticsOrder logisticsOrder;
@@ -92,6 +91,11 @@ public class TcMainOrderVO implements Serializable {
     private String merchantName;
     private long requirement;
     private long reValue;
+
+    /** 子订单列表 */
+    private List<TcDetailOrderVO> tcDetailOrdersView;
+
+
     public PayOrderDO getPayOrderDO() {
         return payOrderDO;
     }
@@ -116,13 +120,7 @@ public class TcMainOrderVO implements Serializable {
         this.bizOrder = bizOrder;
     }
 
-    public List<TcDetailOrderVO> getDetailOrders() {
-        return detailOrders;
-    }
 
-    public void setDetailOrders(List<TcDetailOrderVO> detailOrders) {
-        this.detailOrders = detailOrders;
-    }
 
     public long getTotalFee() {
         return totalFee;
@@ -337,6 +335,14 @@ public class TcMainOrderVO implements Serializable {
         return userDO;
     }
 
+    public List<TcDetailOrderVO> getTcDetailOrdersView() {
+        return tcDetailOrdersView;
+    }
+
+    public void setTcDetailOrdersView(List<TcDetailOrderVO> tcDetailOrdersView) {
+        this.tcDetailOrdersView = tcDetailOrdersView;
+    }
+
     public void setUserDO(UserDO userDO) {
         this.userDO = userDO;
     }
@@ -371,5 +377,13 @@ public class TcMainOrderVO implements Serializable {
 
     public void setReValue(long reValue) {
         this.reValue = reValue;
+    }
+
+    public List<TcDetailOrder> getDetailOrders() {
+        return detailOrders;
+    }
+
+    public void setDetailOrders(List<TcDetailOrder> detailOrders) {
+        this.detailOrders = detailOrders;
     }
 }
