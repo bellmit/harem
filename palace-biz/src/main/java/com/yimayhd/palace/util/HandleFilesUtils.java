@@ -21,10 +21,10 @@ import java.util.Set;
 public class HandleFilesUtils {
     private static final Logger logger = LoggerFactory.getLogger(HandleFilesUtils.class);
     //把读的文件内容去重
-    public static Set<String> getDistinctString(String path){
-        InputStream input = getInputStreamForURL(path);
+    public static Set<String> getDistinctStringFromTFS(String path){
         Set<String> str = null;
         try {
+            InputStream input = getInputStreamForURL(path);
             List<String> listLines = IOUtils.readLines(input);
             if(!CollectionUtils.isEmpty(listLines)){
                 str = new HashSet(listLines);
@@ -55,7 +55,7 @@ public class HandleFilesUtils {
     public static void main(String[] arsf){
         String filePath="http://img.test.yimayholiday.com/v1/tfs/T1JqJTByxT1R4P1CrK.csv";
         HandleFilesUtils s = new HandleFilesUtils();
-        Set<String> string = s.getDistinctString(filePath);
+        Set<String> string = s.getDistinctStringFromTFS(filePath);
         for (String str :string  ) {
             System.out.println(str);
         }

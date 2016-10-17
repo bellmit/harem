@@ -129,7 +129,7 @@ public class PushServiceImpl implements PushService {
     public String convertCsvToTxtPaht(String fileName){
         String txtFileName="";
         String filePath = tfsRootPath + fileName;
-        Set<String> setString = HandleFilesUtils.getDistinctString(filePath);
+        Set<String> setString = HandleFilesUtils.getDistinctStringFromTFS(filePath);
 
         if(null != setString && setString.size()>0){
             txtFileName = fileUploadToTFS(setString);
