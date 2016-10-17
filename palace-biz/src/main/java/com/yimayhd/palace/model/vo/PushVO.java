@@ -9,6 +9,7 @@ import java.util.Set;
  * @Description 推送对象
  */
 public class PushVO implements Serializable{
+    private static final long serialVersionUID = -4381015314038648525L;
     private int domain;
     private String subject;//主题
     private int pushType;//推送类型
@@ -30,6 +31,16 @@ public class PushVO implements Serializable{
     private long outId; // 关联id
     private String transformFileUrl;//转换后的文件地址
     private long sendDomainId;
+
+    private String selectOpContent;//选中回显
+
+    public String getSelectOpContent() {
+        return selectOpContent;
+    }
+
+    public void setSelectOpContent(String selectOpContent) {
+        this.selectOpContent = selectOpContent;
+    }
 
     public int getDomain() {
         return domain;

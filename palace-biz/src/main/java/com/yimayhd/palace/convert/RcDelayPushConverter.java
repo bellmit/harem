@@ -60,7 +60,7 @@ public class RcDelayPushConverter {
         rcDelayPush.setOpreationValue(pushVO.getOperation());
         rcDelayPush.setOpreationValue(pushVO.getOperationContent());
         rcDelayPush.setType(RcDelayType.PUSH.getCode());
-        rcDelayPush.setSendType(pushVO.getPushModelType());
+        rcDelayPush.setSendType(pushVO.getPushType());
         rcDelayPush.setSendTime(pushVO.getPushDate());
         rcDelayPush.setContent(pushVO.getPushContent());
         rcDelayPush.setCreateUserId(pushVO.getOperationUserId());
@@ -72,6 +72,8 @@ public class RcDelayPushConverter {
         rcDelayPush.setOpreationValue(pushVO.getOperationContent());
         rcDelayPush.setTransformFileUrl(pushVO.getTransformFileUrl());
         rcDelayPush.setSendDomainId(pushVO.getSendDomainId());
+        rcDelayPush.setTitle(pushVO.getSubject());
+        rcDelayPush.setSendTargetType(pushVO.getPushModelType());
         return rcDelayPush;
     }
 

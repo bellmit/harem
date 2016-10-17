@@ -18,6 +18,8 @@ import com.yimayhd.resourcecenter.model.enums.RcDelayType;
 import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
 import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.stone.enums.DomainType;
+import com.yimayhd.user.client.domain.UserDO;
+import com.yimayhd.user.session.manager.SessionManager;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +50,8 @@ public class PushManageController extends BaseController {
     private RcDelayPushService rcDelayPushService;
     @Autowired
     ShowcaseService showcaseService;
-
+    @Autowired
+    private SessionManager sessionManager;
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String getMsgAdd(Model model,int pushType) throws Exception {
         if(Constant.PUSH_MSG == pushType){//1短信2push
@@ -127,6 +130,7 @@ public class PushManageController extends BaseController {
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
         Collections.sort(operationDOs);
         model.addAttribute("operationDOs",operationDOs);
+        model.addAttribute("pushVO",new PushVO());
         return "/system/push/appPush/edit";
     }
     @RequestMapping(value = "/appPush/toEdit", method = RequestMethod.GET)
@@ -136,21 +140,30 @@ public class PushManageController extends BaseController {
         model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
         model.addAttribute("pushTypeList", Enums.toList(RcDelayType.class));
         model.addAttribute("pushTypeMap", Enums.toMap(RcDelayType.class, null));
+        model.addAttribute("operationDetailId",0);
+        List<OperactionVO> operationDOs = showcaseService.getAllOperations();
+        Collections.sort(operationDOs);
+        model.addAttribute("operationDOs",operationDOs);
         model.addAttribute("pushVO",pushVO);
         return "/system/push/appPush/edit";
     }
 
-    @RequestMapping(value = "/appPush/data/Add", method = RequestMethod.POST)
+    @RequestMapping(value = "/appPush/add", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo addPush(Model model, PushVO pushVO) throws Exception {
         LOGGER.debug("", pushVO);
+        UserDO user = sessionManager.getUser();
+        if(pushVO!=null){
+            pushVO.setOperationUserId(user.getId());;
+        }
+        PushVO result =   rcDelayPushService.insertPush(pushVO);
         model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
         model.addAttribute("domainType", Enums.toList(DomainType.class));
-
+        LOGGER.debug("", result);
         return new ResponseVo();
     }
 
-    @RequestMapping(value = "/appPush/data/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/appPush/edit", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo editPush(Model model, PushVO pushVO) throws Exception {
         LOGGER.debug("", pushVO);
