@@ -149,7 +149,7 @@
 					</td>
 					<td>
 						$!utilNum.moneyTransform($!tcMainOrder.totalFee) <br/>
-						#if($!order.value gt 0) 满$!utilNum.moneyTransform($!tcMainOrder.requirement) <br/> 减$!utilNum.moneyTransform($!tcMainOrder.reValue) #end
+						#if($!order.reValue gt 0) 满$!utilNum.moneyTransform($!tcMainOrder.requirement) <br/> 减$!utilNum.moneyTransform($!tcMainOrder.reValue) #end
 					</td>
 					<td>
 						<button type="button" class="btn btn-primary detail" orderId="$!tcMainOrder.bizOrder.bizOrderId">详情</button>
