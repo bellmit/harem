@@ -333,6 +333,9 @@ public class DateUtil {
 	 * @return the formatted date string
 	 */
 	public static final String format(Date argDate) {
+		if(argDate==null){
+			return null;
+		}
 		return SIMPLE_DATE_FORMAT.get().format(argDate);
 	}
 

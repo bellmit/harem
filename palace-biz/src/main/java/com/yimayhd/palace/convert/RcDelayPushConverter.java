@@ -17,6 +17,9 @@ public class RcDelayPushConverter {
 
     public static List<PushVO> convertToList(List<RcDelayPush> rcDelayPushList) {
         List<PushVO> pushVOList = new ArrayList<PushVO>();
+        if(rcDelayPushList==null){
+            return pushVOList;
+        }
         for (RcDelayPush rcDelayPush : rcDelayPushList) {
             PushVO pushVO = convertRcDelayPushToPushVo(rcDelayPush);
             pushVOList.add(pushVO);

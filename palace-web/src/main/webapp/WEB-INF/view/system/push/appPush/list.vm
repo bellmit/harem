@@ -1,29 +1,29 @@
 #set($layout = "/system/layout/layout-new.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
-#set($title = "订单状态修改")
+#set($title = "App推送列表")
 <div class="search-box">
     <form id="frmSearch" name="frmSearch">
         <div class="input-group">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button">推送主题：</button>
 				</span>
-            <input type="text" class="form-control" name="pushSubject" value="">
+            <input type="text" class="form-control" name="topicName" value="$!{rcDelayPushPageQuery.topicName}">
         </div>
         <div class="input-group">
 				<span class="input-group-btn">
 		            <button class="btn btn-default" type="button">发起时间</button>
 		        </span>
-            <input type="text" class="form-control form-date date start-time" readonly name="startTime" value="">
+            <input type="text" class="form-control form-date date start-time" readonly name="starteTime" value="$!utilDate.format($!{rcDelayPushPageQuery.starteTime})">
             <span class="input-group-addon fix-border fix-padding date-addon">至</span>
-            <input type="text" class="form-control form-date date end-time" readonly name="endTime" value="">
+            <input type="text" class="form-control form-date date end-time" readonly name="endTime" value="$!utilDate.format($!{rcDelayPushPageQuery.endTime})">
         </div>
         <div class="input-group">
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button">对象：</button>
 				</span>
-            <select class="form-control" name="pushType">
+            <select class="form-control" name="sendType">
                 <option value="0">全部</option>
-                <option value="1">特定</option>
+                <option value="1" #if($!rcDelayPushPageQuery.sendType==1) selected #end>特定</option>
             </select>
         </div>
         <div class="input-group">
@@ -32,7 +32,7 @@
 				</span>
             <select class="form-control" name="status">
                 <option value="0">全部</option>
-                <option value="1">特定</option>
+                <option value="1" #if($!rcDelayPushPageQuery.status==1) selected #end>特定</option>
             </select>
         </div>
         <div class="btn-group">

@@ -110,6 +110,7 @@
 	<bean id="orderStatusChangeLogService" class="com.yimayhd.palace.service.impl.OrderStatusChangeLogServiceImpl"/>
 
 	<bean id="pushService" class="com.yimayhd.palace.service.impl.PushServiceImpl"/>
+	<bean class="com.yimayhd.palace.service.impl.RcDelayPushServiceImpl"/>
 
 
 

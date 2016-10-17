@@ -1,20 +1,19 @@
 package com.yimayhd.palace.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.yimayhd.commission.client.enums.Domain;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
-import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.palace.model.vo.PushQueryVO;
 import com.yimayhd.palace.model.vo.PushVO;
 import com.yimayhd.palace.service.PushService;
-import com.yimayhd.palace.service.impl.RcDelayPushServiceImpl;
+import com.yimayhd.palace.service.RcDelayPushService;
 import com.yimayhd.palace.util.Enums;
-import com.yimayhd.resourcecenter.model.enums.*;
+import com.yimayhd.resourcecenter.model.enums.RcDelaySendTargetType;
+import com.yimayhd.resourcecenter.model.enums.RcDelayStatus;
 import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
-import org.apache.commons.lang.StringUtils;
 import com.yimayhd.stone.enums.DomainType;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +36,8 @@ public class PushManageController extends BaseController {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     @Autowired
     PushService pushService;
+    @Autowired
+    private RcDelayPushService rcDelayPushService;
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String getMsgAdd(Model model,int type) throws Exception {
@@ -57,7 +58,6 @@ public class PushManageController extends BaseController {
         return null;
     }
 
-    private RcDelayPushServiceImpl rcDelayPushService;
 
     //短信推送列表
     @RequestMapping(value = "/msg/list", method = RequestMethod.GET)
@@ -86,7 +86,7 @@ public class PushManageController extends BaseController {
             model.addAttribute("rcDelayStatus", Enums.toList(RcDelayStatus.class));
             model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
             model.addAttribute("rcDelayPushPageQuery", rcDelayPushPageQuery);
-            return "/system/push/push/list";
+            return "/system/push/appPush/list";
         } catch (Exception e) {
             log.error("pushList rcDelayPushPageQuery={}, exception={}", JSON.toJSONString(rcDelayPushPageQuery), e);
             return "/error";
@@ -99,13 +99,15 @@ public class PushManageController extends BaseController {
     public String test(Model model,BaseQuery baseQuery) throws Exception {
         return "/system/push/appMsg/test";
     }
+
+
     @RequestMapping(value = "/appPush/add", method = RequestMethod.GET)
     public String pushAdd(Model model) throws Exception {
 
         model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
         model.addAttribute("domainType", Enums.toList(DomainType.class));
 
-        return "/system/push/push/add";
+        return "/system/push/appPush/edit";
     }
 
     public boolean verifyPushVO(PushVO pushVo){
