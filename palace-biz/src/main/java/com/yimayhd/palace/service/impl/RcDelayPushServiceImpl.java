@@ -6,6 +6,7 @@ import com.yimayhd.palace.model.vo.PushVO;
 import com.yimayhd.palace.repo.RcDelayRepo;
 import com.yimayhd.palace.service.RcDelayPushService;
 import com.yimayhd.resourcecenter.domain.RcDelayPush;
+import com.yimayhd.resourcecenter.model.enums.RcDelayType;
 import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
 import org.slf4j.Logger;
@@ -26,6 +27,7 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
     @Override
     public PageVO<PushVO> getPushList(RcDelayPushPageQuery rcDelayPushPageQuery) {
 
+        rcDelayPushPageQuery.setType(RcDelayType.PUSH.getCode());
         RCPageResult<RcDelayPush> result = rcDelayRepo.listPush(rcDelayPushPageQuery);
         if(null==result) {
             return null;
