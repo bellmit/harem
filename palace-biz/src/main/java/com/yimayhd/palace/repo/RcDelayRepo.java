@@ -165,4 +165,22 @@ public class RcDelayRepo {
             return null;
         }
     }
+
+    public RcDelayPush getById(long id) {
+        if(0==id) {
+            logger.error("RcDelayRepo getById param is null");
+            return null;
+        }
+        try {
+            RcResult<RcDelayPush> result = rcDelayPushClientServiceRef.getById(id);
+            if(null==result||!result.isSuccess()) {
+                logger.error("RcDelayRepo getById id={}, result={}", id, JSON.toJSONString(result));
+                return null;
+            }
+            return result.getT();
+        } catch (Exception e) {
+            logger.error("RcDelayRepo getById id={}, exception={}", id, e);
+            return null;
+        }
+    }
 }
