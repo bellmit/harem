@@ -186,15 +186,6 @@ public class LiveAdminBiz {
                 userQueryIds.add(liveRoomQuery.getUserId());
             }
         }
-        List<Long> liveQueryRoomIds = new ArrayList<Long>();
-        LiveRoomPageQuery liveRoomPageQuery = LiveAdminConverter.liveRoomQuery2LiveRoomPageQuery(liveRoomQuery);
-        if (userQueryIds.size() > 0) {
-            liveRoomPageQuery.setUserIds(userQueryIds);
-        }
-        if (liveRoomQuery.getLiveRoomId() != null) {
-            liveQueryRoomIds.add(liveRoomQuery.getLiveRoomId());
-            liveRoomPageQuery.setLiveRoomIds(liveQueryRoomIds);
-        }
         return userQueryIds;
     }
 
