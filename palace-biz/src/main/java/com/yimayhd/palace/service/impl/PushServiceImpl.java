@@ -80,7 +80,7 @@ public class PushServiceImpl implements PushService {
                 throw new Exception("请上传csv文件");
             }
             String fileName = pushVO.getPushModelFilePath();
-            String newFileName = convertCsvToTxtPaht(fileName);
+            String newFileName = tfsConvertCsvToTxt(fileName);
             if (StringUtils.isNotEmpty(newFileName)){
                 pushVO.setTransformFileUrl(newFileName);
             }
@@ -132,19 +132,19 @@ public class PushServiceImpl implements PushService {
     }
 
     //发送给部分人，先从tfs中获取csv文件，在把csv转成txt传tfs,在得到地址
-    public String convertCsvToTxtPaht(String fileName){
+    public String tfsConvertCsvToTxt(String fileName){
         String txtFileName="";
         String filePath = tfsRootPath + fileName;
         Set<String> setString = HandleFilesUtils.getDistinctStringFromTFS(filePath);
 
         if(null != setString && setString.size()>0){
-            txtFileName = fileUploadToTFS(setString);
+            txtFileName = tfsFileUpload(setString);
         }
         return txtFileName;
     }
 
     //把文件转成txt后上传到tfs返回一个地址
-    public String fileUploadToTFS(Set<String> str){
+    public String tfsFileUpload(Set<String> str){
         StringBuilder sb = new StringBuilder();
         for (String s:str) {
             sb.append(s).append("\n");
