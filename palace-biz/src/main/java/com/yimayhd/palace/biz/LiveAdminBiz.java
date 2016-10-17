@@ -49,9 +49,9 @@ public class LiveAdminBiz {
         // 获取分页数据
         List<LiveRecordVO> liveRecordVOList = page.getItemList();
         // 获取昵称
-        obtainNickName11(liveRecordVOList);
+        obtainRecordVONickName(liveRecordVOList);
         // 获取分类
-        obtainCategorys(liveRecordVOList);
+        obtainRecordVOCategorys(liveRecordVOList);
         // 返回查询结果
         return page;
     }
@@ -93,7 +93,7 @@ public class LiveAdminBiz {
      * @param liveRecordVOList
      * @return
      */
-    public void obtainNickName11(List<LiveRecordVO> liveRecordVOList) {
+    public void obtainRecordVONickName(List<LiveRecordVO> liveRecordVOList) {
         List<Long> userIds = new ArrayList<Long>();
         for (LiveRecordVO liveRecordVO : liveRecordVOList) {
             userIds.add(liveRecordVO.getUserId());
@@ -119,7 +119,7 @@ public class LiveAdminBiz {
      * @param liveRecordVOList
      * @return
      */
-    public void obtainCategorys(List<LiveRecordVO> liveRecordVOList) {
+    public void obtainRecordVOCategorys(List<LiveRecordVO> liveRecordVOList) {
         List<Long> categorys = new ArrayList<Long>();
         for (LiveRecordVO liveRecordVO : liveRecordVOList) {
             categorys.add(liveRecordVO.getLiveCategory());
@@ -153,7 +153,7 @@ public class LiveAdminBiz {
         // 获取分页数据
         List<LiveRoomVO> liveRecordVOList = page.getItemList();
         // 获取昵称
-        obtainNickName(liveRecordVOList);
+        obtainRoomVONickName(liveRecordVOList);
         // 返回查询结果
         return page;
     }
@@ -198,7 +198,7 @@ public class LiveAdminBiz {
      * @param liveRoomVOList
      * @return
      */
-    public void obtainNickName(List<LiveRoomVO> liveRoomVOList) {
+    public void obtainRoomVONickName(List<LiveRoomVO> liveRoomVOList) {
         List<Long> userIds = new ArrayList<Long>();
         for (LiveRoomVO liveRoomVO : liveRoomVOList) {
             userIds.add(liveRoomVO.getUserId());
