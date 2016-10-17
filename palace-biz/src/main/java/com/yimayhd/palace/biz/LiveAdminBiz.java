@@ -27,7 +27,8 @@ import java.util.List;
  */
 public class LiveAdminBiz {
 
-    private static final Logger log = LoggerFactory.getLogger("TrouistlistBiz");
+    private static final Logger log = LoggerFactory.getLogger("LiveAdminBiz");
+
     @Resource
     private LiveAdminService liveAdminService;
 
