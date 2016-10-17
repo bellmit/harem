@@ -67,8 +67,11 @@ public class PushManageController extends BaseController {
         if(!verifyPushVO(pushVO)){
         throw new Exception("参数校验失败");
        }
-        pushService.saveOrUpdate(pushVO);
-        return null;
+        boolean flag = pushService.saveOrUpdate(pushVO);
+        if(flag){
+            return "success";
+        }
+        return "error";
     }
 
 
