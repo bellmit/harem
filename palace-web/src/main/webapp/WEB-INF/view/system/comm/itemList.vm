@@ -10,7 +10,7 @@
                 <option  value="shopName" #if($!itemListQuery.merchantName == 'shopName') selected #end>店铺名称</option>
                 <option value="nickName" #if($!itemListQuery.merchantName == 'nickName') selected #end>达人昵称</option>
              </select>
-             <input type="text" class="form-control" name="sellerName" value="$!itemListQuery.sellerName" style="width:70%;" />
+             <input type="text" class="form-control" name="sellerName" value="$!itemListQuery.sellerName" style="width:58%;" />
         </div>
         <div class="input-group inpSingle">
             <span class="input-group-btn">
