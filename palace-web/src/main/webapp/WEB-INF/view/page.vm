@@ -66,6 +66,7 @@
             </div>
         </li>
     </ul>
+    #if($needScript==true)
     <script type="text/javascript">
         $(function () {
             $(".LinkeToPage").click(function () {
@@ -89,6 +90,7 @@
             $("#$formId").submit();
         }
     </script>
+    #end
 </div>
 #end
 

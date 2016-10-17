@@ -74,7 +74,7 @@
 	</tbody>
 	#end
 </table>
-#parse("/page.vm")
+#parse("/pagination.vm")
 #pageStyle("frmChangeHistory")
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-css.js"></script>
