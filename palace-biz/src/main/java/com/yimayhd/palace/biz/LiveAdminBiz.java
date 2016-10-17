@@ -57,7 +57,7 @@ public class LiveAdminBiz {
     }
 
     /**
-     * 通过用户id获取用户信息
+     * 过滤查询条件
      *
      * @param pageQuery
      * @return
@@ -158,6 +158,12 @@ public class LiveAdminBiz {
         return page;
     }
 
+    /**
+     * 过滤查询条件
+     *
+     * @param liveRoomQuery
+     * @return
+     */
     public List<Long> filterSearchNickNameToUserId(LiveRoomQuery liveRoomQuery) {
         // 昵称和id同时输入 只有统一才会返回
         List<Long> userQueryIds = new ArrayList<Long>();
