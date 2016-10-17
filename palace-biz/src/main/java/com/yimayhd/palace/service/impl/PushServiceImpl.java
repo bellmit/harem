@@ -72,7 +72,13 @@ public class PushServiceImpl implements PushService {
 
     @Override
     public boolean saveOrUpdate(PushVO pushVO) throws Exception {
-        if(Constant.PUSH_SPECIFIC == pushVO.getPushModelType() && StringUtils.isNotEmpty(pushVO.getPushModelFilePath())){
+        if(null == pushVO ){
+            throw new Exception("pushVO对象不能为空");
+        }
+        if(Constant.PUSH_SPECIFIC == pushVO.getPushModelType()){//特定对象推送
+            if(StringUtils.isEmpty(pushVO.getPushModelFilePath())){
+                throw new Exception("请上传csv文件");
+            }
             String fileName = pushVO.getPushModelFilePath();
             String newFileName = convertCsvToTxtPaht(fileName);
             if (StringUtils.isNotEmpty(newFileName)){
