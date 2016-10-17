@@ -5,6 +5,7 @@ import com.yimayhd.commission.client.enums.Domain;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.model.attachment.AttachmentVO;
 import com.yimayhd.palace.model.vo.PushQueryVO;
 import com.yimayhd.palace.model.vo.PushVO;
@@ -42,15 +43,15 @@ public class PushManageController extends BaseController {
     private RcDelayPushService rcDelayPushService;
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String getMsgAdd(Model model,int type) throws Exception {
-        if(1==type){//1短信2push
+    public String getMsgAdd(Model model,int pushType) throws Exception {
+        if(Constant.PUSH_MSG == pushType){//1短信2push
             return "/system/push/appMsg/edit";
         }else{
             return "/system/push/appPush/edit";
         }
     }
 
-    @RequestMapping(value = "/msg/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String msgAdd(Model model,PushVO pushVO) throws Exception {
        //校验
         if(!verifyPushVO(pushVO)){
@@ -62,12 +63,17 @@ public class PushManageController extends BaseController {
 
 
     //短信推送列表
-    @RequestMapping(value = "/msg/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String msgList(Model model,PushQueryVO pushQueryVO) throws Exception {
         PageVO<PushVO> pageVO = pushService.getList(pushQueryVO);
         model.addAttribute("pageVo",pageVO);
         model.addAttribute("query",pushQueryVO);
-        return "/system/push/appMsg/list";
+        if(Constant.PUSH_MSG == pushQueryVO.getPushType()){
+            return "/system/push/appMsg/list";
+        }else if(Constant.PUSH_PUSH == pushQueryVO.getPushType()){
+            return "/system/push/appPush/list";
+        }
+        return "error";
     }
 
     //短信推送详情
