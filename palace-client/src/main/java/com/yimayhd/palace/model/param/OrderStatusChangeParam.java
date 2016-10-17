@@ -34,6 +34,16 @@ public class OrderStatusChangeParam implements Serializable{
 
     public void setBizOrderIdStr(String bizOrderIdStr) {
         this.bizOrderIdStr = bizOrderIdStr;
+        if(StringUtils.isNotBlank(bizOrderIdStr)){
+            if(bizOrderIdStr.indexOf(PUT)!=-1){
+                this.bizOrderIds = ConvertUtil.stringTolong(bizOrderIdStr.split(PUT));
+            }else{
+                if(StringUtils.isNumeric(bizOrderIdStr)){
+                    this.bizOrderIds =new ArrayList<Long>();
+                    bizOrderIds.add(Long.valueOf(bizOrderIdStr));
+                }
+            }
+        }
     }
 
     public List<Long> getBizOrderIds() {
@@ -74,16 +84,7 @@ public class OrderStatusChangeParam implements Serializable{
 
     public void setFormOrderIdStr(String formOrderIdStr) {
         this.formOrderIdStr = formOrderIdStr;
-        if(StringUtils.isNotBlank(bizOrderIdStr)){
-            if(formOrderIdStr.indexOf(PUT)!=-1){
-                this.bizOrderIds = ConvertUtil.stringTolong(bizOrderIdStr.split(PUT));
-            }else{
-                if(StringUtils.isNumeric(formOrderIdStr)){
-                    this.bizOrderIds =new ArrayList<Long>();
-                    bizOrderIds.add(Long.valueOf(formOrderIdStr));
-                }
-            }
-        }
+
 
     }
 
