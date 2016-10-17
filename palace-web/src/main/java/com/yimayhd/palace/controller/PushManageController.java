@@ -1,6 +1,7 @@
 package com.yimayhd.palace.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.yimayhd.commission.client.enums.Domain;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
@@ -13,6 +14,7 @@ import com.yimayhd.palace.util.Enums;
 import com.yimayhd.resourcecenter.model.enums.*;
 import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
 import org.apache.commons.lang.StringUtils;
+import com.yimayhd.stone.enums.DomainType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +75,7 @@ public class PushManageController extends BaseController {
     }
 
     //短信推送列表
-    @RequestMapping(value = "/push/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/appPush/list", method = RequestMethod.GET)
     public String pushList(Model model,RcDelayPushPageQuery rcDelayPushPageQuery) throws Exception {
 
         try {
@@ -96,6 +98,14 @@ public class PushManageController extends BaseController {
     @RequestMapping(value = "/msg/test", method = RequestMethod.GET)
     public String test(Model model,BaseQuery baseQuery) throws Exception {
         return "/system/push/appMsg/test";
+    }
+    @RequestMapping(value = "/appPush/add", method = RequestMethod.GET)
+    public String pushAdd(Model model) throws Exception {
+
+        model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
+        model.addAttribute("domainType", Enums.toList(DomainType.class));
+
+        return "/system/push/push/add";
     }
 
     public boolean verifyPushVO(PushVO pushVo){

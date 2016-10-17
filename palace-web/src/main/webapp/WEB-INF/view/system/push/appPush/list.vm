@@ -1,12 +1,6 @@
-<head>
-    <meta charset="utf-8">
-    <title>消息推送</title>
-    <link rel="stylesheet" href="../../src/css/zui.min.css">
-    <link rel="stylesheet" href="../../src/css/style.css">
-    <link rel="stylesheet" href="../../src/css/push-message-list.css">
-</head>
-
-<body>
+#set($layout = "/system/layout/layout-new.vm")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+#set($title = "订单状态修改")
 <div class="search-box">
     <form id="frmSearch" name="frmSearch">
         <div class="input-group">
@@ -114,9 +108,10 @@
     </tbody>
 </table>
 
-<script type="text/javascript" src="../../src/js/sea.js"></script>
-<script type="text/javascript" src="../../src/js/seajs-preload.js"></script>
-<script type="text/javascript" src="../../src/js/config.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-css.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
 <script type="text/javascript">
     seajs.use('module/md.push-message-list.js');
 </script>
