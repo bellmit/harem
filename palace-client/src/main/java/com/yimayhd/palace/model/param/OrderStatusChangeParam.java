@@ -5,6 +5,7 @@ import com.yimayhd.sellerAdmin.client.enums.OrderOperationLogStatus;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,6 +14,7 @@ import java.util.List;
 public class OrderStatusChangeParam implements Serializable{
 
     private static final long serialVersionUID = 4517316377342549485L;
+    private static final String PUT=";";
     private String bizOrderIdStr;
     private String formOrderIdStr;//form 表单提交ids
     private List<Long> bizOrderIds;
@@ -73,8 +75,16 @@ public class OrderStatusChangeParam implements Serializable{
     public void setFormOrderIdStr(String formOrderIdStr) {
         this.formOrderIdStr = formOrderIdStr;
         if(StringUtils.isNotBlank(bizOrderIdStr)){
-            this.bizOrderIds = ConvertUtil.stringTolong(bizOrderIdStr.split(";"));
+            if(formOrderIdStr.indexOf(PUT)!=-1){
+                this.bizOrderIds = ConvertUtil.stringTolong(bizOrderIdStr.split(PUT));
+            }else{
+                if(StringUtils.isNumeric(formOrderIdStr)){
+                    this.bizOrderIds =new ArrayList<Long>();
+                    bizOrderIds.add(Long.valueOf(formOrderIdStr));
+                }
+            }
         }
+
     }
 
     public String getCurrOrderStatusStr() {
