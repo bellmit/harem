@@ -2,6 +2,7 @@ package com.yimayhd.palace.service;
 
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.vo.PushVO;
+import com.yimayhd.resourcecenter.domain.RcDelayPush;
 import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
 
 /**
@@ -16,4 +17,6 @@ public interface RcDelayPushService {
     public boolean cancelPush(long id);
 
     public PushVO updatePush(PushVO pushVO);
+
+    public PushVO  getById(long id) ;
 }

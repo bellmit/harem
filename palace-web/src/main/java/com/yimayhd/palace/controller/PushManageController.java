@@ -4,14 +4,18 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.model.vo.PushQueryVO;
 import com.yimayhd.palace.model.vo.PushVO;
 import com.yimayhd.palace.service.PushService;
 import com.yimayhd.palace.service.RcDelayPushService;
+import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.util.Enums;
 import com.yimayhd.resourcecenter.model.enums.RcDelaySendTargetType;
 import com.yimayhd.resourcecenter.model.enums.RcDelayStatus;
+import com.yimayhd.resourcecenter.model.enums.RcDelayType;
 import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
+import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.stone.enums.DomainType;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -22,8 +26,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author create by yushengwei on 2016/10/10
@@ -38,6 +45,8 @@ public class PushManageController extends BaseController {
     PushService pushService;
     @Autowired
     private RcDelayPushService rcDelayPushService;
+    @Autowired
+    ShowcaseService showcaseService;
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String getMsgAdd(Model model,int type) throws Exception {
@@ -101,13 +110,48 @@ public class PushManageController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/appPush/add", method = RequestMethod.GET)
-    public String pushAdd(Model model) throws Exception {
+    @RequestMapping(value = "/appPush/toAdd", method = RequestMethod.GET)
+    public String toPushAdd(Model model) throws Exception {
+
+        model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
+        model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
+        model.addAttribute("pushTypeList", Enums.toList(RcDelayType.class));
+        model.addAttribute("pushTypeMap", Enums.toMap(RcDelayType.class, null));
+        List<OperactionVO> operationDOs = showcaseService.getAllOperations();
+        Collections.sort(operationDOs);
+        model.addAttribute("operationDOs",operationDOs);
+        return "/system/push/appPush/edit";
+    }
+    @RequestMapping(value = "/appPush/toEdit", method = RequestMethod.GET)
+    public String toPushEdit(Model model,long id) throws Exception {
+        PushVO pushVO = rcDelayPushService.getById(id);
+        model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
+        model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
+        model.addAttribute("pushTypeList", Enums.toList(RcDelayType.class));
+        model.addAttribute("pushTypeMap", Enums.toMap(RcDelayType.class, null));
+        model.addAttribute("pushVO",pushVO);
+        return "/system/push/appPush/edit";
+    }
+
+    @RequestMapping(value = "/appPush/data/Add", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseVo addPush(Model model, PushVO pushVO) throws Exception {
+        LOGGER.debug("", pushVO);
+        model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
+        model.addAttribute("domainType", Enums.toList(DomainType.class));
+
+        return new ResponseVo();
+    }
+
+    @RequestMapping(value = "/appPush/data/edit", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseVo editPush(Model model, PushVO pushVO) throws Exception {
+        LOGGER.debug("", pushVO);
 
         model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
         model.addAttribute("domainType", Enums.toList(DomainType.class));
 
-        return "/system/push/appPush/edit";
+        return new ResponseVo();
     }
 
     public boolean verifyPushVO(PushVO pushVo){

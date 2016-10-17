@@ -1,92 +1,137 @@
-<link rel="stylesheet" href="$!utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css"/>
-<div class="clubDynamicPage whole">
-    <form name="editForm" id="editForm" action="" method="post">
-        <table class="table">
-                <tr>
-                    <td><span class="spColor">*</span>code：</td>
-                    <td> <input type="text" class="inpCtlBlock code" name="code"  value=""></td>
-                </tr>
-                <tr>
-                    <td><span class="spColor">*</span>名称：</td>
-                    <td> <input type="text" class="inpCtlBlock name" name="name"  value=""></td>
-                </tr>
-
-                <tr>
-                    <td>主标题：</td>
-                    <td> <input type="text" class="inpCtlBlock description" name="title"  value=""></td>
-                </tr>
-                <tr>
-                    <td>副标题：</td>
-                    <td> <input type="text" class="inpCtlBlock description" name="subTitle"  value=""></td>
-                </tr>
-
-                <tr>
-                    <td>描述：</td>
-                    <td> <input type="text" class="inpCtlBlock description" name="desc"  value=""></td>
-                </tr>
-                <tr>
-                    <td>选择版本：</td>
-                    <td>
-                        <select class="form-control appVersion" name="appVersion" id="appvId" >
-                            <option value="">请选择</option>
-                            <option value="0">默认版本号0</option>
-                            #foreach($!appv in $listAppVersion)
-                                <option id="$!appv.id" value="$!appv.code"
-                                         #if($!currentBooth.appVersion == $!appv.appVersion) selected = 'selected' #end
-                                >$!appv.name</option>
+#set($layout = "/system/layout/layout-new.vm")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+#set($title = "App推送列表")
+<form class="" id="frmEdit">
+    <input type="hidden" name="id" id="id" value="$!pushVO.id">
+    <table class="table form-table">
+        <tr>
+            <th><span class="text-red">*</span>推送领域：</th>
+            <td>
+                <select class="form-control input-text" name="domain" id="domain">
+                    #foreach($domainType in $domainTypeList)
+                        <option value="$!{domainType.type}" #if($!pushVO.domain==$!domainType.type) selected #end>$!{domainType.desc}</option>
+                    #end
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="text-red">*</span>推送主题：</th>
+            <td>
+                <input type="text" class="form-control input-text" name="subject" id="subject"
+                       value="$!{pushVO.subject}" placeholder="请输入推送主题">
+            </td>
+        </tr>
+        <tr>
+            <th><span class="text-red">*</span>推送类型：</th>
+            <td>
+                <select type="text" class="form-control input-text" name="pushType" id="type">
+                    #foreach($pushType in $pushTypeList)
+                        <option value="$!{pushType.code}" #if($!pushVO.pushType==$!pushType.code) selected #end>$!{pushType.desc}</option>
+                    #end
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="text-red">*</span>信息栏标题：</th>
+            <td>
+                <select class="form-control input-text-small select" data-target=".input-box">
+                    <option value="1">空</option>
+                    <option value="2">输入</option>
+                </select>
+                <span class="input-box">
+						<input type="text" class="form-control input-text-small" name="msgTitle" id="messageTitle"
+                               value="" placeholder="请输入信息栏标题">
+					</span>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="text-red">*</span>信息栏内容：</th>
+            <td>
+                <select class="form-control input-text-small select" data-target=".input-box">
+                    <option value="1">空</option>
+                    <option value="2">输入</option>
+                </select>
+                <span class="input-box">
+						<input type="text" class="form-control input-text-small" name="msgContent"
+                               id="messageContent" value="" placeholder="请输入信息栏内容">
+					</span>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="text-red">*</span>推送内容：</th>
+            <td>
+                <textarea class="form-control input-text limit" name="pushContent" id="content" rows="4" cols="20"
+                          placeholder="请输入推送内容"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="text-red">*</span>设置跳转：</th>
+            <td>
+                <div class="jump-setting-box">
+                    <div class="jump-setting-item">
+                        <span class="txt">选择页面：</span>
+                        <select class="form-control input-text-small" id="selectPage">
+                            <option value="0">请选择</option>
+                            #foreach($!operations in $operationDOs)
+                                <option radioHtml="$!utilHtml.appendHtml($!operations.listOperationDetail,$!operationDetailId)" id="$!operations.operactio.id" value="$!operations.operactio.code"
+                                        operationid="$!operations.operactio.id" #if($!showcase.operationId == $!operations.operactio.id) selected = 'selected' #end >$!operations.operactio.name</option>
                             #end
                         </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>缓存类型</td>
-                    <td>
-                        <select class="form-control" name="isCache">
-                            #foreach($cache in $cacheType)
-                                <option value="$cache.value">$!cache.desc</option>
-                            #end
-                        </select>
-                    </td>
-                </tr>
-
-        </table>
-        <button type="button" class="btn btn-info" id="btnSubmit">保存</button>
-    </form>
-</div>
-<script>
-     //非空验证
-     var validate = function(){
-         if(!$('.code').val()){
-             return 'code不能为空';
-         }else if($('.code').val().length > 100){
-            return 'code不能超过200字';
-         }
-         if(!$('.name').val()){
-             return '名称不能为空';
-         }else if($('.name').val().length > 100){
-             return '名称不能超过20字';
-         }
-         if($('.description').val() && $('.description').val().length > 200){
-             return '描述不能超过200字';
-         }
-         if("" == $('.appVersion').val() ){
-             return '请选择app版本号';
-         }
-     }
-    $(function(){
-        $('#btnSubmit').click(function(){
-            //非空验证
-            var msg = validate();
-            if(msg){
-                layer.msg(msg, {
-                    icon: 2,
-                    time: 2000
-                });
-                return false;
-            }
-            var actionUrl = actionDefaultPath + '/banner/booth/add';
-            $('#editForm').attr('action',actionUrl)
-            $('#editForm').submit();
-        });
-    });
+                    </div>
+                    <div id="radioHtml" class="jump-setting-item padding"></div>
+                    <div class="jump-setting-item">
+                        <a href="javascript:void(0);" class="btn btn-primary" style="width:100px">选择内容</a>
+                    </div>
+                    <div class="jump-setting-item">
+                        <input type="hidden" name="operationContent" id="operationContent" value="$!pushVO.operationContent">
+                        <span class="txt">内容展示：</span><span id="showContent">$!{pushVO.operationContent}</span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="text-red">*</span>推送对象：</th>
+            <td>
+                <select class="form-control input-text mb10 select" data-target=".upload-box" name="pushModelType"
+                        id="userType">
+                    #foreach($targetType in $rcDelaySendTargetType)
+                        <option value="$!{targetType.code}" #if($!pushVO.pushType==$!targetType.code) selected #end>$!{targetType.desc}</option>
+                    #end
+                </select>
+                <div class="upload-box">
+                    <div class="imgbox file-box" data-imgUrl="../../img/csv.png" data-fileType=".csv">
+                        <div class="canclick canclickL">
+                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+                        </div>
+                        <div class="plhd"></div>
+                        <div class="del">删除文件</div>
+                        <a class="upldclik">
+                            <input type="file" class="adpicfile single">
+                        </a>
+                        <input type="hidden" name="userList" id="uploadFile">
+                    </div>
+                    <a href="" class="btn btn-primary download">下载</a>
+                    <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="text-red">*</span>推送时间：</th>
+            <td>
+                <input type="text" class="form-control input-text time" readonly="readonly" name="pushDate" id="time"
+                       value="">
+            </td>
+        </tr>
+    </table>
+    <div class="mb10" style="text-align:center;">
+        <button type="button" class="btn btn-primary" style="width:100px" id="btnSave">保存</button>
+    </div>
+</form>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-css.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+<script type="text/javascript">
+    seajs.use('module/md.push-message-edit.js');
 </script>
+

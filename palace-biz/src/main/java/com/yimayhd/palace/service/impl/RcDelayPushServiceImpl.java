@@ -27,6 +27,7 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
     @Override
     public PageVO<PushVO> getPushList(RcDelayPushPageQuery rcDelayPushPageQuery) {
 
+        rcDelayPushPageQuery.setNeedCount(true);
         rcDelayPushPageQuery.setType(RcDelayType.PUSH.getCode());
         RCPageResult<RcDelayPush> result = rcDelayRepo.listPush(rcDelayPushPageQuery);
         if(null==result) {
@@ -73,5 +74,12 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
         }
         pushVO.setId(rcDelayPush.getId());
         return pushVO;
+    }
+
+    @Override
+    public PushVO getById(final long id) {
+        RcDelayPush rcDelayPush =  rcDelayRepo.getById(id);
+
+        return RcDelayPushConverter.convertRcDelayPushToPushVo(rcDelayPush);
     }
 }
