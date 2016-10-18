@@ -27,11 +27,16 @@ import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.convert.ShowCaseItem;
+import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
+import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
 import com.yimayhd.palace.model.guide.GuideScenicVO;
 import com.yimayhd.palace.model.guide.ScenicVO;
+import com.yimayhd.palace.model.query.LiveAdminQuery;
+import com.yimayhd.palace.model.query.LiveRoomQuery;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
 import com.yimayhd.palace.service.GuideManageService;
+import com.yimayhd.palace.service.LiveAdminService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.util.DateFormat;
 import com.yimayhd.palace.util.NumUtil;
@@ -107,9 +112,9 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
     @Autowired ArticleBackEndService articleBackEndService;
 
-    @Autowired GuideManageService guideManageService ;
+    @Autowired GuideManageService guideManageService;
 
-
+    @Autowired LiveAdminService liveAdminService;
 
 
     public List<ShowcaseVO> getList(long boothId) throws Exception {
@@ -264,11 +269,11 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         return result.getT() ;
     }
 
+    @Deprecated
     public PageVO<ComTagDO> getTagListByTagType(TagInfoPageDTO tagInfoPageDTO){
         BasePageResult<ComTagDO> result = comTagCenterService.pageTagList(tagInfoPageDTO);
         if(null == result || !result.isSuccess()){
-            LOGGER.error("getTagListByTagType|comTagCenterService.getTagListByTagType result is "
-                    + JSON.toJSONString(result) +",parameter is "+JSON.toJSONString(tagInfoPageDTO));
+            LOGGER.error("getTagListByTagType|comTagCenterService.getTagListByTagType result is {},parameter is {}",result,tagInfoPageDTO);
             return null;
         }
         List<ComTagDO> list = new ArrayList<ComTagDO>();
@@ -374,9 +379,10 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             sd.setOperationContent("");
         }else{
             String oc = sw.getOperationContent().replaceAll(" ","");
+            /*页面上直接去掉话题的##
             if(oc.contains(Constant.TOPIC_PREFIX_SUFFIX)){//去掉话题的##
                 oc = oc.replaceAll(Constant.TOPIC_PREFIX_SUFFIX,"");
-            }
+            }*/
             if(oc.contains(Constant.BOOTH_PREFIX_POSTFIX)){
                 List<SimpleBoothDTO> list = new ArrayList<SimpleBoothDTO>();
                 String[] OcArr = oc.split("\\|");
@@ -442,7 +448,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         com.yimayhd.user.client.result.BasePageResult<MerchantUserDTO> result = merchantService.getMerchantUserList(merchantPageQuery);
         if(null == result || !result.isSuccess()){
             LOGGER.error("getMerchants|merchantService.getMerchantUserList result is " + JSON.toJSONString(result) + ",parameter is "+JSON.toJSONString(merchantPageQuery));
-            return null;
+            return new PageVO<ShowCaseItem>();
         }
         List<ShowCaseItem> list = new ArrayList<ShowCaseItem>();
         if(CollectionUtils.isNotEmpty(result.getList())){
@@ -614,7 +620,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     public PageVO<ShowCaseItem> getBoothPageList(BoothQuery boothQuery){
         RCPageResult<BoothDO> result = boothClientServer.getBoothDOByQuery(boothQuery);
         if(null == result || !result.isSuccess()){
-            return null;
+            return new PageVO<ShowCaseItem>();
         }
         List<BoothDO> list = result.getList();
         List<ShowCaseItem> listBooth = boothToShowCaseItem(list);
@@ -640,7 +646,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     public PageVO<ShowCaseItem> getArticlePageListByQuery(ArticleQueryDTO articleQueryDTO ){
         ResourcePageResult<ArticleDTO> result =  articleBackEndService.getArticlePageListByQuery(articleQueryDTO);
         if(null == result || !result.isSuccess()){
-            return null;
+            return new PageVO<ShowCaseItem>();
         }
         List<ShowCaseItem> list = ArticleToShowCaseItem(result.getList());
         PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(articleQueryDTO.getPageNo(), articleQueryDTO.getPageSize(),result.getTotalCount(), list);
@@ -670,7 +676,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     public PageVO<ShowCaseItem> getArticleDOPageListByQuery(ArticleQueryDTO  articleQueryDTO  ){
         ResourcePageResult<ArticleDO> result =  articleBackEndService.getArticleDOPageListByQuery(articleQueryDTO);
         if(null == result || !result.isSuccess()){
-            return null;
+            return new PageVO<ShowCaseItem>();
         }
         List<ShowCaseItem> list = ArticleDOShowCaseItem(result.getList());
         PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(articleQueryDTO.getPageNo(), articleQueryDTO.getPageSize(),result.getTotalCount(), list);
@@ -692,11 +698,10 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         return listSC;
     }
 
-
     public PageVO<ShowCaseItem> getGuideListByQuery(GuideScenicListQuery query){
         PageVO<GuideScenicVO> pageA =  guideManageService.getGuideList(query);
         if(null == pageA){
-            return null;
+            return new PageVO<ShowCaseItem>();
         }
         List<ShowCaseItem> list = attachmentVOToShowCaseItem(pageA.getItemList());
         PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(query.getPageNumber(), query.getPageSize(),pageA.getTotalCount(), list);
@@ -736,13 +741,99 @@ public class ShowcaseServiceImpl implements ShowcaseService {
     public PageVO<ShowCaseItem> getCategoryList(CategoryQueryDTO categoryQueryDTO){
         BasePageResult<CategoryResult> result = gfCategoryRepo.getCategoryPage(categoryQueryDTO);
         if(null == result || !result.isSuccess()){
-            return null;
+            return new PageVO<ShowCaseItem>();
         }
         List<CategoryResult> list = result.getList();
         List<ShowCaseItem> listCategory = categoryResultToShowCaseItem(list);
         PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(categoryQueryDTO.getPageNo(),
                 categoryQueryDTO.getPageSize(),result.getTotalCount(),listCategory);
         return page;
+    }
+
+    /**
+     * 分页查询直播回放列表
+     * @return
+     */
+    public PageVO<ShowCaseItem> getPageLiveRecordListByQuery(LiveAdminQuery pageQuery)
+    {
+        PageVO<LiveRecordVO> pageVo = liveAdminService.getPageLiveRecord(pageQuery);
+        if(null == pageVo){
+            return new PageVO<ShowCaseItem>();
+        }
+        List<ShowCaseItem> list = liveRecordVOToShowCaseItem(pageVo.getItemList());
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(pageQuery.getPageNumber(), pageQuery.getPageSize(),pageVo.getTotalCount(), list);
+        return page;
+    }
+
+    public List<ShowCaseItem> liveRecordVOToShowCaseItem(List<LiveRecordVO> list){
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        String title = "";
+        for (LiveRecordVO oo:list) {
+            ShowCaseItem sc = new ShowCaseItem();
+            sc.setId(oo.getId());
+            sc.setName(oo.getLiveTitle());//标题
+//          sc.setImgUrl(StringUtils.isEmpty(oo.getLiveCover())?"":oo.getLiveCover()); // 不关联头图
+            sc.setValue(oo);
+            listSC.add(sc);
+        }
+        return listSC;
+    }
+
+    /**
+     * 分页查询直播管理列表
+     * @return
+     */
+    public PageVO<ShowCaseItem> getPageLiveRoomListByQuery(LiveRoomQuery liveRoomQuery)
+    {
+        PageVO<LiveRoomVO> pageVo = liveAdminService.getPageLiveRoom(liveRoomQuery);
+        if(null == pageVo){
+            return new PageVO<ShowCaseItem>();
+        }
+        List<ShowCaseItem> list = liveRoomVOToShowCaseItem(pageVo.getItemList());
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(liveRoomQuery.getPageNumber(), liveRoomQuery.getPageSize(),pageVo.getTotalCount(), list);
+        return page;
+    }
+
+    public List<ShowCaseItem> liveRoomVOToShowCaseItem(List<LiveRoomVO> list){
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        String title = "";
+        for (LiveRoomVO oo:list) {
+            ShowCaseItem sc = new ShowCaseItem();
+            sc.setId(oo.getId());
+            sc.setName(oo.getLiveTitle());//标题
+            sc.setValue(oo);
+            listSC.add(sc);
+        }
+        return listSC;
+    }
+
+    public PageVO<ShowCaseItem> getTagsByTagType(TagInfoPageDTO tagInfoPageDTO){
+        BasePageResult<ComTagDO> result = comTagCenterService.pageTagList(tagInfoPageDTO);
+        if(null == result || !result.isSuccess()){
+            LOGGER.error("getTagListByTagType|comTagCenterService.getTagListByTagType result is {},parameter is {}",result,tagInfoPageDTO);
+            return new PageVO<ShowCaseItem>();
+        }
+        List<ComTagDO> list = new ArrayList<ComTagDO>();
+        if(CollectionUtils.isNotEmpty(result.getList())){
+            list=result.getList();
+        }
+        PageVO<ShowCaseItem> page  = new PageVO<ShowCaseItem>(tagInfoPageDTO.getPageNo(), tagInfoPageDTO.getPageSize(), result.getTotalCount(),  ComTagDOToShowCaseItem(list));
+        return page;
+    }
+
+    public List<ShowCaseItem> ComTagDOToShowCaseItem(List<ComTagDO> list){
+        List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        if(CollectionUtils.isEmpty(list)){
+            return listSC;
+        }
+        for (ComTagDO adt:list ) {
+            ShowCaseItem sc = new ShowCaseItem();
+            sc.setId(adt.getId());
+            sc.setName(adt.getName());//标题
+           sc.setValue(adt);
+            listSC.add(sc);
+        }
+        return listSC;
     }
 
 }

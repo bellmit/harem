@@ -264,6 +264,10 @@
 			<groupId>com.yimayhd</groupId>
 			<artifactId>sellerAdmin-client</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.yimayhd.live</groupId>
+			<artifactId>live-client</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

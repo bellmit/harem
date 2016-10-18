@@ -104,6 +104,8 @@
 		
 		<property name="consumer.dubbo.selleradmin.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.selleradmin.version" defaultValue="1.0.0.test" description="#" />
+		<property name="consumer.dubbo.live.version" defaultValue="1.0.0.test" description="#" />
+		<property name="consumer.dubbo.live.check" defaultValue="false" description="#" />
 
 		<property name="consumer.dubbo.msg.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.msg.version" defaultValue="1.0.0.test" description="#" />

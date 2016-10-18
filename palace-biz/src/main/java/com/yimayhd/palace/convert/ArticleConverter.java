@@ -9,6 +9,7 @@ import com.yimayhd.palace.model.*;
 import com.yimayhd.resourcecenter.dto.*;
 import com.yimayhd.solrsearch.client.domain.SolrScenicDO;
 
+import com.yimayhd.user.client.enums.ServiceFacilityOption;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -221,6 +222,10 @@ public class ArticleConverter {
                     ArticleAudioItemVO articleAudioItemVO = getArticleAudioItemVO(articleItemDTO.getArticleAudioItemDTO());
                     articleItemVO.setArticleAudioItemVO(articleAudioItemVO);
                     break;
+                case FOOD:
+                    ArticleFoodItemVO articleFoodItemVO = getArticleFoodItemVO(articleItemDTO.getArticleFoodItemDTO());
+                    articleItemVO.setArticleFoodItemVO(articleFoodItemVO);
+                    break;
                 default:
                     break;
             }
@@ -231,7 +236,23 @@ public class ArticleConverter {
         articleVO.setArticleItemList(articleItemVOs);
         return articleVO;
     }
+    private static ArticleFoodItemVO getArticleFoodItemVO(ArticleFoodItemDTO articleFoodItemDTO) {
+        if (articleFoodItemDTO==null){
+            return null;
+        }
+        ArticleFoodItemVO articleAudioItemVO=new ArticleFoodItemVO();
+        articleAudioItemVO.setAvgPrice( articleFoodItemDTO.getAvgPrice());
+        articleAudioItemVO.setId(articleFoodItemDTO.getId());
+        articleAudioItemVO.setImage(articleFoodItemDTO.getImage());
+        articleAudioItemVO.setName(articleFoodItemDTO.getName());
+        articleAudioItemVO.setService(articleFoodItemDTO.getService());
+        articleAudioItemVO.setTop(articleFoodItemDTO.getTop());
+        articleAudioItemVO.setItemTitle(articleFoodItemDTO.getItemTitle());
+        articleAudioItemVO.setCityName(articleFoodItemDTO.getCityName());
+        articleAudioItemVO.setSellerId(articleFoodItemDTO.getSellerId());
 
+        return articleAudioItemVO;
+    }
     private static ArticleAudioItemVO getArticleAudioItemVO(ArticleAudioItemDTO articleAudioItemDTO) {
         if (articleAudioItemDTO==null){
             return null;
@@ -352,4 +373,29 @@ public class ArticleConverter {
 		}
     	return audios;
     }
+
+    public static ArticleFoodItemVO merchantDO2ArticleFoodItemVO(MerchantDO merchantDO){
+        if(merchantDO==null){
+            return null;
+        }
+        ArticleFoodItemVO articleFoodItemVO = new ArticleFoodItemVO();
+        articleFoodItemVO.setId(merchantDO.getId());
+        articleFoodItemVO.setName(merchantDO.getName());
+        articleFoodItemVO.setImage(merchantDO.getLogo());
+        articleFoodItemVO.setAvgPrice(merchantDO.getAvgprice());
+        articleFoodItemVO.setSellerId(merchantDO.getSellerId());
+        articleFoodItemVO.setCityName(merchantDO.getCityName());
+//        ServiceFacilityOption
+        long serviceFacility = merchantDO.getServiceFacility();
+        List<ServiceFacilityOption> containedOptions = ServiceFacilityOption.getContainedOptions(serviceFacility);
+        StringBuilder sb = new StringBuilder();
+        for (ServiceFacilityOption containedOption : containedOptions) {
+            if(containedOption!=null){
+                sb.append(containedOption.getDesc()).append("  ");
+            }
+        }
+        articleFoodItemVO.setService(sb.toString());
+        return articleFoodItemVO;
+    }
+
 }

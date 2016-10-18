@@ -34,7 +34,7 @@
                         <td>$!entity.appVersion</td>
                         <td>
                             <button type="button" class="btn btn-primary entityDetail"
-                                    appVersion="$!entity.appVersion "  entityCode="$!entity.code" entityId="$entity.id">详情</button>
+                                    appVersion="$!entity.appVersion"  entityCode="$!entity.code" entityId="$entity.id">详情</button>
                         </td>
                     </tr>
                     #end
@@ -46,14 +46,15 @@
     </form>
 <script>
     $(function(){
+    	var status = $!showcaseStatus ;
         //详情
         $('.entityDetail').each(function(){
             $(this).click(function(){
-                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/banner/showcase/list/'
-                        + $(this).attr('entityCode')
+                var url = '$!utilWebconfig.getActionDefaultFontPath()' + '/banner/showcase/list/' + $(this).attr('entityCode')
                         +"?boothId="+$(this).attr('entityId')
                         +"&appVersionCode="+$(this).attr('appVersion')
-                        +"&pageNumber=1";
+                        +"&pageNumber=1"
+                        +"&status="+status;
                 top.tabsAdd("",url,2,$(this).text());
             });
 

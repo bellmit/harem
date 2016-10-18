@@ -1,0 +1,212 @@
+<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/base.css" id="">
+<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/live/livelist.css" id="">
+<div class="dialog" style="display: none;">
+    <div class="bgmeng"></div>
+    <div class="dlgcont">
+        <table>
+            <tbody><tr>
+                <td class="tit">权重：</td>
+                <td>
+                    <input type="text" id="priority">
+                    <input type="hidden" id="rowId" value="">
+                    <input type="hidden" id="oldPriority" value="">
+                </td>
+            </tr>
+            </tbody></table>
+        <div class="boxbtn">
+            <button class="ok">确定</button>
+            <button class="cancel">取消</button>
+        </div>
+    </div>
+</div>
+
+<div class="searchbox">
+    <form id="liveAdminForm" name="liveAdminForm"
+          action="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/liveAdminList">
+        <table>
+            <tbody><tr>
+                <td class="tit">达人昵称：</td>
+                <td><input class="form-control" name="nickName" maxlength="30" value="$!{liveAdminQuery.nickName}"></td>
+                <td class="tit">达人ID：</td>
+                <td><input name="userId" type="text" class="form-control" maxlength="30" datatype="/^(\d+)?$/" errormsg="请输入数字" value="$!{liveAdminQuery.userId}"/></td>
+            </tr>
+            <tr>
+                <td class="tit">房间号：</td>
+                <td><input class="form-control" name="liveRoomId" maxlength="30" value="$!{liveAdminQuery.liveRoomId}"></td>
+                <div class="input-group inpSingle">
+                    <td class="tit">直播分类：</td>
+                    <td>
+                    <select class="form-control" name="liveCategory">
+                        <option value="0">全部</option>
+                        #foreach($comTag in $comTagDOList)
+                            <option value="$!{comTag.id}" #if($comTag.id == $liveAdminQuery.liveCategory)
+                                    selected #end>$!{comTag.name}</option>
+                        #end
+                    </select>
+                    </td>
+                </div>
+                <td colspan="2">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary submitBtn">查询</button>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="btnReset">重置</button>
+                </div>
+                </td>
+            </tr>
+            </tbody>
+    </table>
+    </form>
+</div>
+
+<div class="gridbox">
+    <table class="table table-bordered table-hover" id="tbLiveAdminList">
+        <thead>
+        <tr><th>ID</th>
+            <th>头图</th>
+            <th>直播标题</th>
+            <th>直播分类</th>
+            <th>话题</th>
+            <th>达人昵称</th>
+            <th>房间号</th>
+            <th>达人ID</th>
+            <th>开始时间</th>
+            <th>在线人数</th>
+            <th>权重</th>
+            <th>操作</th>
+        </tr></thead>
+
+        ## 直播列表
+        <tbody>
+            #foreach($item in $itemList)
+            <tr>
+                <td>$!{item.id}</td>
+                <td>
+                    <img src="$!{item.liveCover}" width="150" height="90">
+                </td>
+                <td>
+                    $!{item.liveTitle}
+                </td>
+                <td>
+                    $!{item.liveCategoryString}
+                </td>
+                <td>
+                    $!{item.liveTopic}
+                </td>
+                <td>
+                    $!{item.userDO.nickname}
+                </td>
+                <td>
+                    $!{item.liveRoom}
+                </td>
+                <td>
+                    $!{item.userId}
+                </td>
+                <td>
+                    $!{item.startDateString}
+                </td>
+                <td>
+                    $!{item.onlineCount}
+                </td>
+                <td>
+                    $!{item.liveOrder}
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary weight" liveRecordId="$!{item.id}" liveOrder="$!{item.liveOrder}">权重设置</button>
+                </td>
+            </tr>
+            #end
+        </tbody>
+        ##  直播列表
+    </table>
+</div>
+##</body></html>
+
+#*分页*#
+#parse("/page.vm")
+#pageStyle("liveAdminForm")
+
+<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
+
+<script type="text/javascript">
+    layer.config({
+        extend: 'extend/layer.ext.js',
+        extend: ['skin/mySkin/style.css'],
+        skin: 'layer-ext-mySkin'
+    });
+    function submitEdit(url, type, data) {
+        //alert(1);
+        $.ajax({
+            url: url,
+            type: type,
+            data: data,
+            success: function (res) {
+                if (res.success) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1500
+                    });
+                    setTimeout(function () {
+                        window.location.href = window.location.href;
+                    }, 1500);
+                } else {
+                    layer.msg(res.message, {
+                        icon: 2,
+                        time: 2000
+                    });
+                    $(this).prop('disabled', false);
+                }
+            },
+            error: function (xmlres, status, code) {
+                layer.msg('操作失败', {
+                    icon: 2,
+                    time: 2000
+                });
+                $(this).prop('disabled', false);
+            }
+        });
+    }
+
+    $(".liveAdminForm").Validform();
+
+    $("#btnReset").on("click",function(){
+        $("#liveAdminForm").find(".form-control").val('');
+    });
+
+    function setWeight() {
+        $("#tbLiveAdminList").on("click", ".weight", function () {
+            var liveRecordId = $(this).attr("liveRecordId");
+            layer.open({
+                type: 1, //page层
+                area: '400px',
+                btn: ['确定', '取消'],
+                title: '设置权重',
+                skin:"layui-layer-prompt",
+                shade: 0.6, //遮罩透明度
+                content: '<div style="padding:30px 50px;"><input type="text" class="layui-layer-input" placeholder="请输入1~9999范围内数字"></div>',
+                yes: function(index,layero) {
+                    var weight=layero.find(".layui-layer-input").val().trim();
+                    if(weight.length==0){
+                        layer.msg("请输入权重",{icon:2,time:1500});
+                        return false;
+                    }
+
+                    if(!(/^[1-9]\d{0,3}$/.test(weight))){
+                        layer.msg("请输入1~9999范围内的数字。",{icon:2,time:1500});
+                        return false;
+                    }
+
+                    var data = {liveOrder: weight, liveRecordId: liveRecordId}
+                    submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/updateLiveOrder", "post", data);
+                }
+            });
+        });
+    }
+
+    $(function () {
+        setWeight();
+    });
+
+</script>
+
+

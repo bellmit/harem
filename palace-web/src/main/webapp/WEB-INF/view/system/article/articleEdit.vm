@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/base.css">
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/style.css">
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css">		
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css">
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editertwo.css"/>
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/imgupload.css"/>
 <link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/newcom.css"/>
@@ -223,7 +223,30 @@
 								</div>
 								</div>
 								</div>
-							#end				
+							#end
+								#if($articleItem.type == 9)
+                                    <div class="item movesection saved">
+                                        <div class="itemwraptitle">$!articleItem.articleFoodItemVO.itemTitle</div>
+                                    	<div class="wrap itemwrap foodwrap" sellerId="$articleItem.articleFoodItemVO.sellerId" itemid="$articleItem.content" itemType="$articleItem.type" itemSubType="$articleItem.subType">
+											<div class="itemimgbox">
+												<img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleFoodItemVO.image"/>
+											</div>
+											<div class="foodmsgbox clearfix">
+												<p class="foodleft"><span class="ftop">TOP</span><span
+														class="fnum">$!articleItem.articleFoodItemVO.top</span>
+												<p class="foodright">
+												<span class="fname">$!articleItem.articleFoodItemVO.name
+													<em> 人均—￥$utilNum.moneyTransform($!articleItem.articleFoodItemVO.avgPrice)</em>
+												</span>
+													<span class="fservice">
+														<i class="icon-service"></i>
+														$!articleItem.articleFoodItemVO.cityName &nbsp;&nbsp;$!articleItem.articleFoodItemVO.service
+													</span>
+												</p>
+											</div>
+										</div>
+                                    </div>
+								#end
             				#end																					
 							</div>
 							<div class="hd clearfix">
@@ -234,7 +257,8 @@
 									<li><a href="javascript:void(0)" class="addexpert">添加达人</a></li>
 									<li><a href="javascript:void(0)" class="addask">添加咨询</a></li>
 									<li><a href="javascript:void(0)" class="addhotel">添加酒店</a></li>									
-									<li><a href="javascript:void(0)" class="addaudio">添加音频</a></li>									
+									<li><a href="javascript:void(0)" class="addaudio">添加音频</a></li>
+                                    <li><a href="javascript:void(0)" class="addfood">添加美食</a></li>
 								</ul>
 							</div>
 							
@@ -242,7 +266,7 @@
 							<input type="hidden" id="status" name="status" value="$!article.status">
 							<input type="hidden" id="staticUrl" value="$!rs_path_jiuxiu">
 							<input type="hidden" id="searchItemUrl" value="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/articleManage/getArticleItemDetailById/">
-							<input type="hidden" id="selectAudioUrl" value="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=1&maxSize=15">
+                            <input type="hidden" id="selectAudioUrl" value="$!utilWebconfig.getActionDefaultFontPath()/jiuxiu/attachmentManage/list/select?multi=1&maxSize=15">
 						</div>
                 	</td>
 	            </tr>

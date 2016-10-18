@@ -106,6 +106,4 @@ public class HaMenuServiceImpl extends BaseServiceImpl<HaMenuDO> implements HaMe
 			return false;
 		}
 	}
-
-
 }
