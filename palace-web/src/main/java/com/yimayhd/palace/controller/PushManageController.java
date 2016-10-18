@@ -103,8 +103,10 @@ public class PushManageController extends BaseController {
     public String pushList(Model model,RcDelayPushPageQuery rcDelayPushPageQuery) throws Exception {
         try {
             PageVO<PushVO> pageVO = rcDelayPushService.getPushList(rcDelayPushPageQuery);
-            model.addAttribute("pageVo", pageVO);
-            model.addAttribute("itemList", pageVO.getItemList());
+            if(pageVO!=null) {
+                model.addAttribute("pageVo", pageVO);
+                model.addAttribute("itemList", pageVO.getItemList());
+            }
             model.addAttribute("rcDelayStatus", Enums.toList(RcDelayStatus.class));
             model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
             model.addAttribute("rcDelayPushPageQuery", rcDelayPushPageQuery);

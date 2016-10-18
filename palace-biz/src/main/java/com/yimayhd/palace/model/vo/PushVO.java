@@ -1,8 +1,12 @@
 package com.yimayhd.palace.model.vo;
 
+import com.yimayhd.resourcecenter.model.enums.ShowcaseFeatureKey;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author create by yushengwei on 2016/10/13
@@ -31,8 +35,44 @@ public class PushVO implements Serializable{
     private long outId; // 关联id
     private String transformFileUrl;//转换后的文件地址
     private long sendDomainId;
+    private Map<String, String> feature;
+
+
+    public String getFeature() {
+        return com.yimayhd.resourcecenter.util.FeatureUtil.toString(feature);
+    }
+
+    public void setFeature(String featureString) {
+        this.feature = com.yimayhd.resourcecenter.util.FeatureUtil.fromString(featureString);
+    }
+
+    public void addFeature(ShowcaseFeatureKey showcaseFeatureKey, String value) {
+        if (showcaseFeatureKey == null || StringUtils.isBlank(value)) {
+            return;
+        }
+        if (feature == null) {
+            feature = new HashMap<String, String>();
+        }
+        feature.put(showcaseFeatureKey.getCode(), value);
+    }
+
+    public String getRcFeature(ShowcaseFeatureKey showcaseFeatureKey) {
+        if (feature == null || showcaseFeatureKey == null) {
+            return null;
+        }
+        return feature.get(showcaseFeatureKey.getCode());
+    }
 
     private String selectOpContent;//选中回显
+    private String operationDetailId;//
+
+    public String getOperationDetailId() {
+        return operationDetailId;
+    }
+
+    public void setOperationDetailId(String operationDetailId) {
+        this.operationDetailId = operationDetailId;
+    }
 
     public String getSelectOpContent() {
         return selectOpContent;
