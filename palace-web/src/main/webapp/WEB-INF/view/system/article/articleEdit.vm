@@ -225,25 +225,26 @@
 								</div>
 							#end
 								#if($articleItem.type == 9)
-                                    <div class="itemwraptitle">$!articleItem.articleFoodItemVO.itemTitle</div>
-                                    <div class="wrap itemwrap foodwrap">
-
-                                        <div class="itemimgbox ">
-                                            <img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleFoodItemVO.image"/>
-                                        </div>
-                                        <div class="foodmsgbox clearfix">
-                                            <p class="foodleft"><span class="ftop">TOP</span><span
-                                                    class="fnum">$!articleItem.articleFoodItemVO.top</span>
-                                            <p class="foodright">
-											<span class="fname">$!articleItem.articleFoodItemVO.name
-                                                <em> 人均—￥$utilNum.moneyTransform($!articleItem.articleFoodItemVO.avgPrice)</em>
-											</span>
-                                                <span class="fservice">
-													<i class="icon-service"></i>
-													$!articleItem.articleFoodItemVO.service
+                                    <div class="item movesection saved">
+                                        <div class="itemwraptitle">$!articleItem.articleFoodItemVO.itemTitle</div>
+                                    	<div class="wrap itemwrap foodwrap" sellerId="$articleItem.articleFoodItemVO.sellerId" itemid="$articleItem.content" itemType="$articleItem.type" itemSubType="$articleItem.subType">
+											<div class="itemimgbox">
+												<img src="$utilWebconfig.getTfsRootPath()$!articleItem.articleFoodItemVO.image"/>
+											</div>
+											<div class="foodmsgbox clearfix">
+												<p class="foodleft"><span class="ftop">TOP</span><span
+														class="fnum">$!articleItem.articleFoodItemVO.top</span>
+												<p class="foodright">
+												<span class="fname">$!articleItem.articleFoodItemVO.name
+													<em> 人均—￥$utilNum.moneyTransform($!articleItem.articleFoodItemVO.avgPrice)</em>
 												</span>
-                                            </p>
-                                        </div>
+													<span class="fservice">
+														<i class="icon-service"></i>
+														$!articleItem.articleFoodItemVO.cityName &nbsp;&nbsp;$!articleItem.articleFoodItemVO.service
+													</span>
+												</p>
+											</div>
+										</div>
                                     </div>
 								#end
             				#end																					

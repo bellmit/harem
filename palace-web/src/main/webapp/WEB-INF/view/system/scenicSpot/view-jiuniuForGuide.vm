@@ -1,0 +1,707 @@
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/clubTable.css?version=$!{utilWebconfig.getResourceVersion()}"/>
+<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/editer.css"/>
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/img-list.css"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/map.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js?version=$!{utilWebconfig.getResourceVersion()}"></script>
+<script charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.config.js"></script>
+<script charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/ueditor.all.min.js"></script>
+
+<!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+<!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+<script type="text/javascript" charset="utf-8" src="${utilWebconfig.getStaticResourcesPath()}/resources/ueditor/lang/zh-cn/zh-cn.js"></script>
+<style type="text/css">
+    .demo {width: 850px;margin: 20px auto;display: none;}
+    #l-map {height: 400px;width: 600px;float: left;border: 1px solid #bcbcbc;}
+    #r-result {height: 400px;width: 230px;float: right;}
+    
+    .logoImgWrap {
+	    float: none;
+	    margin-bottom: 5px;
+	    padding-top: 5px;
+	 }
+    
+    .delTicketType{
+    	cursor:pointer;
+    	margin-left:5px;
+    }
+    
+    .editTicketType{
+    	cursor:pointer;
+    	margin-left:5px;
+    }
+    
+    .clear{
+	 	clear:both;
+	 }
+ 
+</style>
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+<div class="example whole">
+<form id="saveScenicSpot">
+	<input type="hidden" id="uuidScenic" name="uuidScenic" value="$!{UUIDScenic}" />
+	<input type="hidden" id="uuidPicText" value="$!{UUIDPicText}" />
+	
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active"><a href="#scenicInfo" data-toggle="tab">基本信息</a></li>
+        <li><a id="scenicImgId" href="#scenicImgs" data-toggle="tab">图文详情</a></li>
+    </ul>
+    <div class="tab-content grogInfoWrap" style="">
+        <div class="tab-pane active" id="scenicInfo">
+            <div class="createHotrlTable">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td><span class="spColor">*</span>景区名称</td>
+                        <td>
+                        	#set($scenicVOId=0)
+                        	#if($VO.scenicVO.id)
+                        		#set($scenicVOId=$VO.scenicVO.id)
+                        	#end
+                        	<input type="hidden" id="scenicId" name="scenicVO.id" value="$!{scenicVOId}">
+                            <input type="text" class="inpCtlBlock scenicName" name="scenicVO.name" placeholder="请填写景区全称，1-20个字" maxlength="20" value="$!{VO.scenicVO.name}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>所在城市</td>
+                        <td>
+                            <div class="selectList">
+                            	<div style="float:left;">
+	                                <input type="hidden" id="provinceSelectName" name="scenicVO.locationProvinceName" value="$!{VO.scenicVO.locationProvinceName}">
+	                                <select id="provinceId" class="selCity inpControl provinceSelect" name="scenicVO.locationProvinceId" areaType="PROVINCE">
+	                                    <option value="0">请选择省份</option>
+		                                #foreach($province in $provinceList)
+		                                    <option #if($province.code ==  $!VO.scenicVO.locationProvinceId) selected #end value="$province.code">$province.name</option>
+		                                #end
+	                                </select>
+                                </div>
+                                
+                                <div style="float:left;">
+	                                <input type="hidden" id="citySelectName" name="scenicVO.locationCityName" value="$!{VO.scenicVO.locationCityName}">
+	                                <select id="cityId" class="selCity inpControl citySelect" name="scenicVO.locationCityId" areaType="CITY">
+	                                    <option value="0">请选择城市</option>
+		                                #foreach($city in $cityList)
+		                                    <option #if($city.code == $!VO.scenicVO.locationCityId) selected #end value="$city.code">$city.name</option>
+		                                #end
+	                                </select>
+                                </div>
+                                
+                                <div style="float:left;">
+	                                <input type="hidden" id="countySelectName" name="scenicVO.locationTownName" value="$!{VO.locationTownName}">
+	                                <select id="countyId" class="selCity inpControl countySelect" name="scenicVO.locationTownId" areaType="COUNTY">
+	                                    <option value="0">请选择区域</option>
+		                                #foreach($town in $townList)
+		                                    <option #if($town.code == $!VO.scenicVO.locationTownId) selected #end value="$town.code">$town.name</option>
+		                                #end
+	                                </select>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>地址</td>
+                        <td>
+                            <div class="selectList">
+                                <input type="text" class="inpCtlBlock" name="scenicVO.locationText" id="locationText" placeholder="请填写详细地址，如**路**号，1-40个字" value="$!{VO.scenicVO.locationText}" maxlength="40" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>地址经纬度</td>
+                        <td>
+                        	<div style="float:left;">
+	                            <span>经度</span>	                            
+	                            <input type="text" name="scenicVO.locationX" id="locationX" readonly="readonly" class="inpControl getAddress locationX" value="$!numberFormatHelper.formatDoubleNumber($!VO.scenicVO.locationX)" placeholder="示例:116.40461,限数字,请注意不要有空格" style="width:260px;" />
+                            </div>
+                            <div style="float:left;">
+	                            <span>纬度</span>
+	                            <input type="text" name="scenicVO.locationY" id="locationY" readonly="readonly" class="inpControl getAddress locationY" value="$!numberFormatHelper.formatDoubleNumber($!VO.scenicVO.locationY)" placeholder="示例:39.910921,限数字,请注意不要有空格" style="width:260px;" />
+                            </div>
+                            <button type="button" class="btn btn-primary locationXYSelectBtn">查找经纬度</button>
+                            #*<code>点击查找经纬度可自动获取</code>*#
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>景区票型</td>
+                        <td>
+                        	<div class="ticketTypeList">
+                        		#foreach($ticket in $VO.ticketVOList)
+		                            <p tid="$!{ticket.id}">
+										<span class="updateTicketType">$!{ticket.title}</span>
+										<img class="editTicketType" src="$utilWebconfig.getStaticResourcesPath()/resources/img/edit.jpg"/>
+									</p>	
+	                            #end
+                        	</div>
+                        	<input type="hidden" class="insertTicketListStr" name="insertTicketListStr" />
+                        	<input type="hidden" class="updateTicketListStr" name="updateTicketListStr" />
+                        	
+                            <input type="text" class="inpControl" id="ticketTypeText" placeholder="请输入1-10个字" maxlength="10"/>
+	                        <button type="button" class="btn btn-info addTicketType" >添加</button>
+	                        <label class="ticketTypeTip" style="display:none;">至少添加一个票型</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>景区等级</td>
+                        <td>
+                            <select class="form-control {required:true}" name="scenicVO.level">
+                                <option value="0"  #if($!{VO.scenicVO.level} <11) selected #end>无A</option>
+                                <option value="15" #if($!{VO.scenicVO.level} == 15) selected #end>5A</option>
+                                <option value="14" #if($!{VO.scenicVO.level} == 14) selected #end>4A</option>
+                                <option value="13" #if($!{VO.scenicVO.level} == 13) selected #end>3A</option>
+                                <option value="12" #if($!{VO.scenicVO.level} == 12) selected #end>2A</option>
+                                <option value="11" #if($!{VO.scenicVO.level} == 11) selected #end>1A</option>
+                            </select>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td><span class="spColor">*</span>景区主题</td>
+                        <td>
+                            #foreach($theme in $themes)
+                            	
+                            	#set( $checked = '')
+                            	#foreach($subjectId in $VO.scenicVO.scenicFeature.getSubjectIds())
+	                            	#if($theme.id == $subjectId)
+	                            		#set( $checked = 'checked="checked"')
+	                            	#end
+                            	#end
+                            	
+                            	<span class="theme">
+                            		<input type="checkbox" class="themeCheckBox" value="${theme.id}" ${checked} themeName="${theme.name}" />
+	                            	${theme.name}
+	                            </span>	
+                            #end
+                            <label class="themeTip" style="display:none;">景区主题选1-3个</label>
+							<input class="themeIdsVal" type="hidden" name="scenicVO.themeIdStr" value="" />
+							<input class="themeNamesVal" type="hidden" name="scenicVO.themeNameStr" value="" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>景区列表头图</td>
+                        <td>
+                            <div class="logoImgWrap fileImgWrap">
+                                <button type="button" class="btn btn-success">上传图片</button>
+                                <input type="file" name="file" class="fileInp" id="logoUrlUploadFile" style="margin-top:-15px;">
+                                <input type="hidden" id="logoUrl" name="scenicVO.logoUrl" value="$!{VO.scenicVO.logoUrl}" >
+                                <label class="logoUrlTip" style="display:none;">请上传列表头图</label>
+                            </div>
+                            <div class="logoView">
+                            	#if(! $VO.scenicVO.logoUrl)
+                            		<img  class="img-square uploadImgFile dimg" imgUrl="$!{VO.scenicVO.logoUrl}" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" />
+                            	#else
+                            		<img  class="img-square uploadImgFile dimg" imgUrl="$!{VO.scenicVO.logoUrl}" src="$utilWebconfig.getTfsRootPath()$!{VO.scenicVO.logoUrl}" />	
+                            	#end
+		            		</div>
+                            <p class="clear">图片大小不能超过500K，格式为JPG,JPEG,PNG，建议尺寸：750×360</p>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td><span class="spColor">*</span>景区图片</td>
+                        <td>
+                        	<div id="imgList" class="logoImgWrap fileImgWrap">
+                        		<div class="upload-btn-wrap">
+									<button type="button" class="btn btn-success">上传图片</button>
+									<input id="imgListUploadBtn" type="file" multiple="multiple" class="fileInp" style="margin-top:-15px;">
+								</div>
+								#foreach($picture in ${VO.scenicVO.pictures})
+	                            	<div class="pic-wrap imgListPicWrap">
+	   									<img class="picUrlsUrl uploadImgFile dimg2" imgUrl="$!{picture}" src="$utilWebconfig.getTfsRootPath()$!{picture}" />
+	   									<button type="button" class="btn btn-del-pic imgListBtnDelPic" style="display:none;width:116px;">删除</button>
+	   								</div>		
+	                            #end
+                            </div>
+                            <input class="coverPics" type="hidden" name="scenicVO.coverPics" value="">
+                        	<label class="coverPicsTip" style="display:none;">最少上传一张景区图片</label>
+                        	<p class="clear">图片大小不能超过500K，格式为JPG,JPEG,PNG</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>景区开放时间</td>
+                        <td><input type="text" class="inpCtlBlock" name="scenicVO.openTime" placeholder="请输入1-38个字" value="$!{VO.scenicVO.openTime}" maxlength="38" /></td>
+                    </tr>
+                    
+                    </tbody>
+                </table>
+            </div>
+           #* <button type="submit" class="btn btn-info saveNext">保存并下一步</button>*#
+        </div>
+        <div class="tab-pane" id="scenicImgs" style="width:95%; margin:15px auto;">
+            #parse("/system/scenicSpot/pictureText.vm")
+         #*   <button type="button" class="btn btn-info saveAll">全部保存</button>*#
+        </div>
+    </div>
+    
+</form>
+</div>
+<script charset="utf-8" src="$utilWebconfig.getStaticResourcesPath()/resources/js/img-list.js"></script>
+<script src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+<script src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+<script>seajs.use("comediter");</script>
+<script>
+	
+	var tfsPath = '$utilWebconfig.getTfsRootPath()';
+	
+    function operateTicketType(){
+    	//添加票型
+    	$(".addTicketType").click(function(){
+    		if(!$("#ticketTypeText").val() || !$("#ticketTypeText").val().trim()){
+    			
+    			layer.msg("请填写票型", {
+                    icon: 2,
+                    time: 1500
+                });
+    			return;
+    		}
+			var ticketTypeHTML = [];
+			ticketTypeHTML.push('<p>');
+				ticketTypeHTML.push('<span class="insertTicketType" >'+ $("#ticketTypeText").val() +'</span>');
+				ticketTypeHTML.push('<img class="delTicketType" src="$utilWebconfig.getStaticResourcesPath()/resources/img/close.png"/>');
+			ticketTypeHTML.push('</p>');	
+			
+			$(".ticketTypeList").append(ticketTypeHTML.join(""));
+			$("#ticketTypeText").val("");
+		});
+		
+		//编辑票型
+    	$(document).delegate(".editTicketType", 'click', function(){
+			var content = [];
+			content.push('<input type="text" class="inpControl editTicketTypeInput" value="'+ $(this).prev().text() +'"/>&nbsp;');
+			content.push('<button type="button" class="btn btn-info saveTicketType" >确定</button>');
+			$(this).parent().html(content.join(""));
+		});
+		
+		$(document).delegate(".saveTicketType", 'click', function(){
+			
+			var text = $(this).prev().val();
+			if(!text || text.length > 10){
+				layer.msg('请输入1-10个字', {
+                    icon: 2,
+                    time: 2000
+                });
+				return;
+			}
+			var content = [];
+			content.push('<span class="updateTicketType " >'+ text +'</span>');
+			content.push('<img class="editTicketType" src="$utilWebconfig.getStaticResourcesPath()/resources/img/edit.jpg"/>');
+			$(this).parent().html(content.join(""));
+		});
+		
+		//删除票型
+		$(document).delegate(".delTicketType", 'click', function(){
+			$(this).parent().remove();
+		});
+		
+    }
+    
+    function getInsertTicketTypeArr(){
+    	var arr = [];
+    	$(".insertTicketType").each(function(){
+    		var ticket = {
+    			"title": $(this).text()
+    		}
+    		arr.push(ticket);
+    	});
+    	return arr;
+    }
+    
+    function getUpdateTicketTypeArr(){
+    	var arr = [];
+    	$(".updateTicketType").each(function(){
+    		var ticket = {
+    			"id": $(this).parent().attr("tid"),
+    			"title": $(this).text().replace(/\"/g, "")
+    		}
+    		arr.push(ticket);
+    	});
+    	return arr;
+    }
+    
+    function operateMap(){
+    
+	    $('.locationXYSelectBtn').click(function () {
+            openBaiduMap(84.945442,41.811374, function(data){
+            	if (data) {
+		            $("#locationX").val(data['pointX']);
+		            $("#locationY").val(data['pointY']);
+		        }	
+            });
+        });
+    }
+    
+    function operateArea(){
+    
+    	var provinceFlag = false;
+		var cityFlag = false;
+		var areaFlag = false;
+ 		
+ 		//加载所有省份
+		$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
+			{
+				'areaType': 'PROVINCE',
+            	'areaParentCode': null
+           	},
+            function(data) {
+                if (data&&data.status==200) {
+                	data = data.data;
+                    for (var i in data) {
+                        var code = data[i].code;
+                        var name = data[i].name;
+                        var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+                        $("#provinceId").append(optionHTML);
+                    }
+                    provinceFlag = true;
+                } else {
+                    layer.msg('省份加载失败', {
+                        icon: 2,
+                        time: 2000
+                    });
+                }
+        	}
+        );
+		
+        //根据省份选择城市
+        $('.provinceSelect').change(function(){
+        
+			//清空所有子元素
+			if (parseInt($("#cityId").children().length) > 0) {
+				$("#cityId").empty();
+				$("#cityId").append('<option value="0">请选择城市</option>');
+			}
+            //清空所有子元素
+			if (parseInt($("#countyId").children().length) > 0) {
+				$("#countyId").empty();
+				$("#countyId").append('<option value="0">请选择城市</option>');
+			}
+			
+			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
+                {
+                	'areaType': 'CITY',
+                 	'areaParentCode': $('.provinceSelect option:selected').attr("value")
+                },
+                function(data) {
+                    if (data&&data.status==200) {
+                		data = data.data;
+                        for (var i in data) {
+                            var code = data[i].code;
+                            var name = data[i].name;
+                            var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+                            $("#cityId").append(optionHTML);
+                        }
+                        provinceFlag = true;
+                    } else {
+                       layer.msg('市级地址加载失败', {
+	                        icon: 2,
+	                        time: 2000
+	                   });
+                    }
+                }
+            );
+		});
+		
+		//根据城市选择区域
+        $('.citySelect').change(function(){
+        
+            //清空所有子元素
+			if (parseInt($("#countyId").children().length) > 1) {
+				$("#countyId").empty();
+				$("#countyId").append('<option value="0">请选择城市</option>');
+			}
+			
+			$.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list', 
+                {'areaType': 'COUNTY',
+                 'areaParentCode': $('.citySelect option:selected').attr("value")},
+
+                function(data) {
+                     if (data&&data.status==200) {
+                		data = data.data;
+                        for (var i in data) {
+                            var code = data[i].code;
+                            var name = data[i].name;
+                            var optionHTML = '<option value="'+ code +'">'+name+'</option>';
+                            $("#countyId").append(optionHTML);
+                        }
+                        provinceFlag = true;
+                    } else {
+                       layer.msg('区域加载失败', {
+	                        icon: 2,
+	                        time: 2000
+	                    });
+                    }
+                }
+			);
+        });
+    }
+    
+    function uploadLogo(tfsPath){
+    	$(document).delegate('#logoUrlUploadFile','change',function(){
+    		
+    		var _self = this;
+            fileUpload('#logoUrlUploadFile',1,function(data){
+            	
+                if(data && data.status==200){
+                	
+                	var imgUrl = tfsPath + data.data;
+                	
+                	var count = $(".logoView").length;
+                	if(count == 0){
+		            	var content = [];
+		            	content.push('<div class="logoView">');
+		            		content.push('<img  class="img-square uploadImgFile dimg" imgUrl="'+ data.data +'" src="'+ imgUrl +'" />');
+		            	content.push('</div>');
+		            	$(_self).parent().parent().append(content.join(""));
+                	}else{
+                		$(".logoView").find("img").attr({
+                			"src": imgUrl,
+                			"imgUrl": data.data
+                		});
+                	}
+                	
+                    $("#logoUrl").val(data.data);
+                }else{
+                    layer.alert('上传失败');
+                }
+            }, 500);
+        });
+    }
+    
+    
+    (function(){
+    	
+    
+    	operateArea();
+    	
+    	operateMap();
+    	
+    	operateTicketType();
+    	
+		//上传头图
+		uploadLogo(tfsPath);
+		
+    	var imgList = new ImgList("imgList", tfsPath, 20);
+		
+		
+        /*提交**/
+        $("#saveScenicSpot").validate({
+            rules: {
+                'scenicVO.name': {
+                    required: true
+                },
+                'scenicVO.locationText': {
+                    required: true
+                },
+                'scenicVO.locationX': {
+                    required: true
+                },
+                'scenicVO.locationY': {
+                    required: true
+                },
+                'scenicVO.level': {
+                    required: true
+                },
+                'scenicVO.openTime':{
+                	required: true
+                }
+            },
+            messages: {
+            	
+            },
+            errorPlacement: function (error, element) { // 指定错误信息位置
+
+                if (element.is(':radio') || element.is(':checkbox')
+                        || element.is(':input')) { // 如果是radio或checkbox
+                    var eid = element.attr('name'); // 获取元素的name属性
+                    error.appendTo(element.parent()); // 将错误信息添加当前元素的父结点后面
+                } else {
+                    error.insertAfter(element);
+                }
+            },
+            submitHandler: function (form) {
+            	
+            	//设置省、市、区 名称
+            	$("#provinceSelectName").val($("#provinceId option:selected").text());
+            	$("#citySelectName").val($("#cityId option:selected").text());
+            	$("#countySelectName").val($("#countyId option:selected").text());
+            	
+            	//景区票型
+            	if($(".editTicketTypeInput").length > 0){
+            		layer.msg("请保存票型", {
+                        icon: 2,
+                        time: 2000
+                    });
+                    return;
+            	};
+            	$(".updateTicketListStr").val(JSON.stringify(getUpdateTicketTypeArr()));
+            	
+            	var tickets = $(".ticketTypeList").find("span");
+            	if(!tickets || $(tickets).length < 1){
+            		$(".ticketTypeTip").css({"color":"red", "display":""});
+            		return;
+            	}else{
+            		$(".ticketTypeTip").css({"display":"none"});
+            		
+            		var ticketTypeArr = getInsertTicketTypeArr();
+            		$(".insertTicketListStr").val(JSON.stringify(ticketTypeArr));
+            	}
+            	
+            	//景区主题
+            	var themeIds = [];
+            	var themeNames = [];
+            	$(".themeCheckBox:checked").each(function(){
+            		themeIds.push($(this).val());
+            		themeNames.push($(this).attr("themeName"));
+            	});
+            	if(themeIds.length < 1 || themeIds.length > 3){
+            		$(".themeTip").css({"color":"red", "display":""});
+            		return;
+            	}else{
+            		$(".themeTip").css({"display":"none"});
+            		$(".themeIdsVal").val(themeIds.join("|"));
+            		$(".themeNamesVal").val(themeNames.join("|"));
+            	}
+            	
+            	//景区头图
+            	var logoUrl = $("#logoUrl").val();
+            	if(!logoUrl){
+            		$(".logoUrlTip").css({"color":"red", "display":""});
+            		return;
+            	}else{
+            		$(".logoUrlTip").css({"display":"none"});
+            	}
+            	
+            	//景区图片
+            	var picUrls = imgList.getPicUrls();
+            	if(picUrls.length < 1){
+            		$(".coverPicsTip").css({"color":"red", "display":""});
+            		return;
+            	}else{
+            		$(".coverPicsTip").css({"display":"none"});
+            		$('.coverPics').val(picUrls.join("|"));
+            	}
+            	
+            	var options = {
+                    url: actionDefaultPath + "/jiuniu/scenicSpotManage/save",
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.status == 200) {
+                        	$("#scenicId").val(data.data.id);       
+	                        $("#scenicImgId").trigger("click");
+                        } else {
+                            layer.msg(data.message, {
+	                            icon: 2,
+	                            time: 2000
+	                        });
+	                        $("#uuidScenic").val(data.data);
+                        }
+                    }
+                };
+
+                $("#saveScenicSpot").ajaxSubmit(options);
+            },
+            invalidHandler: function (form, validator) { // 不通过回调
+                return false;
+            }
+        });
+        
+        $.validator.addMethod("provinceSelect",function(value,element){
+        	if(value == 0){
+        		return false;
+        	}
+        	return true;
+        }, "必须选择");
+        
+        $.validator.addMethod("citySelect",function(value,element){
+        	if(value == 0){
+        		return false;
+        	}
+        	return true;
+        }, "必须选择");
+        
+        $.validator.addMethod("countySelect",function(value,element){
+        	if(value == 0){
+        		return false;
+        	}
+        	return true;
+        }, "必须选择");
+        
+        $.validator.addMethod("scenicName",function(value,element){
+        	if(!value.trim()){
+        		return false;
+        	}
+        	return true;
+        }, "不能为空");
+        
+        $.validator.addMethod("locationText",function(value,element){
+        	if(!value.trim()){
+        		return false;
+        	}
+        	return true;
+        }, "不能为空");
+        
+        $.validator.addMethod("openTime",function(value,element){
+        	if(!value.trim()){
+        		return false;
+        	}
+        	return true;
+        }, "不能为空");
+        
+        $.validator.addMethod("locationX",function(value,element){
+        	var lngRe=/^[-]?(\d|([1-9]\d)|(1[0-7]\d)|(180))(\.\d*)?$/g;
+            return lngRe.test(value);
+        }, "请输入正确的坐标");
+        
+        $.validator.addMethod("locationY",function(value,element){
+        	var latRe=/^[-]?(\d|([1-8]\d)|(90))(\.\d*)?$/g;
+            return latRe.test(value);
+        }, "请输入正确的坐标");
+        
+         $(".saveAll").click(function(){
+	    	var pictureText = getPictureText();
+	    	
+	    	if(pictureText.pictureTextItems.length == 0){
+	    		layer.msg("请添加至少一段图文详情", {
+	                icon: 2,
+	                time: 1500
+	            });
+	            return;
+	    	}
+	    	
+	    	var scenicId = $("#scenicId").val();
+	    	if(scenicId == 0){
+	    		layer.msg("请优先添加基本信息", {
+	                icon: 2,
+	                time: 1500
+	            });
+	            return;
+	    	}
+	    	
+	    	var params = {
+				json: JSON.stringify(pictureText),
+				uuidPicText: $("#uuidPicText").val()
+			};
+			
+	    	var url = actionDefaultPath + "/jiuniu/scenicSpotManage/savePictureText/"+ scenicId;
+	    	$.post(url, params, function(data){
+				if(data.status == 200) {
+					layer.msg("添加成功", {
+		                icon: 1,
+		                time: 1000
+		            });
+		            setTimeout(function(){ 
+		            	closeAndFreshPrevFrame();	
+		            },1000)
+					
+				} else {
+					layer.msg(data.message, {
+						icon : 2,
+						time: 2000
+					});
+					$("#uuidPicText").val(data.data);
+				}
+		    },"json");
+	    });
+    })();
+</script>
