@@ -2,118 +2,117 @@
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 #set($title = "短信推送列表")
 <form id="frmSearch" name="frmSearch" action="$!utilWebconfig.getActionDefaultFontPath()/push/list?pushType=1" method="GET">
-<div class="search-box">
-		<div class="input-group">
+    <div class="search-box">
+        <div class="input-group">
 			<span class="input-group-btn">
 				<button class="btn btn-default" type="button">推送主题：</button>
 			</span>
-			<input type="text" class="form-control" name="subject" value="$!query.subject">
-		</div>
-		<div class="input-group">
+            <input type="text" class="form-control" name="subject" value="$!query.subject">
+        </div>
+        <div class="input-group">
 			<span class="input-group-btn">
 		            <button class="btn btn-default" type="button">发起时间</button>
 		        </span>
-			<input type="text" class='form-control form-date date start-time' placeholder='' readonly name="beginPushDate" value="$!query.beginPushDate">
-			<span class="input-group-addon fix-border fix-padding date-addon">至</span>
-			<input type="text" class='form-control form-date date end-time' placeholder='' readonly name="endPushDate" value="$!query.endPushDate">
-		</div>
-		<div class="input-group">
+            <input type="text" class='form-control form-date date start-time' placeholder='' readonly name="beginPushDate" value="$!query.beginPushDate">
+            <span class="input-group-addon fix-border fix-padding date-addon">至</span>
+            <input type="text" class='form-control form-date date end-time' placeholder='' readonly name="endPushDate" value="$!query.endPushDate">
+        </div>
+        <div class="input-group">
 			<span class="input-group-btn">
 					<button class="btn btn-default" type="button">对象：</button>
 				</span>
-			<select class="form-control" name="pushModelType">
+            <select class="form-control" name="pushModelType">
                 <option value="0" #if($!query.pushModelType == 0) selected = 'selected' #end >全部</option>
                 <option value="1" #if($!query.pushModelType == 1) selected = 'selected' #end >特定</option>
             </select>
-		</div>
-		<div class="input-group">
+        </div>
+        <div class="input-group">
 			<span class="input-group-btn">
 					<button class="btn btn-default" type="button">状态：</button>
 				</span>
-			<select class="form-control" name="status">
+            <select class="form-control" name="status">
                 <option value="0" #if($!query.status == 0) selected = 'selected' #end >全部</option>
                 <option value="1" #if($!query.status == 1) selected = 'selected' #end >处理中</option>
                 <option value="2" #if($!query.status == 22) selected = 'selected' #end >取消发送</option>
                 <option value="99" #if($!query.status == 99) selected = 'selected' #end >已发送</option>
                 <option value="98" #if($!query.status == 98) selected = 'selected' #end >待发送</option>
             </select>
-		</div>
-		<div class="btn-group">
-			<input type="hidden" value="1" name="pushType">
-			<button type="submit" class="btn btn-primary">查询</button>
-		</div>
-		<div class="btn-group">
-			<button type="button" class="btn btn-primary" id="btnReset">重置</button>
-		</div>
-</div>
-<div class="mb10">
-	<button class="btn btn-primary addBtn" id="btnAdd">创建推送</button>
-</div>
-<table class="table table-hover table-bordered" id="tbSMSList">
-	<thead>
-		<tr>
-			<th>
-				序号
-			</th>
-			<th>
-				推送主题
-			</th>
-			<th>
-				创建时间
-			</th>
-			<th>
-				发送时间
-			</th>
-			<th>
-				发送内容
-			</th>
-			<th>
-				对象
-			</th>
-			<th>
-				人数(到达)
-			</th>
-			<th>
-				人数(查看)
-			</th>
-			<th>
-				操作人ID
-			</th>
-			<th>
-				状态
-			</th>
-			<th>
-				操作
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		#set($list = $pageVo.itemList) #foreach($entity in $list)
-		<tr>
-			<td>$entity.id</td>
-			<td>$!entity.subject</td>
-			<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!entity.createDate) </td>
-			<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!entity.pushDate) </td>
-			<td>$!entity.pushContent</td>
-			<td>$!entity.pushModelType</td>
-			<td>$!entity.sendPeople</td>
-			<td>$!entity.seePeople</td>
-			<td>$!entity.operationUserId</td>
-			<td>#PUSH_STATUS($!entity.status)</td>
-			<td>
-
+        </div>
+        <div class="btn-group">
+            <input type="hidden" value="1" name="pushType">
+            <button type="submit" class="btn btn-primary">查询</button>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" id="btnReset">重置</button>
+        </div>
+    </div>
+    <div class="mb10">
+        <button class="btn btn-primary addBtn" id="btnAdd">创建推送</button>
+    </div>
+    <table class="table table-hover table-bordered" id="tbSMSList">
+        <thead>
+        <tr>
+            <th>
+                序号
+            </th>
+            <th>
+                推送主题
+            </th>
+            <th>
+                创建时间
+            </th>
+            <th>
+                发送时间
+            </th>
+            <th>
+                发送内容
+            </th>
+            <th>
+                对象
+            </th>
+            <th>
+                人数(到达)
+            </th>
+            <th>
+                人数(查看)
+            </th>
+            <th>
+                操作人ID
+            </th>
+            <th>
+                状态
+            </th>
+            <th>
+                操作
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+			#set($list = $pageVo.itemList) #foreach($entity in $list)
+        <tr>
+            <td>$entity.id</td>
+            <td>$!entity.subject</td>
+            <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!entity.createDate) </td>
+            <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!entity.pushDate) </td>
+            <td>$!entity.pushContent</td>
+            <td>$!entity.pushModelType</td>
+            <td>$!entity.sendPeople</td>
+            <td>$!entity.seePeople</td>
+            <td>$!entity.operationUserId</td>
+            <td>#PUSH_STATUS($!entity.status)</td>
+            <td>
+				<input type="hidden" value="$!entity.status">
 				#if(($!entity.status == 1) || ($!entity.status == 98) )//处理中 待发送
                     <button type="button" class="btn btn-primary edit" entityId="$entity.id">编辑</button>
                     <button type="button" class="btn btn-primary cancel" entityId="$entity.id">取消</button>
 				#elseif(($!entity.status == 2) || ($!entity.status == 99))//取消发送 已发送
                     <button type="button" class="btn btn-primary view" entityId="$entity.id">查看</button>
 				#end
-
-			</td>
-		</tr>
+            </td>
+        </tr>
 		#end
-	</tbody>
-</table>
+        </tbody>
+    </table>
 	#parse("/pagination.vm")
 	#pageStyle("frmSearch")
 </form>
