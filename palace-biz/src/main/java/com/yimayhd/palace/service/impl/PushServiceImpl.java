@@ -11,6 +11,7 @@ import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.PushService;
 import com.yimayhd.palace.service.TfsService;
 import com.yimayhd.palace.util.HandleFilesUtils;
+import com.yimayhd.palace.util.StringUtil;
 import com.yimayhd.resourcecenter.domain.RcDelayPush;
 import com.yimayhd.resourcecenter.model.enums.RcDelayStatus;
 import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
@@ -47,7 +48,7 @@ public class PushServiceImpl implements PushService {
         rcDelayPushPageQuery.setNeedCount(true);
         rcDelayPushPageQuery.setStatus(pushQueryVO.getStatus());
         //query
-        rcDelayPushPageQuery.setTopicName(pushQueryVO.getSubject());
+        rcDelayPushPageQuery.setTopicName(StringUtils.isEmpty(pushQueryVO.getSubject())?"":pushQueryVO.getSubject().replaceAll(" ",""));
         rcDelayPushPageQuery.setStarteTime(pushQueryVO.getBeginPushDate());
         rcDelayPushPageQuery.setEndTime(pushQueryVO.getEndPushDate());
         rcDelayPushPageQuery.setSendType(pushQueryVO.getPushModelType());
