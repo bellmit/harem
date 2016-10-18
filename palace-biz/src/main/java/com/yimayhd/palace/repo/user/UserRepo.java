@@ -61,6 +61,24 @@ public class UserRepo {
 		}
 		return userDOResult.getValue();
 	}
+
+	/**
+	 * 根据用户昵称精确查询用户
+	 * @param nickName
+	 * @return
+	 */
+	@MethodLogger
+	public List<UserDO> getUserByNickname(String nickName){
+		if( nickName == null || nickName.equals("")){
+			return null ;
+		}
+		BaseResult<List<UserDO>> listBaseResult = userServiceRef.getUserByNickname(nickName);
+		if( listBaseResult == null || !listBaseResult.isSuccess() ){
+			return null;
+		}
+		List<UserDO> users = listBaseResult.getValue();
+		return users;
+	}
 	
 	@MethodLogger(isPrintResult=false)
 	public List<UserDO> getUsers(List<Long> userIds) {
@@ -102,9 +120,9 @@ public class UserRepo {
 		List<UserDO> users = result.getValue();
 		Map<Long, String> map = new HashMap<Long, String>();
 		for( UserDO user : users ){
-			long id = user.getId() ;
+			long id = user.getId();
 			String mobile = user.getUnmaskMobile() ;
-			map.put(id, PhoneUtil.getMobileWithoutPrefix(mobile)) ;
+			map.put(id, PhoneUtil.getMobileWithoutPrefix(mobile));
 		}
 		return map ;
 	}

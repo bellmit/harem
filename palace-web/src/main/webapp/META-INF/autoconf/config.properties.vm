@@ -110,6 +110,8 @@ consumer.dubbo.solr.version = ${consumer.dubbo.solr.version}
 
 consumer.dubbo.selleradmin.version  =${consumer.dubbo.selleradmin.version}
 consumer.dubbo.selleradmin.check  = ${consumer.dubbo.selleradmin.check}
+consumer.dubbo.live.check = ${consumer.dubbo.live.check}
+consumer.dubbo.live.version = ${consumer.dubbo.live.version}
 
 consumer.dubbo.msg.check = ${consumer.dubbo.solr.check}
 consumer.dubbo.msg.version = ${consumer.dubbo.solr.version}

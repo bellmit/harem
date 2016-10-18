@@ -48,7 +48,7 @@
 <div class="mb10">
     <button class="btn btn-primary" id="btnAdd">创建推送</button>
 </div>
-<table class="table table-hover table-bordered">
+<table class="table table-hover table-bordered" id="tbMessageList">
     <thead>
     <tr>
         <th>
@@ -96,7 +96,7 @@
             <td>$!utilDate.date2String($!entity.createDate)</td>
             <td>$!utilDate.date2String($!entity.pushDate)</td>
             <td>$!entity.pushContent</td>
-            <td>$!entity.pushModelType</td>
+            <td>$!entity.pushModelTypeStr</td>
             <td>$!entity.sendPeople</td>
             <td>$!entity.seePeople</td>
             <td>$!entity.operationUserId</td>

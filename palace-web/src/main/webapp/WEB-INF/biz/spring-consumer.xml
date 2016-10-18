@@ -19,5 +19,5 @@
     <import resource="spring-consumer-promotion.xml"/>
     <import resource="spring-consumer-solr.xml"/>
     <import resource="spring-consumer-selleradmin.xml"/>
-
+    <import resource="spring-consumer-live.xml"/>
 </beans>

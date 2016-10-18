@@ -14,6 +14,7 @@ import com.yimayhd.palace.service.RcDelayPushService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.util.Enums;
 import com.yimayhd.resourcecenter.model.enums.RcDelaySendTargetType;
+import com.yimayhd.resourcecenter.model.enums.RcDelaySendType;
 import com.yimayhd.resourcecenter.model.enums.RcDelayStatus;
 import com.yimayhd.resourcecenter.model.enums.RcDelayType;
 import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
@@ -162,12 +163,14 @@ public class PushManageController extends BaseController {
         model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
         model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
         model.addAttribute("pushTypeList", Enums.toList(RcDelayType.class));
+        model.addAttribute("rcDelaySendTypeList", Enums.toList(RcDelaySendType.class));
         model.addAttribute("pushTypeMap", Enums.toMap(RcDelayType.class, null));
         model.addAttribute("operationDetailId",0);
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
         Collections.sort(operationDOs);
         model.addAttribute("operationDOs",operationDOs);
         model.addAttribute("pushVO",new PushVO());
+        model.addAttribute("operation","add");
         return "/system/push/appPush/edit";
     }
     @RequestMapping(value = "/appPush/toEdit", method = RequestMethod.GET)
@@ -179,13 +182,15 @@ public class PushManageController extends BaseController {
         }
         model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
         model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
+        model.addAttribute("rcDelaySendTypeList", Enums.toList(RcDelaySendType.class));
         model.addAttribute("pushTypeList", Enums.toList(RcDelayType.class));
         model.addAttribute("pushTypeMap", Enums.toMap(RcDelayType.class, null));
-        model.addAttribute("operationDetailId",pushVO.getOperationDetailId());
+        model.addAttribute("operationDetailId",pushVO.getOperationDetailId()==null?0:pushVO.getOperationDetailId());
         model.addAttribute("pushVO",pushVO);
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
         Collections.sort(operationDOs);
         model.addAttribute("operationDOs",operationDOs);
+        model.addAttribute("operation","edit");
         return "/system/push/appPush/edit";
     }
     @RequestMapping(value = "/appPush/toView", method = RequestMethod.GET)
@@ -198,12 +203,14 @@ public class PushManageController extends BaseController {
         model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
         model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
         model.addAttribute("pushTypeList", Enums.toList(RcDelayType.class));
+        model.addAttribute("rcDelaySendTypeList", Enums.toList(RcDelaySendType.class));
         model.addAttribute("pushTypeMap", Enums.toMap(RcDelayType.class, null));
-        model.addAttribute("operationDetailId",pushVO.getOperationDetailId());
+        model.addAttribute("operationDetailId",pushVO.getOperationDetailId()==null?0:pushVO.getOperationDetailId());
         model.addAttribute("pushVO",pushVO);
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
         Collections.sort(operationDOs);
         model.addAttribute("operationDOs",operationDOs);
+        model.addAttribute("operation","view");
         return "/system/push/appPush/view";
     }
     @RequestMapping(value = "/appPush/add", method = RequestMethod.POST)
@@ -233,15 +240,15 @@ public class PushManageController extends BaseController {
         return  ResponseVo.success();
     }
 
-    @RequestMapping(value = "/appPush/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/appPush/cancel", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo editPush(Model model, PushVO pushVO) throws Exception {
-        LOGGER.debug("", pushVO);
-
-        model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
-        model.addAttribute("domainType", Enums.toList(DomainType.class));
-
-        return new ResponseVo();
+    public ResponseVo cancelPush(Model model, long id) throws Exception {
+       boolean result =  rcDelayPushService.cancelPush(id);
+        if(result) {
+            return ResponseVo.success();
+        }else {
+            return ResponseVo.error();
+        }
     }
 
     public boolean verifyPushVO(PushVO pushVo){

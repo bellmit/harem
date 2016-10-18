@@ -25,7 +25,7 @@
 		<user.client.version>1.8.7-SNAPSHOT</user.client.version>
 		<spring.version>4.1.6.RELEASE</spring.version>
 		<spring.session.version>1.0.2.RELEASE</spring.session.version>
-		<comment.version>1.0.8-SNAPSHOT</comment.version>
+		<comment.version>1.2.0-SNAPSHOT</comment.version>
 		<snscenter.client.version>1.4.0-SNAPSHOT</snscenter.client.version>
 		<resourcecenter.client.version>2.1.8-SNAPSHOT</resourcecenter.client.version>
 		<membercenter.client.version>1.1.7-SNAPSHOT</membercenter.client.version>
@@ -42,6 +42,7 @@
 		<activity.client.version>1.6.1-SNAPSHOT</activity.client.version>
 		<lgcenter.client.version>0.0.6-SNAPSHOT</lgcenter.client.version>
 		<refund.version>1.0.0-SNAPSHOT</refund.version>
+		<live.version>0.0.1-SNAPSHOT</live.version>
 		<solrsearch.version>1.0.4-SNAPSHOT</solrsearch.version>
 		<selleradmin.version>1.1.1-SNAPSHOT</selleradmin.version>
 		<msgcenter.version>1.0.3.3-SNAPSHOT</msgcenter.version>
@@ -554,6 +555,11 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+			<dependency>
+            <groupId>com.yimayhd.live</groupId>
+            <artifactId>live-client</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        	</dependency>
 			<dependency>
 				<groupId>com.yimayhd.pay</groupId>
 				<artifactId>paycore-client</artifactId>

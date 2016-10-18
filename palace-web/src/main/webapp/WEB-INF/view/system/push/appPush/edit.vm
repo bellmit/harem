@@ -9,7 +9,8 @@
             <td>
                 <select class="form-control input-text" name="sendDomainId" id="domain">
                     #foreach($domainType in $domainTypeList)
-                        <option value="$!{domainType.type}" #if($!pushVO.domain==$!domainType.type) selected #end>$!{domainType.desc}</option>
+                        <option value="$!{domainType.type}" #if($!pushVO.domain==$!domainType.type)
+                                selected #end>$!{domainType.desc}</option>
                     #end
                 </select>
             </td>
@@ -25,8 +26,9 @@
             <th><span class="text-red">*</span>推送类型：</th>
             <td>
                 <select type="text" class="form-control input-text" name="pushType" id="type">
-                    #foreach($pushType in $pushTypeList)
-                        <option value="$!{pushType.code}" #if($!pushVO.pushType==$!pushType.code) selected #end>$!{pushType.desc}</option>
+                    #foreach($pushType in $rcDelaySendTypeList)
+                        <option value="$!{pushType.code}" #if($!pushVO.pushType==$!pushType.code)
+                                selected #end>$!{pushType.desc}</option>
                     #end
                 </select>
             </td>
@@ -49,7 +51,8 @@
             <td>
                 <select class="form-control input-text-small select" data-target=".input-box">
                     <option value="1" #if($stringUtil.isNullOrEmpty($!pushVO.msgContent)) selected #end>空</option>
-                    <option value="2" #if($stringUtil.isNotNullOrNotEmpty($!pushVO.msgContent)) selected #end>输入</option>
+                    <option value="2" #if($stringUtil.isNotNullOrNotEmpty($!pushVO.msgContent)) selected #end>输入
+                    </option>
                 </select>
                 <span class="input-box">
 						<input type="text" class="form-control input-text-small" name="msgContent"
@@ -73,8 +76,10 @@
                         <select class="form-control input-text-small" id="selectPage" name="operation">
                             <option value="0">请选择</option>
                             #foreach($!operations in $operationDOs)
-                                <option radioHtml="$!utilHtml.appendHtml($!operations.listOperationDetail,$!operationDetailId)" id="$!operations.operactio.id" value="$!operations.operactio.code"
-                                        operationid="$!operations.operactio.id" #if($!pushVO.operation == $!operations.operactio.code) selected = 'selected' #end >$!operations.operactio.name</option>
+                                <option radioHtml="$!utilHtml.appendHtml($!operations.listOperationDetail,$!operationDetailId)"
+                                        id="$!operations.operactio.id" value="$!operations.operactio.code"
+                                        operationid="$!operations.operactio.id" #if($!pushVO.operation == $!operations.operactio.code)
+                                        selected='selected' #end>$!operations.operactio.name</option>
                             #end
                         </select>
                     </div>
@@ -83,9 +88,10 @@
                         <a href="javascript:void(0);" class="btn btn-primary" id="btnSelectContent" style="width:100px">选择内容</a>
                     </div>
                     <div class="jump-setting-item">
-                        <input type="hidden" name="operationDetail" id="operationDetailId" value="">
+                        <input type="hidden" name="operationDetailId" id="operationDetailId" value="$!pushVO.operationDetailId">
                         <input type="hidden" name="operationContent" id="chosId" value="$!pushVO.operationContent">
-                        <input type="hidden" name="selectOpContent" id="selectOpContent" value="$!pushVO.selectOpContent">
+                        <input type="hidden" name="selectOpContent" id="selectOpContent"
+                               value="$!pushVO.selectOpContent">
                         <span class="txt">内容展示：</span><span id="showContent">$!{pushVO.selectOpContent}</span>
                     </div>
                 </div>
@@ -97,24 +103,44 @@
                 <select class="form-control input-text mb10 select" data-target=".upload-box" name="pushModelType"
                         id="userType">
                     #foreach($targetType in $rcDelaySendTargetType)
-                        <option value="$!{targetType.code}" #if($!pushVO.pushType==$!targetType.code) selected #end>$!{targetType.desc}</option>
+                        <option value="$!{targetType.code}" #if($!pushVO.pushModelType==$!targetType.code)
+                                selected #end>$!{targetType.desc}</option>
                     #end
                 </select>
-                <div class="upload-box">
-                    <div class="imgbox file-box" data-imgUrl="csv.png" data-fileType=".csv">
-                        <div class="canclick canclickL">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+                #if($!operation=="edit" && $stringUtil.isNotNullOrNotEmpty($!pushVO.pushModelFilePath))
+                    <div class="upload-box">
+                        <div class="imgbox file-box imgbox-action" data-imgUrl="csv.png" data-fileType=".csv">
+                            <div class="canclick canclickL">
+                                <img src="$utilWebconfig.getResourcePathJiuXiu()/img/csv.png">
+                            </div>
+                            <div class="plhd"></div>
+                            <div class="del">删除文件</div>
+                            <a class="upldclik">
+                                <input type="file" name="adpicfile" class="adpicfile single">
+                            </a>
+                            <input type="hidden" name="pushModelFilePath" id="uploadFile">
                         </div>
-                        <div class="plhd"></div>
-                        <div class="del">删除文件</div>
-                        <a class="upldclik">
-                            <input type="file" name="adpicfile" class="adpicfile single">
-                        </a>
-                        <input type="hidden" name="pushModelFilePath" id="uploadFile">
+                        <a href="$utilWebconfig.getTfsRootPath()$!pushVO.pushModelFilePath"
+                           class="btn btn-primary download" style="display:block">下载</a>
+                        <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>
                     </div>
-                    <a href="" class="btn btn-primary download">下载</a>
-                    <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>
-                </div>
+                #else
+                    <div class="upload-box">
+                        <div class="imgbox file-box" data-imgUrl="csv.png" data-fileType=".csv">
+                            <div class="canclick canclickL">
+                                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+                            </div>
+                            <div class="plhd"></div>
+                            <div class="del">删除文件</div>
+                            <a class="upldclik">
+                                <input type="file" name="adpicfile" class="adpicfile single">
+                            </a>
+                            <input type="hidden" name="pushModelFilePath" id="uploadFile">
+                        </div>
+                        <a href="" class="btn btn-primary download">下载</a>
+                        <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>
+                    </div>
+                #end
             </td>
         </tr>
         <tr>

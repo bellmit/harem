@@ -1,0 +1,239 @@
+<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/base.css" id="">
+<link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/live/livelist.css" id="">
+<body>
+<div class="dialog" id ="dialog">
+    <div class="bgmeng"></div>
+    <div class="dlgcont rooms">
+        <table>
+            <tr>
+                <td class="tit">关闭原因：</td>
+                <td>
+                    <select name="closeReason" id="closeReason">
+                        <option value="illegal">违法</option>
+                        <option value="boring">太难看了</option>
+                        <option value="other">其他</option>
+                    </select>
+                    <input type="hidden" id="liveRoomId"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="tit"></td>
+                <td>
+                    <input type="text" id="otherCloseReason"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="tit">关闭时间：</td>
+                <td>
+                    <select name="closeHours" id="closeHours">
+                        <option value="1">1小时</option>
+                        <option value="2">2小时</option>
+                        <option value="3">3小时</option>
+                        <option value="24">24小时</option>
+                        <option value="open">至手动开启</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <div class="boxbtn">
+            <button class="ok">确定</button>
+            <button class="cancel">取消</button>
+        </div>
+    </div>
+</div>
+<div class="searchbox">
+    <form id="roomsForm" name="roomsForm" class="roomsForm"
+          action="$utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/rooms">
+        <table>
+            <tr>
+                <td class="tit">达人昵称：</td>
+                <td><input name="nickName"  class="form-control" maxlength="30" value="$!{liveRoomQuery.nickName}"/></td>
+                <td class="tit">达人ID：</td>
+                <td><input name="userId" type="text" class="form-control" maxlength="30" datatype="/^(\d+)?$/" errormsg="请输入数字" value="$!{liveRoomQuery.userId}"/></td>
+            </tr>
+            <tr>
+                <td class="tit">房间号：</td>
+                <td><input name="liveRoomId" class="form-control" maxlength="30" value="$!{liveRoomQuery.liveRoomId}" /></td>
+                <td class="tit">状态：</td>
+                <td>
+                    <select name="status" class="form-control">
+                        <option value="0">全部</option>
+                        <option #if($liveRoomQuery.status== 1) selected #end value="1">直播中</option>
+                        <option #if($liveRoomQuery.status== 2) selected #end value="2">空闲中</option>
+                        <option #if($liveRoomQuery.status== 3) selected #end value="3">关闭</option>
+                    </select>
+                </td>
+                <td colspan="2">
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary submitBtn">查询</button>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" id="btnReset">重置</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<div class="gridbox">
+    <table class="table table-bordered table-hover" id="tbRooms">
+        <thead>
+        <th style="display: none">rowId</th>
+        <th>序号</th>
+        <th>房间号</th>
+        <th>达人昵称</th>
+        <th>达人ID</th>
+        <th>状态</th>
+        <th>操作</th>
+        </thead>
+        ## 房间管理
+        <tbody>
+            #set ($i=0)
+            #foreach($item in $itemList)
+            <tr>
+                #set($i=$i+1)
+                <td>$i</td>
+                <td>
+                    $!{item.id}
+                </td>
+                <td>
+                    $!{item.userDO.nickname}
+                </td>
+                <td>
+                    $!{item.userId}
+                </td>
+                <td>
+                    #if($item.status== 1 || $item.status== 2)
+                        $!{item.statusString}
+                    #end
+                    #if($item.status== 3)
+                        <span>至开启还有：</span>
+                        $!{item.recoverTime}
+                    #end
+                </td>
+                <td>
+                    #if($item.status== 1 || $item.status== 2)
+                        <button type="button" class="btn btn-primary off" liveRoomId="$!{item.id}">关闭直播间</button>
+                    #end
+                    #if($item.status== 3)
+                        <button type="button" class="btn btn-primary on" liveRoomId="$!{item.id}">恢复直播间</button>
+                    #end
+                </td>
+            </tr>
+            #end
+        </tbody>
+
+    </table>
+</div>
+
+#*分页*#
+    #parse("/page.vm")
+    #pageStyle("roomsForm")
+
+<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
+<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/plugin/jquery.validform.js"></script>
+</>
+##</html>
+
+<script type="text/javascript">
+
+    layer.config({
+        extend: 'extend/layer.ext.js',
+        extend: ['skin/mySkin/style.css'],
+        skin: 'layer-ext-mySkin'
+    });
+
+    function submitEdit(url, type, data) {
+        //alert(1);
+        $.ajax({
+            url: url,
+            type: type,
+            data: data,
+            success: function (res) {
+                if (res.success) {
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1500
+                    });
+                    setTimeout(function () {
+                        window.location.href = window.location.href;
+                    }, 1500);
+                } else {
+                    layer.msg(res.message, {
+                        icon: 2,
+                        time: 2000
+                    });
+                    $(this).prop('disabled', false);
+                }
+            },
+            error: function (xmlres, status, code) {
+                layer.msg('操作失败', {
+                    icon: 2,
+                    time: 2000
+                });
+                $(this).prop('disabled', false);
+            }
+        });
+    }
+
+    $(".roomsForm").Validform();
+
+    // 重置
+    $("#btnReset").on("click",function(){
+        $("#roomsForm").find(".form-control").val('');
+    });
+
+    //关闭直播间
+    $("#tbRooms").on('click', '.off', function () {
+        var liveRoomId = $(this).attr("liveRoomId");
+        showDialog({liveRoomId: liveRoomId});
+    });
+
+    function showDialog(data) {
+        if (data) {
+            $('#liveRoomId').val(data.liveRoomId || '');
+        }
+        $('.dialog').fadeIn();
+    }
+
+    //取消
+    $("#dialog").on('click', '.cancel,.bgmeng', hideDialog);
+
+    function hideDialog() {
+        $('#closeReason').val('illegal');
+        $('#rowId').val('');
+        $('#otherCloseReason').val('');
+        $('#closeTime').val('1');
+        $('.dialog').fadeOut();
+    }
+
+    //处理事件
+    $(function () {
+        //确定
+        $("#dialog").on('click', '.ok', function () {
+            var liveRoomId = $("#liveRoomId").val();
+            var closeReason = ($("#closeReason").val()||'').trim();
+            if (closeReason == 'other') {
+                closeReason = ($("#otherCloseReason").val()||'').trim();
+            }
+            if (!closeReason) {
+                alert("请填写关闭原因");
+                return;
+            }
+            var closeHours = ($("#closeHours").val()||'').trim();
+            // 关闭直播间
+            var data = {liveRoomId: liveRoomId,closeHours: closeHours,closeReason: closeReason}
+            submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/closeLiveRoom", "post", data);
+        });
+
+        // 恢复
+        $("#tbRooms").on("click", ".on", function () {
+            var liveRoomId = $(this).attr("liveRoomId");
+            layer.confirm("确认要恢复此直播？",function(){
+                var data = {liveRoomId: liveRoomId}
+                submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/recoverLiveRoom", "post", data);
+            });
+        });
+    });
+</script>

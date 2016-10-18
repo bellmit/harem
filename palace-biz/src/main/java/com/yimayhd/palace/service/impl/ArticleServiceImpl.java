@@ -222,6 +222,14 @@ public class ArticleServiceImpl implements ArticleService {
 //                    articleItemVO.setArticleAudioItemVO(articleAudioItemVO);
 //                }
                 break;
+            case FOOD:
+                ArticleFoodItemVO articleFoodItemVO = articleBiz.getArticleFoodItemVO(id);
+                if (articleFoodItemVO == null) {
+                    return null;
+                } else {
+                    articleItemVO.setArticleFoodItemVO(articleFoodItemVO);
+                }
+                break;
             default:
                 break;
         }

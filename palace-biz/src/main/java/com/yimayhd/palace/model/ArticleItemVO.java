@@ -73,7 +73,17 @@ public class ArticleItemVO implements Serializable {
 	 */
 	private ArticleAudioItemVO articleAudioItemVO;
 	private AudioVO audioResource;
-	
+	private ArticleFoodItemVO articleFoodItemVO;
+
+
+	public ArticleFoodItemVO getArticleFoodItemVO() {
+		return articleFoodItemVO;
+	}
+
+	public void setArticleFoodItemVO(ArticleFoodItemVO articleFoodItemVO) {
+		this.articleFoodItemVO = articleFoodItemVO;
+	}
+
 	public AudioVO getAudioResource() {
 		return audioResource;
 	}

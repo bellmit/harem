@@ -112,6 +112,7 @@
 	<bean id="pushService" class="com.yimayhd.palace.service.impl.PushServiceImpl"/>
 	<bean class="com.yimayhd.palace.service.impl.RcDelayPushServiceImpl"/>
 
-
+	<!-- 直播管理 -->
+	<bean id="liveAdminService" class="com.yimayhd.palace.service.impl.LiveAdminServiceImpl"/>
 
 </beans>

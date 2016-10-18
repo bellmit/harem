@@ -65,10 +65,13 @@ public class TrouistlistBiz {
         ICResult<GuideLineDTO> result = touristManageService.queryGuideLine(guideId);
         if (result == null) {
             guideLineVO.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+            //FIXME 朱浩 这边最好直接return。
         } else if (!result.isSuccess()) {
             guideLineVO.setCode(result.getResultCode());
             guideLineVO.setMsg(result.getResultMsg());
             guideLineVO.setSuccess(false);
+
+            //FIXME 朱浩 这边最好直接return。另外不要使用其他系统返回的returncode，一来别人系统的code是有可能修改的；二来当前系统中，不应该对外抛出别人系统的错误code
         } else {
             guideLineVO.setCode(result.getResultCode());
             guideLineVO.setMsg(result.getResultMsg());
@@ -108,6 +111,7 @@ public class TrouistlistBiz {
         ICResult<Boolean> result = touristManageService.deleteAttraction(id);
         if (result == null) {
             bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+            //FIXME 朱浩 这边最好直接return。
         } else {
             bizResult.setCode(result.getResultCode());
             bizResult.setMsg(result.getResultMsg());
@@ -119,6 +123,7 @@ public class TrouistlistBiz {
                 ICResult<GuideLineDTO> guideLineDTOResult = touristManageService.queryGuideLine(guideId);
                 if (guideLineDTOResult == null) {
                     bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+                    //FIXME 朱浩 这边最好直接return。
                 }
                 if (guideLineDTOResult.isSuccess()
                         && guideLineDTOResult.getModule() != null
@@ -143,10 +148,13 @@ public class TrouistlistBiz {
             return bizResult;
         }
         GuideCascadeAttractionVO guideCascadeAttractionVO = touristManageService.queryGuideAttractionFocusInfo(scenicId);
+        //FIXME 朱浩 FIXME 任何时候，代码块的大括号一定不能省略
         if (guideCascadeAttractionVO == null)
+        	//FIXME 朱浩 这种情况要给出日志，错误code如果需要处理，那么处理掉，如果不需要处理set一个自己系统定义的第三方系统错误的code
             bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
         // 简化数据
         AttractionListGuideLineVO attractionListGuideLineVO = GuideConverter.guideCascadeAttractionDTO2AttractionListGuideLineVO(guideCascadeAttractionVO);
+        //FIXME 朱浩 FIXME 任何时候，代码块的大括号一定不能省略
         if (attractionListGuideLineVO == null)
             bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
         bizResult.setValue(attractionListGuideLineVO);
@@ -154,6 +162,7 @@ public class TrouistlistBiz {
     }
 
     // 更新线路
+    //FIXME 朱浩 lineListJson 应该改成对象，而不是字符串，然后解析成对象，页面传递进来的时候就要使用对象
     public BizResult<String> updateGuideLine(long guideId, String lineListJson) {
         BizResult<String> result = new BizResult<String>();
         ArrayList<GuideLineEntry> guideLine = new ArrayList<GuideLineEntry>();
@@ -176,6 +185,7 @@ public class TrouistlistBiz {
             result.setMsg(saveResult.getResultMsg());
             result.setSuccess(saveResult.isSuccess());
             if (saveResult.isSuccess()) {
+            	//FIXME 朱浩 返回结果应该是BizResult<Long>，而不是BizResult<String>
                 result.setValue(guideId + "");
             }
             log.error("saveResult:{}", JSON.toJSONString(saveResult));
@@ -192,6 +202,7 @@ public class TrouistlistBiz {
                 bizResult.setCode(updateTouristResult.getCode());
                 bizResult.setMsg(updateTouristResult.getMsg());
                 bizResult.setSuccess(updateTouristResult.isSuccess());
+                //FIXME 朱浩 FIXME 任何时候，代码块的大括号一定不能省略
                 if (updateTouristResult.isSuccess())
                     bizResult.setValue(guideAttractionVO.getId() + "");
                 return bizResult;
@@ -202,6 +213,8 @@ public class TrouistlistBiz {
             queryDTO.setGuideId(guideAttractionVO.getGuideId());
             queryDTO.setNo(guideAttractionVO.getAttrNo());
             ICResult<List<GuideAttractionDO>> queryDTOResult = touristManageService.queryAttractionList(queryDTO);
+            //FIXME 朱浩 查询不出来对象的时候，不应该返回错误
+            //FIXME 朱浩 应该调用setPalaceReturnCode接口，而不是每个地方设置一个字符串
             if (queryDTOResult.getModule() != null && queryDTOResult.getModule().size() > 0) {
                 bizResult.setMsg("景点编号已重复");
                 bizResult.setSuccess(false);
@@ -223,6 +236,7 @@ public class TrouistlistBiz {
             log.error("saveResult:{}", JSON.toJSONString(bizResult));
             return bizResult;
         } catch (Exception e) {
+        	//FIXME 朱浩 error日志的时候要输出参数
             log.error(e.getMessage(), e);
         }
         return bizResult;

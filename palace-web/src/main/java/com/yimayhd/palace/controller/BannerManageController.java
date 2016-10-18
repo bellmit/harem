@@ -5,8 +5,8 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.dto.CategoryQueryDTO;
 import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
+import com.yimayhd.commentcenter.client.enums.*;
 import com.yimayhd.ic.client.model.enums.GuideStatus;
-import com.yimayhd.commentcenter.client.enums.CategoryStatus;
 import com.yimayhd.commission.client.enums.Domain;
 import com.yimayhd.ic.client.model.enums.ItemStatus;
 import com.yimayhd.ic.client.model.enums.ItemType;
@@ -21,7 +21,11 @@ import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.constant.Constants;
 import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.convert.ShowCaseItem;
+import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
+import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.guide.GuideScenicListQuery;
+import com.yimayhd.palace.model.query.LiveAdminQuery;
+import com.yimayhd.palace.model.query.LiveRoomQuery;
 import com.yimayhd.palace.model.vo.booth.BoothVO;
 import com.yimayhd.palace.model.vo.booth.ShowcaseVO;
 import com.yimayhd.palace.service.BoothService;
@@ -52,6 +56,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+import static com.yimayhd.live.client.enums.LiveStatus.REPLAY_LIVE;
+
 
 /**
  * Created by czf on 2016/4/12.
@@ -81,6 +87,7 @@ public class BannerManageController extends BaseController {
         PageVO<BoothVO> pageVO = boothService.getList(baseQuery);
         model.addAttribute("pageVo",pageVO);
         model.addAttribute("query",baseQuery);
+        model.addAttribute("showcaseStatus",ShowcaseStauts.ONLINE.getStatus());
         return "/system/banner/booth/list";
     }
 
@@ -129,8 +136,11 @@ public class BannerManageController extends BaseController {
      * @throws Exception
      */
     @RequestMapping(value = "/showcase/list/{boothCode}", method = RequestMethod.GET)
-    public String showcaseList(Model model,ShowcaseQuery showcaseQuery, @PathVariable(value = "boothCode") String boothCode,int pageNumber) throws Exception {
-        showcaseQuery.setPageNo( 0 == pageNumber ? Constants.DEFAULT_PAGE_NUMBER : pageNumber );
+    public String showcaseList(Model model,ShowcaseQuery showcaseQuery, @PathVariable(value = "boothCode") String boothCode,Integer pageNumber) throws Exception {
+    	if( pageNumber == null ){
+    		pageNumber = Constants.DEFAULT_PAGE_NUMBER ;
+    	}
+        showcaseQuery.setPageNo( pageNumber );
         PageVO<ShowCaseResult> page = showcaseService.getShowcaseResult(showcaseQuery);
         model.addAttribute("pageVo",page);
         model.addAttribute("boothCode",boothCode);
@@ -138,6 +148,7 @@ public class BannerManageController extends BaseController {
         model.addAttribute("appVersionCode",showcaseQuery.getAppVersionCode());
         model.addAttribute("pageNumber",showcaseQuery.getPageNo());
         model.addAttribute("showcaseQuery",showcaseQuery);
+        model.addAttribute("statuses",ShowcaseStauts.values());
         return "/system/banner/showcase/list";
     }
 
@@ -169,7 +180,7 @@ public class BannerManageController extends BaseController {
         if(null != showcase){
             return new ResponseVo(ResponseStatus.SUCCESS);
         }
-            return new ResponseVo(ResponseStatus.ERROR);
+        return new ResponseVo(ResponseStatus.ERROR);
     }
 
     /**
@@ -250,8 +261,9 @@ public class BannerManageController extends BaseController {
                 || Constant.SHOWCASE_VIEW_TOPIC_DETAIL == type
                 || Constant.SHOWCASE_MASTER_CIRCLE_DETAIL == type
                 || Constant.SHOWCASE_TRAVEL_INFORMATION_LIST == type
-                ||  Constant.SHOWCASE_GUIDE_INFORMATION_LIST == type
+                || Constant.SHOWCASE_GUIDE_INFORMATION_LIST == type
                 || Constant.SHOWCASE_CATEGORY_LIST ==type
+                || Constant.LIVE_CATEGORY ==type
                 ){//选列表
             return "/system/banner/showcase/chooseItemList";
         }else if(Constant.SHOWCASE_ITEM_DETAIL == type){//选详情
@@ -260,9 +272,11 @@ public class BannerManageController extends BaseController {
             return "/system/banner/showcase/chooseDaRenMeiShiDetail";
         }else if(Constant.SHOWCASE_NEST_BOOTH_LIST == type){//booth列表
             return "/system/banner/showcase/chooseItemListVersion";
+        }else if(Constant.LIVE_PLAYBACK_LIST == type ){ // 直播回放列表
+        	return "/system/banner/showcase/chooseLivePlaybackDetail";
+        }else if(Constant.LIVE_ROOM_LIST ==type){ // 直播房间列表
+        	return "/system/banner/showcase/chooseLiveRoomDetail";
         }
-
-
         return "error";
     }
 
@@ -284,6 +298,7 @@ public class BannerManageController extends BaseController {
                 getRegion(pageNumber,pageSize,result);
                 break;
             case Constant.SHOWCASE_SHOE_TYPE_THEME : //选主题
+            case Constant.LIVE_CATEGORY:   // 直播分类
                 getTagList(pageNumber,pageSize,result,code);
                 break;
             case Constant.SHOWCASE_HOTEL_LIST : //选酒店列表
@@ -319,6 +334,12 @@ public class BannerManageController extends BaseController {
             case Constant.SHOWCASE_CATEGORY_LIST://品类
                 result = getCategoryList(pageNumber,pageSize,result,keyWord);
                 break;
+            case Constant.LIVE_PLAYBACK_LIST: // 直播回放列表
+                result = getPageLiveRecordList(pageNumber,pageSize,result,keyWord,code);
+                break;
+            case Constant.LIVE_ROOM_LIST:   // 直播房间管理列表
+                result = getPageLiveRoomList(pageNumber,pageSize,result,keyWord,code);
+                break;
             /*case Constant.SHOWCASE_VIEW_TOPIC_LIST ://选话题列表
                 getScenicList(pageNumber,pageSize,result,keyWord);
                 break;*/
@@ -326,6 +347,37 @@ public class BannerManageController extends BaseController {
         return new ResponseVo(result);
     }
 
+    // 获取直播回放列表
+    public Map<String, Object> getPageLiveRecordList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord,String code){
+        LiveAdminQuery query = new LiveAdminQuery();
+        if(NumberUtils.isNumber(keyWord)){
+            query.setUserId(Long.parseLong(keyWord));
+        }else if(StringUtils.isNotEmpty(keyWord)){
+            query.setNickName(keyWord);
+        }
+        query.setPageNumber(pageNumber);
+        query.setPageSize(pageSize);
+        query.setLiveStatus(REPLAY_LIVE.getStatus());  // 获取回放列表
+        PageVO<ShowCaseItem> page = showcaseService.getPageLiveRecordListByQuery(query);
+        result.put("pageVo", page);
+        return result;
+    }
+
+    // 获取直播房间管理列表
+    public Map<String, Object> getPageLiveRoomList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord,String code){
+        LiveRoomQuery query = new LiveRoomQuery();
+        if(NumberUtils.isNumber(keyWord)){
+            query.setLiveRoomId(Long.parseLong(keyWord));
+        }else if(StringUtils.isNotEmpty(keyWord)){
+            query.setNickName(keyWord);
+        }
+        query.setPageNumber(pageNumber);
+        query.setPageSize(pageSize);
+
+        PageVO<ShowCaseItem> page = showcaseService.getPageLiveRoomListByQuery(query);
+        result.put("pageVo", page);
+        return result;
+    }
 
     public Map<String, Object> getAttachmentListByQuery(int pageNumber,int pageSize,Map<String, Object> result,String keyWord,String code){
         GuideScenicListQuery query = new GuideScenicListQuery();
@@ -342,6 +394,7 @@ public class BannerManageController extends BaseController {
         result.put("pageVo", page);
         return result;
 	}
+
     public Map<String, Object> getCategoryList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord) {
         CategoryQueryDTO query = new CategoryQueryDTO();
         query.setStatus(CategoryStatus.ONLINE.getStatus());
@@ -382,7 +435,6 @@ public class BannerManageController extends BaseController {
         result.put("pageVo", page);
         return result;
     }
-
 
     public Map<String, Object> getBoothPageList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord){
         BoothQuery boothQuery = new BoothQuery();
@@ -513,7 +565,7 @@ public class BannerManageController extends BaseController {
         tag.setNeedCount(true);
         tag.setPageNo(pageNumber);
         tag.setPageSize(pageSize);
-        PageVO<ComTagDO> page = showcaseService.getTagListByTagType(tag);
+        PageVO<ShowCaseItem> page = showcaseService.getTagsByTagType(tag);
         result.put("pageVo", page);
         return result;
     }
@@ -600,6 +652,4 @@ public class BannerManageController extends BaseController {
         String str = JSON.toJSONString(listBooth);
         return str;
     }
-
-
 }

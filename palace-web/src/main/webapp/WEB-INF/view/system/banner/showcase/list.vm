@@ -5,17 +5,33 @@
 </script>
 <div>
     <form class="form-signin" id="tradeListForm1" name="tradeListForm1"
-          action="$!utilWebconfig.getActionDefaultFontPath()/banner/showcase/list/$!boothCode?pageNumber=$!pageNumber" method="get" role="form">
+          action="$!utilWebconfig.getActionDefaultFontPath()/banner/showcase/list/$!boothCode" method="get" role="form">
             <input type="hidden" name="boothCode" id="boothCode" value="$!showcaseQuery.boothCode">
             <input type="hidden" name="boothId"   id="boothId"    value="$!showcaseQuery.boothId">
             <input type="hidden" name="appVersionCode"   id="appVersionCode"    value="$!showcaseQuery.appVersionCode">
-            <div class="btn-group">
-                <button  boothCode="$!boothCode" boothId="$!showcaseQuery.boothId" appVersionCode="$!showcaseQuery.appVersionCode"
-                         type="button" class="btn btn-add">增加</button>
+            <input type="hidden" name="pageSize"   id="pageSize"    value="$!showcaseQuery.pageSize">
+            
+            <div class="query">
+            	<div class="input-group inpSingle">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">状态</button>
+                    </span>
+		            <select class="form-control" name="status">
+	                	<option value="0">全部</option>
+	                    #foreach($status in $statuses)
+	                        <option value="$!{status.status}" #if($!showcaseQuery.status == $!status.status) selected #end >$!{status.desc}</option>
+	                    #end
+	                </select>
+		        </div>
+		        <div class="btn-group">
+		            <button type="submit" class="btn btn-primary">查询</button>
+	                <button type="button" id="clean_btn" class="btn btn-primary">重置</button>
+		            <button  boothCode="$!boothCode" boothId="$!showcaseQuery.boothId" appVersionCode="$!showcaseQuery.appVersionCode" type="button" class="btn btn-add btn-primary">新增showcase</button>
+		        </div>
             </div>
-           #* <div class="btn-group">
-                <button type="button" id="clean_btn" class="btn btn-primary">重置</button>
-            </div>*#
+             
+            
+            
         <div class="tableGroup whole">
             <table class="table table-hover">
                 <tbody>
@@ -41,7 +57,7 @@
                         <td>$!sw.showcaseDO.info</td>
                         <td>
                             #if($sw.showcaseDO.imgUrl)
-                                <img src="$utilWebconfig.getTfsRootPath()$!sw.showcaseDO.imgUrl" width='200' height='200' />
+                                <img src="$utilWebconfig.getTfsRootPath()$!sw.showcaseDO.imgUrl" height='100'/>
                             #end
                         </td>
                         <td>

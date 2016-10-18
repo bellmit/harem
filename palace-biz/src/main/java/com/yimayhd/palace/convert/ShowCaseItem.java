@@ -1,5 +1,7 @@
 package com.yimayhd.palace.convert;
 
+import org.apache.poi.ss.formula.functions.T;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,7 +10,7 @@ import java.util.List;
  * @Description
  * @return $returns
  */
-public class ShowCaseItem implements Serializable{
+public class ShowCaseItem<T> implements Serializable{
     public long id; //id
     public String name;//标题
     public String imgUrl;//主图
@@ -23,6 +25,13 @@ public class ShowCaseItem implements Serializable{
     public String code;
     public String URL;//外链，url
 
+    protected T value;
+    public T getValue() {
+        return value;
+    }
+    public void setValue(T value) {
+        this.value = value;
+    }
 
     public String getURL() {
         return URL;
