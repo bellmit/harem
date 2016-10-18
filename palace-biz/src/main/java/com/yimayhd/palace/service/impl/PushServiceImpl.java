@@ -60,7 +60,7 @@ public class PushServiceImpl implements PushService {
         }else if(Constant.PUSH_PUSH == pushQueryVO.getPushType()){
             rcResult = rcDelayRepo.listPush(rcDelayPushPageQuery);
         }
-        if(null == rcResult || !rcResult.isSuccess() && CollectionUtils.isEmpty(rcResult.getList())){
+        if(null == rcResult || !rcResult.isSuccess() ||CollectionUtils.isEmpty(rcResult.getList())){
             return new PageVO<PushVO>();
         }
         List<RcDelayPush> list =  rcResult.getList();
