@@ -121,7 +121,7 @@
                             <input type="hidden" name="pushModelFilePath" id="uploadFile">
                         </div>
                         <a href="$utilWebconfig.getTfsRootPath()$!pushVO.pushModelFilePath"
-                           class="btn btn-primary download" style="display:block">下载</a>
+                           class="btn btn-primary download" download style="display:block">下载</a>
                         <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>
                     </div>
                 #else
@@ -137,7 +137,7 @@
                             </a>
                             <input type="hidden" name="pushModelFilePath" id="uploadFile">
                         </div>
-                        <a href="" class="btn btn-primary download">下载</a>
+                        <a href="" class="btn btn-primary  download" download>下载</a>
                         <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>
                     </div>
                 #end
