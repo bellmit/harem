@@ -46,6 +46,14 @@ public class PushServiceImpl implements PushService {
         rcDelayPushPageQuery.setPageSize(pushQueryVO.getPageSize());
         rcDelayPushPageQuery.setNeedCount(true);
         rcDelayPushPageQuery.setStatus(pushQueryVO.getStatus());
+        //query
+        rcDelayPushPageQuery.setTopicName(pushQueryVO.getSubject());
+        rcDelayPushPageQuery.setStarteTime(pushQueryVO.getBeginPushDate());
+        rcDelayPushPageQuery.setEndTime(pushQueryVO.getEndPushDate());
+        rcDelayPushPageQuery.setSendType(pushQueryVO.getPushModelType());
+        rcDelayPushPageQuery.setStatus(pushQueryVO.getStatus());
+        rcDelayPushPageQuery.setType(pushQueryVO.getPushType());
+
         RCPageResult<RcDelayPush> rcResult = null;
         if(Constant.PUSH_MSG == pushQueryVO.getPushType()){
             rcResult = rcDelayRepo.listMsg(rcDelayPushPageQuery);
