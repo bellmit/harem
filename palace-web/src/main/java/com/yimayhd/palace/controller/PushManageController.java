@@ -6,6 +6,7 @@ import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.Constant;
+import com.yimayhd.palace.constant.ResponseStatus;
 import com.yimayhd.palace.model.vo.PushQueryVO;
 import com.yimayhd.palace.model.vo.PushVO;
 import com.yimayhd.palace.service.PushService;
@@ -55,6 +56,7 @@ public class PushManageController extends BaseController {
     private SessionManager sessionManager;
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String getMsgAdd(Model model,int pushType) throws Exception {
+        model.addAttribute("isEdit",false);
         if(Constant.PUSH_MSG == pushType){//1短信2push
             return "/system/push/appMsg/edit";
         }else{
@@ -63,18 +65,25 @@ public class PushManageController extends BaseController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String msgAdd(Model model,PushVO pushVO) throws Exception {
+    @ResponseBody
+    public ResponseVo msgAdd(Model model,PushVO pushVO) throws Exception {
        //校验
+        setOperationUserId(pushVO);
         if(!verifyPushVO(pushVO)){
         throw new Exception("参数校验失败");
        }
         boolean flag = pushService.saveOrUpdate(pushVO);
         if(flag){
-            return "success";
+            return new ResponseVo(ResponseStatus.SUCCESS);
         }
-        return "error";
+        return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
     }
 
+    public PushVO setOperationUserId(PushVO pushVO){
+        UserDO user = sessionManager.getUser();
+        pushVO.setOperationUserId(user.getId());
+        return pushVO;
+    }
 
     //短信推送列表
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -111,12 +120,14 @@ public class PushManageController extends BaseController {
 
     //短信推送详情
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-    public String edit(Model model,PushVO pushVO) throws Exception {
+    @ResponseBody
+    public ResponseVo edit(Model model,PushVO pushVO) throws Exception {
+        setOperationUserId(pushVO);
         boolean flag = pushService.saveOrUpdate(pushVO);
         if(flag){
-            return "success";
+            return new ResponseVo(ResponseStatus.SUCCESS);
         }
-        return "error";
+        return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
     }
 
     //短信推送列表

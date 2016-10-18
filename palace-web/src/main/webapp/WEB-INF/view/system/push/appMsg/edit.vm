@@ -11,7 +11,11 @@
     <table class="table form-table">
         <tr>
             <th>
-                <input type="hidden" name="id" #if($!entity.id) value = '0' #else value = '$!entity.id'  #end >
+                #if($!isEdit)
+                    <input type="hidden" name="id" value="$!entity.id" >
+                #else
+                    <input type="hidden" name="id" value="0" >
+                #end
                 <input type="hidden" name="pushType" value="1">
                 <span class="text-red">*</span>推送领域：</th>
             <td>
