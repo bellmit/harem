@@ -3,6 +3,7 @@ package com.yimayhd.palace.convert;
 import com.yimayhd.palace.model.vo.PushVO;
 import com.yimayhd.resourcecenter.domain.RcDelayPush;
 import com.yimayhd.resourcecenter.model.enums.RcDelayType;
+import com.yimayhd.resourcecenter.model.enums.ShowcaseFeatureKey;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -49,6 +50,7 @@ public class RcDelayPushConverter {
         pushVO.setSeePeople(rcDelayPush.getSeePeople());
         pushVO.setSendPeople(rcDelayPush.getSendPeople());
         pushVO.setSendDomainId(rcDelayPush.getSendDomainId());
+
         return pushVO;
     }
 
@@ -74,6 +76,9 @@ public class RcDelayPushConverter {
         rcDelayPush.setSendDomainId(pushVO.getSendDomainId());
         rcDelayPush.setTitle(pushVO.getSubject());
         rcDelayPush.setSendTargetType(pushVO.getPushModelType());
+        pushVO.addFeature(ShowcaseFeatureKey.DEFAULT_SHOW_DOCUMENT,pushVO.getOperationDetailId());
+        pushVO.addFeature(ShowcaseFeatureKey.SHOW_DOCUMENT,pushVO.getSelectOpContent());
+        rcDelayPush.setFeature(pushVO.getFeature());
         return rcDelayPush;
     }
 

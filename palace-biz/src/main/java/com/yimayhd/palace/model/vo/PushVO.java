@@ -37,6 +37,7 @@ public class PushVO implements Serializable{
     private long sendDomainId;
     private Map<String, String> feature;
 
+
     public String getFeature() {
         return com.yimayhd.resourcecenter.util.FeatureUtil.toString(feature);
     }
@@ -63,6 +64,15 @@ public class PushVO implements Serializable{
     }
 
     private String selectOpContent;//选中回显
+    private String operationDetailId;//
+
+    public String getOperationDetailId() {
+        return operationDetailId;
+    }
+
+    public void setOperationDetailId(String operationDetailId) {
+        this.operationDetailId = operationDetailId;
+    }
 
     public String getSelectOpContent() {
         return selectOpContent;

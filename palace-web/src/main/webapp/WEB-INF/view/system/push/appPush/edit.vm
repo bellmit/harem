@@ -85,6 +85,7 @@
                     <div class="jump-setting-item">
                         <input type="hidden" name="operationDetail" id="operationDetailId" value="">
                         <input type="hidden" name="operationContent" id="chosId" value="$!pushVO.operationContent">
+                        <input type="hidden" name="selectOpContent" id="selectOpContent" value="$!pushVO.selectOpContent">
                         <span class="txt">内容展示：</span><span id="showContent">$!{pushVO.selectOpContent}</span>
                     </div>
                 </div>
