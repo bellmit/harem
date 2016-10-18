@@ -1,10 +1,13 @@
 package com.yimayhd.palace.service.impl;
 
+import com.google.common.base.Strings;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.RcDelayPushConverter;
 import com.yimayhd.palace.model.vo.PushVO;
 import com.yimayhd.palace.repo.RcDelayRepo;
+import com.yimayhd.palace.service.PushService;
 import com.yimayhd.palace.service.RcDelayPushService;
+import com.yimayhd.palace.util.HandleFilesUtils;
 import com.yimayhd.resourcecenter.domain.RcDelayPush;
 import com.yimayhd.resourcecenter.model.enums.RcDelayType;
 import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
@@ -13,18 +16,25 @@ import com.yimayhd.stone.enums.DomainType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
+import java.util.Set;
 
 /**
  * Created by liuxp on 2016/10/13.
  */
 public class RcDelayPushServiceImpl implements RcDelayPushService {
+    private Logger logger = LoggerFactory.getLogger(RcDelayPushServiceImpl.class);
 
     @Autowired
     private RcDelayRepo rcDelayRepo;
+    @Value("${palace.tfsRootPath}")
+    private String tfsRootPath ;
 
-    private Logger logger = LoggerFactory.getLogger(RcDelayRepo.class);
-
+    @Resource
+    private PushService pushService;
     @Override
     public PageVO<PushVO> getPushList(RcDelayPushPageQuery rcDelayPushPageQuery) {
 
@@ -45,7 +55,13 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
             return null;
         }
         pushVO.setDomain(DomainType.DOMAIN_JX.getType());
+        //file
+        if(!Strings.isNullOrEmpty(pushVO .getPushModelFilePath())){
+            HandleFilesUtils handleFilesUtils = new HandleFilesUtils();
+            Set<String> setString =   HandleFilesUtils.getDistinctStringFromTFS(tfsRootPath + pushVO.getPushModelFilePath());
+        }
         RcDelayPush rcDelayPush = rcDelayRepo.insertPush(RcDelayPushConverter.convertPushVOToRcDelayPush(pushVO));
+
         if(null==rcDelayPush) {
             return null;
         }

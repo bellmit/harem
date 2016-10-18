@@ -1,6 +1,8 @@
 package com.yimayhd.palace.convert;
 
+import com.google.common.base.Strings;
 import com.yimayhd.palace.model.vo.PushVO;
+import com.yimayhd.palace.util.HandleFilesUtils;
 import com.yimayhd.resourcecenter.domain.RcDelayPush;
 import com.yimayhd.resourcecenter.model.enums.RcDelayType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseFeatureKey;
@@ -51,6 +53,8 @@ public class RcDelayPushConverter {
         pushVO.setSendPeople(rcDelayPush.getSendPeople());
         pushVO.setSendDomainId(rcDelayPush.getSendDomainId());
 
+        pushVO.setOperationDetailId(pushVO.getRcFeature(ShowcaseFeatureKey.DEFAULT_SHOW_DOCUMENT));
+        pushVO.setSelectOpContent(pushVO.getRcFeature(ShowcaseFeatureKey.SHOW_DOCUMENT));
         return pushVO;
     }
 
@@ -79,6 +83,8 @@ public class RcDelayPushConverter {
         pushVO.addFeature(ShowcaseFeatureKey.DEFAULT_SHOW_DOCUMENT,pushVO.getOperationDetailId());
         pushVO.addFeature(ShowcaseFeatureKey.SHOW_DOCUMENT,pushVO.getSelectOpContent());
         rcDelayPush.setFeature(pushVO.getFeature());
+
+
         return rcDelayPush;
     }
 
