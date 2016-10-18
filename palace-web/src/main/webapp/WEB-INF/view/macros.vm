@@ -954,3 +954,18 @@
 		不存在
     #end
 #end
+
+#*push状态*#
+#macro(PUSH_STATUS $status)
+    #if($status == '0')
+    全部
+    #elseif($status == '1')
+    处理中
+    #elseif($status == '2')
+    取消发送
+    #elseif($status == '99')
+    已发送
+    #elseif($status == '98')
+    待发送
+    #end
+#end

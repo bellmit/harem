@@ -89,14 +89,14 @@
 		<tr>
 			<td>$entity.id</td>
 			<td>$!entity.subject</td>
-			<td>$!entity.createDate</td>
-			<td>$!entity.pushDate</td>
+			<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!entity.createDate) </td>
+			<td>$!date.format('yyyy-MM-dd HH:mm:ss',$!entity.pushDate) </td>
 			<td>$!entity.pushContent</td>
 			<td>$!entity.pushModelType</td>
 			<td>$!entity.sendPeople</td>
 			<td>$!entity.seePeople</td>
 			<td>$!entity.operationUserId</td>
-			<td>$!entity.status</td>
+			<td>#PUSH_STATUS($!entity.status)</td>
 			<td>
 				<button type="button" class="btn btn-primary detail" detailid="0">详情</button>
 				<button type="button" class="btn btn-primary entityDetail" appVersion="$!entity.appVersion " entityCode="$!entity.code" entityId="$entity.id">详情</button>

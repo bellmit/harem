@@ -13,6 +13,7 @@ import java.util.Map;
  * @Description 推送对象
  */
 public class PushVO implements Serializable{
+    private static final long serialVersionUID = -4381015314038648525L;
     private int domain;
     private String subject;//主题
     private int pushType;//推送类型
@@ -59,6 +60,16 @@ public class PushVO implements Serializable{
             return null;
         }
         return feature.get(showcaseFeatureKey.getCode());
+    }
+
+    private String selectOpContent;//选中回显
+
+    public String getSelectOpContent() {
+        return selectOpContent;
+    }
+
+    public void setSelectOpContent(String selectOpContent) {
+        this.selectOpContent = selectOpContent;
     }
 
     public int getDomain() {

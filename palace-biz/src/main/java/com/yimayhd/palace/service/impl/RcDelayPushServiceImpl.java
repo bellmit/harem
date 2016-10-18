@@ -9,6 +9,7 @@ import com.yimayhd.resourcecenter.domain.RcDelayPush;
 import com.yimayhd.resourcecenter.model.enums.RcDelayType;
 import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
 import com.yimayhd.resourcecenter.model.result.RCPageResult;
+import com.yimayhd.stone.enums.DomainType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,7 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
             logger.error("RcDelayPushServiceImpl insertPush param is null!");
             return null;
         }
+        pushVO.setDomain(DomainType.DOMAIN_JX.getType());
         RcDelayPush rcDelayPush = rcDelayRepo.insertPush(RcDelayPushConverter.convertPushVOToRcDelayPush(pushVO));
         if(null==rcDelayPush) {
             return null;
@@ -68,6 +70,7 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
             logger.error("RcDelayPushServiceImpl updatePush param is null!");
             return null;
         }
+        pushVO.setDomain(DomainType.DOMAIN_JX.getType());
         RcDelayPush rcDelayPush = rcDelayRepo.updatePush(RcDelayPushConverter.convertPushVOToRcDelayPush(pushVO));
         if(null==rcDelayPush) {
             return null;
