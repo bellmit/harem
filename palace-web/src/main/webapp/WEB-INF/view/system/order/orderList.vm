@@ -73,17 +73,17 @@
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">店铺名称/昵称</button>
                     </span>
-                <select style="width:30%;" class="form-control" name="merchantName">
+                <select style="width:40%;" class="form-control changeSelect" name="merchantName">
                 <option value="shopName" #if($!{orderListQuery.merchantName} == 'shopName') selected #end>店铺名称</option>
                 <option value="nickName" #if($!{orderListQuery.merchantName} == 'nickName') selected #end>达人昵称</option>
              </select>
-                <input type="text" style="width:70%;" class="form-control" name="sellerName" value="$!orderListQuery.sellerName">
+                <input type="text" style="width:60%;" class="form-control" name="sellerName" value="$!orderListQuery.sellerName">
             </div>
             <div class="input-group inpSingle">
                     <span class="input-group-btn">
                         <button class="btn btn-default" type="button">商户编号</button>
                     </span>
-                <input type="text" class="form-control" name="merchantNo" value="$!orderListQuery.merchantNo">
+                <input type="text" class="form-control" name="merchantNo" id="merchantNo" value="$!orderListQuery.merchantNo">
             </div>
             <div class="btn-group">
                 <button type="button" class="btn btn-primary search">查询</button>
@@ -258,6 +258,18 @@
         $('.subChecked').prop('checked',$(this).prop('checked'));
     });
     
+    function validateMerchantNo(merchantNo, e) {
+    var s = /^[0-9]*$/;
+    if (s.test(merchantNo.trim())) {
+        return;
+    }
+    e.preventDefault();
+    layer.alert('商户编号输入不正确', {
+        icon: 2
+    });
+	return false;
+	}
+
     $(".form-date").datetimepicker(
             {
                 language: "zh-CN",
@@ -272,7 +284,12 @@
             });
 
     $(function () {
-    	$(".search").click(function () {
+    	$(".search").click(function (e) {
+    		var merchantNo = $("#merchantNo").val();
+	       	var result = validateMerchantNo(merchantNo, e);
+	       	if(result == false) {
+	       		return result;
+	       	}
     		var beginDate = $("input[name='beginDate']").val();
             var endDate = $("input[name='endDate']").val();
     		if(beginDate && endDate){
@@ -301,6 +318,8 @@
             $("select[name='orderStat']").val("");
             $("input[name='merchantName']").val("");
              $("input[name='merchantNo']").val("");
+             $("input[name='sellerName']").val("");
+             $(".changeSelect option:first").attr("selected","selected");
         });
         
         $(".detail").click(function () {

@@ -132,7 +132,7 @@
 
         $("#tbScenicList").on("click", ".view", function () {
             var themeid = $(this).attr("themeid");
-            window.parent.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuniu/scenicSpotManage/view/" + themeid, 2, "景区详情");
+            window.parent.parent.tabsAdd('', "$utilWebconfig.getActionDefaultFontPath()/jiuniu/scenicSpotManage/viewForGuide/" + themeid, 2, "景区详情");
         });
     });
 </script>

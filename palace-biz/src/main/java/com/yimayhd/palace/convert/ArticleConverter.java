@@ -248,6 +248,8 @@ public class ArticleConverter {
         articleAudioItemVO.setService(articleFoodItemDTO.getService());
         articleAudioItemVO.setTop(articleFoodItemDTO.getTop());
         articleAudioItemVO.setItemTitle(articleFoodItemDTO.getItemTitle());
+        articleAudioItemVO.setCityName(articleFoodItemDTO.getCityName());
+        articleAudioItemVO.setSellerId(articleFoodItemDTO.getSellerId());
 
         return articleAudioItemVO;
     }
@@ -382,6 +384,7 @@ public class ArticleConverter {
         articleFoodItemVO.setImage(merchantDO.getLogo());
         articleFoodItemVO.setAvgPrice(merchantDO.getAvgprice());
         articleFoodItemVO.setSellerId(merchantDO.getSellerId());
+        articleFoodItemVO.setCityName(merchantDO.getCityName());
 //        ServiceFacilityOption
         long serviceFacility = merchantDO.getServiceFacility();
         List<ServiceFacilityOption> containedOptions = ServiceFacilityOption.getContainedOptions(serviceFacility);

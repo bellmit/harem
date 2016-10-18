@@ -142,6 +142,7 @@
         extend: ['skin/mySkin/style.css'],
         skin: 'layer-ext-mySkin'
     });
+
     function submitEdit(url, type, data) {
         //alert(1);
         $.ajax({
