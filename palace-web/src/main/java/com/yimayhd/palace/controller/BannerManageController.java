@@ -293,6 +293,9 @@ public class BannerManageController extends BaseController {
         result.put("type", type);
         result.put("PageNumber", pageNumber);
         result.put("pageSize", pageSize);
+        if (keyWord != null) {
+            result.put("query", keyWord);
+        }
         switch (type){
             case Constant.SHOWCASE_SHOE_TYPE_CHOOSE_DESTINATION : //选目的地
                 getRegion(pageNumber,pageSize,result);
