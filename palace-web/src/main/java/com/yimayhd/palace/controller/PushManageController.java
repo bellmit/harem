@@ -222,15 +222,15 @@ public class PushManageController extends BaseController {
         return  ResponseVo.success();
     }
 
-    @RequestMapping(value = "/appPush/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/appPush/cancel", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo editPush(Model model, PushVO pushVO) throws Exception {
-        LOGGER.debug("", pushVO);
-
-        model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
-        model.addAttribute("domainType", Enums.toList(DomainType.class));
-
-        return new ResponseVo();
+    public ResponseVo cancelPush(Model model, long id) throws Exception {
+       boolean result =  rcDelayPushService.cancelPush(id);
+        if(result) {
+            return ResponseVo.success();
+        }else {
+            return ResponseVo.error();
+        }
     }
 
     public boolean verifyPushVO(PushVO pushVo){
