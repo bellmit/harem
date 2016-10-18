@@ -66,6 +66,7 @@ public class PushVO implements Serializable{
     private String selectOpContent;//选中回显
     private String operationDetailId;//
 
+
     public String getOperationDetailId() {
         return operationDetailId;
     }

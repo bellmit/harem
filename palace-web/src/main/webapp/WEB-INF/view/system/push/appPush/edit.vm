@@ -108,9 +108,9 @@
                         <div class="plhd"></div>
                         <div class="del">删除文件</div>
                         <a class="upldclik">
-                            <input type="file" class="adpicfile single">
+                            <input type="file" name="adpicfile" class="adpicfile single">
                         </a>
-                        <input type="hidden" name="userList" id="uploadFile">
+                        <input type="hidden" name="pushModelFilePath" id="uploadFile">
                     </div>
                     <a href="" class="btn btn-primary download">下载</a>
                     <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>

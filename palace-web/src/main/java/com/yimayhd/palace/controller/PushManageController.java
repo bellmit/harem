@@ -142,15 +142,19 @@ public class PushManageController extends BaseController {
     @RequestMapping(value = "/appPush/toEdit", method = RequestMethod.GET)
     public String toPushEdit(Model model,long id) throws Exception {
         PushVO pushVO = rcDelayPushService.getById(id);
+        if(pushVO==null){
+            log.error("toPushEdit pushVO is null id={} ",id );
+            return "/error";
+        }
         model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
         model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
         model.addAttribute("pushTypeList", Enums.toList(RcDelayType.class));
         model.addAttribute("pushTypeMap", Enums.toMap(RcDelayType.class, null));
-        model.addAttribute("operationDetailId",0);
+        model.addAttribute("operationDetailId",pushVO.getOperationDetailId());
+        model.addAttribute("pushVO",pushVO);
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
         Collections.sort(operationDOs);
         model.addAttribute("operationDOs",operationDOs);
-        model.addAttribute("pushVO",pushVO);
         return "/system/push/appPush/edit";
     }
 
