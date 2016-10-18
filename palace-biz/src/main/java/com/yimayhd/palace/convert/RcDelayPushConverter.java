@@ -45,7 +45,7 @@ public class RcDelayPushConverter {
         pushVO.setOperationContent(rcDelayPush.getOpreationValue());
         pushVO.setOutId(rcDelayPush.getOutId());
         pushVO.setUpdateDate(rcDelayPush.getGmtModify());
-        pushVO.setPushType(rcDelayPush.getType());
+        pushVO.setPushType(rcDelayPush.getSendType());
         pushVO.setPushModelType(rcDelayPush.getSendTargetType());
         pushVO.setPushModelFilePath(rcDelayPush.getLocalFileUrl());
         pushVO.setPushDate(rcDelayPush.getSendTime());
