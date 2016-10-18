@@ -13,9 +13,11 @@
 				<span class="input-group-btn">
 		            <button class="btn btn-default" type="button">发起时间</button>
 		        </span>
-            <input type="text" class="form-control form-date date start-time" readonly name="starteTime" value="$!utilDate.format($!{rcDelayPushPageQuery.starteTime})">
+            <input type="text" class="form-control form-date date start-time" readonly name="starteTime"
+                   value="$!utilDate.format($!{rcDelayPushPageQuery.starteTime})">
             <span class="input-group-addon fix-border fix-padding date-addon">至</span>
-            <input type="text" class="form-control form-date date end-time" readonly name="endTime" value="$!utilDate.format($!{rcDelayPushPageQuery.endTime})">
+            <input type="text" class="form-control form-date date end-time" readonly name="endTime"
+                   value="$!utilDate.format($!{rcDelayPushPageQuery.endTime})">
         </div>
         <div class="input-group">
 				<span class="input-group-btn">
@@ -98,10 +100,15 @@
             <td>$!entity.sendPeople</td>
             <td>$!entity.seePeople</td>
             <td>$!entity.operationUserId</td>
-            <td>$!entity.status</td>
+            <td>$!entity.statusStr</td>
             <td>
-                <button type="button" class="btn btn-primary entityDetail"
-                        appVersion="$!entity.appVersion "  entityCode="$!entity.code" entityId="$entity.id">详情</button>
+                #if($!entity.status==1)
+                    <button type="button" class="btn btn-primary edit" entityId="$entity.id">编辑</button>
+                    <button type="button" class="btn btn-primary cancel" entityId="$entity.id">取消</button>
+                #end
+                #if($!entity.status==99)
+                    <button type="button" class="btn btn-primary view" entityId="$entity.id">查看</button>
+                #end
             </td>
         </tr>
         #end
