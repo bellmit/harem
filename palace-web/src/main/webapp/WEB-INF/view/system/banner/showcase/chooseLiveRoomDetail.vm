@@ -78,7 +78,6 @@
         var tbody = $("<tbody/>");
         table.append(tbody);
         var i= 0 ;
-##      #set($i=$i+1)
         for(i in itemList) {
 
             var item = itemList[i];

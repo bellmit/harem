@@ -28,8 +28,7 @@
     $(".search").click(function() {
         pageUtils.request(1, $(".pageSize").val(),{tags:$("#itemName").val()});
     });
-    
-    
+
     var checks = {};
     $(".search").click(function() {
         pageUtils.request(1, $(".pageSize").val(),{tags:$("#itemName").val()});
@@ -107,7 +106,7 @@
             tr.append($("<td>"+ item.value.userId+"</td>"));
             tr.append($("<td>"+ item.value.startDateString+"</td>"));
             tr.append($("<td>"+ item.value.endDateString+"</td>"));
-            tr.append($("<td>"+ item.value.replaySecond+"</td>"));
+            tr.append($("<td>"+ item.value.replaySecondString+"</td>"));
             tr.append($("<td>"+ item.value.viewCount+"</td>"));
 
             tbody.append(tr);
