@@ -45,8 +45,8 @@
             <th><span class="text-red">*</span>推送对象：</th>
             <td>
                 <select class="form-control input-text mb10" name="pushModelType" id="userType">
-                    <option value="1" #if($!entity.pushModelType == 1) selected = 'selected' #end >全部</option>
-                    <option value="2" #if($!entity.pushModelType == 2) selected = 'selected' #end >特定</option>
+                    <option value="0" #if($!entity.pushModelType == 1) selected = 'selected' #end >全部</option>
+                    <option value="1" #if($!entity.pushModelType == 2) selected = 'selected' #end >特定</option>
                 </select>
                  #if(($!isEdit == "edit" || $!isEdit == "detail") && $stringUtil.isNotNullOrNotEmpty($!entity.pushModelFilePath))
                     <div class="upload-box">
@@ -59,7 +59,7 @@
                             <a class="upldclik">
                                 <input type="file" name="adpicfile" class="adpicfile single">
                             </a>
-                            <input type="hidden" name="pushModelFilePath" id="uploadFile">
+                            <input type="hidden" name="pushModelFilePath" id="uploadFile" value="$!entity.pushModelFilePath">
                         </div>
                         <a href="$utilWebconfig.getTfsRootPath()$!entity.pushModelFilePath"
                            class="btn btn-primary download" download style="display:block">下载</a>
@@ -76,7 +76,7 @@
                             <a class="upldclik">
                                 <input type="file" name="adpicfile" class="adpicfile single">
                             </a>
-                            <input type="hidden" name="pushModelFilePath" id="uploadFile">
+                            <input type="hidden" name="pushModelFilePath" id="uploadFile" value="$!entity.pushModelFilePath">
                         </div>
                         <a href="" class="btn btn-primary download">下载</a>
                         <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>
