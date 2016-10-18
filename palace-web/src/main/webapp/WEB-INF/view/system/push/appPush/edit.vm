@@ -100,6 +100,23 @@
                         <option value="$!{targetType.code}" #if($!pushVO.pushType==$!targetType.code) selected #end>$!{targetType.desc}</option>
                     #end
                 </select>
+                #if($!operation=="edit" && $!pushVo.pushModelFilePath!=")
+                <div class="upload-box">
+                    <div class="imgbox file-box imgbox-action" data-imgUrl="csv.png" data-fileType=".csv">
+                        <div class="canclick canclickL">
+                            <img src="$utilWebconfig.getTfsRootPath()/img/csv.png">
+                        </div>
+                        <div class="plhd"></div>
+                        <div class="del">删除文件</div>
+                        <a class="upldclik">
+                            <input type="file" name="adpicfile" class="adpicfile single">
+                        </a>
+                        <input type="hidden" name="pushModelFilePath" id="uploadFile">
+                    </div>
+                    <a href="$utilWebconfig.getTfsRootPath()$!pushVo.pushModelFilePath" class="btn btn-primary download" style="display:block">下载</a>
+                    <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>
+                </div>
+                #else
                 <div class="upload-box">
                     <div class="imgbox file-box" data-imgUrl="csv.png" data-fileType=".csv">
                         <div class="canclick canclickL">
@@ -115,6 +132,7 @@
                     <a href="" class="btn btn-primary download">下载</a>
                     <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>
                 </div>
+                #end
             </td>
         </tr>
         <tr>
