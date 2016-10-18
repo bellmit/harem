@@ -103,7 +103,7 @@
                 <select class="form-control input-text mb10 select" data-target=".upload-box" name="pushModelType"
                         id="userType">
                     #foreach($targetType in $rcDelaySendTargetType)
-                        <option value="$!{targetType.code}" #if($!pushVO.pushType==$!targetType.code)
+                        <option value="$!{targetType.code}" #if($!pushVO.pushModelType==$!targetType.code)
                                 selected #end>$!{targetType.desc}</option>
                     #end
                 </select>
