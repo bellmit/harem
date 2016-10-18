@@ -293,8 +293,10 @@ public class BannerManageController extends BaseController {
         result.put("type", type);
         result.put("PageNumber", pageNumber);
         result.put("pageSize", pageSize);
-        if (keyWord != null) {
-            result.put("query", keyWord);
+        if (NumberUtils.isNumber(keyWord) || StringUtils.isNotEmpty(keyWord)) { // 将搜索内容回传给页面
+            HashMap<String, String> map =new  HashMap<String, String>();
+            map.put("tags",keyWord);
+            result.put("query", map);
         }
         switch (type){
             case Constant.SHOWCASE_SHOE_TYPE_CHOOSE_DESTINATION : //选目的地
