@@ -56,7 +56,7 @@ public class PushManageController extends BaseController {
     private SessionManager sessionManager;
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String getMsgAdd(Model model,int pushType) throws Exception {
-        model.addAttribute("isEdit",false);
+        model.addAttribute("isEdit","add");
         if(Constant.PUSH_MSG == pushType){//1短信2push
             return "/system/push/appMsg/edit";
         }else{
@@ -105,7 +105,7 @@ public class PushManageController extends BaseController {
     public String msgDetail(Model model,@PathVariable(value = "id") long id) throws Exception {
         PushVO pushVO = pushService.getDetail(id);
         model.addAttribute("entity",pushVO);
-        model.addAttribute("isEdit",false);
+        model.addAttribute("isEdit","detail");
         return "/system/push/appMsg/edit";
     }
 
@@ -114,7 +114,7 @@ public class PushManageController extends BaseController {
     public String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
         PushVO pushVO = pushService.getDetail(id);
         model.addAttribute("entity",pushVO);
-        model.addAttribute("isEdit",true);
+        model.addAttribute("isEdit","edit");
         return "/system/push/appMsg/edit";
     }
 
