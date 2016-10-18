@@ -100,6 +100,7 @@
 				#if($!entity.status == 1)
                     <button type="button" class="btn btn-primary edit" entityId="$entity.id">编辑</button>
                     <button type="button" class="btn btn-primary cancel" entityId="$entity.id">取消</button>
+                    <button type="button" class="btn btn-primary view" entityId="$entity.id">查看</button>
 				#elseif($!entity.status == 99)
                     <button type="button" class="btn btn-primary view" entityId="$entity.id">查看</button>
 				#end

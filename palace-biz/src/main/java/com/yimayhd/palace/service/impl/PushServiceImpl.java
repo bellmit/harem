@@ -45,8 +45,7 @@ public class PushServiceImpl implements PushService {
         rcDelayPushPageQuery.setPageNo(pushQueryVO.getPageNumber());
         rcDelayPushPageQuery.setPageSize(pushQueryVO.getPageSize());
         rcDelayPushPageQuery.setNeedCount(true);
-        rcDelayPushPageQuery.setStatus(RcDelayStatus.ALL.getCode());
-
+        rcDelayPushPageQuery.setStatus(pushQueryVO.getStatus());
         RCPageResult<RcDelayPush> rcResult = null;
         if(Constant.PUSH_MSG == pushQueryVO.getPushType()){
             rcResult = rcDelayRepo.listMsg(rcDelayPushPageQuery);
