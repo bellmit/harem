@@ -15,4 +15,6 @@ public interface PushService {
 
     boolean saveOrUpdate(PushVO pushVO) throws Exception;
 
+    PushVO getDetail(long id)throws Exception;
+
 }

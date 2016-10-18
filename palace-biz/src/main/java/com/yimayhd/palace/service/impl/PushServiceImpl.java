@@ -153,4 +153,14 @@ public class PushServiceImpl implements PushService {
         String tfsCode = tfsManager.saveFile(bytes, null, ".txt");
         return tfsCode;
     }
+
+   public PushVO getDetail(long id)throws Exception{
+       PushVO pv = new PushVO();
+       RcDelayPush dbP = rcDelayRepo.getById(id);
+       if(null == dbP){
+           return pv;
+       }
+       pv = RcDelayPushConverter.convertRcDelayPushToPushVo(dbP);
+       return pv;
+   }
 }

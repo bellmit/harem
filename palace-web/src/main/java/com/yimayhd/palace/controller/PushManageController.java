@@ -92,16 +92,16 @@ public class PushManageController extends BaseController {
     //短信推送详情
     @RequestMapping(value = "/{id}/detail", method = RequestMethod.GET)
     public String msgDetail(Model model,@PathVariable(value = "id") long id) throws Exception {
+        PushVO pushVO = pushService.getDetail(id);
+        model.addAttribute("entity",pushVO);
         return "/system/push/appMsg/detail";
     }
 
     //短信推送列表
     @RequestMapping(value = "/appPush/list", method = RequestMethod.GET)
     public String pushList(Model model,RcDelayPushPageQuery rcDelayPushPageQuery) throws Exception {
-
         try {
             PageVO<PushVO> pageVO = rcDelayPushService.getPushList(rcDelayPushPageQuery);
-
             model.addAttribute("pageVo", pageVO);
             model.addAttribute("itemList", pageVO.getItemList());
             model.addAttribute("rcDelayStatus", Enums.toList(RcDelayStatus.class));

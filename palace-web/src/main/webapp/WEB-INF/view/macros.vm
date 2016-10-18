@@ -969,3 +969,22 @@
     待发送
     #end
 #end
+
+#*domain*#
+#macro(DOMAIN_ZH $status)
+    #if($status == '1000')
+    天香
+    #elseif($status == '1100')
+    婕洛芙
+    #elseif($status == '1200')
+    九休
+    #end
+#end
+
+#macro(PUSH_OBJECT $status)
+    #if($status == '1')
+    全部
+    #elseif($status == '2')
+    特定
+    #end
+#end
