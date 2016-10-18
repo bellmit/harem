@@ -118,7 +118,7 @@
                             <a class="upldclik">
                                 <input type="file" name="adpicfile" class="adpicfile single">
                             </a>
-                            <input type="hidden" name="pushModelFilePath" id="uploadFile">
+                            <input type="hidden" value="$!pushVO.pushModelFilePath"  name="pushModelFilePath" id="uploadFile">
                         </div>
                         <a href="$utilWebconfig.getTfsRootPath()$!pushVO.pushModelFilePath"
                            class="btn btn-primary download" download style="display:block">下载</a>
