@@ -155,13 +155,19 @@ public class PushManageController extends BaseController {
     @ResponseBody
     public ResponseVo addPush(Model model, PushVO pushVO) throws Exception {
         LOGGER.debug("", pushVO);
-        UserDO user = sessionManager.getUser();
-        if(pushVO!=null){
-            pushVO.setOperationUserId(user.getId());;
+        if (pushVO == null) {
+
+            return ResponseVo.error();
         }
-        PushVO result =   rcDelayPushService.insertPush(pushVO);
-        model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
-        model.addAttribute("domainType", Enums.toList(DomainType.class));
+        PushVO result = null;
+        UserDO user = sessionManager.getUser();
+        pushVO.setOperationUserId(user.getId());
+        if (pushVO.getId() > 0) {
+            result = rcDelayPushService.updatePush(pushVO);
+        } else {
+
+            result = rcDelayPushService.insertPush(pushVO);
+        }
         LOGGER.debug("", result);
         return new ResponseVo();
     }

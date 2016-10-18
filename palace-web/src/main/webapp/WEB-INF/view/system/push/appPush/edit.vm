@@ -61,7 +61,7 @@
             <th><span class="text-red">*</span>推送内容：</th>
             <td>
                 <textarea class="form-control input-text limit" name="pushContent" id="content" rows="4" cols="20"
-                          placeholder="请输入推送内容"></textarea>
+                          placeholder="请输入推送内容">$!{pushVO.pushContent}</textarea>
             </td>
         </tr>
         <tr>
@@ -119,7 +119,7 @@
             <th><span class="text-red">*</span>推送时间：</th>
             <td>
                 <input type="text" class="form-control input-text time" readonly="readonly" name="pushDate" id="time"
-                       value="">
+                       value="$!utilDate.date2String($!pushVO.pushDate)">
             </td>
         </tr>
     </table>

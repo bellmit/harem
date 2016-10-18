@@ -70,6 +70,7 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
             logger.error("RcDelayPushServiceImpl updatePush param is null!");
             return null;
         }
+        pushVO.setDomain(DomainType.DOMAIN_JX.getType());
         RcDelayPush rcDelayPush = rcDelayRepo.updatePush(RcDelayPushConverter.convertPushVOToRcDelayPush(pushVO));
         if(null==rcDelayPush) {
             return null;
