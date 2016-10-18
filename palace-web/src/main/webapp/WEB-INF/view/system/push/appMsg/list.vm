@@ -97,14 +97,19 @@
 			<td>$!entity.operationUserId</td>
 			<td>#PUSH_STATUS($!entity.status)</td>
 			<td>
-				<button type="button" class="btn btn-primary detail" detailid="0">详情</button>
-				<button type="button" class="btn btn-primary entityDetail" appVersion="$!entity.appVersion " entityCode="$!entity.code" entityId="$entity.id">详情</button>
+				#if($!entity.status == 1)
+                    <button type="button" class="btn btn-primary edit" entityId="$entity.id">编辑</button>
+                    <button type="button" class="btn btn-primary cancel" entityId="$entity.id">取消</button>
+				#elseif($!entity.status == 99)
+                    <button type="button" class="btn btn-primary view" entityId="$entity.id">查看</button>
+				#end
+
 			</td>
 		</tr>
 		#end
 	</tbody>
 </table>
-	#parse("/page.vm")
+	#parse("/pagination.vm")
 	#pageStyle("frmSearch")
 </form>
 
