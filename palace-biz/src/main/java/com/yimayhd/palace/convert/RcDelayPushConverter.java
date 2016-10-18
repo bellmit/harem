@@ -52,7 +52,7 @@ public class RcDelayPushConverter {
         pushVO.setSeePeople(rcDelayPush.getSeePeople());
         pushVO.setSendPeople(rcDelayPush.getSendPeople());
         pushVO.setSendDomainId(rcDelayPush.getSendDomainId());
-
+        pushVO.setFeature(rcDelayPush.getFeature());
         pushVO.setOperationDetailId(pushVO.getRcFeature(ShowcaseFeatureKey.DEFAULT_SHOW_DOCUMENT));
         pushVO.setSelectOpContent(pushVO.getRcFeature(ShowcaseFeatureKey.SHOW_DOCUMENT));
         return pushVO;

@@ -88,7 +88,7 @@
                         <a href="javascript:void(0);" class="btn btn-primary" id="btnSelectContent" style="width:100px">选择内容</a>
                     </div>
                     <div class="jump-setting-item">
-                        <input type="hidden" name="operationDetail" id="operationDetailId" value="">
+                        <input type="hidden" name="operationDetailId" id="operationDetailId" value="$!pushVO.operationDetailId">
                         <input type="hidden" name="operationContent" id="chosId" value="$!pushVO.operationContent">
                         <input type="hidden" name="selectOpContent" id="selectOpContent"
                                value="$!pushVO.selectOpContent">
@@ -111,7 +111,7 @@
                     <div class="upload-box">
                         <div class="imgbox file-box imgbox-action" data-imgUrl="csv.png" data-fileType=".csv">
                             <div class="canclick canclickL">
-                                <img src="$utilWebconfig.getTfsRootPath()/img/csv.png">
+                                <img src="$utilWebconfig.getResourcePathJiuXiu()/img/csv.png">
                             </div>
                             <div class="plhd"></div>
                             <div class="del">删除文件</div>
