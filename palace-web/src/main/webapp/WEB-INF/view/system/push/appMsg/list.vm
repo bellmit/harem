@@ -104,7 +104,7 @@
 		#end
 	</tbody>
 </table>
-	#parse("/page.vm")
+	#parse("/pagination.vm")
 	#pageStyle("frmSearch")
 </form>
 
