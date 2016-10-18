@@ -1,8 +1,8 @@
 #set($layout = "/system/layout/layout-new.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 #set($title = "短信推送列表")
+<form id="frmSearch" name="frmSearch" action="$!utilWebconfig.getActionDefaultFontPath()/push/list?pushType=1" method="GET">
 <div class="search-box">
-	<form id="frmSearch" name="frmSearch" action="$!utilWebconfig.getActionDefaultFontPath()/push/list?pushType=1" method="GET">
 		<div class="input-group">
 			<span class="input-group-btn">
 				<button class="btn btn-default" type="button">推送主题：</button>
@@ -41,10 +41,9 @@
 		<div class="btn-group">
 			<button type="button" class="btn btn-primary" id="btnReset">重置</button>
 		</div>
-	</form>
 </div>
 <div class="mb10">
-	<button class="btn btn-primary" id="btnAdd">创建推送</button>
+	<button class="btn btn-primary addBtn" id="btnAdd">创建推送</button>
 </div>
 <table class="table table-hover table-bordered">
 	<thead>
@@ -105,7 +104,9 @@
 		#end
 	</tbody>
 </table>
-
+	#parse("/page.vm")
+	#pageStyle("frmSearch")
+</form>
 
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
 
@@ -113,3 +114,5 @@
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
 <script>seajs.use('module/md.push-sms-list.js');</script>
+<script>
+</script>

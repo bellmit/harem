@@ -95,7 +95,27 @@ public class PushManageController extends BaseController {
     public String msgDetail(Model model,@PathVariable(value = "id") long id) throws Exception {
         PushVO pushVO = pushService.getDetail(id);
         model.addAttribute("entity",pushVO);
-        return "/system/push/appMsg/detail";
+        model.addAttribute("isEdit",false);
+        return "/system/push/appMsg/edit";
+    }
+
+    //短信推送详情
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+    public String toEdit(Model model,@PathVariable(value = "id") long id) throws Exception {
+        PushVO pushVO = pushService.getDetail(id);
+        model.addAttribute("entity",pushVO);
+        model.addAttribute("isEdit",true);
+        return "/system/push/appMsg/edit";
+    }
+
+    //短信推送详情
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
+    public String edit(Model model,PushVO pushVO) throws Exception {
+        boolean flag = pushService.saveOrUpdate(pushVO);
+        if(flag){
+            return "success";
+        }
+        return "error";
     }
 
     //短信推送列表
