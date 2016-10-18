@@ -26,16 +26,15 @@
         <tr>
             <th><span class="text-red">*</span>推送内容：</th>
             <td>
-                <textarea class="form-control input-text" name="pushContent" id="content" rows="4" cols="20" >$!entity.pushContent</textarea>
+                <textarea class="form-control input-text" name="pushContent" id="content" rows="4" cols="20" >
+                    $!entity.pushContent
+                </textarea>
             </td>
         </tr>
         <tr>
-            <th><span class="text-red">*</span>推送对象：</th>PUSH_OBJECT
+            <th><span class="text-red">*</span>推送对象：</th>
             <td>
-                <select class="form-control input-text mb10" name="pushModelType" id="userType">
-                    <option value="1">全部</option>
-                    <option value="2">特定</option>
-                </select>
+                #PUSH_OBJECT($!entity.pushModelType)
                 <div class="upload-box">
                     <div class="imgbox file-box" data-imgUrl="csv.png" data-fileType=".csv">
                         <div class="canclick canclickL">
@@ -46,10 +45,10 @@
                         <a class="upldclik">
                             <input type="file" name="adpicfile" class="adpicfile single" id="logoUrlUploadFile">
                         </a>
-                        <input type="hidden" name="pushModelFilePath" id="uploadFile">
+                        <input type="hidden" name="pushModelFilePath" id="uploadFile" value="$!entity.pushModelFilePath">
                     </div>
                     #if($!isEdit)
-                        <a href="" class="btn btn-primary download">下载</a>
+                        <a href="$!entity.pushModelFilePath" class="btn btn-primary download">下载</a>
                     #end
                     <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>
                 </div>

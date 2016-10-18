@@ -2,6 +2,8 @@ package com.yimayhd.palace.service;
 
 import com.yimayhd.palace.base.BaseException;
 
+import java.util.Set;
+
 public interface TfsService {
 	/**
 	 * 将富文本格式化为Html5页发布到tfs
@@ -21,4 +23,25 @@ public interface TfsService {
 	 * @throws Exception
 	 */
 	String readHtml5(String code) throws Exception;
+
+	/**
+	 * 把tfs文件fileName,转成另一种文件格式fileFormat
+	 *@author create by yushengwei on 2016/10/18
+	 * @param fileName
+	 * @param fileFormat
+	 * @return String
+	 */
+	public String tfsFileConvert(String fileName,String fileFormat);
+
+	/**
+	 * 把文件上传到tfs上
+	 *@author create by yushengwei on 2016/10/18
+	 * @param str
+	 * @param fileFormat
+	 * @return String
+	 */
+	public String tfsFileUpload(Set<String> str,String fileFormat);
+
+
+
 }

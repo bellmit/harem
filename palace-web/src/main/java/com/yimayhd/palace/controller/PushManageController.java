@@ -83,9 +83,10 @@ public class PushManageController extends BaseController {
         model.addAttribute("query",pushQueryVO);
         if(Constant.PUSH_MSG == pushQueryVO.getPushType()){
             return "/system/push/appMsg/list";
-        }else if(Constant.PUSH_PUSH == pushQueryVO.getPushType()){
-            return "/system/push/appPush/list";
         }
+        /*else if(Constant.PUSH_PUSH == pushQueryVO.getPushType()){
+            return "/system/push/appPush/list";
+        }*/
         return "error";
     }
 
