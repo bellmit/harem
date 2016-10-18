@@ -100,21 +100,40 @@
                         <option value="$!{targetType.code}" #if($!pushVO.pushType==$!targetType.code) selected #end>$!{targetType.desc}</option>
                     #end
                 </select>
-                <div class="upload-box">
-                    <div class="imgbox file-box" data-imgUrl="csv.png" data-fileType=".csv">
-                        <div class="canclick canclickL">
-                            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+                 #if($!operation=="view" && $stringUtil.isNotNullOrNotEmpty($!pushVO.pushModelFilePath))
+                    <div class="upload-box">
+                        <div class="imgbox file-box imgbox-action" data-imgUrl="csv.png" data-fileType=".csv">
+                            <div class="canclick canclickL">
+                                <img src="$utilWebconfig.getResourcePathJiuXiu()/img/csv.png">
+                            </div>
+                            <div class="plhd"></div>
+                            <div class="del">删除文件</div>
+                            <a class="upldclik">
+                                <input type="file" name="adpicfile" class="adpicfile single">
+                            </a>
+                            <input type="hidden" name="pushModelFilePath" id="uploadFile">
                         </div>
-                        <div class="plhd"></div>
-                        <div class="del">删除文件</div>
-                        <a class="upldclik">
-                            <input type="file" name="adpicfile" class="adpicfile single">
-                        </a>
-                        <input type="hidden" name="pushModelFilePath" id="uploadFile">
+                        <a href="$utilWebconfig.getTfsRootPath()$!pushVO.pushModelFilePath"
+                           class="btn btn-primary download" style="display:block">下载</a>
+                        <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>
                     </div>
-                    <a href="" class="btn btn-primary download">下载</a>
-                    <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>
-                </div>
+                #else
+                    <div class="upload-box">
+                        <div class="imgbox file-box" data-imgUrl="csv.png" data-fileType=".csv">
+                            <div class="canclick canclickL">
+                                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
+                            </div>
+                            <div class="plhd"></div>
+                            <div class="del">删除文件</div>
+                            <a class="upldclik">
+                                <input type="file" name="adpicfile" class="adpicfile single">
+                            </a>
+                            <input type="hidden" name="pushModelFilePath" id="uploadFile">
+                        </div>
+                        <a href="" class="btn btn-primary download">下载</a>
+                        <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>
+                    </div>
+                #end
             </td>
         </tr>
         <tr>
