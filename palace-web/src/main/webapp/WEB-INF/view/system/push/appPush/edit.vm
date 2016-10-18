@@ -101,7 +101,7 @@
                     #end
                 </select>
                 <div class="upload-box">
-                    <div class="imgbox file-box" data-imgUrl="../../img/csv.png" data-fileType=".csv">
+                    <div class="imgbox file-box" data-imgUrl="csv.png" data-fileType=".csv">
                         <div class="canclick canclickL">
                             <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
                         </div>

@@ -11,34 +11,38 @@
     <table class="table form-table">
         <tr>
             <th>
+                <input type="hidden" name="id" #if($!entity.id) value = '0' #else value = '$!entity.id'  #end >
                 <input type="hidden" name="pushType" value="1">
                 <span class="text-red">*</span>推送领域：</th>
             <td>
                 <select class="form-control input-text" name="domain" id="area">
-                    <option value="1000">天香</option>
-                    <option value="1100">婕洛芙</option>
-                    <option value="1200">九休</option>
+                    <option value="1000" #if($!entity.domain == 1000) selected = 'selected' #end >天香</option>
+                    <option value="1100" #if($!entity.domain == 1100) selected = 'selected' #end >婕洛芙</option>
+                    <option value="1200" #if($!entity.domain == 1200) selected = 'selected' #end >九休</option>
                 </select>
             </td>
         </tr>
         <tr>
             <th><span class="text-red">*</span>推送主题：</th>
             <td>
-                <input type="text" class="form-control input-text" name="subject" id="subject" value="123123" placeholder="请输入推送主题">
+                <input type="text" class="form-control input-text"
+                       name="subject" id="subject" value="$!entity.subject" placeholder="请输入推送主题">
             </td>
         </tr>
         <tr>
             <th><span class="text-red">*</span>推送内容：</th>
             <td>
-                <textarea class="form-control input-text" name="pushContent" id="content" rows="4" cols="20" placeholder="请输入推送内容">asdasd</textarea>
+                <textarea class="form-control input-text" name="pushContent" id="content" rows="4" cols="20" placeholder="请输入推送内容">
+                    $!entity.pushContent
+                </textarea>
             </td>
         </tr>
         <tr>
             <th><span class="text-red">*</span>推送对象：</th>
             <td>
                 <select class="form-control input-text mb10" name="pushModelType" id="userType">
-                    <option value="1">全部</option>
-                    <option value="2">特定</option>
+                    <option value="1" #if($!entity.pushModelType == 1) selected = 'selected' #end >全部</option>
+                    <option value="2" #if($!entity.pushModelType == 2) selected = 'selected' #end >特定</option>
                 </select>
                 <div class="upload-box">
                     <div class="imgbox file-box" data-imgUrl="csv.png" data-fileType=".csv">
@@ -53,7 +57,7 @@
                         <input type="hidden" name="pushModelFilePath" id="uploadFile">
                     </div>
                     #if($!isEdit)
-                        <a href="" class="btn btn-primary download">下载</a>
+                        <a href="$!entity.pushModelFilePath" class="btn btn-primary download">下载</a>
                     #end
                     <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>
                 </div>
@@ -63,12 +67,14 @@
             <th><span class="text-red">*</span>推送时间：</th>
             <td>
                 <input type="text" class="form-control input-text time"
-                readonly="readonly" name="pushDate" id="time" value="">
+                readonly="readonly" name="pushDate" id="time" value="$!entity.pushDate">
             </td>
         </tr>
     </table>
     <div class="mb10" style="text-align:center;">
-        <button type="button" class="btn btn-primary" style="width:100px" id="btnSave">保存</button>
+        #if(!$!isEdit)
+            <button type="button" class="btn btn-primary" style="width:100px" id="btnSave">保存</button>
+        #end
     </div>
 </form>
 
