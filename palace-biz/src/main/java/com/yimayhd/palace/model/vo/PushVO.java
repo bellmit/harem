@@ -49,6 +49,7 @@ public class PushVO implements Serializable{
         if (rcDelayStatus == null) {
             return null;
         }
+
         return rcDelayStatus.getDesc();
     }
 
