@@ -2,6 +2,7 @@ package com.yimayhd.palace.model.vo;
 
 import com.yimayhd.ic.client.model.enums.GuideStatus;
 import com.yimayhd.palace.util.DateUtil;
+import com.yimayhd.resourcecenter.model.enums.RcDelaySendTargetType;
 import com.yimayhd.resourcecenter.model.enums.RcDelayStatus;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseFeatureKey;
 import org.apache.commons.lang3.StringUtils;
@@ -42,9 +43,21 @@ public class PushVO implements Serializable{
     private Map<String, String> feature;
 
     private String statusStr;
+    private String pushModelTypeStr;
     private String selectOpContent;//选中回显
     private String operationDetailId;//
 
+    public String getPushModelTypeStr() {
+        RcDelaySendTargetType rcDelaySendTargetType = getSendTargetTypeByValue(pushModelType);
+        if(rcDelaySendTargetType==null){
+            return null;
+        }
+        return rcDelaySendTargetType.getDesc();
+    }
+
+    public void setPushModelTypeStr(String pushModelTypeStr) {
+        this.pushModelTypeStr = pushModelTypeStr;
+    }
 
     public String getStatusStr() {
         RcDelayStatus rcDelayStatus = getStatusByValue(status);
@@ -59,7 +72,14 @@ public class PushVO implements Serializable{
         }
         return rcDelayStatus.getDesc();
     }
-
+    private static RcDelaySendTargetType getSendTargetTypeByValue(int status) {
+        for (RcDelaySendTargetType rcDelaySendTargetType : RcDelaySendTargetType.values()) {
+            if (rcDelaySendTargetType.getCode() == status) {
+                return rcDelaySendTargetType;
+            }
+        }
+        return null;
+    }
     private static RcDelayStatus getStatusByValue(int status) {
         for (RcDelayStatus rcDelayStatus : RcDelayStatus.values()) {
             if (rcDelayStatus.getCode() == status) {
