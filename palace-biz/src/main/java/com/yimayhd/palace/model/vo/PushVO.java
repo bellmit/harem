@@ -1,5 +1,7 @@
 package com.yimayhd.palace.model.vo;
 
+import com.yimayhd.ic.client.model.enums.GuideStatus;
+import com.yimayhd.resourcecenter.model.enums.RcDelayStatus;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseFeatureKey;
 import org.apache.commons.lang3.StringUtils;
 
@@ -32,11 +34,35 @@ public class PushVO implements Serializable{
     private Date createDate;
     private Date updateDate;
     private long id; //主键
-    private long outId; // 关联id
+    private String outId; // 关联id
     private String transformFileUrl;//转换后的文件地址
     private long sendDomainId;
     private Map<String, String> feature;
 
+    private String statusStr;
+    private String selectOpContent;//选中回显
+    private String operationDetailId;//
+
+
+    public String getStatusStr() {
+        RcDelayStatus rcDelayStatus = getStatusByValue(status);
+        if (rcDelayStatus == null) {
+            return null;
+        }
+        return rcDelayStatus.getDesc();
+    }
+
+    private static RcDelayStatus getStatusByValue(int status) {
+        for (RcDelayStatus rcDelayStatus : RcDelayStatus.values()) {
+            if (rcDelayStatus.getCode() == status) {
+                return rcDelayStatus;
+            }
+        }
+        return null;
+    }
+    public void setStatusStr(String statusStr) {
+        this.statusStr = statusStr;
+    }
 
     public String getFeature() {
         return com.yimayhd.resourcecenter.util.FeatureUtil.toString(feature);
@@ -63,8 +89,7 @@ public class PushVO implements Serializable{
         return feature.get(showcaseFeatureKey.getCode());
     }
 
-    private String selectOpContent;//选中回显
-    private String operationDetailId;//
+
 
 
     public String getOperationDetailId() {
@@ -227,11 +252,11 @@ public class PushVO implements Serializable{
         this.id = id;
     }
 
-    public long getOutId() {
+    public String getOutId() {
         return outId;
     }
 
-    public void setOutId(long outId) {
+    public void setOutId(String outId) {
         this.outId = outId;
     }
 

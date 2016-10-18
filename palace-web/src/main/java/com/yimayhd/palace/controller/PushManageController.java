@@ -177,37 +177,60 @@ public class PushManageController extends BaseController {
         model.addAttribute("operationDOs",operationDOs);
         return "/system/push/appPush/edit";
     }
-
+    @RequestMapping(value = "/appPush/toView", method = RequestMethod.GET)
+    public String toPushView(Model model,long id) throws Exception {
+        PushVO pushVO = rcDelayPushService.getById(id);
+        if(pushVO==null){
+            log.error("toPushEdit pushVO is null id={} ",id );
+            return "/error";
+        }
+        model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
+        model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
+        model.addAttribute("pushTypeList", Enums.toList(RcDelayType.class));
+        model.addAttribute("pushTypeMap", Enums.toMap(RcDelayType.class, null));
+        model.addAttribute("operationDetailId",pushVO.getOperationDetailId());
+        model.addAttribute("pushVO",pushVO);
+        List<OperactionVO> operationDOs = showcaseService.getAllOperations();
+        Collections.sort(operationDOs);
+        model.addAttribute("operationDOs",operationDOs);
+        return "/system/push/appPush/view";
+    }
     @RequestMapping(value = "/appPush/add", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo addPush(Model model, PushVO pushVO) throws Exception {
         LOGGER.debug("", pushVO);
-        if (pushVO == null) {
 
+        try {
+            if (pushVO == null) {
+
+                return ResponseVo.error();
+            }
+            PushVO result = null;
+            UserDO user = sessionManager.getUser();
+            pushVO.setOperationUserId(user.getId());
+            if (pushVO.getId() > 0) {
+                result = rcDelayPushService.updatePush(pushVO);
+            } else {
+
+                result = rcDelayPushService.insertPush(pushVO);
+            }
+            LOGGER.debug("", result);
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseVo.error();
         }
-        PushVO result = null;
-        UserDO user = sessionManager.getUser();
-        pushVO.setOperationUserId(user.getId());
-        if (pushVO.getId() > 0) {
-            result = rcDelayPushService.updatePush(pushVO);
-        } else {
-
-            result = rcDelayPushService.insertPush(pushVO);
-        }
-        LOGGER.debug("", result);
-        return new ResponseVo();
+        return  ResponseVo.success();
     }
 
-    @RequestMapping(value = "/appPush/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/appPush/cancel", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo editPush(Model model, PushVO pushVO) throws Exception {
-        LOGGER.debug("", pushVO);
-
-        model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
-        model.addAttribute("domainType", Enums.toList(DomainType.class));
-
-        return new ResponseVo();
+    public ResponseVo cancelPush(Model model, long id) throws Exception {
+       boolean result =  rcDelayPushService.cancelPush(id);
+        if(result) {
+            return ResponseVo.success();
+        }else {
+            return ResponseVo.error();
+        }
     }
 
     public boolean verifyPushVO(PushVO pushVo){

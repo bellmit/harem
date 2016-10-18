@@ -7,6 +7,7 @@ import com.yimayhd.palace.model.vo.PushVO;
 import com.yimayhd.palace.repo.RcDelayRepo;
 import com.yimayhd.palace.service.PushService;
 import com.yimayhd.palace.service.RcDelayPushService;
+import com.yimayhd.palace.service.TfsService;
 import com.yimayhd.palace.util.HandleFilesUtils;
 import com.yimayhd.resourcecenter.domain.RcDelayPush;
 import com.yimayhd.resourcecenter.model.enums.RcDelayType;
@@ -34,7 +35,7 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
     private String tfsRootPath ;
 
     @Resource
-    private PushService pushService;
+    private TfsService tfsService;
     @Override
     public PageVO<PushVO> getPushList(RcDelayPushPageQuery rcDelayPushPageQuery) {
 
@@ -50,16 +51,13 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
     @Override
     public PushVO insertPush(PushVO pushVO) {
 
-        if(null==pushVO|| StringUtils.isEmpty(pushVO.getMsgTitle())||StringUtils.isEmpty(pushVO.getPushContent())||0==pushVO.getSendDomainId()||0==pushVO.getPushModelType()||StringUtils.isEmpty(pushVO.getPushDate())) {
+        if(null==pushVO|| StringUtils.isEmpty(pushVO.getSubject())||StringUtils.isEmpty(pushVO.getPushContent())||0==pushVO.getSendDomainId()||0==pushVO.getPushModelType()||StringUtils.isEmpty(pushVO.getPushDate())) {
             logger.error("RcDelayPushServiceImpl insertPush param is null!");
             return null;
         }
         pushVO.setDomain(DomainType.DOMAIN_JX.getType());
         //file
-        if(!Strings.isNullOrEmpty(pushVO .getPushModelFilePath())){
-            HandleFilesUtils handleFilesUtils = new HandleFilesUtils();
-            Set<String> setString =   HandleFilesUtils.getDistinctStringFromTFS(tfsRootPath + pushVO.getPushModelFilePath());
-        }
+        transfFile(pushVO);
         RcDelayPush rcDelayPush = rcDelayRepo.insertPush(RcDelayPushConverter.convertPushVOToRcDelayPush(pushVO));
 
         if(null==rcDelayPush) {
@@ -80,6 +78,17 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
         return rcDelayRepo.cancelPush(id);
     }
 
+    private void transfFile(PushVO pushVO){
+        //file
+        if(!Strings.isNullOrEmpty(pushVO .getPushModelFilePath())){
+            String fileName = pushVO.getPushModelFilePath();
+            String newFileName = tfsService.tfsFileConvert(fileName,".txt");
+            if (org.apache.commons.lang3.StringUtils.isNotEmpty(newFileName)){
+                pushVO.setTransformFileUrl(newFileName);
+            }
+        }
+    }
+
     @Override
     public PushVO updatePush(PushVO pushVO) {
         if(null==pushVO|| StringUtils.isEmpty(pushVO.getMsgTitle())||StringUtils.isEmpty(pushVO.getPushContent())||0==pushVO.getSendDomainId()||0==pushVO.getPushModelType()||StringUtils.isEmpty(pushVO.getPushDate())) {
@@ -87,6 +96,8 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
             return null;
         }
         pushVO.setDomain(DomainType.DOMAIN_JX.getType());
+        //file
+        transfFile(pushVO);
         RcDelayPush rcDelayPush = rcDelayRepo.updatePush(RcDelayPushConverter.convertPushVOToRcDelayPush(pushVO));
         if(null==rcDelayPush) {
             return null;
