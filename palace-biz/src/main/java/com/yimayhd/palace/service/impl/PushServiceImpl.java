@@ -139,4 +139,8 @@ public class PushServiceImpl implements PushService {
        pv = RcDelayPushConverter.convertRcDelayPushToPushVo(dbP);
        return pv;
    }
+
+   public boolean cancel(long id) throws Exception{
+       return rcDelayRepo.cancelMsg(id);
+    }
 }

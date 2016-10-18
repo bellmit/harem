@@ -17,4 +17,7 @@ public interface PushService {
 
     PushVO getDetail(long id)throws Exception;
 
+    boolean cancel(long id) throws Exception;
+
+
 }

@@ -46,14 +46,10 @@ import java.util.List;
 @RequestMapping("/push")
 public class PushManageController extends BaseController {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
-    @Autowired
-    PushService pushService;
-    @Autowired
-    private RcDelayPushService rcDelayPushService;
-    @Autowired
-    ShowcaseService showcaseService;
-    @Autowired
-    private SessionManager sessionManager;
+    @Autowired PushService pushService;
+    @Autowired private RcDelayPushService rcDelayPushService;
+    @Autowired ShowcaseService showcaseService;
+    @Autowired private SessionManager sessionManager;
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String getMsgAdd(Model model,int pushType) throws Exception {
         model.addAttribute("isEdit","add");
@@ -118,7 +114,7 @@ public class PushManageController extends BaseController {
         return "/system/push/appMsg/edit";
     }
 
-    //短信推送详情
+    //短信推送编辑
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo edit(Model model,PushVO pushVO) throws Exception {
@@ -129,6 +125,18 @@ public class PushManageController extends BaseController {
         }
         return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
     }
+
+    //短信推送取消
+    @RequestMapping(value = "/{id}/cancel", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseVo cancel(Model model,@PathVariable(value = "id") long id) throws Exception {
+        boolean flag = pushService.cancel(id);
+        if(flag){
+            return new ResponseVo(ResponseStatus.SUCCESS);
+        }
+        return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
+    }
+
 
     //短信推送列表
     @RequestMapping(value = "/appPush/list", method = RequestMethod.GET)
