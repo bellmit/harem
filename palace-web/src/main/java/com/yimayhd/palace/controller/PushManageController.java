@@ -13,6 +13,7 @@ import com.yimayhd.palace.service.RcDelayPushService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.util.Enums;
 import com.yimayhd.resourcecenter.model.enums.RcDelaySendTargetType;
+import com.yimayhd.resourcecenter.model.enums.RcDelaySendType;
 import com.yimayhd.resourcecenter.model.enums.RcDelayStatus;
 import com.yimayhd.resourcecenter.model.enums.RcDelayType;
 import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
@@ -151,6 +152,7 @@ public class PushManageController extends BaseController {
         model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
         model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
         model.addAttribute("pushTypeList", Enums.toList(RcDelayType.class));
+        model.addAttribute("rcDelaySendTypeList", Enums.toList(RcDelaySendType.class));
         model.addAttribute("pushTypeMap", Enums.toMap(RcDelayType.class, null));
         model.addAttribute("operationDetailId",0);
         List<OperactionVO> operationDOs = showcaseService.getAllOperations();
@@ -169,6 +171,7 @@ public class PushManageController extends BaseController {
         }
         model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
         model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
+        model.addAttribute("rcDelaySendTypeList", Enums.toList(RcDelaySendType.class));
         model.addAttribute("pushTypeList", Enums.toList(RcDelayType.class));
         model.addAttribute("pushTypeMap", Enums.toMap(RcDelayType.class, null));
         model.addAttribute("operationDetailId",pushVO.getOperationDetailId()==null?0:pushVO.getOperationDetailId());
@@ -189,6 +192,7 @@ public class PushManageController extends BaseController {
         model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
         model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
         model.addAttribute("pushTypeList", Enums.toList(RcDelayType.class));
+        model.addAttribute("rcDelaySendTypeList", Enums.toList(RcDelaySendType.class));
         model.addAttribute("pushTypeMap", Enums.toMap(RcDelayType.class, null));
         model.addAttribute("operationDetailId",pushVO.getOperationDetailId()==null?0:pushVO.getOperationDetailId());
         model.addAttribute("pushVO",pushVO);

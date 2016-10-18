@@ -1,9 +1,11 @@
 package com.yimayhd.palace.model.vo;
 
 import com.yimayhd.ic.client.model.enums.GuideStatus;
+import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.resourcecenter.model.enums.RcDelayStatus;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseFeatureKey;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -49,7 +51,12 @@ public class PushVO implements Serializable{
         if (rcDelayStatus == null) {
             return null;
         }
-
+        if(RcDelayStatus.CANCEL.getCode()!=status) {
+            if (getPushDate() != null&&getPushDate().before(new Date())) {
+                setStatus(RcDelayStatus.PUSHED.getCode());
+                return RcDelayStatus.PUSHED.getDesc();
+            }
+        }
         return rcDelayStatus.getDesc();
     }
 
