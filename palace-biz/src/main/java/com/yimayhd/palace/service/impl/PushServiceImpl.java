@@ -141,6 +141,17 @@ public class PushServiceImpl implements PushService {
    }
 
    public boolean cancel(long id) throws Exception{
+       RcDelayPush dbP = rcDelayRepo.getById(id);
+       if(null == dbP){
+           throw new Exception("数据不存在");
+       }
+       RcDelayStatus dbPStatus =RcDelayStatus.getByStatus(dbP.getStatus());
+       if(null != dbP && dbPStatus.getCode() == RcDelayStatus.PUSHED.getCode()){
+           throw new Exception("短信已发送");
+       }
+       if(dbP.getSendTime().getTime() < System.currentTimeMillis()){
+           throw new Exception("短信发送时间已生效");
+       }
        return rcDelayRepo.cancelMsg(id);
     }
 }
