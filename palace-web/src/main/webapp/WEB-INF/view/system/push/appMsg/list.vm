@@ -13,9 +13,11 @@
 			<span class="input-group-btn">
 		            <button class="btn btn-default" type="button">发起时间</button>
 		        </span>
-            <input type="text" class='form-control form-date date start-time' placeholder='' readonly name="beginPushDate" value="$!query.beginPushDate">
+            <input type="text" class='form-control form-date date start-time' placeholder='' readonly name="beginPushDate"
+                   value="$!date.format('yyyy-MM-dd HH:mm:ss',$!query.beginPushDate)">
             <span class="input-group-addon fix-border fix-padding date-addon">至</span>
-            <input type="text" class='form-control form-date date end-time' placeholder='' readonly name="endPushDate" value="$!query.endPushDate">
+            <input type="text" class='form-control form-date date end-time' placeholder='' readonly name="endPushDate"
+                   value="$!date.format('yyyy-MM-dd HH:mm:ss',$!query.endPushDate)">
         </div>
         <div class="input-group">
 			<span class="input-group-btn">
@@ -101,10 +103,10 @@
             <td>$!entity.operationUserId</td>
             <td>#PUSH_STATUS($!entity.status)</td>
             <td>
-				#if(($!entity.status == 1) || ($!entity.status == 98) )//处理中 待发送
+				#if(($!entity.status == 1) || ($!entity.status == 98) )##处理中 待发送
                     <button type="button" class="btn btn-primary edit" status="$!entity.status" entityId="$entity.id">编辑</button>
                     <button type="button" class="btn btn-primary cancel" status="$!entity.status" entityId="$entity.id">取消</button>
-				#elseif(($!entity.status == 2) || ($!entity.status == 99))//取消发送 已发送
+				#elseif(($!entity.status == 2) || ($!entity.status == 99))##取消发送 已发送#
                     <button type="button" class="btn btn-primary view" status="$!entity.status" entityId="$entity.id">查看</button>
 				#end
             </td>
