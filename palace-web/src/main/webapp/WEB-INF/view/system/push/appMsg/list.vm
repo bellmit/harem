@@ -80,10 +80,10 @@
                 对象
             </th>
             <th>
-                人数(到达)
+                发送人数
             </th>
             <th>
-                人数(查看)
+                提交人数
             </th>
             <th>
                 操作人ID
@@ -104,11 +104,11 @@
             <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!entity.createDate) </td>
             <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!entity.pushDate) </td>
             <td>$!entity.pushContent</td>
-            <td>$!entity.pushModelType</td>
+            <td>#PUSH_OBJECT($!entity.pushModelType)</td>
             <td>$!entity.sendPeople</td>
             <td>$!entity.seePeople</td>
             <td>$!entity.operationUserId</td>
-            <td>#PUSH_STATUS($!entity.status)</td>
+            <td>$!entity.statusStr</td>
             <td>
 				#if(($!entity.status == 1) || ($!entity.status == 98) )##处理中 待发送
                     <button type="button" class="btn btn-primary edit" status="$!entity.status" entityId="$entity.id">编辑</button>
