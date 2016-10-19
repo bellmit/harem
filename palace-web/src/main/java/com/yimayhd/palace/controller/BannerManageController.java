@@ -13,6 +13,7 @@ import com.yimayhd.ic.client.model.enums.ItemType;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
+import com.yimayhd.live.client.query.LiveRecordQuery;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.BaseQuery;
 import com.yimayhd.palace.base.PageVO;
@@ -166,7 +167,6 @@ public class BannerManageController extends BaseController {
         
     }
 
-
     /**
      * 新增showcase提交
      * @param model
@@ -250,7 +250,8 @@ public class BannerManageController extends BaseController {
     public String getChooseContent(Model model,String code,int type) throws Exception {
         model.addAttribute("code",code);
         model.addAttribute("type",type); //根据type去判断跳转
-        if(Constant.SHOWCASE_SHOE_TYPE_CHOOSE_DESTINATION == type){//选目的地
+        if(Constant.SHOWCASE_SHOE_TYPE_CHOOSE_DESTINATION == type
+                || Constant.LIVE_CATEGORY ==type){//选目的地 直播分类
             return "/system/banner/showcase/chooseDestination";
         }else if(Constant.SHOWCASE_SHOE_TYPE_THEME == type){//选目主题
             return "/system/banner/showcase/chooseTheme";
@@ -263,7 +264,6 @@ public class BannerManageController extends BaseController {
                 || Constant.SHOWCASE_TRAVEL_INFORMATION_LIST == type
                 || Constant.SHOWCASE_GUIDE_INFORMATION_LIST == type
                 || Constant.SHOWCASE_CATEGORY_LIST ==type
-                || Constant.LIVE_CATEGORY ==type
                 ){//选列表
             return "/system/banner/showcase/chooseItemList";
         }else if(Constant.SHOWCASE_ITEM_DETAIL == type){//选详情
@@ -293,6 +293,11 @@ public class BannerManageController extends BaseController {
         result.put("type", type);
         result.put("PageNumber", pageNumber);
         result.put("pageSize", pageSize);
+        if (NumberUtils.isNumber(keyWord) || StringUtils.isNotEmpty(keyWord)) { // 将搜索内容回传给页面
+            HashMap<String, String> map =new  HashMap<String, String>();
+            map.put("tags",keyWord);
+            result.put("query", map);
+        }
         switch (type){
             case Constant.SHOWCASE_SHOE_TYPE_CHOOSE_DESTINATION : //选目的地
                 getRegion(pageNumber,pageSize,result);
@@ -349,17 +354,22 @@ public class BannerManageController extends BaseController {
 
     // 获取直播回放列表
     public Map<String, Object> getPageLiveRecordList(int pageNumber,int pageSize,Map<String, Object> result,String keyWord,String code){
-        LiveAdminQuery query = new LiveAdminQuery();
-        if(NumberUtils.isNumber(keyWord)){
-            query.setUserId(Long.parseLong(keyWord));
-        }else if(StringUtils.isNotEmpty(keyWord)){
-            query.setNickName(keyWord);
+        if(NumberUtils.isNumber(keyWord)){ // 精确查询
+            LiveRecordQuery query = new LiveRecordQuery();
+            query.setLiveRecordId(Long.parseLong(keyWord));
+            PageVO<ShowCaseItem> page = showcaseService.getLiveRecordQuery(query);
+            result.put("pageVo", page);
+        }else{ // 模糊查询
+            LiveAdminQuery query = new LiveAdminQuery();
+            if(StringUtils.isNotEmpty(keyWord)) {
+                query.setLiveTitle(keyWord);
+            }
+            query.setPageNumber(pageNumber);
+            query.setPageSize(pageSize);
+            query.setLiveStatus(REPLAY_LIVE.getStatus());  // 获取回放列表
+            PageVO<ShowCaseItem> page = showcaseService.getPageLiveRecordListByQuery(query);
+            result.put("pageVo", page);
         }
-        query.setPageNumber(pageNumber);
-        query.setPageSize(pageSize);
-        query.setLiveStatus(REPLAY_LIVE.getStatus());  // 获取回放列表
-        PageVO<ShowCaseItem> page = showcaseService.getPageLiveRecordListByQuery(query);
-        result.put("pageVo", page);
         return result;
     }
 

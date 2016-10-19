@@ -23,6 +23,7 @@
                     <option value="12" #if($!themeListQuery.type == 12) selected #end>目的地</option>
                     <option value="13" #if($!themeListQuery.type == 13) selected #end>商品</option>
                     <option value="14" #if($!themeListQuery.type == 14) selected #end>城市活动</option>
+                    <option value="15" #if($!themeListQuery.type == 15) selected #end>视频直播</option>
                 </select>
             </div>
            #* <div class="input-group inpSingle">
@@ -118,6 +119,8 @@
                         	商品
                         	#elseif($!theme.outType == "14")
                         	城市活动
+                            #elseif($!theme.outType == "15")
+                                视频直播
                         	#end
                         </td>
                         <td>#if($!theme.domain == 1200) 九休 #elseif($!theme.domain == 1000) B2C #else $!theme.domain  #end </td>

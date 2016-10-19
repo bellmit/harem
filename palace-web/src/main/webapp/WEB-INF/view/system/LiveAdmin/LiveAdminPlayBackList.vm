@@ -85,7 +85,7 @@
             <tr>
                 <td>$!{item.id}</td>
                 <td>
-                    <img src="$!{item.liveCover}" width="150" height="90">
+                    <img src="$!utilWebconfig.getTfsRootPath()$!{item.liveCover}" width="150" height="90">
                 </td>
                 <td>
                     $!{item.liveTitle}
@@ -109,7 +109,7 @@
                     $!{item.endDateString}
                 </td>
                 <td>
-                    $!{item.replaySecond}
+                    $!{item.replaySecondString}
                 </td>
                 <td>
                     $!{item.viewCount}
@@ -144,6 +144,8 @@
 #*分页*#
     #parse("/page.vm")
     #pageStyle("playBackListForm")
+
+
 
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/plugin/zui.min.js"></script>

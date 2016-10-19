@@ -41,6 +41,9 @@
                         <option value="14" #if($!theme.outType == 14) selected = "selected" #end>
 								城市活动
                         </option>
+                        <option value="15" #if($!theme.outType == 14) selected = "selected" #end>
+                            视频直播
+                        </option>
                      </select>
 				</td>
             </tr>
