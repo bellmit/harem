@@ -111,9 +111,7 @@ public class OrderStatusChangeParam implements Serializable{
         this.orderChangeStatus = orderChangeStatus;
     }
 
-    public void setCurrOrderStatus(Integer currOrderStatus) {
-        this.currOrderStatus = currOrderStatus;
-    }
+    
 
     public String getOrderStat() {
         return orderStat;
