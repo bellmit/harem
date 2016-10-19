@@ -59,7 +59,7 @@ public class OrderStatusChangeConverter {
         dto.setOperationId(orderStatusChangeParam.getUserId());
         dto.setBizNo(orderStatusChangeParam.getBizOrderIdStr());
         dto.setContent(orderStatusChangeParam.getDesc());
-        dto.setStatus(orderStatusChangeParam.getOrderChangeStatus());
+        dto.setStatus(Integer.valueOf(orderStatusChangeParam.getOrderChangeStatus()).intValue());
         return dto;
     }
 
@@ -205,7 +205,7 @@ public class OrderStatusChangeConverter {
         if(orderStatusChangeParam==null){
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),PalaceReturnCode.PARAM_ERROR.getErrorMsg(),null);
         }
-        if(orderStatusChangeParam.getOrderChangeStatus()==0){
+        if(StringUtils.isBlank(orderStatusChangeParam.getOrderChangeStatus())){
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),"订单修改状态为空",null);
         }
         if(CollectionUtils.isEmpty(orderStatusChangeParam.getBizOrderIds())){

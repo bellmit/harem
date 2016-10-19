@@ -89,7 +89,7 @@ public class OrderStatusChangeController {
         if(orderStatusChangeParam==null){
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),PalaceReturnCode.PARAM_ERROR.getErrorMsg(),null);
         }
-        if(orderStatusChangeParam.getOrderChangeStatus()==0){
+        if(StringUtils.isBlank(orderStatusChangeParam.getOrderChangeStatus())){
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),"订单修改状态为空",null);
         }
         orderStatusChangeParam.setUserId(sessionManager.getUserId());
