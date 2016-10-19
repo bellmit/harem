@@ -17,7 +17,7 @@
 			<span class="input-group-btn">
 						<button class="btn btn-default" type="button">修改人ID：</button>
 					</span>
-			<input type="text" class="form-control" name="operationId" value="#if($!queryModel.operationId!=0) $!{queryModel.operationId} #end">
+			<input type="text" class="form-control" name="operationId" value="$!{queryModel.operationId}">
 		</div>
 		<div class="input-group">
 			<span class="input-group-btn">
