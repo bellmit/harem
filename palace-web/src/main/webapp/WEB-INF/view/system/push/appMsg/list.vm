@@ -43,6 +43,7 @@
                 <option value="0" #if($!query.status == 0) selected = 'selected' #end >全部</option>
                 <option value="99" #if($!query.status == 99) selected = 'selected' #end >已发送</option>
                 <option value="98" #if($!query.status == 98) selected = 'selected' #end >待发送</option>
+                <option value="98" #if($!query.status == 2) selected = 'selected' #end >取消发送</option>
             </select>
         </div>
         <div class="btn-group">
