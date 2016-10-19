@@ -85,7 +85,7 @@ public class OrderStatusChangeController {
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
     @ResponseBody
     public BizResult<String>  updateStatus(Model model , OrderStatusChangeParam orderStatusChangeParam){
-        logger.info("updateStatus start");
+        logger.info("updateStatus start:"+JSON.toJSONString(orderStatusChangeParam));
         if(orderStatusChangeParam==null){
             logger.error("orderStatusChangeParam is null");
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),PalaceReturnCode.PARAM_ERROR.getErrorMsg(),null);
