@@ -155,7 +155,7 @@ public class PushServiceImpl implements PushService {
            throw new Exception("数据不存在");
        }
        RcDelayStatus dbPStatus =RcDelayStatus.getByStatus(dbP.getStatus());
-       if(null != dbP && dbPStatus.getCode() == RcDelayStatus.PUSHED.getCode()){
+       if(dbPStatus.getCode() == RcDelayStatus.PUSHED.getCode()){
            throw new Exception("短信已发送");
        }
        if(dbP.getSendTime().getTime() < System.currentTimeMillis()){
