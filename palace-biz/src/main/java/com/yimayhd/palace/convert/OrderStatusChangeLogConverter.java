@@ -52,6 +52,8 @@ public class OrderStatusChangeLogConverter {
         }catch(Exception e){
             logger.error("bean 转换异常",e);
         }
+        query.setPageNo(orderStatusChangeLogQuery.getPageNumber());
+        query.setPageSize(orderStatusChangeLogQuery.getPageSize());
         query.setNeedCount(true);
         return query;
     }
