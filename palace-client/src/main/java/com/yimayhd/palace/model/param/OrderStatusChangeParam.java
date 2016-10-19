@@ -21,7 +21,6 @@ public class OrderStatusChangeParam implements Serializable{
 
     private String orderChangeStatus; //订单修改状态
     private String  currOrderStatusStr;//'当前订单状态'
-    private Integer currOrderStatus;
     private String orderStat;//订单查询状态
     private String content;//'修改内容'
 
@@ -92,13 +91,6 @@ public class OrderStatusChangeParam implements Serializable{
         this.currOrderStatusStr = currOrderStatusStr;
     }
 
-    public int getCurrOrderStatus() {
-        return currOrderStatus;
-    }
-
-    public void setCurrOrderStatus(int currOrderStatus) {
-        this.currOrderStatus = currOrderStatus;
-    }
 
     public String getContent() {
         return content;
