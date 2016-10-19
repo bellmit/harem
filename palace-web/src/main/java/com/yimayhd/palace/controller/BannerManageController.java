@@ -250,7 +250,8 @@ public class BannerManageController extends BaseController {
     public String getChooseContent(Model model,String code,int type) throws Exception {
         model.addAttribute("code",code);
         model.addAttribute("type",type); //根据type去判断跳转
-        if(Constant.SHOWCASE_SHOE_TYPE_CHOOSE_DESTINATION == type){//选目的地
+        if(Constant.SHOWCASE_SHOE_TYPE_CHOOSE_DESTINATION == type
+                || Constant.LIVE_CATEGORY ==type){//选目的地 直播分类
             return "/system/banner/showcase/chooseDestination";
         }else if(Constant.SHOWCASE_SHOE_TYPE_THEME == type){//选目主题
             return "/system/banner/showcase/chooseTheme";
@@ -263,7 +264,6 @@ public class BannerManageController extends BaseController {
                 || Constant.SHOWCASE_TRAVEL_INFORMATION_LIST == type
                 || Constant.SHOWCASE_GUIDE_INFORMATION_LIST == type
                 || Constant.SHOWCASE_CATEGORY_LIST ==type
-                || Constant.LIVE_CATEGORY ==type
                 ){//选列表
             return "/system/banner/showcase/chooseItemList";
         }else if(Constant.SHOWCASE_ITEM_DETAIL == type){//选详情

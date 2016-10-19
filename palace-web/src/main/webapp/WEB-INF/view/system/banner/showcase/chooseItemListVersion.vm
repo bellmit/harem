@@ -58,7 +58,7 @@
     // 初始化分页条
     pageUtils.intall(".pageBar", "$!{utilWebconfig.getActionDefaultFontPath()}/banner/showcase/chooseContents?code=$!code&type=$!type",
             function(query, pageVo){
-                $("#itemName").val(query);
+                $("#itemName").val(query && query.tags);
                 showData(pageVo.itemList);
             });
     var resource_table = {};
