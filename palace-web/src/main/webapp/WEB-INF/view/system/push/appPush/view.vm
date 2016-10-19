@@ -1,6 +1,14 @@
 #set($layout = "/system/layout/layout-new.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
-#set($title = "App推送列表")
+#set($title = "App推送详情")
+#set($styles = [
+    "$!rs_js_css_path_jiuxiu/css/zui.min.css",
+	"$!rs_js_css_path_jiuxiu/css/style.css",
+	"$!rs_js_css_path_jiuxiu/css/validform.css",
+	"$!rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css",
+	"$!rs_js_css_path_jiuxiu/css/datetimepicker.min.css",
+	"$!rs_js_css_path_jiuxiu/css/push-sms-edit.css"
+])
 <form class="" id="frmEdit">
     <input type="hidden" name="id" id="id" value="$!pushVO.id">
     <table class="table form-table">

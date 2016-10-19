@@ -1,13 +1,16 @@
 #set($layout = "/system/layout/layout-new.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 #set($title = "创建短信推送")
-<!--<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/zui.min.css">
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/style.css">
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/validform.css">
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css">
-<link rel="stylesheet" href="$rs_js_css_path_jiuxiu/css/push-sms-edit.css">-->
+#set($styles = [
+    "$!rs_js_css_path_jiuxiu/css/zui.min.css",
+	"$!rs_js_css_path_jiuxiu/css/style.css",
+	"$!rs_js_css_path_jiuxiu/css/validform.css",
+	"$!rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css",
+	"$!rs_js_css_path_jiuxiu/css/datetimepicker.min.css",
+	"$!rs_js_css_path_jiuxiu/css/push-sms-edit.css"
+])
+
 <form class="" id="frmEdit">
-    <!--<input type="hidden" id="tfs" value="http://192.168.1.209:7500/v1/tfs/">-->
     <table class="table form-table">
         <tr>
             <th>
@@ -102,5 +105,4 @@
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-css.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
-<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js"></script>
 <script>seajs.use('module/md.push-sms-edit.js');</script>
