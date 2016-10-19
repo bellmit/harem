@@ -31,8 +31,8 @@
 					<button class="btn btn-default" type="button">对象：</button>
 				</span>
             <select class="form-control" name="pushModelType">
-                <option value="0" #if($!query.pushModelType == 0) selected = 'selected' #end >全部</option>
-                <option value="1" #if($!query.pushModelType == 1) selected = 'selected' #end >特定</option>
+                <option value="1" #if($!query.pushModelType == 1) selected = 'selected' #end >全部</option>
+                <option value="2" #if($!query.pushModelType == 2) selected = 'selected' #end >特定</option>
             </select>
         </div>
         <div class="input-group">
@@ -41,8 +41,6 @@
 				</span>
             <select class="form-control" name="status">
                 <option value="0" #if($!query.status == 0) selected = 'selected' #end >全部</option>
-                <option value="1" #if($!query.status == 1) selected = 'selected' #end >处理中</option>
-                <option value="2" #if($!query.status == 22) selected = 'selected' #end >取消发送</option>
                 <option value="99" #if($!query.status == 99) selected = 'selected' #end >已发送</option>
                 <option value="98" #if($!query.status == 98) selected = 'selected' #end >待发送</option>
             </select>
