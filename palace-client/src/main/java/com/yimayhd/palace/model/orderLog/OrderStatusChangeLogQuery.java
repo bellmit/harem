@@ -2,14 +2,14 @@ package com.yimayhd.palace.model.orderLog;
 
 
 
-import com.yimayhd.palace.base.PageQuery;
+import com.yimayhd.palace.base.BasePageQuery;
 import org.apache.commons.lang3.StringUtils;
 
 
 /**
  * Created by wangdi on 16/10/10.
  */
-public class OrderStatusChangeLogQuery extends PageQuery{
+public class OrderStatusChangeLogQuery extends BasePageQuery {
 
     private static final long serialVersionUID = -8196260883114296399L;
     private String operationId;
