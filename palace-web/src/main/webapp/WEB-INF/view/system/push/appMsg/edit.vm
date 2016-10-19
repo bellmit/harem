@@ -20,6 +20,7 @@
                     <input type="hidden" name="id" value="$!entity.id" >
                 #end
                 <input type="hidden" name="pushType" value="1">
+                <input type="hidden" name="fileName" value="$!entity.fileName" >
                 <span class="text-red">*</span>推送领域：</th>
             <td>
                 <select class="form-control input-text" name="domain" id="area">

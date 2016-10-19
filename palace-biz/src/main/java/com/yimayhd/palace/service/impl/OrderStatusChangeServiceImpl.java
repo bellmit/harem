@@ -48,6 +48,7 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
      */
     @Override
     public BizResult<String> updateStatus(OrderStatusChangeParam orderStatusChangeParam) {
+        logger.info("updateStatus param:"+JSON.toJSONString(orderStatusChangeParam));
          OrderStatusChangeConverter converter = new OrderStatusChangeConverter(orderStatusChangeParam);
          BizResult checkResult =  converter.checkUpdateStatus();
          if(!checkResult.isSuccess()){
@@ -56,9 +57,9 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
          }
         ResultSupport result= null;
         OrderOperationLogDTO logDTO = converter.getLogDto();
-        logDTO.setContent(OrderOperationLogStatus.getByType(orderStatusChangeParam.getOrderChangeStatus()).getName());//最终修改状态
+       // logDTO.setContent(OrderOperationLogStatus.getByType(Integer.valueOf(orderStatusChangeParam.getOrderChangeStatus()).intValue()).getName());//最终修改状态
         try{
-            switch (orderStatusChangeParam.getOrderChangeStatus()) {
+            switch (Integer.valueOf(orderStatusChangeParam.getOrderChangeStatus()).intValue()) {
                 case FINISH:
                     result = tcTradeRepo.updateOrderStatusToFinishForOperator(orderStatusChangeParam.getBizOrderIds());
                     break;
@@ -85,6 +86,7 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
             /**更新状态成功,插入日志*/
             logDTO.setStatus(OrderOperationLogStatus.SUCCESS.getType());
             orderOperationLogRepo.insertOrderOperationLogDO(logDTO);
+            logger.info("updateStatus--service:"+JSON.toJSONString(logDTO));
         }catch (Exception e){
             logger.error("记录操作日志异常",e);
             return BizResult.buildFailResult(PalaceReturnCode.SYSTEM_ERROR.getErrorCode(),PalaceReturnCode.SYSTEM_ERROR.getErrorMsg(),null);
