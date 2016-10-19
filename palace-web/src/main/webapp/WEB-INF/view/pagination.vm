@@ -76,7 +76,6 @@
     <span style="color: red"> $status.errorMessage </span>
     #end
 #end
-
 ##显示错误信息##
 #macro(showErrorMsg  $errorMsg )
     #if($errorMsg)

@@ -30,14 +30,14 @@ public class TcTradeRepo {
      * @param orderQueryDTO
      * @return
      */
-    public  BatchBizQueryResult queryOrderForUpdateStatus(OrderQueryDTO orderQueryDTO){
+   public BatchBizQueryResult queryOrderForAdmin(OrderQueryDTO orderQueryDTO){
         logger.info(JSON.toJSONString(orderQueryDTO));
         if(orderQueryDTO==null){
             logger.error("参数 orderQueryDTO is null");
             return null;
         }
         try{
-            BatchBizQueryResult result =  tcBizQueryServiceRef.queryOrderForUpdateStatus(orderQueryDTO);
+            BatchBizQueryResult result =  tcBizQueryServiceRef.queryOrderForAdmin(orderQueryDTO);
             logger.info("queryList-- repo result={}",JSON.toJSONString(result));
             return result;
         }catch (Exception e){
@@ -52,7 +52,7 @@ public class TcTradeRepo {
      * @param bizOrderIds
      * @return
      */
-    public ResultSupport updateOrderStatusToFinish(List<Long> bizOrderIds){
+   public ResultSupport updateOrderStatusToFinishForOperator(List<Long> bizOrderIds){
 
         logger.info("repo---:"+JSON.toJSONString(bizOrderIds));
         if(CollectionUtils.isEmpty(bizOrderIds)){
@@ -60,7 +60,7 @@ public class TcTradeRepo {
             return null;
         }
         try{
-            ResultSupport result =  tcTradeServiceRef.updateOrderStatusToFinish(bizOrderIds);
+            ResultSupport result =  tcTradeServiceRef.updateOrderStatusToFinishForOperator(bizOrderIds);
             logger.info("repo--- result={}",JSON.toJSONString(result));
             return result;
         }catch (Exception e){
@@ -74,7 +74,7 @@ public class TcTradeRepo {
      * @param bizOrderIds
      * @return
      */
-    public ResultSupport updateOrderStatusToCancel(List<Long> bizOrderIds){
+    public ResultSupport updateOrderStatusToCancelForOperator(List<Long> bizOrderIds){
 
         logger.info("repo---"+JSON.toJSONString(bizOrderIds));
         if(CollectionUtils.isEmpty(bizOrderIds)){
@@ -82,7 +82,7 @@ public class TcTradeRepo {
             return null;
         }
         try{
-            ResultSupport result =  tcTradeServiceRef.updateOrderStatusToCancel(bizOrderIds);
+            ResultSupport result =  tcTradeServiceRef.updateOrderStatusToCancelForOperator(bizOrderIds);
             logger.info("repo--- result={}",JSON.toJSONString(result));
             return result;
         }catch (Exception e){

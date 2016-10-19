@@ -9,8 +9,6 @@ public class BasePageQuery implements Serializable {
 	private static final long serialVersionUID = -5909461212581464469L;
 	public static final int DEFAULT_SIZE = 10;
 	public static final int DEFAULT_PAGE = 1;
-	public static final int PAGING_YES = 1;
-	public static final int PAGING_NO = 0;
 
 
 	public Integer pageNumber = DEFAULT_PAGE;

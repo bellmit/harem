@@ -9,7 +9,6 @@ import com.yimayhd.palace.model.vo.TcMainOrderVO;
 import com.yimayhd.palace.repo.order.TcTradeRepo;
 import com.yimayhd.palace.repo.selleradmin.OrderOperationLogRepo;
 import com.yimayhd.palace.repo.user.UserRepo;
-import com.yimayhd.palace.result.BizPageResult;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.OrderStatusChangeService;
 import com.yimayhd.sellerAdmin.client.enums.OrderOperationLogStatus;
@@ -61,11 +60,11 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
         try{
             switch (orderStatusChangeParam.getOrderChangeStatus()) {
                 case FINISH:
-                    result = tcTradeRepo.updateOrderStatusToFinish(orderStatusChangeParam.getBizOrderIds());
+                    result = tcTradeRepo.updateOrderStatusToFinishForOperator(orderStatusChangeParam.getBizOrderIds());
                     break;
 
                 case CANCEL:
-                    result = tcTradeRepo.updateOrderStatusToCancel(orderStatusChangeParam.getBizOrderIds());
+                    result = tcTradeRepo.updateOrderStatusToCancelForOperator(orderStatusChangeParam.getBizOrderIds());
                     break;
 
                 default:
@@ -111,14 +110,14 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
             return checkResult;
         }
         try{
-            BatchBizQueryResult repoResult = tcTradeRepo.queryOrderForUpdateStatus(converter.getOrderQueryDTO());
+            BatchBizQueryResult repoResult = tcTradeRepo.queryOrderForAdmin(converter.getOrderQueryDTO());
             if(repoResult==null||!repoResult.isSuccess()){
                 logger.error("查询订单列表失败,result={}", JSON.toJSONString(repoResult));
                 return BizResult.buildFailResult(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorCode(),PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg(),null);
             }
             List<TcMainOrder> tcMainOrderList=   repoResult.getBizOrderDOList();
             List<TcMainOrderVO> tcMainOrderVOList = converter.getTcMainOrderVOList(tcMainOrderList);// 中台返回订单信息
-            /**订单信息出里*/
+              /**订单信息出里*/
             result.setTcMainOrderVOList(converter.secondaryTcMainOrder(tcMainOrderVOList));
             result.setTotalCount(repoResult.getTotalCount());
 
