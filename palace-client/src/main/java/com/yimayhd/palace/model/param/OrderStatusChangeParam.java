@@ -28,6 +28,8 @@ public class OrderStatusChangeParam implements Serializable{
 
     private long userId;//登录人userid
 
+    private Integer orderStat;//订单状态
+
     public String getBizOrderIdStr() {
         return bizOrderIdStr;
     }
@@ -113,5 +115,13 @@ public class OrderStatusChangeParam implements Serializable{
             content = currOrderStatus+"-"+ OrderOperationLogStatus.getByType(OrderChangeStatus);
         }
         this.content = content;
+    }
+
+    public Integer getOrderStat() {
+        return orderStat;
+    }
+
+    public void setOrderStat(Integer orderStat) {
+        this.orderStat = orderStat;
     }
 }
