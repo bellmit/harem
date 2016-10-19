@@ -1238,4 +1238,16 @@ public class DateUtil {
 			retStr = "" + i;
 		return retStr;
 	}
+
+	public static Date string2Date(String date){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		Date d = null;
+		try {
+			d = sdf.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return d;
+	}
+
 }

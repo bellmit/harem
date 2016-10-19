@@ -102,4 +102,27 @@ public class TfsServiceImpl implements TfsService {
 		return tfsCode;
 	}
 
+	public String tfsFileUpload(Set<String> str,String fileFormat,boolean sizeCheck,long limitSize) throws Exception{
+		if(sizeCheck){
+			if(null != str && limitSize >str.size()){
+				throw new Exception("数据长度超过限制，当前个数："+str.size()+",限制个数："+limitSize);
+			}
+		}
+		return tfsFileUpload(str,fileFormat);
+	}
+	public String tfsFileConvert(String fileName,String fileFormat,boolean sizeCheck,long limitSize)throws Exception{
+		String txtFileName="";
+		String filePath = tfsRootPath + fileName;
+		Set<String> setString = HandleFilesUtils.getDistinctStringFromTFS(filePath);
+
+		if(null != setString && setString.size()>0){
+			if(sizeCheck){
+				 txtFileName = tfsFileUpload(setString,fileFormat,sizeCheck,limitSize);
+			}else{
+				txtFileName = tfsFileUpload(setString,fileFormat);
+			}
+		}
+		return txtFileName;
+	}
+
 }

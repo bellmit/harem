@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogDTO;
-import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogParam;
 import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogQuery;
 import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogResult;
 import com.yimayhd.palace.model.param.OrderStatusChangeParam;
@@ -21,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +56,7 @@ public class OrderStatusChangeController {
         if(StringUtils.isBlank(orderStatusChangeParam.getBizOrderIdStr())){
             //没有订单id 默认不显示列表
             logger.info("orderIds is empty");
+            model.addAttribute("queryModel", orderStatusChangeParam);
             return "/system/order/changeOrderStatus";
         }
         if(StringUtils.isBlank(orderStatusChangeParam.getBizOrderIdStr())&&orderStatusChangeParam.getBizOrderIds().size()>count){
@@ -71,6 +72,7 @@ public class OrderStatusChangeController {
         OrderStatusChangeVO changeVO = bizResult.getValue();
         model.addAttribute("tcMainOrderVOList", changeVO.getTcMainOrderVOList());
         model.addAttribute("totalCount", changeVO.getTotalCount());
+        model.addAttribute("queryModel", orderStatusChangeParam);
         return "/system/order/changeOrderStatus";
     }
 
@@ -81,6 +83,7 @@ public class OrderStatusChangeController {
      * @return
      */
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
+    @ResponseBody
     public BizResult<String>  updateStatus(Model model , OrderStatusChangeParam orderStatusChangeParam){
         logger.info("updateStatus start");
         if(orderStatusChangeParam==null){

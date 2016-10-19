@@ -19,14 +19,16 @@ public class OrderStatusChangeParam implements Serializable{
     private String formOrderIdStr;//form 表单提交ids
     private List<Long> bizOrderIds;
 
-    private int OrderChangeStatus; //订单修改状态
-    private String currOrderStatusStr;//'当前订单状态'
-    private int    currOrderStatus;
+    private int orderChangeStatus; //订单修改状态
+    private String  currOrderStatusStr;//'当前订单状态'
+    private Integer currOrderStatus;
+    private String orderStat;//订单查询状态
     private String content;//'修改内容'
 
     private String desc;// 备注
 
     private long userId;//登录人userid
+
 
     public String getBizOrderIdStr() {
         return bizOrderIdStr;
@@ -54,13 +56,7 @@ public class OrderStatusChangeParam implements Serializable{
         this.bizOrderIds = bizOrderIds;
     }
 
-    public int getOrderChangeStatus() {
-        return OrderChangeStatus;
-    }
 
-    public void setOrderChangeStatus(int orderChangeStatus) {
-        OrderChangeStatus = orderChangeStatus;
-    }
 
     public String getDesc() {
         return desc;
@@ -109,9 +105,29 @@ public class OrderStatusChangeParam implements Serializable{
     }
 
     public void setContent(String content) {
-        if(StringUtils.isNotBlank(currOrderStatusStr)&&OrderChangeStatus!=0){
-            content = currOrderStatus+"-"+ OrderOperationLogStatus.getByType(OrderChangeStatus);
+        if(StringUtils.isNotBlank(currOrderStatusStr)&&orderChangeStatus!=0){
+            content = currOrderStatusStr+"-"+ OrderOperationLogStatus.getByType(orderChangeStatus).getName();
         }
         this.content = content;
+    }
+
+    public int getOrderChangeStatus() {
+        return orderChangeStatus;
+    }
+
+    public void setOrderChangeStatus(int orderChangeStatus) {
+        this.orderChangeStatus = orderChangeStatus;
+    }
+
+    public void setCurrOrderStatus(Integer currOrderStatus) {
+        this.currOrderStatus = currOrderStatus;
+    }
+
+    public String getOrderStat() {
+        return orderStat;
+    }
+
+    public void setOrderStat(String orderStat) {
+        this.orderStat = orderStat;
     }
 }

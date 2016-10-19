@@ -22,6 +22,7 @@ import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.result.BaseResult;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cglib.beans.BeanCopier;
@@ -64,6 +65,9 @@ public class OrderStatusChangeConverter {
 
     public OrderQueryDTO getOrderQueryDTO(){
         OrderQueryDTO dto = new OrderQueryDTO();
+        if(StringUtils.isNotBlank(orderStatusChangeParam.getOrderStat())){
+            dto.setBizOrderStatus(Integer.valueOf(orderStatusChangeParam.getOrderStat()).intValue());
+        }
         dto.setDomain(Constant.DOMAIN_JIUXIU);
         dto.setBizOrderIds(orderStatusChangeParam.getBizOrderIds());
         return dto;

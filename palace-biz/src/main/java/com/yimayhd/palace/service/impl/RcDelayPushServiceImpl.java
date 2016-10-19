@@ -51,7 +51,7 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
     @Override
     public PushVO insertPush(PushVO pushVO) {
 
-        if(null==pushVO|| StringUtils.isEmpty(pushVO.getSubject())||StringUtils.isEmpty(pushVO.getPushContent())||0==pushVO.getSendDomainId()||0==pushVO.getPushModelType()||StringUtils.isEmpty(pushVO.getPushDate())) {
+        if(null==pushVO|| StringUtils.isEmpty(pushVO.getSubject())||StringUtils.isEmpty(pushVO.getPushContent())||0==pushVO.getSendDomainId()||0==pushVO.getPushModelType()||StringUtils.isEmpty(pushVO.getPushDateStr())) {
             logger.error("RcDelayPushServiceImpl insertPush param is null!");
             return null;
         }
@@ -91,7 +91,7 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
 
     @Override
     public PushVO updatePush(PushVO pushVO) {
-        if(null==pushVO|| StringUtils.isEmpty(pushVO.getMsgTitle())||StringUtils.isEmpty(pushVO.getPushContent())||0==pushVO.getSendDomainId()||0==pushVO.getPushModelType()||StringUtils.isEmpty(pushVO.getPushDate())) {
+        if(null==pushVO|| StringUtils.isEmpty(pushVO.getSubject())||StringUtils.isEmpty(pushVO.getPushContent())||0==pushVO.getSendDomainId()||0==pushVO.getPushModelType()||StringUtils.isEmpty(pushVO.getPushDateStr())) {
             logger.error("RcDelayPushServiceImpl updatePush param is null!");
             return null;
         }

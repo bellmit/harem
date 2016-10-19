@@ -42,6 +42,14 @@ public interface TfsService {
 	 */
 	public String tfsFileUpload(Set<String> str,String fileFormat);
 
-
+	/**
+	 * 把文件上传到tfs上
+	 *@author create by yushengwei on 2016/10/18
+	 * @param str
+	 * @param fileFormat
+	 * @return String
+	 */
+	public String tfsFileUpload(Set<String> str,String fileFormat,boolean sizeCheck,long limitSize) throws Exception;
+	public String tfsFileConvert(String fileName,String fileFormat,boolean sizeCheck,long limitSize)throws Exception;
 
 }
