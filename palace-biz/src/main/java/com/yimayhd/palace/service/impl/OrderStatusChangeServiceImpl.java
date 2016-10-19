@@ -48,6 +48,7 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
      */
     @Override
     public BizResult<String> updateStatus(OrderStatusChangeParam orderStatusChangeParam) {
+        logger.info("updateStatus param:"+JSON.toJSONString(orderStatusChangeParam));
          OrderStatusChangeConverter converter = new OrderStatusChangeConverter(orderStatusChangeParam);
          BizResult checkResult =  converter.checkUpdateStatus();
          if(!checkResult.isSuccess()){

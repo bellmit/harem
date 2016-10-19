@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.error.PalaceReturnCode;
 import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogDTO;
-import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogParam;
 import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogQuery;
 import com.yimayhd.palace.model.orderLog.OrderStatusChangeLogResult;
 import com.yimayhd.palace.model.param.OrderStatusChangeParam;
@@ -21,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,6 +83,7 @@ public class OrderStatusChangeController {
      * @return
      */
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
+    @ResponseBody
     public BizResult<String>  updateStatus(Model model , OrderStatusChangeParam orderStatusChangeParam){
         logger.info("updateStatus start");
         if(orderStatusChangeParam==null){

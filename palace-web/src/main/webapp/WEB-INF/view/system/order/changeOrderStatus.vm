@@ -137,7 +137,7 @@
 					<td>
 						$!tcMainOrder.bizOrder.sellerId
 					</td>
-					<td>
+					<td class="status">
 						#if($!tcMainOrder.bizOrder.orderType == 3100 || $!tcMainOrder.bizOrder.orderType == 3200
 						|| $!tcMainOrder.bizOrder.orderType == 3300
 						|| $!tcMainOrder.bizOrder.orderType == 3500 || $!tcMainOrder.bizOrder.orderType == 3600)
