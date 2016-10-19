@@ -81,9 +81,9 @@ public class NumUtil {
         BigDecimal bmoney = new BigDecimal(money);
         BigDecimal bnum = new BigDecimal(num);
         //logger.info("money={},bmoney={},num={},bnum={}",money,bmoney,num,bnum);
-        bmoney.divide(bnum.multiply(new BigDecimal(100)),BigDecimal.ROUND_HALF_UP);
+        BigDecimal amount =bmoney.divide(bnum.multiply(new BigDecimal(100)),BigDecimal.ROUND_HALF_UP);
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-        return  decimalFormat.format(bmoney.divide(bnum)).toString();
+        return  decimalFormat.format(amount).toString();
     }
 
 
