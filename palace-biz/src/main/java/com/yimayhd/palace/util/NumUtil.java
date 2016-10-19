@@ -78,17 +78,17 @@ public class NumUtil {
      * @return
      */
     public static String getOrderUnitPrice(long money,long num){
-        BigDecimal bmoney = new BigDecimal(money);
+        BigDecimal bmoney = new BigDecimal((double) money/100);
         BigDecimal bnum = new BigDecimal(num);
         //logger.info("money={},bmoney={},num={},bnum={}",money,bmoney,num,bnum);
-        BigDecimal amount =bmoney.divide(bnum.multiply(new BigDecimal(100)),BigDecimal.ROUND_HALF_UP);
+        BigDecimal amount =bmoney.divide(bnum,BigDecimal.ROUND_HALF_UP);
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
         return  decimalFormat.format(amount).toString();
     }
 
 
     public static void main(String[] args){
-        System.out.println(moneyTransformString("1.99"));
+        System.out.println(getOrderUnitPrice(1,1));
         //System.out.println(totalFee(2,100));
     }
 

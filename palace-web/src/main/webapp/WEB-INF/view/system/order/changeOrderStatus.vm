@@ -124,7 +124,7 @@
 							$!tcMainOrder.userDO.nickname
 						</div>
 						<div class="t-c">
-							$!utilPhone.phoneFormat($!tcMainOrder.userDO.buyerPhone)
+							$!utilPhone.phoneFormat($!tcMainOrder.userDO.mobileNo)
 						</div>
 					</td>
 					<td>
