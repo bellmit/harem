@@ -22,6 +22,7 @@ import com.yimayhd.tradecenter.client.util.BizOrderUtil;
 import com.yimayhd.user.client.domain.UserDO;
 import com.yimayhd.user.client.result.BaseResult;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cglib.beans.BeanCopier;
@@ -58,14 +59,14 @@ public class OrderStatusChangeConverter {
         dto.setOperationId(orderStatusChangeParam.getUserId());
         dto.setBizNo(orderStatusChangeParam.getBizOrderIdStr());
         dto.setContent(orderStatusChangeParam.getDesc());
-        dto.setStatus(orderStatusChangeParam.getOrderChangeStatus());
+        dto.setStatus(Integer.valueOf(orderStatusChangeParam.getOrderChangeStatus()).intValue());
         return dto;
     }
 
     public OrderQueryDTO getOrderQueryDTO(){
         OrderQueryDTO dto = new OrderQueryDTO();
-        if(orderStatusChangeParam.getOrderStat()!=null){
-            dto.setBizOrderStatus(orderStatusChangeParam.getOrderStat());
+        if(StringUtils.isNotBlank(orderStatusChangeParam.getOrderStat())){
+            dto.setBizOrderStatus(Integer.valueOf(orderStatusChangeParam.getOrderStat()).intValue());
         }
         dto.setDomain(Constant.DOMAIN_JIUXIU);
         dto.setBizOrderIds(orderStatusChangeParam.getBizOrderIds());
@@ -204,7 +205,7 @@ public class OrderStatusChangeConverter {
         if(orderStatusChangeParam==null){
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),PalaceReturnCode.PARAM_ERROR.getErrorMsg(),null);
         }
-        if(orderStatusChangeParam.getOrderChangeStatus()==0){
+        if(StringUtils.isBlank(orderStatusChangeParam.getOrderChangeStatus())){
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),"订单修改状态为空",null);
         }
         if(CollectionUtils.isEmpty(orderStatusChangeParam.getBizOrderIds())){

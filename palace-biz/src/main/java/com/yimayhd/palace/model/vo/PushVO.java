@@ -1,8 +1,8 @@
 package com.yimayhd.palace.model.vo;
 
+import com.yimayhd.resourcecenter.model.enums.DelayPushFeatureKey;
 import com.yimayhd.resourcecenter.model.enums.RcDelaySendTargetType;
 import com.yimayhd.resourcecenter.model.enums.RcDelayStatus;
-import com.yimayhd.resourcecenter.model.enums.ShowcaseFeatureKey;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
@@ -45,6 +45,15 @@ public class PushVO implements Serializable {
     private String operationDetailId;//
 
     private String pushDateStr;
+    private String fileName;
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     public String getPushDateStr() {
         return pushDateStr;
@@ -75,6 +84,8 @@ public class PushVO implements Serializable {
             if (getPushDate() != null && getPushDate().before(new Date())) {
                 setStatus(RcDelayStatus.PUSHED.getCode());
                 return RcDelayStatus.PUSHED.getDesc();
+            } else if(getPushDate() != null && !getPushDate().before(new Date())){
+                return RcDelayStatus.NO_PUSH.getDesc();
             }
         }
         return rcDelayStatus.getDesc();
@@ -110,21 +121,21 @@ public class PushVO implements Serializable {
         this.feature = com.yimayhd.resourcecenter.util.FeatureUtil.fromString(featureString);
     }
 
-    public void addFeature(ShowcaseFeatureKey showcaseFeatureKey, String value) {
-        if (showcaseFeatureKey == null || StringUtils.isBlank(value)) {
+    public void addFeature(DelayPushFeatureKey delayPushFeatureKey, String value) {
+        if (delayPushFeatureKey == null || StringUtils.isBlank(value)) {
             return;
         }
         if (feature == null) {
             feature = new HashMap<String, String>();
         }
-        feature.put(showcaseFeatureKey.getCode(), value);
+        feature.put(delayPushFeatureKey.getCode(), value);
     }
 
-    public String getRcFeature(ShowcaseFeatureKey showcaseFeatureKey) {
-        if (feature == null || showcaseFeatureKey == null) {
+    public String getRcFeature(DelayPushFeatureKey delayPushFeatureKey) {
+        if (feature == null || delayPushFeatureKey == null) {
             return null;
         }
-        return feature.get(showcaseFeatureKey.getCode());
+        return feature.get(delayPushFeatureKey.getCode());
     }
 
 

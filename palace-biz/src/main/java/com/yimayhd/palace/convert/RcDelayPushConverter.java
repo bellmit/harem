@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import com.yimayhd.palace.model.vo.PushVO;
 import com.yimayhd.palace.util.HandleFilesUtils;
 import com.yimayhd.resourcecenter.domain.RcDelayPush;
+import com.yimayhd.resourcecenter.model.enums.DelayPushFeatureKey;
 import com.yimayhd.resourcecenter.model.enums.RcDelayType;
 import com.yimayhd.resourcecenter.model.enums.ShowcaseFeatureKey;
 
@@ -53,8 +54,9 @@ public class RcDelayPushConverter {
         pushVO.setSendPeople(rcDelayPush.getSendPeople());
         pushVO.setSendDomainId(rcDelayPush.getSendDomainId());
         pushVO.setFeature(rcDelayPush.getFeature());
-        pushVO.setOperationDetailId(pushVO.getRcFeature(ShowcaseFeatureKey.DEFAULT_SHOW_DOCUMENT));
-        pushVO.setSelectOpContent(pushVO.getRcFeature(ShowcaseFeatureKey.SHOW_DOCUMENT));
+        pushVO.setOperationDetailId(pushVO.getRcFeature(DelayPushFeatureKey.DEFAULT_SHOW_DOCUMENT));
+        pushVO.setSelectOpContent(pushVO.getRcFeature(DelayPushFeatureKey.SHOW_DOCUMENT));
+        pushVO.setFileName(pushVO.getRcFeature(DelayPushFeatureKey.FILE_NAME));
         return pushVO;
     }
 
@@ -87,11 +89,10 @@ public class RcDelayPushConverter {
         rcDelayPush.setSendDomainId(pushVO.getSendDomainId());
         rcDelayPush.setTitle(pushVO.getSubject());
         rcDelayPush.setSendTargetType(pushVO.getPushModelType());
-        pushVO.addFeature(ShowcaseFeatureKey.DEFAULT_SHOW_DOCUMENT,pushVO.getOperationDetailId());
-        pushVO.addFeature(ShowcaseFeatureKey.SHOW_DOCUMENT,pushVO.getSelectOpContent());
+        pushVO.addFeature(DelayPushFeatureKey.DEFAULT_SHOW_DOCUMENT,pushVO.getOperationDetailId());
+        pushVO.addFeature(DelayPushFeatureKey.SHOW_DOCUMENT,pushVO.getSelectOpContent());
+        pushVO.addFeature(DelayPushFeatureKey.FILE_NAME,pushVO.getFileName());
         rcDelayPush.setFeature(pushVO.getFeature());
-
-
         return rcDelayPush;
     }
 
