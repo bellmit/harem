@@ -87,9 +87,11 @@ public class OrderStatusChangeController {
     public BizResult<String>  updateStatus(Model model , OrderStatusChangeParam orderStatusChangeParam){
         logger.info("updateStatus start");
         if(orderStatusChangeParam==null){
+            logger.error("orderStatusChangeParam is null");
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),PalaceReturnCode.PARAM_ERROR.getErrorMsg(),null);
         }
         if(StringUtils.isBlank(orderStatusChangeParam.getOrderChangeStatus())){
+            logger.error("订单修改状态为空");
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),"订单修改状态为空",null);
         }
         orderStatusChangeParam.setUserId(sessionManager.getUserId());
