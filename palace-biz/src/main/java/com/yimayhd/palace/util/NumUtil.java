@@ -73,15 +73,15 @@ public class NumUtil {
 
     /**
      * 获取商品单价
-      * @param money 订单金额
+      * @param money 订单金额(分)
      * @param num 总数量
      * @return
      */
     public static String getOrderUnitPrice(long money,long num){
-        BigDecimal bmoney = new BigDecimal(money/100);
+        BigDecimal bmoney = new BigDecimal(money);
         BigDecimal bnum = new BigDecimal(num);
         //logger.info("money={},bmoney={},num={},bnum={}",money,bmoney,num,bnum);
-        bmoney.divide(bnum,BigDecimal.ROUND_HALF_UP);
+        bmoney.divide(bnum.multiply(new BigDecimal(100)),BigDecimal.ROUND_HALF_UP);
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
         return  decimalFormat.format(bmoney.divide(bnum)).toString();
     }
