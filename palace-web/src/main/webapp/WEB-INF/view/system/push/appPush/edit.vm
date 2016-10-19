@@ -7,7 +7,7 @@
 	"$!rs_js_css_path_jiuxiu/css/validform.css",
 	"$!rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css",
 	"$!rs_js_css_path_jiuxiu/css/datetimepicker.min.css",
-	"$!rs_js_css_path_jiuxiu/css/push-sms-edit.css"
+	"$!rs_js_css_path_jiuxiu/css/push-message-edit.css"
 ])
 <form class="" id="frmEdit">
     <input type="hidden" name="id" id="id" value="$!pushVO.id">
