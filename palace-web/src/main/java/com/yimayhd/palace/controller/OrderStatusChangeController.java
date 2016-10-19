@@ -118,7 +118,7 @@ public class OrderStatusChangeController {
         if(orderLog.getOrderStatusChangeLogDTOList()!=null){
             resultList =orderLog.getOrderStatusChangeLogDTOList() ;
         }
-        PageVO<OrderStatusChangeLogDTO> pageModel = new PageVO<OrderStatusChangeLogDTO>(orderStatusChangeLogQuery.getCurrentPage(),
+        PageVO<OrderStatusChangeLogDTO> pageModel = new PageVO<OrderStatusChangeLogDTO>(orderStatusChangeLogQuery.getPageNumber(),
                 orderStatusChangeLogQuery.getPageSize(),
                         orderLog.getTotalCount(),
                         resultList);
