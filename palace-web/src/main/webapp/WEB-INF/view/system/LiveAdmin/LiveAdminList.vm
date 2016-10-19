@@ -82,7 +82,7 @@
             <tr>
                 <td>$!{item.id}</td>
                 <td>
-                    <img src="$!{item.liveCover}" width="150" height="90">
+                    <img src="$!utilWebconfig.getTfsRootPath()$!{item.liveCover}" width="150" height="90">
                 </td>
                 <td>
                     $!{item.liveTitle}
