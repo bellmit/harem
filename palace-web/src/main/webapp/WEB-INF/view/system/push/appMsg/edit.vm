@@ -51,38 +51,34 @@
                     <option value="2" #if($!entity.pushModelType == 2) selected = 'selected' #end >特定</option>
                 </select>
                  #if(($!isEdit == "edit" || $!isEdit == "detail") && $stringUtil.isNotNullOrNotEmpty($!entity.pushModelFilePath))
-                    <div class="upload-box">
-                        <div class="imgbox file-box imgbox-action" data-imgUrl="csv.png" data-fileType=".csv">
-                            <div class="canclick canclickL">
-                                <img src="$utilWebconfig.getResourcePathJiuXiu()/img/csv.png">
-                            </div>
-                            <div class="plhd"></div>
-                            <div class="del">删除文件</div>
-                            <a class="upldclik">
-                                <input type="file" name="adpicfile" class="adpicfile single">
-                            </a>
-                            <input type="hidden" name="pushModelFilePath" id="uploadFile" value="$!entity.pushModelFilePath">
-                        </div>
-                        <a href="$utilWebconfig.getTfsRootPath()$!entity.pushModelFilePath"
-                           class="btn btn-primary download" download style="display:block">下载</a>
-                        <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>
-                    </div>
+                     <div class="input-group a upload">
+						<input type="text" class="form-control" name="fileName" id="fileName" style="width:400px;background:#fff;" readonly value="$!entity.fileName">
+						<div class="input-group-btn">
+							<button class="btn btn-default delete" type="button">
+                                <i class="icon icon-trash"></i>删除
+                            </button>
+							<a href="$utilWebconfig.getTfsRootPath()$!entity.pushModelFilePath" class="btn btn-default download" download="$!entity.fileName" type="button">下载</a>
+							<div class="btn btn-primary select" type="button">
+                                 <i class="icon icon-folder-open"></i>选择文件
+								<input type="file" name="file" id="file">
+							</div>
+						</div>
+						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath">
+					</div>
                 #else
-                    <div class="upload-box">
-                        <div class="imgbox file-box" data-imgUrl="csv.png" data-fileType=".csv">
-                            <div class="canclick canclickL">
-                                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==">
-                            </div>
-                            <div class="plhd"></div>
-                            <div class="del">删除文件</div>
-                            <a class="upldclik">
-                                <input type="file" name="adpicfile" class="adpicfile single">
-                            </a>
-                            <input type="hidden" name="pushModelFilePath" id="uploadFile" value="$!entity.pushModelFilePath">
-                        </div>
-                        <a href="" class="btn btn-primary download">下载</a>
-                        <div class="tips">请填写特定的推送对象,选择CSV格式文件上传</div>
-                    </div>
+                    <div class="input-group b upload">
+						<input type="text" class="form-control" name="fileName" id="fileName" style="width:400px;background:#fff;" readonly value="">
+						<div class="input-group-btn">
+							<button class="btn btn-default delete hide" type="button">
+                                <i class="icon icon-trash"></i>删除
+                            </button>
+							<div class="btn btn-primary select" type="button">
+                                <i class="icon icon-folder-open"></i>选择文件
+								<input type="file" name="file" id="file">
+							</div>
+						</div>
+						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath">
+					</div>
                 #end
             </td>
         </tr>
