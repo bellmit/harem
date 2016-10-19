@@ -10,6 +10,7 @@ import com.yimayhd.palace.repo.RcDelayRepo;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.PushService;
 import com.yimayhd.palace.service.TfsService;
+import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.palace.util.HandleFilesUtils;
 import com.yimayhd.palace.util.StringUtil;
 import com.yimayhd.resourcecenter.domain.RcDelayPush;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -126,7 +128,8 @@ public class PushServiceImpl implements PushService {
         if(push.getStatus() != RcDelayStatus.NO_PUSH.getCode()){//不是在待发送状态下
             return false;
         }
-        if(null !=push.getPushDate() && push.getPushDate().getTime() > System.currentTimeMillis()){//时间要大于当前时间
+        Date pushDate = DateUtil.string2Date(push.getPushDateStr());
+        if(pushDate.before(new Date())){
             return false;
         }
         return true;
@@ -158,7 +161,8 @@ public class PushServiceImpl implements PushService {
        if(dbPStatus.getCode() == RcDelayStatus.PUSHED.getCode()){
            throw new Exception("短信已发送");
        }
-       if(dbP.getSendTime().getTime() < System.currentTimeMillis()){
+
+       if(dbP.getSendTime().after(new Date())){
            throw new Exception("短信发送时间已生效");
        }
        return rcDelayRepo.cancelMsg(id);

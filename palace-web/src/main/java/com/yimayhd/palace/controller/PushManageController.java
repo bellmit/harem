@@ -12,6 +12,7 @@ import com.yimayhd.palace.model.vo.PushVO;
 import com.yimayhd.palace.service.PushService;
 import com.yimayhd.palace.service.RcDelayPushService;
 import com.yimayhd.palace.service.ShowcaseService;
+import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.palace.util.Enums;
 import com.yimayhd.resourcecenter.model.enums.RcDelaySendTargetType;
 import com.yimayhd.resourcecenter.model.enums.RcDelaySendType;
@@ -66,7 +67,7 @@ public class PushManageController extends BaseController {
        //校验
         setOperationUserId(pushVO);
         if(!verifyPushVO(pushVO)){
-        throw new Exception("参数校验失败");
+            throw new Exception("参数校验失败");
        }
         boolean flag = pushService.saveOrUpdate(pushVO);
         if(flag){
@@ -266,7 +267,11 @@ public class PushManageController extends BaseController {
         if(StringUtils.isEmpty(pushVo.getPushContent())){
             return false;
         }
-        if (new Date().after(pushVo.getPushDate())){//1.1 1.2
+        if (null == pushVo.getPushDateStr()){
+            return false;
+        }
+        Date pushDate = DateUtil.string2Date(pushVo.getPushDateStr());
+        if(pushDate.before(new Date())){
             return false;
         }
         return true;
