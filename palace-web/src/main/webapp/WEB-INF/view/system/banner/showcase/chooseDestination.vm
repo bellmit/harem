@@ -2,12 +2,7 @@
 <script type="text/javascript" src="$!utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datatable/zui.datatable.js"></script>
 <div>
     <div class="input-group">
-            #if($type == $liveAdminQuery.liveCategory)
             <span class="input-group-addon">选择目的地</span>
-            #end
-            #if($type == $liveAdminQuery.liveCategory)
-            <span class="input-group-addon">选择直播分类</span>
-            #end
        #* <input type="text" class="form-control" name="itemName" id="itemName">
         <span class="input-group-btn"><button class="btn btn-default search" type="button">搜索</button></span>*#
     </div>

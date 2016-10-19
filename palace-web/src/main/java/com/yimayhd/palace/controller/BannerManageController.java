@@ -164,7 +164,6 @@ public class BannerManageController extends BaseController {
         model.addAttribute("operationDOs",operationDOs);
         model.addAttribute("isEdit",false);
         return "/system/banner/showcase/edit_new";
-        
     }
 
     /**
@@ -250,10 +249,10 @@ public class BannerManageController extends BaseController {
     public String getChooseContent(Model model,String code,int type) throws Exception {
         model.addAttribute("code",code);
         model.addAttribute("type",type); //根据type去判断跳转
-        if(Constant.SHOWCASE_SHOE_TYPE_CHOOSE_DESTINATION == type
-                || Constant.LIVE_CATEGORY ==type){//选目的地 直播分类
+        if(Constant.SHOWCASE_SHOE_TYPE_CHOOSE_DESTINATION == type){//选目的地
             return "/system/banner/showcase/chooseDestination";
-        }else if(Constant.SHOWCASE_SHOE_TYPE_THEME == type){//选目主题
+        }else if(Constant.SHOWCASE_SHOE_TYPE_THEME == type
+                || Constant.LIVE_CATEGORY ==type){//选目主题 直播分类
             return "/system/banner/showcase/chooseTheme";
         }else if(Constant.SHOWCASE_ITEM_LIST == type
                 || Constant.SHOWCASE_HOTEL_LIST == type
