@@ -57,9 +57,9 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
          }
         ResultSupport result= null;
         OrderOperationLogDTO logDTO = converter.getLogDto();
-        logDTO.setContent(OrderOperationLogStatus.getByType(orderStatusChangeParam.getOrderChangeStatus()).getName());//最终修改状态
+        logDTO.setContent(OrderOperationLogStatus.getByType(Integer.valueOf(orderStatusChangeParam.getOrderChangeStatus()).intValue()).getName());//最终修改状态
         try{
-            switch (orderStatusChangeParam.getOrderChangeStatus()) {
+            switch (Integer.valueOf(orderStatusChangeParam.getOrderChangeStatus()).intValue()) {
                 case FINISH:
                     result = tcTradeRepo.updateOrderStatusToFinishForOperator(orderStatusChangeParam.getBizOrderIds());
                     break;
