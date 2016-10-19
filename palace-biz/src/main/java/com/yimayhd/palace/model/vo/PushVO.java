@@ -75,6 +75,8 @@ public class PushVO implements Serializable {
             if (getPushDate() != null && getPushDate().before(new Date())) {
                 setStatus(RcDelayStatus.PUSHED.getCode());
                 return RcDelayStatus.PUSHED.getDesc();
+            } else if(getPushDate() != null && !getPushDate().before(new Date())){
+                return RcDelayStatus.NO_PUSH.getDesc();
             }
         }
         return rcDelayStatus.getDesc();
