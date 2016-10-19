@@ -1,5 +1,8 @@
 package com.yimayhd.palace.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
@@ -7,7 +10,7 @@ import java.text.DecimalFormat;
  * Created by Administrator on 2015/10/27.
  */
 public class NumUtil {
-
+    private static final Logger logger = LoggerFactory.getLogger(NumUtil.class);
     /**
      * 金额转换（分转换为元:#0.00）
      * @param money
@@ -70,16 +73,17 @@ public class NumUtil {
 
     /**
      * 获取商品单价
-      * @param money 订单金额
+      * @param money 订单金额(分)
      * @param num 总数量
      * @return
      */
     public static String getOrderUnitPrice(long money,long num){
         BigDecimal bmoney = new BigDecimal(money);
         BigDecimal bnum = new BigDecimal(num);
-        bmoney.divide(bnum,BigDecimal.ROUND_HALF_UP);
+        //logger.info("money={},bmoney={},num={},bnum={}",money,bmoney,num,bnum);
+        BigDecimal amount =bmoney.divide(bnum.multiply(new BigDecimal(100)),BigDecimal.ROUND_HALF_UP);
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-        return  decimalFormat.format(bmoney.divide(bnum)).toString();
+        return  decimalFormat.format(amount).toString();
     }
 
 

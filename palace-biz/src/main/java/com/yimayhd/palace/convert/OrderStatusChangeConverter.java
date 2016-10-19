@@ -58,7 +58,8 @@ public class OrderStatusChangeConverter {
         OrderOperationLogDTO dto = new OrderOperationLogDTO();
         dto.setOperationId(orderStatusChangeParam.getUserId());
         dto.setBizNo(orderStatusChangeParam.getBizOrderIdStr());
-        dto.setContent(orderStatusChangeParam.getDesc());
+        dto.setContent(orderStatusChangeParam.getContent());
+        dto.setDesc(orderStatusChangeParam.getDesc());
         dto.setStatus(Integer.valueOf(orderStatusChangeParam.getOrderChangeStatus()).intValue());
         return dto;
     }
