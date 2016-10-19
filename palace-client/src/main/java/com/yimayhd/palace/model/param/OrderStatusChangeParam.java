@@ -106,9 +106,6 @@ public class OrderStatusChangeParam implements Serializable{
     }
 
     public void setOrderChangeStatus(String orderChangeStatus) {
-        if(StringUtils.isNotBlank(currOrderStatusStr)&&StringUtils.isNotBlank(orderChangeStatus)){
-            setContent(currOrderStatusStr+"-"+ OrderOperationLogStatus.getByType(Integer.valueOf(orderChangeStatus).intValue()).getName());
-        }
         this.orderChangeStatus = orderChangeStatus;
     }
 

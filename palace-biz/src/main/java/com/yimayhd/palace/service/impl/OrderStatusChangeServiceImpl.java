@@ -57,7 +57,7 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
          }
         ResultSupport result= null;
         OrderOperationLogDTO logDTO = converter.getLogDto();
-        logDTO.setContent(OrderOperationLogStatus.getByType(Integer.valueOf(orderStatusChangeParam.getOrderChangeStatus()).intValue()).getName());//最终修改状态
+       // logDTO.setContent(OrderOperationLogStatus.getByType(Integer.valueOf(orderStatusChangeParam.getOrderChangeStatus()).intValue()).getName());//最终修改状态
         try{
             switch (Integer.valueOf(orderStatusChangeParam.getOrderChangeStatus()).intValue()) {
                 case FINISH:
