@@ -53,7 +53,7 @@ public class LiveAdminController extends BaseController {
     public String liveList(Model model, LiveAdminQuery liveAdminQuery) throws Exception {
         try {
             liveAdminQuery.setLiveStatus(START_LIVE.getStatus());
-            PageVO<LiveRecordVO> pageVo = liveAdminService.getPageLiveRecord(liveAdminQuery);
+            PageVO<LiveRecordVO> pageVo = liveAdminBiz.getPageLiveRecord(liveAdminQuery);
             model.addAttribute("pageVo", pageVo);
             model.addAttribute("liveAdminQuery", liveAdminQuery);
             model.addAttribute("itemList", pageVo.getItemList());
@@ -92,7 +92,7 @@ public class LiveAdminController extends BaseController {
     public String playBackList(Model model, LiveAdminQuery liveAdminQuery) throws Exception {
         try {
             liveAdminQuery.setLiveStatus(REPLAY_LIVE.getStatus());
-            PageVO<LiveRecordVO> pageVo = liveAdminService.getPageLiveRecord(liveAdminQuery);
+            PageVO<LiveRecordVO> pageVo = liveAdminBiz.getPageLiveRecord(liveAdminQuery);
             Model pageVo1 = model.addAttribute("pageVo", pageVo);
             model.addAttribute("liveAdminQuery", liveAdminQuery);
             model.addAttribute("itemList", pageVo.getItemList());
@@ -130,7 +130,7 @@ public class LiveAdminController extends BaseController {
     @RequestMapping(value = "/rooms", method = RequestMethod.GET)
     public String rooms(Model model, LiveRoomQuery liveRoomQuery) throws Exception {
         try {
-            PageVO<LiveRoomVO> pageVo = liveAdminService.getPageLiveRoom(liveRoomQuery);
+            PageVO<LiveRoomVO> pageVo = liveAdminBiz.getPageLiveRoom(liveRoomQuery);
             model.addAttribute("pageVo", pageVo);
             model.addAttribute("liveRoomQuery", liveRoomQuery);
             model.addAttribute("itemList", pageVo.getItemList());

@@ -1,6 +1,11 @@
 #set($layout = "/system/layout/layout-new.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
 #set($title = "订单状态修改")
+#set($styles = [
+	"$!rs_js_css_path_jiuxiu/css/zui.min.css",
+	"$!rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css",
+	"$!rs_js_css_path_jiuxiu/css/changeOrderStatus.css"
+])
 <div class="search-box">
 		<form id="orderStatusChangeParam" name="orderStatusChangeParam" action="$!utilWebconfig.getActionDefaultFontPath()/order/status/queryList" method="GET" role="form">
 			<table class="table no-border">

@@ -109,6 +109,10 @@ public class LiveRecordVO implements Serializable {
      */
     private int replaySecond;
     /**
+     * 回放时长
+     */
+    private String replaySecondString;
+    /**
      * 直播排序
      */
     private int liveOrder;
@@ -360,6 +364,14 @@ public class LiveRecordVO implements Serializable {
 
     public void setReplaySecond(int replaySecond) {
         this.replaySecond = replaySecond;
+    }
+
+    public String getReplaySecondString() {
+        return replaySecondString;
+    }
+
+    public void setReplaySecondString(String replaySecondString) {
+        this.replaySecondString = replaySecondString;
     }
 
     public int getPeakCount() {

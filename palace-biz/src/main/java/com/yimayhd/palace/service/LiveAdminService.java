@@ -6,7 +6,11 @@ import com.yimayhd.live.client.domain.record.CloseLiveRoomDTO;
 import com.yimayhd.live.client.domain.record.LiveRoomDO;
 import com.yimayhd.live.client.domain.record.UpdateLiveOrderDTO;
 import com.yimayhd.live.client.domain.record.UpdateLiveRecordStatusDTO;
+import com.yimayhd.live.client.query.LiveAdminPageQuery;
+import com.yimayhd.live.client.query.LiveRecordQuery;
+import com.yimayhd.live.client.query.LiveRoomPageQuery;
 import com.yimayhd.live.client.result.record.CreateLiveRoomResult;
+import com.yimayhd.live.client.result.record.QueryLiveRecordResult;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
@@ -28,6 +32,13 @@ public interface LiveAdminService {
      * @return
      */
     public PageVO<LiveRecordVO> getPageLiveRecord(LiveAdminQuery pageQuery);
+
+    /**
+     * 查询单个直播
+     * @param recordQuery
+     * @return
+     */
+    public LiveRecordVO getLiveRecord(LiveRecordQuery recordQuery);
 
     /**
      * 获取直播分类
