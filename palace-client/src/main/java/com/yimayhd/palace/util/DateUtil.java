@@ -1,5 +1,7 @@
 package com.yimayhd.palace.util;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -25,4 +27,16 @@ public class DateUtil {
 		}
 		return result.toString();
 	}
+
+	public Date string2Date(String date){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		Date d = null;
+		try {
+			d = sdf.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return d;
+	}
+
 }

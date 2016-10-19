@@ -31,7 +31,7 @@ public class TcTradeRepo {
      * @return
      */
    public BatchBizQueryResult queryOrderForAdmin(OrderQueryDTO orderQueryDTO){
-        logger.info(JSON.toJSONString(orderQueryDTO));
+        logger.info("queryList--param repo:"+JSON.toJSONString(orderQueryDTO));
         if(orderQueryDTO==null){
             logger.error("参数 orderQueryDTO is null");
             return null;

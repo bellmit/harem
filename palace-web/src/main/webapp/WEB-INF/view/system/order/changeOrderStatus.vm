@@ -27,7 +27,7 @@
 						订单状态:
 					</td>
 					<td style="width:400px">
-						<select name="" id="" class="form-control">
+						<select name="orderStat" id="orderStat" class="form-control">
 							<option value="3" #if($!queryModel.orderStat == '3') selected #end>处理中/待确认/已付款</option>
 							<option value="6" #if($!queryModel.orderStat == '6') selected #end>处出行/待使用/预定成功/已发货</option>
 						</select>
