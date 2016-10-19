@@ -109,7 +109,7 @@ public class OrderStatusChangeController {
     public String queryLogList(Model model,OrderStatusChangeLogQuery orderStatusChangeLogQuery){
         logger.info("queryLogList start");
         BizResult<OrderStatusChangeLogResult> result=  orderStatusChangeLogService.queryOrderStatusChangeLogList(orderStatusChangeLogQuery);
-        model.addAttribute("model", orderStatusChangeLogQuery);
+        model.addAttribute("queryModel", orderStatusChangeLogQuery);
         if(result==null||!result.isSuccess()){
             return "/system/order/changeHistory";
         }
