@@ -154,7 +154,7 @@
         <tr>
             <th><span class="text-red">*</span>推送时间：</th>
             <td>
-                <input type="text" class="form-control input-text time" readonly="readonly" name="pushDate" id="time"
+                <input type="text" class="form-control input-text time" readonly="readonly" name="pushDateStr" id="time"
                        value="$!utilDate.date2String($!pushVO.pushDate)">
             </td>
         </tr>

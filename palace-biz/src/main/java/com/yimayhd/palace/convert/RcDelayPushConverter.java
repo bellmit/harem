@@ -67,7 +67,14 @@ public class RcDelayPushConverter {
         rcDelayPush.setOpreationValue(pushVO.getOperationContent());
         rcDelayPush.setType(RcDelayType.PUSH.getCode());
         rcDelayPush.setSendType(pushVO.getPushType());
-        rcDelayPush.setSendTime(pushVO.getPushDate());
+        Date d ;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        try {
+            d = sdf.parse(pushVO.getPushDateStr());
+        } catch (ParseException e) {
+            d = new Date();
+        }
+        rcDelayPush.setSendTime(d);
         rcDelayPush.setContent(pushVO.getPushContent());
         rcDelayPush.setCreateUserId(pushVO.getOperationUserId());
         rcDelayPush.setDomainId(pushVO.getDomain());
