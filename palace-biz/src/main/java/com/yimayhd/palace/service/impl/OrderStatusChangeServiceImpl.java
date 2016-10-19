@@ -86,6 +86,7 @@ public class OrderStatusChangeServiceImpl implements OrderStatusChangeService {
             /**更新状态成功,插入日志*/
             logDTO.setStatus(OrderOperationLogStatus.SUCCESS.getType());
             orderOperationLogRepo.insertOrderOperationLogDO(logDTO);
+            logger.info("updateStatus--serveice:"+JSON.toJSONString(logDTO));
         }catch (Exception e){
             logger.error("记录操作日志异常",e);
             return BizResult.buildFailResult(PalaceReturnCode.SYSTEM_ERROR.getErrorCode(),PalaceReturnCode.SYSTEM_ERROR.getErrorMsg(),null);
