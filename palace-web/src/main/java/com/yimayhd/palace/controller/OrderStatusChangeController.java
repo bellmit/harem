@@ -56,6 +56,7 @@ public class OrderStatusChangeController {
         if(StringUtils.isBlank(orderStatusChangeParam.getBizOrderIdStr())){
             //没有订单id 默认不显示列表
             logger.info("orderIds is empty");
+            model.addAttribute("queryModel", orderStatusChangeParam);
             return "/system/order/changeOrderStatus";
         }
         if(StringUtils.isBlank(orderStatusChangeParam.getBizOrderIdStr())&&orderStatusChangeParam.getBizOrderIds().size()>count){
@@ -71,6 +72,7 @@ public class OrderStatusChangeController {
         OrderStatusChangeVO changeVO = bizResult.getValue();
         model.addAttribute("tcMainOrderVOList", changeVO.getTcMainOrderVOList());
         model.addAttribute("totalCount", changeVO.getTotalCount());
+        model.addAttribute("queryModel", orderStatusChangeParam);
         return "/system/order/changeOrderStatus";
     }
 
