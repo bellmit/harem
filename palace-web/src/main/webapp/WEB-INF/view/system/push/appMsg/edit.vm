@@ -36,9 +36,7 @@
         <tr>
             <th><span class="text-red">*</span>推送内容：</th>
             <td>
-                <textarea class="form-control input-text" name="pushContent" id="content" rows="4" cols="20" placeholder="请输入推送内容">
-                    $!entity.pushContent
-                </textarea>
+                <textarea class="form-control input-text" name="pushContent" id="content" rows="4" cols="20" placeholder="请输入推送内容">$!entity.pushContent</textarea>
             </td>
         </tr>
         <tr>

@@ -1,6 +1,10 @@
 #set($layout = "/system/layout/layout-new.vm")
 #parse("/system/layout/layout-jiuxiu-meta.vm")
-#set($title = "创建短信推送")
+#set($title = "订单修改历史")
+#set($styles = [
+	"$!rs_js_css_path_jiuxiu/css/zui.min.css",
+	"$!rs_js_css_path_jiuxiu/css/changeOrderStatus.css
+])
 <div class="search-box">
 	<form id="frmChangeHistory" name="orderStatusChangeLogQuery" action="$!utilWebconfig.getActionDefaultFontPath()/order/status/queryLogList" method="GET" role="form">
 		<div class="input-group">
