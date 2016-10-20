@@ -31,7 +31,8 @@
 					<button class="btn btn-default" type="button">对象：</button>
 				</span>
             <select class="form-control" name="sendType">
-                <option value="1" #if($!rcDelayPushPageQuery.sendType==1) selected #end>全部</option>
+                <option value="0" #if($!rcDelayPushPageQuery.sendType==0) selected #end>全部</option>
+                <option value="1" #if($!rcDelayPushPageQuery.sendType==1) selected #end>全部用户</option>
                 <option value="2" #if($!rcDelayPushPageQuery.sendType==2) selected #end>特定用户</option>
             </select>
         </div>
