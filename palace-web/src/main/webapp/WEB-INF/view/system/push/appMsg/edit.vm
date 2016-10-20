@@ -53,14 +53,18 @@
                      <div class="input-group a upload">
 						<input type="text" class="form-control" name="fileName" id="fileName" style="width:400px;background:#fff;" readonly value="$!entity.fileName">
 						<div class="input-group-btn">
+                            #if($!isEdit == "detail")
 							<button class="btn btn-default delete" type="button">
                                 <i class="icon icon-trash"></i>删除
                             </button>
+                            #end
 							<a href="$utilWebconfig.getTfsRootPath()$!entity.pushModelFilePath" class="btn btn-default download" download="$!entity.fileName" type="button">下载</a>
-							<div class="btn btn-primary select" type="button">
-                                 <i class="icon icon-folder-open"></i>选择文件
-								<input type="file" name="file" id="file">
-							</div>
+                            #if($!isEdit == "detail")
+                                <div class="btn btn-primary select" type="button">
+                                    <i class="icon icon-folder-open"></i>选择文件
+                                    <input type="file" name="file" id="file">
+                                </div>
+                            #end
 						</div>
 						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath">
 					</div>
