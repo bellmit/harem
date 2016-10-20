@@ -66,7 +66,8 @@
                                 </div>
                             #end
 						</div>
-						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath">
+
+						<input a="$!isEdit" type="hidden" name="pushModelFilePath" id="pushModelFilePath" value="$!entity.pushModelFilePath">
 					</div>
                 #else
                     <div class="input-group b upload">
