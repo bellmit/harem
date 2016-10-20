@@ -175,7 +175,7 @@ public class PushManageController extends BaseController {
         domainType.add(DomainType.DOMAIN_JX);
         model.addAttribute("domainTypeList", domainType);
 //        model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
-        model.addAttribute("pushTypeList", Enums.toList(RcDelayType.class));
+        model.addAttribute("pushTypeList", Enums.toList(RcDelaySendType.class));
         model.addAttribute("rcDelaySendTypeList", Enums.toList(RcDelaySendType.class));
         model.addAttribute("pushTypeMap", Enums.toMap(RcDelayType.class, null));
         model.addAttribute("operationDetailId",0);
@@ -194,9 +194,11 @@ public class PushManageController extends BaseController {
             return "/error";
         }
         model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
-        model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
+        List<DomainType> domainType = new ArrayList<>();
+        domainType.add(DomainType.DOMAIN_JX);
+        model.addAttribute("domainTypeList", domainType);
         model.addAttribute("rcDelaySendTypeList", Enums.toList(RcDelaySendType.class));
-        model.addAttribute("pushTypeList", Enums.toList(RcDelayType.class));
+        model.addAttribute("pushTypeList", Enums.toList(RcDelaySendType.class));
         model.addAttribute("pushTypeMap", Enums.toMap(RcDelayType.class, null));
         model.addAttribute("operationDetailId",pushVO.getOperationDetailId()==null?0:pushVO.getOperationDetailId());
         model.addAttribute("pushVO",pushVO);
@@ -214,8 +216,10 @@ public class PushManageController extends BaseController {
             return "/error";
         }
         model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
-        model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
-        model.addAttribute("pushTypeList", Enums.toList(RcDelayType.class));
+        List<DomainType> domainType = new ArrayList<>();
+        domainType.add(DomainType.DOMAIN_JX);
+        model.addAttribute("domainTypeList", domainType);
+        model.addAttribute("pushTypeList", Enums.toList(RcDelaySendType.class));
         model.addAttribute("rcDelaySendTypeList", Enums.toList(RcDelaySendType.class));
         model.addAttribute("pushTypeMap", Enums.toMap(RcDelayType.class, null));
         model.addAttribute("operationDetailId",pushVO.getOperationDetailId()==null?0:pushVO.getOperationDetailId());
