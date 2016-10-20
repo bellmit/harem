@@ -132,9 +132,9 @@
             </td>
         </tr>
     </table>
-    <div class="mb10" style="text-align:center;">
+    <!--<div class="mb10" style="text-align:center;">
         <button type="button" class="btn btn-default" style="width:100px" id="btnCancel">取消</button>
-    </div>
+    </div>-->
 </form>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-css.js"></script>
