@@ -204,7 +204,6 @@
     // 设置权重
     function setWeight() {
 
-
         $("#tbPlayBackList").on("click", ".weight", function () {
             var liveRecordId = $(this).attr("liveRecordId");
             layer.open({
