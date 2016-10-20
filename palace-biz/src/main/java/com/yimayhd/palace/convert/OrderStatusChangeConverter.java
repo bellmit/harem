@@ -11,6 +11,7 @@ import com.yimayhd.palace.repo.user.UserRepo;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.JiuxiuOrderService;
 import com.yimayhd.palace.util.SpringContextModel;
+import com.yimayhd.sellerAdmin.client.enums.OrderOperationLogStatus;
 import com.yimayhd.sellerAdmin.client.model.orderLog.OrderOperationLogDTO;
 import com.yimayhd.tradecenter.client.model.domain.order.VoucherInfo;
 import com.yimayhd.tradecenter.client.model.domain.person.TcMerchantInfo;
@@ -58,8 +59,11 @@ public class OrderStatusChangeConverter {
         OrderOperationLogDTO dto = new OrderOperationLogDTO();
         dto.setOperationId(orderStatusChangeParam.getUserId());
         dto.setBizNo(orderStatusChangeParam.getBizOrderIdStr());
-        dto.setContent(orderStatusChangeParam.getDesc());
-        dto.setStatus(orderStatusChangeParam.getOrderChangeStatus());
+        if(StringUtils.isNotBlank(orderStatusChangeParam.getCurrOrderStatusStr())&&StringUtils.isNotBlank(orderStatusChangeParam.getOrderChangeStatus())){
+            dto.setContent(orderStatusChangeParam.getCurrOrderStatusStr()+"-"+ OrderOperationLogStatus.getByType(Integer.valueOf(orderStatusChangeParam.getOrderChangeStatus()).intValue()).getName());
+        }
+        dto.setDesc(orderStatusChangeParam.getDesc());
+        dto.setStatus(Integer.valueOf(orderStatusChangeParam.getOrderChangeStatus()).intValue());
         return dto;
     }
 
@@ -205,7 +209,7 @@ public class OrderStatusChangeConverter {
         if(orderStatusChangeParam==null){
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),PalaceReturnCode.PARAM_ERROR.getErrorMsg(),null);
         }
-        if(orderStatusChangeParam.getOrderChangeStatus()==0){
+        if(StringUtils.isBlank(orderStatusChangeParam.getOrderChangeStatus())){
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),"订单修改状态为空",null);
         }
         if(CollectionUtils.isEmpty(orderStatusChangeParam.getBizOrderIds())){

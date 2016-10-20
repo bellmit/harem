@@ -124,7 +124,7 @@
 							$!tcMainOrder.userDO.nickname
 						</div>
 						<div class="t-c">
-							$!utilPhone.phoneFormat($!order.userDO.buyerPhone)
+							$!utilPhone.phoneFormat($!tcMainOrder.userDO.mobileNo)
 						</div>
 					</td>
 					<td>
@@ -154,7 +154,11 @@
 					</td>
 					<td>
 						$!utilNum.moneyTransform($!tcMainOrder.totalFee) <br/>
-						#if($!order.reValue gt 0) 满$!utilNum.moneyTransform($!tcMainOrder.requirement) <br/> 减$!utilNum.moneyTransform($!tcMainOrder.reValue) #end
+						#if($!order.reValue)
+							#if($!order.reValue > 0) 满$!utilNum.moneyTransform($!tcMainOrder.requirement) <br/> 减$!utilNum.moneyTransform($!tcMainOrder.reValue) #end
+						#end
+
+
 					</td>
 					<td>
 						<button type="button" class="btn btn-primary detail" orderId="$!tcMainOrder.bizOrder.bizOrderId">详情</button>

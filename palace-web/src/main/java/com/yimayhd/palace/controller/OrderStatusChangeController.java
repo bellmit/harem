@@ -51,7 +51,7 @@ public class OrderStatusChangeController {
      * @return
      */
     @RequestMapping(value = "/queryList", method = RequestMethod.GET)
-    public String queryList(Model model,OrderStatusChangeParam orderStatusChangeParam){
+    public String queryList(Model model,OrderStatusChangeParam orderStatusChangeParam) throws Exception{
         logger.info("query list start");
         if(StringUtils.isBlank(orderStatusChangeParam.getBizOrderIdStr())){
             //没有订单id 默认不显示列表
@@ -84,12 +84,14 @@ public class OrderStatusChangeController {
      */
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
     @ResponseBody
-    public BizResult<String>  updateStatus(Model model , OrderStatusChangeParam orderStatusChangeParam){
-        logger.info("updateStatus start");
+    public BizResult<String>  updateStatus(Model model , OrderStatusChangeParam orderStatusChangeParam) throws Exception{
+        logger.info("updateStatus start:"+JSON.toJSONString(orderStatusChangeParam));
         if(orderStatusChangeParam==null){
+            logger.error("orderStatusChangeParam is null");
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),PalaceReturnCode.PARAM_ERROR.getErrorMsg(),null);
         }
-        if(orderStatusChangeParam.getOrderChangeStatus()==0){
+        if(StringUtils.isBlank(orderStatusChangeParam.getOrderChangeStatus())){
+            logger.error("订单修改状态为空");
             return BizResult.buildFailResult(PalaceReturnCode.PARAM_ERROR.getErrorCode(),"订单修改状态为空",null);
         }
         orderStatusChangeParam.setUserId(sessionManager.getUserId());
@@ -109,7 +111,7 @@ public class OrderStatusChangeController {
      * @return
      */
     @RequestMapping(value = "/queryLogList", method = RequestMethod.GET)
-    public String queryLogList(Model model,OrderStatusChangeLogQuery orderStatusChangeLogQuery){
+    public String queryLogList(Model model,OrderStatusChangeLogQuery orderStatusChangeLogQuery) throws Exception{
         logger.info("queryLogList start");
         BizResult<OrderStatusChangeLogResult> result=  orderStatusChangeLogService.queryOrderStatusChangeLogList(orderStatusChangeLogQuery);
         model.addAttribute("queryModel", orderStatusChangeLogQuery);
