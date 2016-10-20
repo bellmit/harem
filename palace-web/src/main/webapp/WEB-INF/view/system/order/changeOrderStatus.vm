@@ -14,7 +14,7 @@
 						订单编号:
 					</td>
 					<td style="width:400px">
-						<textarea class="form-control" name="formOrderIdStr" rows="8" cols="40" id="orderNo" name="orderNo" placeholher="请输入订单编号，使用Enter或者斜杠/分隔"></textarea>
+						<textarea class="form-control" name="formOrderIdStr" rows="8" cols="40" id="orderNo" placeholher="请输入订单编号，使用Enter或者斜杠/分隔">$!queryModel.formOrderIdStr</textarea>
 
 					</td>
 					<td class="v-align-t" rowspan="2">
@@ -33,7 +33,7 @@
 						</select>
 					</td>
 				</tr>
-                <input type="hidden" id="queryOrderNo" name="bizOrderIdStr"/>
+                <input type="hidden" id="queryOrderNo" name="bizOrderIdStr" value="$!queryModel.bizOrderIdStr"/>
 			</table>
 		</form>
 	</div>
