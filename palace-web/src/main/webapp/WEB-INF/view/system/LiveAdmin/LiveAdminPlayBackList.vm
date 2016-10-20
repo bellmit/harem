@@ -121,13 +121,13 @@
                     $!{item.statusString}
                 </td>
                 <td>
-                    #if($item.status != 2)
+                    #if($item.status != 2 && $item.replaySecond >= 180)
                         <button type="button" class="btn btn-primary weight" liveOrder="$!{item.liveOrder}" liveRecordId="$!{item.id}">编辑权重</button>
                     #end
-                    #if($item.status==3)
+                    #if($item.status==3 && $item.replaySecond >= 180)
                         <button type="button" class="btn btn-primary on" liveRecordId="$!{item.id}">上架</button>
                     #end
-                    #if($item.status==1)
+                    #if($item.status==1 && $item.replaySecond >= 180)
                         <button type="button" class="btn btn-primary off" liveRecordId="$!{item.id}">下架</button>
                     #end
                     #if($item.replayUrl.size()>0)
