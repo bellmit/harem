@@ -7,6 +7,7 @@ import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.base.ResponseVo;
 import com.yimayhd.palace.constant.Constant;
 import com.yimayhd.palace.constant.ResponseStatus;
+import com.yimayhd.palace.model.vo.DelayPushPageQuery;
 import com.yimayhd.palace.model.vo.PushQueryVO;
 import com.yimayhd.palace.model.vo.PushVO;
 import com.yimayhd.palace.service.PushService;
@@ -142,19 +143,21 @@ public class PushManageController extends BaseController {
 
     //短信推送列表
     @RequestMapping(value = "/appPush/list", method = RequestMethod.GET)
-    public String pushList(Model model,RcDelayPushPageQuery rcDelayPushPageQuery) throws Exception {
+    public String pushList(Model model,DelayPushPageQuery delayPushPageQuery) throws Exception {
         try {
-            PageVO<PushVO> pageVO = rcDelayPushService.getPushList(rcDelayPushPageQuery);
+            PageVO<PushVO> pageVO = rcDelayPushService.getPushList(delayPushPageQuery);
             if(pageVO!=null) {
                 model.addAttribute("pageVo", pageVO);
                 model.addAttribute("itemList", pageVO.getItemList());
             }
             model.addAttribute("rcDelayStatus", Enums.toList(RcDelayStatus.class));
             model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
-            model.addAttribute("rcDelayPushPageQuery", rcDelayPushPageQuery);
+            model.addAttribute("rcDelayPushPageQuery", delayPushPageQuery);
+            model.addAttribute("query",delayPushPageQuery);
+
             return "/system/push/appPush/list";
         } catch (Exception e) {
-            log.error("pushList rcDelayPushPageQuery={}, exception={}", JSON.toJSONString(rcDelayPushPageQuery), e);
+            log.error("pushList rcDelayPushPageQuery={}, exception={}", JSON.toJSONString(delayPushPageQuery), e);
             return "/error";
         }
     }
