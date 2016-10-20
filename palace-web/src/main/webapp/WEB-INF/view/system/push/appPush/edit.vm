@@ -109,7 +109,7 @@
             <th><span class="text-red">*</span>推送对象：</th>
             <td>
                 <select class="form-control input-text mb10 select" data-target=".upload" name="pushModelType"
-                        id="userType">
+                        id="pushModelType">
                     #foreach($targetType in $rcDelaySendTargetType)
                         <option value="$!{targetType.code}" #if($!pushVO.pushModelType==$!targetType.code)
                                 selected #end>$!{targetType.desc}</option>

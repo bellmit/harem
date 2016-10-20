@@ -48,8 +48,8 @@
             </select>
         </div>
         <div class="btn-group">
-            <input type="hidden" value="1" name="pushType">
             <button type="submit" class="btn btn-primary" id="btnQuery">查询</button>
+            <input type="hidden" value="1" name="pushType">
         </div>
         <div class="btn-group">
             <button type="button" class="btn btn-primary" id="btnReset">重置</button>
