@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -170,7 +171,10 @@ public class PushManageController extends BaseController {
     public String toPushAdd(Model model) throws Exception {
 
         model.addAttribute("rcDelaySendTargetType", Enums.toList(RcDelaySendTargetType.class));
-        model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
+        List<DomainType> domainType = new ArrayList<>();
+        domainType.add(DomainType.DOMAIN_JX);
+        model.addAttribute("domainTypeList", domainType);
+//        model.addAttribute("domainTypeList", Enums.toList(DomainType.class));
         model.addAttribute("pushTypeList", Enums.toList(RcDelayType.class));
         model.addAttribute("rcDelaySendTypeList", Enums.toList(RcDelaySendType.class));
         model.addAttribute("pushTypeMap", Enums.toMap(RcDelayType.class, null));

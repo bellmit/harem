@@ -32,7 +32,7 @@
 				</span>
             <select class="form-control" name="sendType">
                 <option value="1" #if($!rcDelayPushPageQuery.sendType==1) selected #end>全部</option>
-                <option value="2" #if($!rcDelayPushPageQuery.sendType==2) selected #end>特定</option>
+                <option value="2" #if($!rcDelayPushPageQuery.sendType==2) selected #end>特定用户</option>
             </select>
         </div>
         <div class="input-group">
@@ -43,6 +43,7 @@
                 <option value="0" #if($!rcDelayPushPageQuery.status==0) selected #end>全部</option>
                 <option value="98" #if($!rcDelayPushPageQuery.status==98) selected #end>待发送</option>
                 <option value="99" #if($!rcDelayPushPageQuery.status==99) selected #end>已发送</option>
+                <option value="2" #if($!rcDelayPushPageQuery.status==2) selected #end>取消发送</option>
             </select>
         </div>
         <div class="btn-group">
