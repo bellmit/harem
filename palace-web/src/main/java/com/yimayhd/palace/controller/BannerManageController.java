@@ -53,6 +53,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+import static com.yimayhd.live.client.enums.LiveRecordStatus.NORMAL_LIVE;
 import static com.yimayhd.live.client.enums.LiveStatus.REPLAY_LIVE;
 
 
@@ -359,6 +360,7 @@ public class BannerManageController extends BaseController {
             if(StringUtils.isNotEmpty(keyWord)) {
                 query.setLiveTitle(keyWord);
             }
+            query.setLiveRecordStatus(NORMAL_LIVE.getStatus()); //上架直播
             query.setPageNumber(pageNumber);
             query.setPageSize(pageSize);
             query.setLiveStatus(REPLAY_LIVE.getStatus());  // 获取回放列表
