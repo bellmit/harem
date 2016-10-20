@@ -112,7 +112,7 @@
 						<div class="input-group-btn">
 							<a href="$utilWebconfig.getTfsRootPath()$!pushVO.pushModelFilePath" class="btn btn-default download" download="$!pushVO.fileName" type="button">下载</a>
 						</div>
-						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath">
+						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath" value="$!pushVO.pushModelFilePath">
 					</div>
                 #else
                     <div class="input-group b upload">
@@ -130,9 +130,9 @@
             </td>
         </tr>
     </table>
-   #* <div class="mb10" style="text-align:center;">
-        <button type="button" class="btn btn-primary" style="width:100px" id="btnSave">保存</button>
-    </div>*#
+    <div class="mb10" style="text-align:center;">
+        <button type="button" class="btn btn-default" style="width:100px" id="btnCancel">取消</button>
+    </div>
 </form>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-css.js"></script>
