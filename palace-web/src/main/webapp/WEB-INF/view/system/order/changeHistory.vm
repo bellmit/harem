@@ -59,7 +59,8 @@
 	<tbody>
 		<tr>
 
-			<td>
+			<td class="bizNo">
+				<input type="hidden" value="$!orderLog.bizNo">
 				$!orderLog.bizNo
 			</td>
 			<td>

@@ -128,7 +128,7 @@
 								<input type="file" name="file" id="file">
 							</div>
 						</div>
-						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath">
+						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath" value="$!pushVO.pushModelFilePath">
 					</div>
                 #else
                     <div class="input-group b upload">
