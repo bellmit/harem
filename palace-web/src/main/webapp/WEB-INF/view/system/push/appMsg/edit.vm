@@ -45,7 +45,7 @@
         <tr>
             <th><span class="text-red">*</span>推送对象：</th>
             <td>
-                <select class="form-control input-text mb10" name="pushModelType" id="userType">
+                <select class="form-control input-text mb10" name="pushModelType" id="pushModelType">
                     <option value="1" #if($!entity.pushModelType == 1) selected = 'selected' #end >全部</option>
                     <option value="2" #if($!entity.pushModelType == 2) selected = 'selected' #end >特定</option>
                 </select>
