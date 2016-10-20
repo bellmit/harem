@@ -50,8 +50,12 @@ public class PushServiceImpl implements PushService {
         rcDelayPushPageQuery.setNeedCount(true);
         //query
         rcDelayPushPageQuery.setTopicName(StringUtils.isEmpty(pushQueryVO.getSubject())?"":pushQueryVO.getSubject().replaceAll(" ",""));
-        rcDelayPushPageQuery.setStarteTime(pushQueryVO.getBeginPushDate());
-        rcDelayPushPageQuery.setEndTime(pushQueryVO.getEndPushDate());
+        if(StringUtils.isNotEmpty(pushQueryVO.getBeginPushDate())){
+            rcDelayPushPageQuery.setStarteTime(DateUtil.string2Date(pushQueryVO.getBeginPushDate()));
+        }
+        if(StringUtils.isNotEmpty(pushQueryVO.getEndPushDate())){
+            rcDelayPushPageQuery.setEndTime(DateUtil.string2Date(pushQueryVO.getEndPushDate()));
+        }
         rcDelayPushPageQuery.setSendType(pushQueryVO.getPushModelType());
         rcDelayPushPageQuery.setStatus(pushQueryVO.getStatus());
         rcDelayPushPageQuery.setType(pushQueryVO.getPushType());

@@ -15,6 +15,7 @@ import com.yimayhd.palace.service.RcDelayPushService;
 import com.yimayhd.palace.service.ShowcaseService;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.palace.util.Enums;
+import com.yimayhd.palace.util.StringUtil;
 import com.yimayhd.resourcecenter.model.enums.RcDelaySendTargetType;
 import com.yimayhd.resourcecenter.model.enums.RcDelaySendType;
 import com.yimayhd.resourcecenter.model.enums.RcDelayStatus;
@@ -87,6 +88,7 @@ public class PushManageController extends BaseController {
     //短信推送列表
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String msgList(Model model,PushQueryVO pushQueryVO) throws Exception {
+        setQueryDate(pushQueryVO);
         PageVO<PushVO> pageVO = pushService.getList(pushQueryVO);
         model.addAttribute("pageVo",pageVO);
         model.addAttribute("query",pushQueryVO);
@@ -97,6 +99,25 @@ public class PushManageController extends BaseController {
             return "/system/push/appPush/list";
         }*/
         return "error";
+    }
+
+    public PushQueryVO setQueryDate(PushQueryVO pv){
+        if(null == pv){
+            return pv;
+        }
+        String bd = pv.getBeginPushDate();
+        String ed = pv.getEndPushDate();
+        if(org.apache.commons.lang3.StringUtils.isNotEmpty(bd)){
+            pv.setBeginPushDate(bd + " 00:00:00");
+        }
+        if(org.apache.commons.lang3.StringUtils.isNotEmpty(ed)){
+            pv.setEndPushDate(ed + " 23:59:59");
+        }
+        if(StringUtils.isNotEmpty(bd) && org.apache.commons.lang3.StringUtils.isEmpty(ed)){
+            Date d = DateUtil.formatMaxTimeForDate(new Date());
+            pv.setEndPushDate(DateUtil.date2String(d));
+        }
+        return pv;
     }
 
     //短信推送详情
