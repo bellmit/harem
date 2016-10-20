@@ -38,6 +38,7 @@ public class LiveAdminConverter {
         liveRecordVO.setLiveRoom(liveRecordDO.getLiveRoom());
         liveRecordVO.setLiveCategory(liveRecordDO.getLiveCategory());
         // 标题和话题
+        liveRecordVO.setLiveTitle(liveRecordDO.getLiveTitle());  // 标题
         if (liveRecordDO.getLiveTitle() != null) {
             String topic = new String();
             //正则表达式，取#和#之间的字符串，不包括#和#
@@ -48,8 +49,6 @@ public class LiveAdminConverter {
                 topic += "\n";
             }
             liveRecordVO.setLiveTopic(topic);
-            String[] ary = liveRecordDO.getLiveTitle().split("\\#");
-            liveRecordVO.setLiveTitle(ary[ary.length-1]);
         }
 //      liveRecordVO.setLiveDes(liveRecordDO.getLiveDes());
         liveRecordVO.setLiveCover(liveRecordDO.getLiveCover());
