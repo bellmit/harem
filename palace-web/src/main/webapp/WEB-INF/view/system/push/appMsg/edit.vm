@@ -95,9 +95,9 @@
     </table>
     <div class="mb10" style="text-align:center;">
         #if($!isEdit != "detail")
-            <button type="button" class="btn btn-primary" style="width:100px" id="btnSave">保存</button>
+        <button type="button" class="btn btn-primary" style="width:100px;margin-right:10px;" id="btnSave">确定</button>
         #end
-
+        <button type="button" class="btn btn-default" style="width:100px" id="btnCancel">取消</button>
     </div>
 </form>
 
