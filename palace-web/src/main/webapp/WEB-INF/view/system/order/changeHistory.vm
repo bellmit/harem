@@ -23,9 +23,9 @@
 			<span class="input-group-btn">
 						<button class="btn btn-default" type="button">修改时间</button>
 					</span>
-			<input type="text" class='form-control form-date date start-time' placeholder='' readonly name="gmtCreatedStartStr" value="$!{queryModel.gmtCreatedStartStr}">
+			<input type="text" class='form-control form-date date start-time' placeholder='' readonly name="gmtCreatedStartStr" id="gmtCreatedStartStr" value="$!{queryModel.gmtCreatedStartStr}">
 			<span class="input-group-addon fix-border fix-padding date-addon">至</span>
-			<input type="text" class='form-control form-date date end-time' placeholder='' readonly name="gmtCreatedEndStr" value="$!{queryModel.gmtCreatedEndStr}">
+			<input type="text" class='form-control form-date date end-time' placeholder='' readonly name="gmtCreatedEndStr" id="gmtCreatedEndStr" value="$!{queryModel.gmtCreatedEndStr}">
 		</div>
 		<div class="btn-group">
 			<button type="submit" class="btn btn-primary" id="btnQuery">查询</button>
