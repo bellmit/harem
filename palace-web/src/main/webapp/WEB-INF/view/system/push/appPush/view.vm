@@ -15,7 +15,7 @@
         <tr>
             <th><span class="text-red">*</span>推送领域：</th>
             <td>
-                <select class="form-control input-text" name="sendDomainId" readonly id="domain">
+                <select class="form-control input-text" name="sendDomainId" disabled="disabled" id="domain">
                     #foreach($domainType in $domainTypeList)
                         <option value="$!{domainType.type}" #if($!pushVO.domain==$!domainType.type) selected #end>$!{domainType.desc}</option>
                     #end
@@ -25,14 +25,14 @@
         <tr>
             <th><span class="text-red">*</span>推送主题：</th>
             <td>
-                <input type="text" class="form-control input-text" name="subject" readonly id="subject"
+                <input type="text" class="form-control input-text" name="subject" disabled="disabled" id="subject"
                        value="$!{pushVO.subject}" placeholder="请输入推送主题">
             </td>
         </tr>
         <tr>
             <th><span class="text-red">*</span>推送类型：</th>
             <td>
-                <select type="text" class="form-control input-text" name="pushType" readonly id="type">
+                <select type="text" class="form-control input-text" name="pushType" disabled="disabled" id="type">
                     #foreach($pushType in $pushTypeList)
                         <option value="$!{pushType.code}" #if($!pushVO.pushType==$!pushType.code) selected #end>$!{pushType.desc}</option>
                     #end
@@ -42,12 +42,12 @@
         <tr>
             <th><span class="text-red">*</span>消息栏标题：</th>
             <td>
-                <select class="form-control input-text-small select" readonly data-target=".input-box">
+                <select class="form-control input-text-small select" disabled="disabled" data-target=".input-box">
                     <option value="1" #if($stringUtil.isNullOrEmpty($!pushVO.msgTitle)) selected #end>空</option>
                     <option value="2" #if($stringUtil.isNotNullOrNotEmpty($!pushVO.msgTitle)) selected #end>输入</option>
                 </select>
                 <span class="input-box">
-						<input type="text" class="form-control input-text-small" name="msgTitle" id="messageTitle"
+						<input type="text" class="form-control input-text-small" name="msgTitle" disabled="disabled" id="messageTitle"
                                value="$!{pushVO.msgTitle}" placeholder="请输入消息栏标题">
 					</span>
             </td>
@@ -55,12 +55,12 @@
         <tr>
             <th><span class="text-red">*</span>消息栏内容：</th>
             <td>
-                <select class="form-control input-text-small select" readonly data-target=".input-box">
+                <select class="form-control input-text-small select" disabled="disabled" data-target=".input-box">
                     <option value="1" #if($stringUtil.isNullOrEmpty($!pushVO.msgContent)) selected #end>空</option>
                     <option value="2" #if($stringUtil.isNotNullOrNotEmpty($!pushVO.msgContent)) selected #end>输入</option>
                 </select>
                 <span class="input-box">
-						<input type="text" class="form-control input-text-small" readonly name="msgContent"
+						<input type="text" class="form-control input-text-small" disabled="disabled" name="msgContent"
                                id="messageContent" value="$!{pushVO.msgContent}" placeholder="请输入消息栏内容">
 					</span>
             </td>
@@ -68,7 +68,7 @@
         <tr>
             <th><span class="text-red">*</span>推送内容：</th>
             <td>
-                <textarea class="form-control input-text limit" name="pushContent" readonly id="content" rows="4" cols="20"
+                <textarea class="form-control input-text limit" name="pushContent" disabled="disabled" id="content" rows="4" cols="20"
                           placeholder="请输入推送内容">$!{pushVO.pushContent}</textarea>
             </td>
         </tr>
@@ -78,7 +78,7 @@
                 <div class="jump-setting-box">
                     <div class="jump-setting-item">
                         <span class="txt">选择页面：</span>
-                        <select class="form-control input-text-small" id="selectPage" readonly name="operation">
+                        <select class="form-control input-text-small" id="selectPage" disabled="disabled" name="operation">
                             <option value="0">请选择</option>
                             #foreach($!operations in $operationDOs)
                                 <option radioHtml="$!utilHtml.appendHtml($!operations.listOperationDetail,$!operationDetailId)" id="$!operations.operactio.id" value="$!operations.operactio.code"
@@ -102,7 +102,7 @@
         <tr>
             <th><span class="text-red">*</span>推送对象：</th>
             <td>
-                <select class="form-control input-text mb10 select" data-target=".upload" readonly name="pushModelType"
+                <select class="form-control input-text mb10 select" data-target=".upload" disabled="disabled" name="pushModelType"
                         id="userType">
                     #foreach($targetType in $rcDelaySendTargetType)
                         <option value="$!{targetType.code}" #if($!pushVO.pushModelType==$!targetType.code) selected #end>$!{targetType.desc}</option>
@@ -110,7 +110,7 @@
                 </select>
                  #if($stringUtil.isNotNullOrNotEmpty($!pushVO.pushModelFilePath))
                      <div class="input-group a upload">
-						<input type="text" class="form-control" name="fileName" id="fileName" style="width:400px;" readonly value="$!pushVO.fileName">
+						<input type="text" class="form-control" name="fileName" id="fileName" style="width:400px;" disabled="disabled" value="$!pushVO.fileName">
 						<div class="input-group-btn">
 							<a href="$utilWebconfig.getTfsRootPath()$!pushVO.pushModelFilePath" class="btn btn-default download" download="$!pushVO.fileName" type="button"><i class="icon icon-download-alt"></i>下载</a>
 						</div>
@@ -122,7 +122,7 @@
         <tr>
             <th><span class="text-red">*</span>推送时间：</th>
             <td>
-                <input type="text" class="form-control input-text time" readonly="readonly" name="pushDate" id="time"
+                <input type="text" class="form-control input-text time" disabled="disabled"="disabled="disabled"" name="pushDate" id="time"
                        value="$!utilDate.date2String($!pushVO.pushDate)">
             </td>
         </tr>
