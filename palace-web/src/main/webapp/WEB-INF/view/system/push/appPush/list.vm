@@ -80,10 +80,10 @@
             对象
         </th>
         <th style="width:100px">
-            发送人数
+            人数(到达)
         </th>
         <th style="width:100px">
-            提交人数
+            人数(查看)
         </th>
         <th style="width:100px">
             操作人ID
