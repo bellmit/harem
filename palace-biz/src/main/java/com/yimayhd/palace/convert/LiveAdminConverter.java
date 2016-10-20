@@ -17,6 +17,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.yimayhd.live.client.enums.LiveOrder.*;
+import static com.yimayhd.live.client.enums.LiveRecordStatus.NORMAL_LIVE;
+import static com.yimayhd.live.client.enums.LiveRecordStatus.OFF_SHELVE_LIVE;
+import static com.yimayhd.live.client.enums.MsgNotifyTypeEnum.DELETE_LIVE;
 
 
 /**
@@ -68,12 +71,15 @@ public class LiveAdminConverter {
         if ( liveRecordVO.getEndDate() != null) {
             liveRecordVO.setEndDateString(sdf.format(liveRecordVO.getEndDate()));
         }
-        if (liveRecordDO.getStatus() == 1)
+        if (liveRecordDO.getStatus() == NORMAL_LIVE.getStatus()) {
             liveRecordVO.setStatusString("上架");
-        else if (liveRecordDO.getStatus() == 2)
-            liveRecordVO.setStatusString("删除");
-        else
+        }
+        else if (liveRecordDO.getStatus() == OFF_SHELVE_LIVE.getStatus()) {
             liveRecordVO.setStatusString("下架");
+        }
+        else {
+            liveRecordVO.setStatusString("删除");
+        }
         liveRecordVO.setGmtCreated(liveRecordDO.getGmtCreated());
         liveRecordVO.setGmtModified(liveRecordDO.getGmtModified());
         return liveRecordVO;
@@ -132,9 +138,9 @@ public class LiveAdminConverter {
         liveAdminPageQuery.setLiveRecordStatus(liveAdminQuery.getLiveRecordStatus());
         liveAdminPageQuery.setLiveTitle(liveAdminQuery.getLiveTitle());
         if (liveAdminQuery.getLiveOrder() != null) {
-            if (liveAdminQuery.getLiveOrder().intValue() == 1)
+            if (liveAdminQuery.getLiveOrder().intValue() == START_TIME_DESC.getKey())
                 liveAdminPageQuery.setLiveOrder(START_TIME_DESC);
-            else if (liveAdminQuery.getLiveOrder().intValue() == 2)
+            else if (liveAdminQuery.getLiveOrder().intValue() == VIEW_COUNT_DESC.getKey())
                 liveAdminPageQuery.setLiveOrder(VIEW_COUNT_DESC);
             else
                 liveAdminPageQuery.setLiveOrder(LIVE_WEIGHT_DESC);
