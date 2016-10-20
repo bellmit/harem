@@ -58,7 +58,7 @@
                                 <i class="icon icon-trash"></i>删除
                             </button>
                             #end
-							<a href="$utilWebconfig.getTfsRootPath()$!entity.pushModelFilePath" class="btn btn-default download" download="$!entity.fileName" type="button">下载</a>
+							<a href="$utilWebconfig.getTfsRootPath()$!entity.pushModelFilePath" class="btn btn-default download" download="$!entity.fileName" type="button"><i class="icon icon-download-alt"></i>下载</a>
                             #if($!isEdit == "detail")
                                 <div class="btn btn-primary select" type="button">
                                     <i class="icon icon-folder-open"></i>选择文件

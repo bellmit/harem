@@ -122,7 +122,7 @@
 							<button class="btn btn-default delete" type="button">
                                 <i class="icon icon-trash"></i>删除
                             </button>
-							<a href="$utilWebconfig.getTfsRootPath()$!pushVO.pushModelFilePath" class="btn btn-default download" download="$!pushVO.fileName" type="button">下载</a>
+							<a href="$utilWebconfig.getTfsRootPath()$!pushVO.pushModelFilePath" class="btn btn-default download" download="$!pushVO.fileName" type="button"><i class="icon icon-download-alt"></i>下载</a>
 							<div class="btn btn-primary select" type="button">
                                  <i class="icon icon-folder-open"></i>选择文件
 								<input type="file" name="file" id="file">
