@@ -33,9 +33,7 @@
             <th><span class="text-red">*</span>推送类型：</th>
             <td>
                 <select type="text" class="form-control input-text" name="pushType" id="type">
-                    #foreach($pushType in $pushTypeList)
-                        <option value="$!{pushType.code}" #if($!pushVO.pushType==$!pushType.code) selected #end>$!{pushType.desc}</option>
-                    #end
+                        <option value="2"  selected >推送</option>
                 </select>
             </td>
         </tr>
@@ -105,36 +103,20 @@
                 <select class="form-control input-text mb10 select" data-target=".upload-box" name="pushModelType"
                         id="userType">
                     #foreach($targetType in $rcDelaySendTargetType)
-                        <option value="$!{targetType.code}" #if($!pushVO.pushType==$!targetType.code) selected #end>$!{targetType.desc}</option>
+                        <option value="$!{targetType.code}" #if($!pushVO.pushModelType==$!targetType.code) selected #end>$!{targetType.desc}</option>
                     #end
                 </select>
                  #if($!operation=="view" && $stringUtil.isNotNullOrNotEmpty($!pushVO.pushModelFilePath))
                      <div class="input-group a upload">
 						<input type="text" class="form-control" name="fileName" id="fileName" style="width:400px;background:#fff;" readonly value="$!pushVO.fileName">
 						<div class="input-group-btn">
-							<button class="btn btn-default delete" type="button">
-                                <i class="icon icon-trash"></i>删除
-                            </button>
 							<a href="$utilWebconfig.getTfsRootPath()$!pushVO.pushModelFilePath" class="btn btn-default download" download="$!pushVO.fileName" type="button">下载</a>
-							<div class="btn btn-primary select" type="button">
-                                 <i class="icon icon-folder-open"></i>选择文件
-								<input type="file" name="file" id="file">
-							</div>
 						</div>
 						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath">
 					</div>
                 #else
                     <div class="input-group b upload">
 						<input type="text" class="form-control" name="fileName" id="fileName" style="width:400px;background:#fff;" readonly value="">
-						<div class="input-group-btn">
-							<button class="btn btn-default delete hide" type="button">
-                                <i class="icon icon-trash"></i>删除
-                            </button>
-							<div class="btn btn-primary select" type="button">
-                                <i class="icon icon-folder-open"></i>选择文件
-								<input type="file" name="file" id="file">
-							</div>
-						</div>
 						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath">
 					</div>
                 #end
