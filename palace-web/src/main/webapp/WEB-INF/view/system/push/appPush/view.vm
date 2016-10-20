@@ -33,7 +33,9 @@
             <th><span class="text-red">*</span>推送类型：</th>
             <td>
                 <select type="text" class="form-control input-text" name="pushType" id="type">
-                        <option value="2"  selected >推送</option>
+                    #foreach($pushType in $pushTypeList)
+                        <option value="$!{pushType.code}" #if($!pushVO.pushType==$!pushType.code) selected #end>$!{pushType.desc}</option>
+                    #end
                 </select>
             </td>
         </tr>

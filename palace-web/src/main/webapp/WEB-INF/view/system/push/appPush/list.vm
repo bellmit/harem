@@ -116,7 +116,7 @@
                     <button type="button" class="btn btn-primary edit" entityId="$entity.id">编辑</button>
                     <button type="button" class="btn btn-primary cancel" entityId="$entity.id">取消</button>
                 #end
-                #if($!entity.status==99)
+                #if($!entity.status==99||$!entity.status==2)
                     <button type="button" class="btn btn-primary view" entityId="$entity.id">查看</button>
                 #end
             </td>
