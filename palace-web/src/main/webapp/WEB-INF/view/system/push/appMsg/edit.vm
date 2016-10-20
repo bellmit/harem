@@ -53,13 +53,13 @@
                      <div class="input-group a upload">
 						<input type="text" class="form-control" name="fileName" id="fileName" style="width:400px;background:#fff;" readonly value="$!entity.fileName">
 						<div class="input-group-btn">
-                            #if($!isEdit == "detail")
+                            #if($!isEdit == "edit")
 							<button class="btn btn-default delete" type="button">
                                 <i class="icon icon-trash"></i>删除
                             </button>
                             #end
 							<a href="$utilWebconfig.getTfsRootPath()$!entity.pushModelFilePath" class="btn btn-default download" download="$!entity.fileName" type="button"><i class="icon icon-download-alt"></i>下载</a>
-                            #if($!isEdit == "detail")
+                            #if($!isEdit == "edit")
                                 <div class="btn btn-primary select" type="button">
                                     <i class="icon icon-folder-open"></i>选择文件
                                     <input type="file" name="file" id="file">
@@ -67,7 +67,7 @@
                             #end
 						</div>
 
-						<input a="$!isEdit" type="hidden" name="pushModelFilePath" id="pushModelFilePath" value="$!entity.pushModelFilePath">
+						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath" value="$!entity.pushModelFilePath">
 					</div>
                 #else
                     <div class="input-group b upload">
