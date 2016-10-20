@@ -61,37 +61,37 @@
     <table class="table table-hover table-bordered" id="tbSMSList">
         <thead>
         <tr>
-            <th>
+            <th style="width:80px">
                 序号
             </th>
-            <th>
+            <th style="width:300px">
                 推送主题
             </th>
-            <th>
+            <th style="width:150px">
                 创建时间
             </th>
-            <th>
+            <th style="width:150px">
                 发送时间
             </th>
             <th style="width:20%">
                 发送内容
             </th>
-            <th>
+            <th style="width:100px">
                 对象
             </th>
-            <th>
+            <th style="width:100px">
                 发送人数
             </th>
-            <th>
+            <th style="width:100px">
                 提交人数
             </th>
-            <th>
+            <th style="width:100px">
                 操作人ID
             </th>
-            <th>
+            <th style="width:100px">
                 状态
             </th>
-            <th>
+            <th style="width:100px">
                 操作
             </th>
         </tr>
