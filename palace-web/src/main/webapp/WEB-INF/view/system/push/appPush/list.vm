@@ -73,7 +73,7 @@
         <th>
             发送时间
         </th>
-        <th>
+        <th style="width:20%">
             发送内容
         </th>
         <th>
