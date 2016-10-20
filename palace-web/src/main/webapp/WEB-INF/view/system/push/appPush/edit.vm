@@ -42,7 +42,7 @@
             </td>
         </tr>
         <tr>
-            <th><span class="text-red">*</span>信息栏标题：</th>
+            <th><span class="text-red">*</span>消息栏标题：</th>
             <td>
                 <select class="form-control input-text-small select" data-target=".input-box">
                     <option value="2" #if($stringUtil.isNotNullOrNotEmpty($!pushVO.msgTitle)) selected #end>输入</option>
@@ -50,12 +50,12 @@
                 </select>
                 <span class="input-box">
 						<input type="text" class="form-control input-text-small" name="msgTitle" id="messageTitle"
-                               value="$!{pushVO.msgTitle}" placeholder="请输入信息栏标题">
+                               value="$!{pushVO.msgTitle}" placeholder="请输入消息栏标题">
 					</span>
             </td>
         </tr>
         <tr>
-            <th><span class="text-red">*</span>信息栏内容：</th>
+            <th><span class="text-red">*</span>消息栏内容：</th>
             <td>
                 <select class="form-control input-text-small select" data-target=".input-box">
                     <option value="2" #if($stringUtil.isNotNullOrNotEmpty($!pushVO.msgContent)) selected #end>输入
@@ -64,7 +64,7 @@
                 </select>
                 <span class="input-box">
 						<input type="text" class="form-control input-text-small" name="msgContent"
-                               id="messageContent" value="$!{pushVO.msgContent}" placeholder="请输入信息栏内容">
+                               id="messageContent" value="$!{pushVO.msgContent}" placeholder="请输入消息栏内容">
 					</span>
             </td>
         </tr>
@@ -122,13 +122,13 @@
 							<button class="btn btn-default delete" type="button">
                                 <i class="icon icon-trash"></i>删除
                             </button>
-							<a href="$utilWebconfig.getTfsRootPath()$!pushVO.pushModelFilePath" class="btn btn-default download" download="$!pushVO.fileName" type="button">下载</a>
+							<a href="$utilWebconfig.getTfsRootPath()$!pushVO.pushModelFilePath" class="btn btn-default download" download="$!pushVO.fileName" type="button"><i class="icon icon-download-alt"></i>下载</a>
 							<div class="btn btn-primary select" type="button">
                                  <i class="icon icon-folder-open"></i>选择文件
 								<input type="file" name="file" id="file">
 							</div>
 						</div>
-						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath">
+						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath" value="$!pushVO.pushModelFilePath">
 					</div>
                 #else
                     <div class="input-group b upload">
@@ -156,7 +156,8 @@
         </tr>
     </table>
     <div class="mb10" style="text-align:center;">
-        <button type="button" class="btn btn-primary" style="width:100px" id="btnSave">保存</button>
+        <button type="button" class="btn btn-primary" style="width:100px;margin-right:10px;" id="btnSave">确定</button>
+        <button type="button" class="btn btn-default" style="width:100px" id="btnCancel">取消</button>
     </div>
 </form>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
