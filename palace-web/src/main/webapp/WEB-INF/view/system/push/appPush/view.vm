@@ -110,7 +110,7 @@
                      <div class="input-group a upload">
 						<input type="text" class="form-control" name="fileName" id="fileName" style="width:400px;background:#fff;" readonly value="$!pushVO.fileName">
 						<div class="input-group-btn">
-							<a href="$utilWebconfig.getTfsRootPath()$!pushVO.pushModelFilePath" class="btn btn-default download" download="$!pushVO.fileName" type="button">下载</a>
+							<a href="$utilWebconfig.getTfsRootPath()$!pushVO.pushModelFilePath" class="btn btn-default download" download="$!pushVO.fileName" type="button"><i class="icon icon-download-alt"></i>下载</a>
 						</div>
 						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath" value="$!pushVO.pushModelFilePath">
 					</div>
