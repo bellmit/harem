@@ -203,6 +203,8 @@
 
     // 设置权重
     function setWeight() {
+
+
         $("#tbPlayBackList").on("click", ".weight", function () {
             var liveRecordId = $(this).attr("liveRecordId");
             layer.open({
@@ -212,8 +214,11 @@
                 title: '设置权重',
                 skin:"layui-layer-prompt",
                 shade: 0.6, //遮罩透明度
-                content: '<div style="padding:30px 50px;"><input type="text" class="layui-layer-input" placeholder="请输入1~9999范围内数字"></div>',
-                yes: function(index,layero) {
+                content: '<div style="padding:30px 50px;"><input type="text" class="layui-layer-input" id="liverOder_input" placeholder="请输入1~9999范围内数字" autofocus="autofocus"></div>',
+                success: function () {
+                     document.getElementById('liverOder_input').focus()
+                },
+                 yes: function(index,layero) {
                     var weight=layero.find(".layui-layer-input").val().trim();
                     if(weight.length==0){
                         layer.msg("请输入权重",{icon:2,time:1500});
@@ -230,6 +235,10 @@
                 }
             });
         });
+
+
+
+
     }
 
     // 新增导览
