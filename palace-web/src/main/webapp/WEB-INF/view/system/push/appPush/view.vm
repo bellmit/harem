@@ -38,7 +38,7 @@
             </td>
         </tr>
         <tr>
-            <th><span class="text-red">*</span>信息栏标题：</th>
+            <th><span class="text-red">*</span>消息栏标题：</th>
             <td>
                 <select class="form-control input-text-small select" data-target=".input-box">
                     <option value="1" #if($stringUtil.isNullOrEmpty($!pushVO.msgTitle)) selected #end>空</option>
@@ -46,12 +46,12 @@
                 </select>
                 <span class="input-box">
 						<input type="text" class="form-control input-text-small" name="msgTitle" id="messageTitle"
-                               value="$!{pushVO.msgTitle}" placeholder="请输入信息栏标题">
+                               value="$!{pushVO.msgTitle}" placeholder="请输入消息栏标题">
 					</span>
             </td>
         </tr>
         <tr>
-            <th><span class="text-red">*</span>信息栏内容：</th>
+            <th><span class="text-red">*</span>消息栏内容：</th>
             <td>
                 <select class="form-control input-text-small select" data-target=".input-box">
                     <option value="1" #if($stringUtil.isNullOrEmpty($!pushVO.msgContent)) selected #end>空</option>
@@ -59,7 +59,7 @@
                 </select>
                 <span class="input-box">
 						<input type="text" class="form-control input-text-small" name="msgContent"
-                               id="messageContent" value="$!{pushVO.msgContent}" placeholder="请输入信息栏内容">
+                               id="messageContent" value="$!{pushVO.msgContent}" placeholder="请输入消息栏内容">
 					</span>
             </td>
         </tr>
