@@ -46,7 +46,7 @@
             <td>
                 <select class="form-control input-text-small select" data-target=".input-box">
                     <option value="2" #if($stringUtil.isNotNullOrNotEmpty($!pushVO.msgTitle)) selected #end>输入</option>
-                    <option value="1" #if($stringUtil.isNullOrEmpty($!pushVO.msgTitle)) selected #end>空</option>
+                    <option value="1" #if($stringUtil.isNullOrEmpty($!pushVO.msgTitle)&&$!pushVO.id>0) selected #end>空</option>
                 </select>
                 <span class="input-box">
 						<input type="text" class="form-control input-text-small" name="msgTitle" id="messageTitle"
@@ -60,7 +60,7 @@
                 <select class="form-control input-text-small select" data-target=".input-box">
                     <option value="2" #if($stringUtil.isNotNullOrNotEmpty($!pushVO.msgContent)) selected #end>输入
                     </option>
-                    <option value="1" #if($stringUtil.isNullOrEmpty($!pushVO.msgContent)) selected #end>空</option>
+                    <option value="1" #if($stringUtil.isNullOrEmpty($!pushVO.msgContent)&&$!pushVO.id>0) selected #end>空</option>
                 </select>
                 <span class="input-box">
 						<input type="text" class="form-control input-text-small" name="msgContent"

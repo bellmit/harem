@@ -1,6 +1,5 @@
 package com.yimayhd.palace.convert;
 
-import com.mysql.jdbc.Util;
 import com.yimayhd.live.client.domain.record.LiveRecordDO;
 import com.yimayhd.live.client.domain.record.LiveRoomDO;
 import com.yimayhd.live.client.enums.LiveRoomStatus;
@@ -14,9 +13,6 @@ import com.yimayhd.palace.util.DateUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
