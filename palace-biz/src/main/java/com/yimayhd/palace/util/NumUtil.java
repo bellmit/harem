@@ -106,7 +106,7 @@ public class NumUtil {
         return orderBizNo;
     }
 
-    public static bool isBacthUpdate(String bizNo){
+    public static boolean isBacthUpdate(String bizNo){
         if(StringUtils.isBlank(bizNo)){
             return false;
         }
