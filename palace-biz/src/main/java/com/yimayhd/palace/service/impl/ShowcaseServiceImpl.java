@@ -863,7 +863,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         for (LiveRoomVO oo : list) {
             ShowCaseItem sc = new ShowCaseItem();
             sc.setId(oo.getId());
-            sc.setName(oo.getLiveTitle());//标题
+            sc.setName(oo.getId()+"");//标题
             sc.setValue(oo);
             listSC.add(sc);
         }

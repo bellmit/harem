@@ -24,7 +24,7 @@
             <td>
                 <select class="form-control input-text" name="domain" id="area">
                     #*<option value="1000" #if($!entity.domain == 1000) selected = 'selected' #end >B2C</option>*#
-                    <option value="1100" #if($!entity.domain == 1100) selected = 'selected' #end >GF</option>
+                    #*<option value="1100" #if($!entity.domain == 1100) selected = 'selected' #end >GF</option>*#
                     <option value="1200" #if($!entity.domain == 1200) selected = 'selected' #end >九休</option>
                 </select>
             </td>
