@@ -63,7 +63,7 @@
 				<input type="hidden" value="$!orderLog.bizNo">
 				$!utilNum.getOrderBizNo($!orderLog.bizNo)
 				#if($!utilNum.isBacthUpdate($!orderLog.bizNo))
-				<a href="javascript:void(0);" class="btn btn-link">...</a>
+				<a href="javascript:void(0);" class="btn btn-link">查看全部</a>
 				#end
 			</td>
 			<td>
@@ -82,6 +82,9 @@
 	#end
 </table>
 #parse("/pagination.vm")
+<div id="layerModal">
+	
+</div>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-css.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
