@@ -23,8 +23,8 @@
                 <span class="text-red">*</span>推送领域：</th>
             <td>
                 <select class="form-control input-text" name="domain" id="area">
-                    <option value="1000" #if($!entity.domain == 1000) selected = 'selected' #end >B2C</option>
-                    <option value="1100" #if($!entity.domain == 1100) selected = 'selected' #end >GF</option>
+                    #*<option value="1000" #if($!entity.domain == 1000) selected = 'selected' #end >B2C</option>*#
+                    #*<option value="1100" #if($!entity.domain == 1100) selected = 'selected' #end >GF</option>*#
                     <option value="1200" #if($!entity.domain == 1200) selected = 'selected' #end >九休</option>
                 </select>
             </td>
@@ -53,20 +53,21 @@
                      <div class="input-group a upload">
 						<input type="text" class="form-control" name="fileName" id="fileName" style="width:400px;background:#fff;" readonly value="$!entity.fileName">
 						<div class="input-group-btn">
-                            #if($!isEdit == "detail")
+                            #if($!isEdit == "edit")
 							<button class="btn btn-default delete" type="button">
                                 <i class="icon icon-trash"></i>删除
                             </button>
                             #end
 							<a href="$utilWebconfig.getTfsRootPath()$!entity.pushModelFilePath" class="btn btn-default download" download="$!entity.fileName" type="button"><i class="icon icon-download-alt"></i>下载</a>
-                            #if($!isEdit == "detail")
+                            #if($!isEdit == "edit")
                                 <div class="btn btn-primary select" type="button">
                                     <i class="icon icon-folder-open"></i>选择文件
                                     <input type="file" name="file" id="file">
                                 </div>
                             #end
 						</div>
-						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath">
+
+						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath" value="$!entity.pushModelFilePath">
 					</div>
                 #else
                     <div class="input-group b upload">
@@ -88,7 +89,7 @@
         <tr>
             <th><span class="text-red">*</span>推送时间：</th>
             <td>
-                <input type="text" class="form-control input-text time"
+                <input type="text" class="form-control input-text time" style="width:210px;"
                 readonly="readonly" name="pushDateStr" id="time" value="$!date.format('yyyy-MM-dd HH:mm:ss',$!entity.pushDate)">
             </td>
         </tr>
@@ -96,8 +97,8 @@
     <div class="mb10" style="text-align:center;">
         #if($!isEdit != "detail")
         <button type="button" class="btn btn-primary" style="width:100px;margin-right:10px;" id="btnSave">确定</button>
-        #end
         <button type="button" class="btn btn-default" style="width:100px" id="btnCancel">取消</button>
+        #end
     </div>
 </form>
 
