@@ -122,7 +122,7 @@
         <tr>
             <th><span class="text-red">*</span>推送时间：</th>
             <td>
-                <input type="text" class="form-control input-text time" disabled="disabled"="disabled="disabled"" name="pushDate" id="time"
+                <input type="text" class="form-control input-text time" style="width:210px;"  disabled="disabled" name="pushDate" id="time"
                        value="$!utilDate.date2String($!pushVO.pushDate)">
             </td>
         </tr>

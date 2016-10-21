@@ -89,7 +89,7 @@
         <tr>
             <th><span class="text-red">*</span>推送时间：</th>
             <td>
-                <input type="text" class="form-control input-text time"
+                <input type="text" class="form-control input-text time" style="width:210px;"
                 readonly="readonly" name="pushDateStr" id="time" value="$!date.format('yyyy-MM-dd HH:mm:ss',$!entity.pushDate)">
             </td>
         </tr>
