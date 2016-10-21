@@ -1,5 +1,6 @@
 package com.yimayhd.palace.util;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,7 +100,12 @@ public class NumUtil {
         }
 
         if(bizNo.indexOf(";")!=-1){
-            orderBizNo= bizNo.split(";")[0];
+            logger.info("getOrderBizNo--bizNo:"+bizNo);
+
+            String[] arr= bizNo.split(";");
+            logger.info("getOrderBizNo--arr:"+ JSON.toJSONString(arr));
+            orderBizNo = arr[0];
+            logger.info("getOrderBizNo--orderBizNo:"+orderBizNo);
         }
         return orderBizNo;
     }
