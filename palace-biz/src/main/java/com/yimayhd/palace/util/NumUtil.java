@@ -99,7 +99,7 @@ public class NumUtil {
             return orderBizNo;
         }
         if(bizNo.indexOf(";")!=-1){
-            orderBizNo = bizNo.split(";")[0]+"...";
+            orderBizNo = bizNo.split(";")[0]+"<a href=\"javascript:void(0);\" class=\"btn btn-link\">...</a>";
         }else{
             orderBizNo= bizNo;
         }
