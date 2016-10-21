@@ -37,7 +37,7 @@
 		</div>
 	</form>
 </div>
-<table class="table table-hover table-bordered">
+<table class="table table-hover table-bordered" id="tbLogList">
 	<thead>
 		<tr>
 			<th>
@@ -58,7 +58,6 @@
 		</tr>
 	</thead>
 	#foreach($orderLog in $logList)
-	<tbody>
 		<tr>
 			<td>
 				<input type="hidden" value="$!orderLog.bizNo">
@@ -80,7 +79,6 @@
 				$!orderLog.desc
 			</td>
 		</tr>
-	</tbody>
 	#end
 </table>
 #parse("/pagination.vm")

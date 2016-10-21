@@ -111,7 +111,7 @@ public class NumUtil {
             return false;
         }
 
-        return bizNo.indexOf(";")>-1
+        return bizNo.indexOf(";")>-1;
     }
 
 
