@@ -102,15 +102,15 @@ public class TfsServiceImpl implements TfsService {
 		return tfsCode;
 	}
 
-	public String tfsFileUpload(Set<String> str,String fileFormat,boolean sizeCheck,long limitSize) throws Exception{
+	public String tfsFileUpload(Set<String> str,String fileFormat,boolean sizeCheck,long limitSize) throws BaseException{
 		if(sizeCheck){
-			if(null != str && limitSize >str.size()){
-				throw new Exception("数据长度超过限制，当前个数："+str.size()+",限制个数："+limitSize);
+			if(null != str && limitSize <str.size()){
+				throw new BaseException("数据长度超过限制，当前个数："+str.size()+",限制个数："+limitSize);
 			}
 		}
-		return tfsFileUpload(str,fileFormat);
+		return tfsFileUpload(str,fileFormat, sizeCheck);
 	}
-	public String tfsFileConvert(String fileName,String fileFormat,boolean sizeCheck,long limitSize)throws Exception{
+	public String tfsFileConvert(String fileName,String fileFormat,boolean sizeCheck,long limitSize)throws BaseException{
 		String txtFileName="";
 		String filePath = tfsRootPath + fileName;
 		Set<String> setString = HandleFilesUtils.getDistinctStringFromTFS(filePath);
@@ -123,6 +123,26 @@ public class TfsServiceImpl implements TfsService {
 			}
 		}
 		return txtFileName;
+	}
+
+	public String tfsFileUpload(Set<String> str,String fileFormat, boolean Check){
+		StringBuilder sb = new StringBuilder();
+		for (String s:str) {
+			s = s.trim();
+			if(Check) {
+				try {
+					Long.parseLong(s);
+					sb.append(s).append("\n");
+				} catch (Exception e) {
+
+				}
+			} else {
+				sb.append(s).append("\n");
+			}
+		}
+		byte[] bytes = sb.toString().getBytes();
+		String tfsCode = tfsManager.saveFile(bytes, null,fileFormat);
+		return tfsCode;
 	}
 
 }
