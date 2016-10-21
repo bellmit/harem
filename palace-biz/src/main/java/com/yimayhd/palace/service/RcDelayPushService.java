@@ -1,6 +1,7 @@
 package com.yimayhd.palace.service;
 
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.model.vo.DelayPushPageQuery;
 import com.yimayhd.palace.model.vo.PushVO;
 import com.yimayhd.resourcecenter.domain.RcDelayPush;
 import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
@@ -10,7 +11,7 @@ import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
  */
 public interface RcDelayPushService {
 
-    public PageVO<PushVO> getPushList(RcDelayPushPageQuery rcDelayPushPageQuery);
+    public PageVO<PushVO> getPushList(DelayPushPageQuery delayPushPageQuery);
 
     public PushVO insertPush(PushVO pushVO);
 

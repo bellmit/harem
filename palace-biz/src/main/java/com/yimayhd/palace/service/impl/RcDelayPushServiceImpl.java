@@ -3,6 +3,7 @@ package com.yimayhd.palace.service.impl;
 import com.google.common.base.Strings;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.RcDelayPushConverter;
+import com.yimayhd.palace.model.vo.DelayPushPageQuery;
 import com.yimayhd.palace.model.vo.PushVO;
 import com.yimayhd.palace.repo.RcDelayRepo;
 import com.yimayhd.palace.service.PushService;
@@ -37,9 +38,18 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
     @Resource
     private TfsService tfsService;
     @Override
-    public PageVO<PushVO> getPushList(RcDelayPushPageQuery rcDelayPushPageQuery) {
-
+    public PageVO<PushVO> getPushList(DelayPushPageQuery delayPushPageQuery) {
+        RcDelayPushPageQuery rcDelayPushPageQuery = new RcDelayPushPageQuery();
+        rcDelayPushPageQuery.setPageNo(delayPushPageQuery.getPageNumber());
+        rcDelayPushPageQuery.setPageSize(delayPushPageQuery.getPageSize());
         rcDelayPushPageQuery.setNeedCount(true);
+        rcDelayPushPageQuery.setStatus(delayPushPageQuery.getStatus());
+        //query
+        rcDelayPushPageQuery.setTopicName(org.apache.commons.lang3.StringUtils.isEmpty(delayPushPageQuery.getTopicName())?"":delayPushPageQuery.getTopicName().replaceAll(" ",""));
+        rcDelayPushPageQuery.setStarteTime(delayPushPageQuery.getStarteTime());
+        rcDelayPushPageQuery.setEndTime(delayPushPageQuery.getEndTime());
+        rcDelayPushPageQuery.setSendType(delayPushPageQuery.getSendType());
+        rcDelayPushPageQuery.setType(delayPushPageQuery.getType());
         rcDelayPushPageQuery.setType(RcDelayType.PUSH.getCode());
         RCPageResult<RcDelayPush> result = rcDelayRepo.listPush(rcDelayPushPageQuery);
         if(null==result) {

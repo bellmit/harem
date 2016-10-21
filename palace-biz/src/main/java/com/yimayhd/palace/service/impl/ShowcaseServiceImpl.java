@@ -25,6 +25,7 @@ import com.yimayhd.ic.client.model.result.ICPageResult;
 import com.yimayhd.ic.client.service.item.ItemBizQueryService;
 import com.yimayhd.ic.client.service.item.ItemQueryService;
 import com.yimayhd.live.client.domain.record.LiveRecordDO;
+import com.yimayhd.live.client.enums.LiveRecordStatus;
 import com.yimayhd.live.client.query.LiveRecordQuery;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.LiveAdminBiz;
@@ -83,6 +84,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
+
+import static com.yimayhd.live.client.enums.LiveRecordStatus.NORMAL_LIVE;
 
 /**
  * Created by Administrator on 2016/4/13.
@@ -298,7 +301,7 @@ public class ShowcaseServiceImpl implements ShowcaseService {
         if (CollectionUtils.isNotEmpty(result.getList())) {
             list = result.getList();
         }
-        PageVO<ComTagDO> page = new PageVO<ComTagDO>(tagInfoPageDTO.getPageNo(), tagInfoPageDTO.getPageSize(),result.getTotalCount(), list);
+        PageVO<ComTagDO> page = new PageVO<ComTagDO>(tagInfoPageDTO.getPageNo(), tagInfoPageDTO.getPageSize(), result.getTotalCount(), list);
         return page;
     }
 
@@ -800,9 +803,10 @@ public class ShowcaseServiceImpl implements ShowcaseService {
             ShowCaseItem sc = new ShowCaseItem();
             sc.setId(oo.getId());
             sc.setName(oo.getLiveTitle());//标题
-//          sc.setImgUrl(StringUtils.isEmpty(oo.getLiveCover())?"":oo.getLiveCover()); // 不关联头图
+//              sc.setImgUrl(StringUtils.isEmpty(oo.getLiveCover())?"":oo.getLiveCover()); // 不关联头图
             sc.setValue(oo);
             listSC.add(sc);
+
         }
         return listSC;
     }
@@ -825,6 +829,9 @@ public class ShowcaseServiceImpl implements ShowcaseService {
 
     public List<ShowCaseItem> liveRecordVOToShowCaseItem(LiveRecordVO liveRecordVO) {
         List<ShowCaseItem> listSC = new ArrayList<ShowCaseItem>();
+        if (liveRecordVO.getStatus() != NORMAL_LIVE.getStatus()){
+            return listSC;
+        }
         String title = "";
         ShowCaseItem sc = new ShowCaseItem();
         sc.setId(liveRecordVO.getId());
