@@ -82,7 +82,7 @@
 	#end
 </table>
 #parse("/pagination.vm")
-<div id="layerModel">
+<div id="layerModal">
 	
 </div>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
