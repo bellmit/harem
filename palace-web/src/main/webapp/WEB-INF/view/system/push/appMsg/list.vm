@@ -18,7 +18,7 @@
         </div>
         <div class="input-group">
 			<span class="input-group-btn">
-		            <button class="btn btn-default" type="button">发起时间</button>
+		            <button class="btn btn-default" type="button">创建时间</button>
 		        </span>
             <input type="text" class='form-control form-date date start-time' placeholder='' readonly name="beginPushDate" id="beginPushDate"
                    value="$!date.format('yyyy-MM-dd HH:mm:ss',$!query.beginPushDate)">
@@ -44,7 +44,7 @@
                 <option value="0" #if($!query.status == 0) selected = 'selected' #end >全部</option>
                 <option value="99" #if($!query.status == 99) selected = 'selected' #end >已发送</option>
                 <option value="98" #if($!query.status == 98) selected = 'selected' #end >待发送</option>
-                <option value="98" #if($!query.status == 2) selected = 'selected' #end >取消发送</option>
+                <option value="2" #if($!query.status == 2) selected = 'selected' #end >取消发送</option>
             </select>
         </div>
         <div class="btn-group">
