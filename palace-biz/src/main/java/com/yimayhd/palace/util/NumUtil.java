@@ -1,5 +1,6 @@
 package com.yimayhd.palace.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,6 +85,23 @@ public class NumUtil {
         BigDecimal amount =bmoney.divide(bnum,BigDecimal.ROUND_HALF_UP);
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
         return  decimalFormat.format(amount).toString();
+    }
+
+    /**
+     * 多个订单编号,默认只显示一个
+     * @param bizNo
+     * @return
+     */
+    public static String getOrderBizNo(String bizNo){
+        String orderBizNo = "";
+        if(StringUtils.isBlank(bizNo)){
+            return orderBizNo;
+        }
+
+        if(bizNo.indexOf(";")!=-1){
+            orderBizNo= bizNo.split(";")[0];
+        }
+        return orderBizNo;
     }
 
 

@@ -60,7 +60,7 @@
 		<tr>
 
 			<td>
-				$!orderLog.bizNo
+				$!utilNum.getOrderBizNo($!orderLog.bizNo)
 			</td>
 			<td>
 				$!orderLog.operationId
