@@ -1,5 +1,4 @@
 ##     totalPage 总页数   showSize-10   cpage 当前页
-#macro(pageStyle $formId)
 <div class="pagination pagination-large pagination-right pageWrap">
     #set($pageVoNo = $pageVo.thisPageNumber)
     #set($before=0)
@@ -67,7 +66,6 @@
         </li>
     </ul>
 </div>
-#end
 
 ##显示验证错误信息
 #macro(showValidateError $formModel $fieldName)

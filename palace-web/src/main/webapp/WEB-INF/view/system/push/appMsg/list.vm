@@ -122,7 +122,6 @@
         </tbody>
     </table>
 	#parse("/pagination.vm")
-	#pageStyle("frmSearch")
 </form>
 
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>

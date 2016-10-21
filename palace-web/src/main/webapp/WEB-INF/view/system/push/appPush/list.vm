@@ -125,7 +125,6 @@
     </tbody>
 </table>
 #parse("/pagination.vm")
-#pageStyle("frmSearch")
 
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-css.js"></script>
