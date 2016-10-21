@@ -60,7 +60,7 @@
 	#foreach($orderLog in $logList)
 	<tbody>
 		<tr>
-			<td class="bizNo">
+			<td >
 				<input type="hidden" value="$!orderLog.bizNo">
 				$!utilNum.getOrderBizNo($!orderLog.bizNo)
 			</td>

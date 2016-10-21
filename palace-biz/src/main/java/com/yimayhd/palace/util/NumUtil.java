@@ -98,14 +98,10 @@ public class NumUtil {
         if(StringUtils.isBlank(bizNo)){
             return orderBizNo;
         }
-
         if(bizNo.indexOf(";")!=-1){
-            logger.info("getOrderBizNo--bizNo:"+bizNo);
-
-            String[] arr= bizNo.split(";");
-            logger.info("getOrderBizNo--arr:"+ JSON.toJSONString(arr));
-            orderBizNo = arr[0];
-            logger.info("getOrderBizNo--orderBizNo:"+orderBizNo);
+            orderBizNo = bizNo.split(";")[0]+"...";
+        }else{
+            orderBizNo= bizNo;
         }
         return orderBizNo;
     }
