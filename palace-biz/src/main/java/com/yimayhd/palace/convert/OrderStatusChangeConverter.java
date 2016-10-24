@@ -72,8 +72,10 @@ public class OrderStatusChangeConverter {
         if(StringUtils.isNotBlank(orderStatusChangeParam.getOrderStat())){
             dto.setBizOrderStatus(Integer.valueOf(orderStatusChangeParam.getOrderStat()).intValue());
         }
-        dto.setDomain(Constant.DOMAIN_JIUXIU);
         dto.setBizOrderIds(orderStatusChangeParam.getBizOrderIds());
+        /**查询订单接口公共参数**/
+        dto.setDomain(Constant.DOMAIN_JIUXIU);
+        dto.setNeedDetailOrders(true);//查询子订单
         return dto;
     }
 
