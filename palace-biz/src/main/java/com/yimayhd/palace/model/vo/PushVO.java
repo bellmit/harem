@@ -1,5 +1,6 @@
 package com.yimayhd.palace.model.vo;
 
+import com.yimayhd.palace.util.StringUtil;
 import com.yimayhd.resourcecenter.model.enums.DelayPushFeatureKey;
 import com.yimayhd.resourcecenter.model.enums.RcDelaySendTargetType;
 import com.yimayhd.resourcecenter.model.enums.RcDelayStatus;
@@ -321,5 +322,45 @@ public class PushVO implements Serializable {
 
     public void setSendDomainId(long sendDomainId) {
         this.sendDomainId = sendDomainId;
+    }
+
+    @Override
+    public int hashCode() {
+        int factor = 138;
+        factor = getPushType()*factor;
+        if(StringUtil.isNotNullOrNotEmpty(getSubject())){
+            factor = getSubject().hashCode()*factor;
+        }
+        if(StringUtil.isNotNullOrNotEmpty(getMsgTitle())){
+            factor = getMsgTitle().hashCode()*factor;
+        }
+        if(StringUtil.isNotNullOrNotEmpty(getMsgContent())){
+            factor = getMsgContent().hashCode()*factor;
+        }
+        if(StringUtil.isNotNullOrNotEmpty(getOperation())){
+            factor = getOperation().hashCode()*factor;
+        }
+        if(StringUtil.isNotNullOrNotEmpty(getOperationContent())){
+            factor = getOperationContent().hashCode()*factor;
+        }
+        if(StringUtil.isNotNullOrNotEmpty(getOperationDetailId())){
+            factor = getOperationDetailId().hashCode()*factor;
+        }
+        if(StringUtil.isNotNullOrNotEmpty(getOutId())){
+            factor = getOutId().hashCode()*factor;
+        }
+        if(StringUtil.isNotNullOrNotEmpty(getPushContent())){
+            factor = getPushContent().hashCode()*factor;
+        }
+        if(null != getPushDate()){
+            factor = getPushDate().hashCode()*factor;
+        }
+        if(StringUtil.isNotNullOrNotEmpty(getPushDateStr())){
+            factor = getPushDateStr().hashCode()*factor;
+        }
+        if(StringUtil.isNotNullOrNotEmpty(getPushModelFilePath())){
+            factor = getPushModelFilePath().hashCode()*factor;
+        }
+        return factor;
     }
 }

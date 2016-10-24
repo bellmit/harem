@@ -158,7 +158,7 @@ public class TopicManageController extends BaseController {
 			if(isSuccess){
 				return ResponseVo.success();
 			}
-			return ResponseVo.error(null);
+			return ResponseVo.error(ResponseStatus.ERROR);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return ResponseVo.error(e);
@@ -197,7 +197,7 @@ public class TopicManageController extends BaseController {
 			if(isSuccess){
 				return ResponseVo.success();
 			}
-			return ResponseVo.error(null);
+			return ResponseVo.error(ResponseStatus.ERROR);
 			
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -220,7 +220,7 @@ public class TopicManageController extends BaseController {
 			if(isSuccess){
 				return ResponseVo.success();
 			}
-			return ResponseVo.error(null);
+			return ResponseVo.error(ResponseStatus.ERROR);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return ResponseVo.error(e);
