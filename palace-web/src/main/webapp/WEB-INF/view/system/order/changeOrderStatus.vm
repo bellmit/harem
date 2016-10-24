@@ -103,7 +103,7 @@
 					<td>
 						<div class="goods-item">
 							<div class="item-img" >
-								<img src="$!{utilWebconfig.getTfsRootPath()}$!{subOrder.itemPic}">
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{imageUtil.getImgUrl($!{subOrder.itemPic}, 160)}">
 							</div>
 							<div class="item-text">
 								#ROUTE_ORDER_LIST_SKU($!subOrder.bizOrder.orderType)
