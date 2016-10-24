@@ -125,7 +125,7 @@ public class TfsServiceImpl implements TfsService {
 		return txtFileName;
 	}
 
-	public String tfsFileUpload(Set<String> str,String fileFormat, boolean Check){
+	public String tfsFileUpload(Set<String> str,String fileFormat, boolean Check) throws BaseException{
 		StringBuilder sb = new StringBuilder();
 		for (String s:str) {
 			s = s.trim();
@@ -139,6 +139,9 @@ public class TfsServiceImpl implements TfsService {
 			} else {
 				sb.append(s).append("\n");
 			}
+		}
+		if(sb.length()==0) {
+			throw new BaseException("文件内容为空或格式不正确");
 		}
 		byte[] bytes = sb.toString().getBytes();
 		String tfsCode = tfsManager.saveFile(bytes, null,fileFormat);
