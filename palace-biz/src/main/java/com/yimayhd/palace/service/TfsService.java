@@ -50,6 +50,6 @@ public interface TfsService {
 	 * @return String
 	 */
 	public String tfsFileUpload(Set<String> str,String fileFormat,boolean sizeCheck,long limitSize) throws Exception;
-	public String tfsFileConvert(String fileName,String fileFormat,boolean sizeCheck,long limitSize)throws Exception;
+	public String tfsFileConvert(String fileName,String fileFormat,boolean sizeCheck,long limitSize)throws BaseException;
 
 }

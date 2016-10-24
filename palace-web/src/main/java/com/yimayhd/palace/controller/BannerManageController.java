@@ -248,8 +248,8 @@ public class BannerManageController extends BaseController {
         model.addAttribute("type",type); //根据type去判断跳转
         if(Constant.SHOWCASE_SHOE_TYPE_CHOOSE_DESTINATION == type){//选目的地
             return "/system/banner/showcase/chooseDestination";
-        }else if(Constant.SHOWCASE_SHOE_TYPE_THEME == type
-                || Constant.LIVE_CATEGORY ==type){//选目主题 直播分类
+        }else if(Constant.SHOWCASE_SHOE_TYPE_THEME == type ){
+//                || Constant.LIVE_CATEGORY ==type)//选目主题 直播分类
             return "/system/banner/showcase/chooseTheme";
         }else if(Constant.SHOWCASE_ITEM_LIST == type
                 || Constant.SHOWCASE_HOTEL_LIST == type
@@ -299,7 +299,7 @@ public class BannerManageController extends BaseController {
                 getRegion(pageNumber,pageSize,result);
                 break;
             case Constant.SHOWCASE_SHOE_TYPE_THEME : //选主题
-            case Constant.LIVE_CATEGORY:   // 直播分类
+//            case Constant.LIVE_CATEGORY:   // 直播分类
                 getTagList(pageNumber,pageSize,result,code);
                 break;
             case Constant.SHOWCASE_HOTEL_LIST : //选酒店列表

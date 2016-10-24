@@ -270,13 +270,13 @@ public class PushManageController extends BaseController {
             if (pushVO.getId() > 0) {
                 result = rcDelayPushService.updatePush(pushVO);
             } else {
-
                 result = rcDelayPushService.insertPush(pushVO);
             }
             LOGGER.debug("", result);
+
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseVo.error();
+            return ResponseVo.error(e);
         }
         return  ResponseVo.success();
     }

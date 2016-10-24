@@ -37,7 +37,7 @@
 		</div>
 	</form>
 </div>
-<table class="table table-hover table-bordered">
+<table class="table table-hover table-bordered" id="tbLogList">
 	<thead>
 		<tr>
 			<th>
@@ -58,11 +58,13 @@
 		</tr>
 	</thead>
 	#foreach($orderLog in $logList)
-	<tbody>
 		<tr>
-			<td class="bizNo">
+			<td>
 				<input type="hidden" value="$!orderLog.bizNo">
 				$!utilNum.getOrderBizNo($!orderLog.bizNo)
+				#if($!utilNum.isBacthUpdate($!orderLog.bizNo))
+				<a href="javascript:void(0);" class="btn btn-link">查看全部</a>
+				#end
 			</td>
 			<td>
 				$!orderLog.operationId
@@ -77,10 +79,12 @@
 				$!orderLog.desc
 			</td>
 		</tr>
-	</tbody>
 	#end
 </table>
 #parse("/pagination.vm")
+<div id="layerModal">
+	
+</div>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-css.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>

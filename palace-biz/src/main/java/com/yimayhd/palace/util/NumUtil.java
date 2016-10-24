@@ -99,11 +99,19 @@ public class NumUtil {
             return orderBizNo;
         }
         if(bizNo.indexOf(";")!=-1){
-            orderBizNo = bizNo.split(";")[0]+"...";
+            orderBizNo = bizNo.split(";")[0];
         }else{
             orderBizNo= bizNo;
         }
         return orderBizNo;
+    }
+
+    public static boolean isBacthUpdate(String bizNo){
+        if(StringUtils.isBlank(bizNo)){
+            return false;
+        }
+
+        return bizNo.indexOf(";")>-1;
     }
 
 
