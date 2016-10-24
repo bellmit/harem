@@ -29,7 +29,7 @@
 					<td style="width:400px">
 						<select name="orderStat" id="orderStat" class="form-control">
 							<option value="3" #if($!queryModel.orderStat == '3') selected #end>处理中/待确认/已付款</option>
-							<option value="6" #if($!queryModel.orderStat == '6') selected #end>处出行/待使用/预定成功/已发货</option>
+							<option value="6" #if($!queryModel.orderStat == '6') selected #end>待出行/待使用/预定成功/已发货</option>
 						</select>
 					</td>
 				</tr>
@@ -119,51 +119,54 @@
 					<td>
 						#ORDER_BIZ_TYPES($!tcMainOrder.bizOrder.orderType)
 					</td>
-					<td>
-						<div class="t-c">
-							$!tcMainOrder.userDO.nickname
-						</div>
-						<div class="t-c">
-							$!utilPhone.phoneFormat($!tcMainOrder.userDO.mobileNo)
-						</div>
-					</td>
-					<td>
-						#if($!tcMainOrder.merchantName && $!tcMainOrder.userNick)
-							$!tcMainOrder.merchantName/$!tcMainOrder.userNick
-						#else
-							$!tcMainOrder.merchantName$!tcMainOrder.userNick
-						#end
-					</td>
-					<td>
-						$!tcMainOrder.bizOrder.sellerId
-					</td>
-					<td class="status">
-						#if($!tcMainOrder.bizOrder.orderType == 3100 || $!tcMainOrder.bizOrder.orderType == 3200
-						|| $!tcMainOrder.bizOrder.orderType == 3300
-						|| $!tcMainOrder.bizOrder.orderType == 3500 || $!tcMainOrder.bizOrder.orderType == 3600)
+					#if($velocityCount == 1)
+                        <td rowspan="$size">
+                            <div class="t-c" >
+								$!tcMainOrder.userDO.nickname
+                            </div>
+                            <div class="t-c">
+								$!utilPhone.phoneFormat($!tcMainOrder.userDO.mobileNo)
+                            </div>
+                        </td>
+                        <td rowspan="$size">
+							#if($!tcMainOrder.merchantName && $!tcMainOrder.userNick)
+								$!tcMainOrder.merchantName/$!tcMainOrder.userNick
+							#else
+								$!tcMainOrder.merchantName$!tcMainOrder.userNick
+							#end
+                        </td>
+                        <td rowspan="$size">
+							$!tcMainOrder.bizOrder.sellerId
+                        </td>
+                        <td rowspan="$size" class="status">
+							#if($!tcMainOrder.bizOrder.orderType == 3100 || $!tcMainOrder.bizOrder.orderType == 3200
+							|| $!tcMainOrder.bizOrder.orderType == 3300
+							|| $!tcMainOrder.bizOrder.orderType == 3500 || $!tcMainOrder.bizOrder.orderType == 3600)
                             	    #ORDER_BIZ_STATUS_LINE($!tcMainOrder.bizOrder.orderStatus)
                                 #elseif($!tcMainOrder.bizOrder.orderType == 200)
-							#ORDER_BIZ_STATUS_NORMAL($!tcMainOrder.bizOrder.orderStatus)
-						#elseif($!tcMainOrder.bizOrder.orderType == 1200)
-							#ORDER_BIZ_STATUS_SPOTS($!tcMainOrder.bizOrder.orderStatus)
-						#elseif($!tcMainOrder.bizOrder.orderType == 1100 || $!tcMainOrder.bizOrder.orderType == 3400)
-							#ORDER_BIZ_STATUS_HOTEL($!tcMainOrder.bizOrder.orderStatus)
-						#elseif($!tcMainOrder.bizOrder.orderType == 4000 )
-							#ORDER_BIZ_STATUS_PROCESS($!tcMainOrder.bizOrder.orderStatus)
-						#end
-					</td>
-					<td>
-						$!utilNum.moneyTransform($!tcMainOrder.totalFee) <br/>
-						#if($!order.reValue)
-							#if($!order.reValue > 0) 满$!utilNum.moneyTransform($!tcMainOrder.requirement) <br/> 减$!utilNum.moneyTransform($!tcMainOrder.reValue) #end
-						#end
+								#ORDER_BIZ_STATUS_NORMAL($!tcMainOrder.bizOrder.orderStatus)
+							#elseif($!tcMainOrder.bizOrder.orderType == 1200)
+								#ORDER_BIZ_STATUS_SPOTS($!tcMainOrder.bizOrder.orderStatus)
+							#elseif($!tcMainOrder.bizOrder.orderType == 1100 || $!tcMainOrder.bizOrder.orderType == 3400)
+								#ORDER_BIZ_STATUS_HOTEL($!tcMainOrder.bizOrder.orderStatus)
+							#elseif($!tcMainOrder.bizOrder.orderType == 4000 )
+								#ORDER_BIZ_STATUS_PROCESS($!tcMainOrder.bizOrder.orderStatus)
+							#end
+                        </td>
+                        <td rowspan="$size">
+							$!utilNum.moneyTransform($!tcMainOrder.totalFee) <br/>
+							#if($!order.reValue)
+								#if($!order.reValue > 0) 满$!utilNum.moneyTransform($!tcMainOrder.requirement) <br/> 减$!utilNum.moneyTransform($!tcMainOrder.reValue) #end
+							#end
 
 
-					</td>
-					<td>
-						<button type="button" class="btn btn-primary detail" orderId="$!tcMainOrder.bizOrder.bizOrderId">详情</button>
-						<button type="button" class="btn btn-primary edit" orderId="$!tcMainOrder.bizOrder.bizOrderId">修改订单</button>
-					</td>
+                        </td>
+                        <td rowspan="$size">
+                            <button type="button" class="btn btn-primary detail" orderId="$!tcMainOrder.bizOrder.bizOrderId">详情</button>
+                            <button type="button" class="btn btn-primary edit" orderId="$!tcMainOrder.bizOrder.bizOrderId">修改订单</button>
+                        </td>
+					#end
+
 				</tr>
 				#end
 		</tbody>
