@@ -102,7 +102,7 @@
 					</td>
 					<td>
 						<div class="goods-item">
-							<div class="item-img">
+							<div class="item-img" >
 								<img src="$!{utilWebconfig.getTfsRootPath()}$!{subOrder.itemPic}">
 							</div>
 							<div class="item-text">
