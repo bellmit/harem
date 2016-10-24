@@ -86,7 +86,7 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
         }
         if(d.before(new Date())) {
             logger.error("RcDelayPushServiceImpl updatePush sendDate is before currentDate");
-            throw new BaseException("发送时间早于当前时间！");
+            throw new BaseException("发送时间不得早于当前时间！");
 
         }
         pushVO.setDomain(DomainType.DOMAIN_JX.getType());
@@ -138,7 +138,7 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
         }
         if(d.before(new Date())) {
             logger.error("RcDelayPushServiceImpl updatePush sendDate is before currentDate");
-            throw new BaseException("发送时间早于当前时间！");
+            throw new BaseException("发送时间不得早于当前时间！");
         }
 
         pushVO.setDomain(DomainType.DOMAIN_JX.getType());
