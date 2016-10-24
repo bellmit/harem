@@ -10,6 +10,7 @@ import com.yimayhd.palace.repo.RcDelayRepo;
 import com.yimayhd.palace.service.PushService;
 import com.yimayhd.palace.service.RcDelayPushService;
 import com.yimayhd.palace.service.TfsService;
+import com.yimayhd.palace.tair.CacheLockManager;
 import com.yimayhd.palace.util.HandleFilesUtils;
 import com.yimayhd.resourcecenter.domain.RcDelayPush;
 import com.yimayhd.resourcecenter.model.enums.RcDelayType;
@@ -40,6 +41,9 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
     private String tfsRootPath ;
 
     private static final int LIMIT_PUSH = 1000;
+
+    @Autowired
+    private CacheLockManager cacheLockManager;
 
     @Resource
     private TfsService tfsService;
@@ -85,20 +89,25 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
             d = new Date();
         }
         if(d.before(new Date())) {
-            logger.error("RcDelayPushServiceImpl updatePush sendDate is before currentDate");
-            throw new BaseException("发送时间早于当前时间！");
+            logger.error("RcDelayPushServiceImpl insertPush sendDate is before currentDate");
+            throw new BaseException("发送时间不得早于当前时间！");
 
         }
         pushVO.setDomain(DomainType.DOMAIN_JX.getType());
-        //file
-        transfFile(pushVO);
-        RcDelayPush rcDelayPush = rcDelayRepo.insertPush(RcDelayPushConverter.convertPushVOToRcDelayPush(pushVO));
-
-        if(null==rcDelayPush) {
+        String lockKey = pushVO.getOperationUserId()+"_"+"insertPush";
+        if(cacheLockManager.checkSubmitByCache(lockKey)) {
+            //file
+            transfFile(pushVO);
+            RcDelayPush rcDelayPush = rcDelayRepo.insertPush(RcDelayPushConverter.convertPushVOToRcDelayPush(pushVO));
+            cacheLockManager.deleteKey(lockKey);
+            if(null==rcDelayPush) {
+                return null;
+            }
+            pushVO.setId(rcDelayPush.getId());
+            return pushVO;
+        } else {
             return null;
         }
-        pushVO.setId(rcDelayPush.getId());
-        return pushVO;
     }
 
     @Override
@@ -138,18 +147,25 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
         }
         if(d.before(new Date())) {
             logger.error("RcDelayPushServiceImpl updatePush sendDate is before currentDate");
-            throw new BaseException("发送时间早于当前时间！");
+            throw new BaseException("发送时间不得早于当前时间！");
         }
 
         pushVO.setDomain(DomainType.DOMAIN_JX.getType());
-        //file
-        transfFile(pushVO);
-        RcDelayPush rcDelayPush = rcDelayRepo.updatePush(RcDelayPushConverter.convertPushVOToRcDelayPush(pushVO));
-        if(null==rcDelayPush) {
+
+        String lockKey = pushVO.getOperationUserId()+"_"+pushVO.getId()+"updatePush";
+        if(cacheLockManager.checkSubmitByCache(lockKey)) {
+            //file
+            transfFile(pushVO);
+            RcDelayPush rcDelayPush = rcDelayRepo.updatePush(RcDelayPushConverter.convertPushVOToRcDelayPush(pushVO));
+            cacheLockManager.deleteKey(lockKey);
+            if(null==rcDelayPush) {
+                return null;
+            }
+            pushVO.setId(rcDelayPush.getId());
+            return pushVO;
+        } else {
             return null;
         }
-        pushVO.setId(rcDelayPush.getId());
-        return pushVO;
     }
 
     @Override

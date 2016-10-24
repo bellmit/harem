@@ -2,6 +2,8 @@ package com.yimayhd.palace.base;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.yimayhd.palace.constant.ResponseStatus;
 
@@ -82,7 +84,14 @@ public class ResponseVo implements Serializable {
 	public static ResponseVo error(Exception e) {
 		ResponseVo responseVo = new ResponseVo(ResponseStatus.ERROR);
 		if (e instanceof BaseException) {
-			responseVo.setMessage(e.getMessage());
+			String s=e.getMessage();
+			String result=null;
+			Pattern p=Pattern.compile("(?m)^\"(.+)\"$");
+			Matcher m=p.matcher(s);
+			if(m.find()){
+				result=m.group(1);
+			}
+			responseVo.setMessage(result);
 		}
 		return responseVo;
 	}
