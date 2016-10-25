@@ -38,7 +38,7 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
     @Autowired
     private RcDelayRepo rcDelayRepo;
     @Value("${palace.tfsRootPath}")
-    private String tfsRootPath ;
+    private String tfsRootPath;
 
     private static final int LIMIT_PUSH = 1000;
 
@@ -47,6 +47,7 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
 
     @Resource
     private TfsService tfsService;
+
     @Override
     public PageVO<PushVO> getPushList(DelayPushPageQuery delayPushPageQuery) {
         RcDelayPushPageQuery rcDelayPushPageQuery = new RcDelayPushPageQuery();
@@ -55,10 +56,10 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
         rcDelayPushPageQuery.setNeedCount(true);
         rcDelayPushPageQuery.setStatus(delayPushPageQuery.getStatus());
         //query
-        rcDelayPushPageQuery.setTopicName(org.apache.commons.lang3.StringUtils.isEmpty(delayPushPageQuery.getTopicName())?"":delayPushPageQuery.getTopicName().replaceAll(" ",""));
+        rcDelayPushPageQuery.setTopicName(org.apache.commons.lang3.StringUtils.isEmpty(delayPushPageQuery.getTopicName()) ? "" : delayPushPageQuery.getTopicName().replaceAll(" ", ""));
         rcDelayPushPageQuery.setStarteTime(delayPushPageQuery.getStarteTime());
         Date endDate = delayPushPageQuery.getEndTime();
-        if(null!=endDate) {
+        if (null != endDate) {
             endDate.setHours(23);
             endDate.setMinutes(59);
             endDate.setSeconds(59);
@@ -68,7 +69,7 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
         rcDelayPushPageQuery.setType(delayPushPageQuery.getType());
         rcDelayPushPageQuery.setType(RcDelayType.PUSH.getCode());
         RCPageResult<RcDelayPush> result = rcDelayRepo.listPush(rcDelayPushPageQuery);
-        if(null==result) {
+        if (null == result) {
             return null;
         }
         return new PageVO<PushVO>(rcDelayPushPageQuery.getPageNo(), rcDelayPushPageQuery.getPageSize(), result.getTotalCount(), RcDelayPushConverter.convertToList(result.getList()));
@@ -77,43 +78,37 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
     @Override
     public PushVO insertPush(PushVO pushVO) throws Exception {
 
-        if(null==pushVO|| StringUtils.isEmpty(pushVO.getSubject())||StringUtils.isEmpty(pushVO.getPushContent())||0==pushVO.getSendDomainId()||0==pushVO.getPushModelType()||StringUtils.isEmpty(pushVO.getPushDateStr())) {
+        if (null == pushVO || StringUtils.isEmpty(pushVO.getSubject()) || StringUtils.isEmpty(pushVO.getPushContent()) || 0 == pushVO.getSendDomainId() || 0 == pushVO.getPushModelType() || StringUtils.isEmpty(pushVO.getPushDateStr())) {
             logger.error("RcDelayPushServiceImpl insertPush param is null!");
             throw new BaseException("参数不正确！");
         }
-        Date d ;
+        Date d;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         try {
             d = sdf.parse(pushVO.getPushDateStr());
         } catch (ParseException e) {
             d = new Date();
         }
-        if(d.before(new Date())) {
+        if (d.before(new Date())) {
             logger.error("RcDelayPushServiceImpl insertPush sendDate is before currentDate");
             throw new BaseException("发送时间不得早于当前时间！");
 
         }
         pushVO.setDomain(DomainType.DOMAIN_JX.getType());
-        String lockKey = pushVO.getOperationUserId()+"_"+"insertPush";
-        if(cacheLockManager.checkSubmitByCache(lockKey)) {
-            //file
-            transfFile(pushVO);
-            RcDelayPush rcDelayPush = rcDelayRepo.insertPush(RcDelayPushConverter.convertPushVOToRcDelayPush(pushVO));
-            cacheLockManager.deleteKey(lockKey);
-            if(null==rcDelayPush) {
-                return null;
-            }
-            pushVO.setId(rcDelayPush.getId());
-            return pushVO;
-        } else {
+        //file
+        transfFile(pushVO);
+        RcDelayPush rcDelayPush = rcDelayRepo.insertPush(RcDelayPushConverter.convertPushVOToRcDelayPush(pushVO));
+        if (null == rcDelayPush) {
             return null;
         }
+        pushVO.setId(rcDelayPush.getId());
+        return pushVO;
     }
 
     @Override
     public boolean cancelPush(long id) {
 
-        if(0==id) {
+        if (0 == id) {
             logger.error("RcDelayPushServiceImpl cancelPush param is null!");
             return false;
         }
@@ -123,10 +118,10 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
 
     private void transfFile(PushVO pushVO) throws BaseException {
         //file
-        if(!Strings.isNullOrEmpty(pushVO .getPushModelFilePath())){
+        if (!Strings.isNullOrEmpty(pushVO.getPushModelFilePath())) {
             String fileName = pushVO.getPushModelFilePath();
-            String newFileName = tfsService.tfsFileConvert(fileName,".txt", true, LIMIT_PUSH);
-            if (org.apache.commons.lang3.StringUtils.isNotEmpty(newFileName)){
+            String newFileName = tfsService.tfsFileConvert(fileName, ".txt", true, LIMIT_PUSH);
+            if (org.apache.commons.lang3.StringUtils.isNotEmpty(newFileName)) {
                 pushVO.setTransformFileUrl(newFileName);
             }
         }
@@ -134,43 +129,36 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
 
     @Override
     public PushVO updatePush(PushVO pushVO) throws Exception {
-        if(null==pushVO|| StringUtils.isEmpty(pushVO.getSubject())||StringUtils.isEmpty(pushVO.getPushContent())||0==pushVO.getSendDomainId()||0==pushVO.getPushModelType()||StringUtils.isEmpty(pushVO.getPushDateStr())) {
+        if (null == pushVO || StringUtils.isEmpty(pushVO.getSubject()) || StringUtils.isEmpty(pushVO.getPushContent()) || 0 == pushVO.getSendDomainId() || 0 == pushVO.getPushModelType() || StringUtils.isEmpty(pushVO.getPushDateStr())) {
             logger.error("RcDelayPushServiceImpl updatePush param is null!");
             throw new BaseException("参数不正确！");
         }
-        Date d ;
+        Date d;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
         try {
             d = sdf.parse(pushVO.getPushDateStr());
         } catch (ParseException e) {
             d = new Date();
         }
-        if(d.before(new Date())) {
+        if (d.before(new Date())) {
             logger.error("RcDelayPushServiceImpl updatePush sendDate is before currentDate");
             throw new BaseException("发送时间不得早于当前时间！");
         }
 
         pushVO.setDomain(DomainType.DOMAIN_JX.getType());
-
-        String lockKey = pushVO.getOperationUserId()+"_"+pushVO.getId()+"updatePush";
-        if(cacheLockManager.checkSubmitByCache(lockKey)) {
-            //file
-            transfFile(pushVO);
-            RcDelayPush rcDelayPush = rcDelayRepo.updatePush(RcDelayPushConverter.convertPushVOToRcDelayPush(pushVO));
-            cacheLockManager.deleteKey(lockKey);
-            if(null==rcDelayPush) {
-                return null;
-            }
-            pushVO.setId(rcDelayPush.getId());
-            return pushVO;
-        } else {
+        //file
+        transfFile(pushVO);
+        RcDelayPush rcDelayPush = rcDelayRepo.updatePush(RcDelayPushConverter.convertPushVOToRcDelayPush(pushVO));
+        if (null == rcDelayPush) {
             return null;
         }
+        pushVO.setId(rcDelayPush.getId());
+        return pushVO;
     }
 
     @Override
     public PushVO getById(final long id) {
-        RcDelayPush rcDelayPush =  rcDelayRepo.getById(id);
+        RcDelayPush rcDelayPush = rcDelayRepo.getById(id);
 
         return RcDelayPushConverter.convertRcDelayPushToPushVo(rcDelayPush);
     }

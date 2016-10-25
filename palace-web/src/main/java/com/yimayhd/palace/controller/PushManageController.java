@@ -13,14 +13,13 @@ import com.yimayhd.palace.model.vo.PushVO;
 import com.yimayhd.palace.service.PushService;
 import com.yimayhd.palace.service.RcDelayPushService;
 import com.yimayhd.palace.service.ShowcaseService;
+import com.yimayhd.palace.tair.CacheLockManager;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.palace.util.Enums;
-import com.yimayhd.palace.util.StringUtil;
 import com.yimayhd.resourcecenter.model.enums.RcDelaySendTargetType;
 import com.yimayhd.resourcecenter.model.enums.RcDelaySendType;
 import com.yimayhd.resourcecenter.model.enums.RcDelayStatus;
 import com.yimayhd.resourcecenter.model.enums.RcDelayType;
-import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
 import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.stone.enums.DomainType;
 import com.yimayhd.user.client.domain.UserDO;
@@ -54,6 +53,9 @@ public class PushManageController extends BaseController {
     @Autowired private RcDelayPushService rcDelayPushService;
     @Autowired ShowcaseService showcaseService;
     @Autowired private SessionManager sessionManager;
+
+    @Autowired
+    private CacheLockManager cacheLockManager;
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String getMsgAdd(Model model,int pushType) throws Exception {
         model.addAttribute("isEdit","add");
@@ -257,26 +259,38 @@ public class PushManageController extends BaseController {
     @RequestMapping(value = "/appPush/add", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo addPush(Model model, PushVO pushVO) throws Exception {
-        LOGGER.debug("", pushVO);
+        String lockKey;
+        if (pushVO.getId() > 0) {
+            lockKey = pushVO.getOperationUserId()+"_"+pushVO.getId()+"updatePush";
+        } else {
+            lockKey = pushVO.getOperationUserId()+"_"+"insertPush";
+        }
+        if(cacheLockManager.checkSubmitByCache(lockKey)) {
+            try {
+                if (pushVO == null) {
 
-        try {
-            if (pushVO == null) {
-
-                return ResponseVo.error();
+                    return ResponseVo.error();
+                }
+                PushVO result = null;
+                UserDO user = sessionManager.getUser();
+                pushVO.setOperationUserId(user.getId());
+                if (pushVO.getId() > 0) {
+                    result = rcDelayPushService.updatePush(pushVO);
+                } else {
+                    result = rcDelayPushService.insertPush(pushVO);
+                }
+                LOGGER.debug("", result);
+                if(null==result) {
+                    return ResponseVo.error();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseVo.error(e);
+            } finally {
+                cacheLockManager.deleteKey(lockKey);
             }
-            PushVO result = null;
-            UserDO user = sessionManager.getUser();
-            pushVO.setOperationUserId(user.getId());
-            if (pushVO.getId() > 0) {
-                result = rcDelayPushService.updatePush(pushVO);
-            } else {
-                result = rcDelayPushService.insertPush(pushVO);
-            }
-            LOGGER.debug("", result);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseVo.error(e);
+        } else {
+            return ResponseVo.error();
         }
         return  ResponseVo.success();
     }
