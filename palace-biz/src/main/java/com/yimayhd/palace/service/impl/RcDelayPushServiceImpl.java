@@ -56,7 +56,7 @@ public class RcDelayPushServiceImpl implements RcDelayPushService {
         rcDelayPushPageQuery.setNeedCount(true);
         rcDelayPushPageQuery.setStatus(delayPushPageQuery.getStatus());
         //query
-        rcDelayPushPageQuery.setTopicName(org.apache.commons.lang3.StringUtils.isEmpty(delayPushPageQuery.getTopicName()) ? "" : delayPushPageQuery.getTopicName().replaceAll(" ", ""));
+        rcDelayPushPageQuery.setTopicName(org.apache.commons.lang3.StringUtils.isEmpty(delayPushPageQuery.getTopicName()) ? "" : delayPushPageQuery.getTopicName());
         rcDelayPushPageQuery.setStarteTime(delayPushPageQuery.getStarteTime());
         Date endDate = delayPushPageQuery.getEndTime();
         if (null != endDate) {
