@@ -63,19 +63,22 @@ public class PushManageController extends BaseController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo msgAdd(Model model,PushVO pushVO) throws Exception {
-       //校验
-        setOperationUserId(pushVO);
-        if(!verifyPushVO(pushVO)){
-            return new ResponseVo().error(ResponseStatus.INVALID_DATA);
-       }
-        boolean checkFlag = pushService.hasSubmitPushVO(pushVO);
-        if(checkFlag){
-            return new ResponseVo().error(ResponseStatus.REPEATSUBMIT);
-        }
-        boolean flag = pushService.saveOrUpdate(pushVO);
-        if(flag){
-            return new ResponseVo(ResponseStatus.SUCCESS);
+    public ResponseVo msgAdd(Model model,PushVO pushVO){
+        try {
+            setOperationUserId(pushVO);
+            if(verifyPushVO(pushVO)){//校验
+                boolean checkFlag = pushService.hasSubmitPushVO(pushVO);
+                if(checkFlag){//重复提交校验
+                    return new ResponseVo().error(ResponseStatus.REPEATSUBMIT);
+                }
+                boolean flag = pushService.saveOrUpdate(pushVO);
+                if(flag){
+                    return new ResponseVo(ResponseStatus.SUCCESS);
+                }
+           }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseVo().error(e,true);
         }
         return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
     }
@@ -293,19 +296,19 @@ public class PushManageController extends BaseController {
         }
     }
 
-    public boolean verifyPushVO(PushVO pushVo){
+    public boolean verifyPushVO(PushVO pushVo) throws Exception{
         if(StringUtils.isEmpty(pushVo.getSubject())){
-            return false;
+            throw new Exception("主题不能为空");
         }
         if(StringUtils.isEmpty(pushVo.getPushContent())){
-            return false;
+            throw new Exception("内容不能为空");
         }
         if (null == pushVo.getPushDateStr()){
-            return false;
+            throw new Exception("发送时间不能为空");
         }
         Date pushDate = DateUtil.string2Date(pushVo.getPushDateStr());
         if(pushDate.before(new Date())){
-            return false;
+            throw new Exception("发送时间已过期");
         }
         return true;
     }
