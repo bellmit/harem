@@ -100,6 +100,32 @@ public class ResponseVo implements Serializable {
 		ResponseVo responseVo = new ResponseVo(ResponseStatus.INVALID_DATA);
 		return responseVo;
 	}
+
+	public static ResponseVo error(ResponseStatus res) {
+		ResponseVo responseVo = new ResponseVo(res);
+		return responseVo;
+	}
+
+	public static ResponseVo error(Exception e,boolean flag) {
+		ResponseVo responseVo = null;
+		if(flag){
+			responseVo = new ResponseVo(ResponseStatus.UNSUCCESSFUL.VALUE,e.getMessage());
+		}else{
+			responseVo = new ResponseVo(ResponseStatus.ERROR);
+		}
+
+		if (e instanceof BaseException) {
+			String s=e.getMessage();
+			String result=null;
+			Pattern p=Pattern.compile("(?m)^\"(.+)\"$");
+			Matcher m=p.matcher(s);
+			if(m.find()){
+				result=m.group(1);
+			}
+			responseVo.setMessage(result);
+		}
+		return responseVo;
+	}
 	
 	public static ResponseVo success() {
 		return new ResponseVo();

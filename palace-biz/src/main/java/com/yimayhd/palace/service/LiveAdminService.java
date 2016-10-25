@@ -12,6 +12,7 @@ import com.yimayhd.live.client.query.LiveRoomPageQuery;
 import com.yimayhd.live.client.result.record.CreateLiveRoomResult;
 import com.yimayhd.live.client.result.record.QueryLiveRecordResult;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.model.LiveAdmin.CloseLiveRoomVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.query.LiveAdminQuery;
@@ -91,10 +92,10 @@ public interface LiveAdminService {
     /**
      * 关闭直播间
      *
-     * @param closeLiveRoomDTO
+     * @param closeLiveRoomVO
      * @return
      */
-    public BizResult<String> closeLiveRoom(CloseLiveRoomDTO closeLiveRoomDTO);
+    public BizResult<String> closeLiveRoom(CloseLiveRoomVO closeLiveRoomVO);
 
     /**
      * 恢复直播间

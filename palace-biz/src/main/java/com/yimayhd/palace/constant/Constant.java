@@ -103,5 +103,7 @@ public class Constant {
 	public static final int PUSH_MSG = 1;//短信推送
 	public static final int PUSH_PUSH = 2;//push推送
 
+	public static final String PUSH_TAIR_KEY = "_repeat_pushvo";
+
 
 }
