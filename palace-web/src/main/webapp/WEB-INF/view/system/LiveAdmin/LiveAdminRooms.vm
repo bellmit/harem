@@ -109,8 +109,12 @@
                         $!{item.statusString}
                     #end
                     #if($item.status== 3)
-                        <span>至开启还有：</span>
-                        $!{item.recoverTime}
+                        #if($!{item.recoverTime})
+                            <span>至开启还有：</span>
+                            $!{item.recoverTime}
+                        #else
+                            <span>手动开启</span>
+                        #end
                     #end
                 </td>
                 <td>
@@ -222,6 +226,7 @@
             }
             var closeHours = ($("#closeHours").val()||'').trim();
             // 关闭直播间
+
             var data = {liveRoomId: liveRoomId,closeHours: closeHours,closeReason: closeReason}
             submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/closeLiveRoom", "post", data);
         });
