@@ -36,10 +36,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author create by yushengwei on 2016/10/10
@@ -66,15 +63,22 @@ public class PushManageController extends BaseController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo msgAdd(Model model,PushVO pushVO) throws Exception {
-       //校验
-        setOperationUserId(pushVO);
-        if(!verifyPushVO(pushVO)){
-            throw new Exception("参数校验失败");
-       }
-        boolean flag = pushService.saveOrUpdate(pushVO);
-        if(flag){
-            return new ResponseVo(ResponseStatus.SUCCESS);
+    public ResponseVo msgAdd(Model model,PushVO pushVO){
+        try {
+            setOperationUserId(pushVO);
+            if(verifyPushVO(pushVO)){//校验
+                boolean checkFlag = pushService.hasSubmitPushVO(pushVO);
+                if(checkFlag){//重复提交校验
+                    return new ResponseVo().error(ResponseStatus.REPEATSUBMIT);
+                }
+                boolean flag = pushService.saveOrUpdate(pushVO);
+                if(flag){
+                    return new ResponseVo(ResponseStatus.SUCCESS);
+                }
+           }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseVo().error(e,true);
         }
         return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
     }
@@ -292,21 +296,69 @@ public class PushManageController extends BaseController {
         }
     }
 
-    public boolean verifyPushVO(PushVO pushVo){
+    public boolean verifyPushVO(PushVO pushVo) throws Exception{
         if(StringUtils.isEmpty(pushVo.getSubject())){
-            return false;
+            throw new Exception("主题不能为空");
         }
         if(StringUtils.isEmpty(pushVo.getPushContent())){
-            return false;
+            throw new Exception("内容不能为空");
         }
         if (null == pushVo.getPushDateStr()){
-            return false;
+            throw new Exception("发送时间不能为空");
         }
         Date pushDate = DateUtil.string2Date(pushVo.getPushDateStr());
         if(pushDate.before(new Date())){
-            return false;
+            throw new Exception("发送时间已过期");
         }
         return true;
+    }
+
+    public static void main(String[] ars ){
+        PushVO p1 = new PushVO();
+        p1.setDomain(1100);
+        p1.setSubject("aaa");//主题
+        p1.setPushType(1);//推送类型
+        p1.setMsgTitle("bbb");//消息栏标题
+        p1.setPushContent("ccc");//推送内容
+        p1.setPushModelType(1);//推广对象类型
+        p1.setPushModelFilePath("fdsfsfsdfsdf.txt");//特定的推广对象文件地址
+        p1.setPushDate(new Date());//推送时间
+        p1.setOperationUserId(231231);//操作人ID
+
+
+        PushVO p2 = new PushVO();
+        p2.setDomain(1100);
+        p2.setSubject("aaa");//主题
+        p2.setPushType(1);//推送类型
+        p2.setMsgTitle("bbb");//消息栏标题
+        p2.setPushContent("ccc");//推送内容
+        p2.setPushModelType(1);//推广对象类型
+        p2.setPushModelFilePath("fdsfsfsdfsdfa.txt");//特定的推广对象文件地址
+        p2.setPushDate(new Date());//推送时间
+        p2.setOperationUserId(231231);//操作人ID
+
+        PushVO p3 = new PushVO();
+        p3.setDomain(1100);
+        p3.setSubject("aaa");//主题
+        p3.setPushType(1);//推送类型
+        p3.setMsgTitle("bbbs");//消息栏标题
+        p3.setPushContent("ccc");//推送内容
+        p3.setPushModelType(1);//推广对象类型
+        p3.setPushModelFilePath("fdsfsfsdfsdf.txt");//特定的推广对象文件地址
+        p3.setPushDate(new Date());//推送时间
+        p3.setOperationUserId(231231);//操作人ID
+
+        int ha1 = p1.hashCode();
+        int ha2 = p2.hashCode();
+        int ha3 = p3.hashCode();
+
+        System.out.println(ha1);
+        System.out.println(ha2);
+        System.out.println(ha3);
+        System.out.println("--------------------------------------");
+        System.out.println(ha1== ha2);
+        System.out.println(ha2== ha3);
+        System.out.println(ha1== ha3);
     }
 
 }

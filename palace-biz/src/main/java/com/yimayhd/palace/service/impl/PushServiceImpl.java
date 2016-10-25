@@ -10,6 +10,7 @@ import com.yimayhd.palace.repo.RcDelayRepo;
 import com.yimayhd.palace.result.BizResult;
 import com.yimayhd.palace.service.PushService;
 import com.yimayhd.palace.service.TfsService;
+import com.yimayhd.palace.tair.TcCacheManager;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.palace.util.HandleFilesUtils;
 import com.yimayhd.palace.util.StringUtil;
@@ -40,6 +41,10 @@ public class PushServiceImpl implements PushService {
     private TfsManager tfsManager;
     @Autowired
     private TfsService tfsService;
+    @Autowired
+    private TcCacheManager tcCacheManager;
+
+
 
     @Override
     public PageVO<PushVO> getList(PushQueryVO pushQueryVO) throws Exception {
@@ -98,6 +103,7 @@ public class PushServiceImpl implements PushService {
                 pushVO.setTransformFileUrl(newFileName);
             }
         }
+        addTairPushVO(pushVO);
         if(pushVO.getId()==0){
             return save(pushVO);
         }
@@ -169,5 +175,26 @@ public class PushServiceImpl implements PushService {
            throw new Exception("短信发送时间已生效");
        }
        return rcDelayRepo.cancelMsg(id);
+    }
+
+    public boolean hasSubmitPushVO(PushVO pushVO){
+       PushVO tp = getTairPushVO(pushVO);
+        if(null == tp){
+            return false;
+        }
+        return true;
+    }
+
+    public void addTairPushVO(PushVO pushVO){
+        int newPushVoHashCode = pushVO.hashCode();
+        String key = Constant.APP + Constant.PUSH_TAIR_KEY + newPushVoHashCode;
+        boolean rs = tcCacheManager.addToTair(key, true, 2, 24 * 60 * 60);
+    }
+
+    public PushVO getTairPushVO(PushVO pushVO){
+        int newPushVoHashCode = pushVO.hashCode();
+        String key = Constant.APP + Constant.PUSH_TAIR_KEY + newPushVoHashCode;
+        PushVO tairPushVO = (PushVO)tcCacheManager.getFormTair(key);
+        return tairPushVO;
     }
 }
