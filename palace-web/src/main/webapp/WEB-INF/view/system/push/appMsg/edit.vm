@@ -100,7 +100,7 @@
         <button type="button" class="btn btn-default" style="width:100px" id="btnCancel">取消</button>
         #end
     </div>
-     <fieldset>
+     <fieldset style="width:960px;margin:0 auto;padding:10px;">
          <legend>推送操作流程</legend>
         <p>第一步，需求人员拟定发送计划（文案，发送对象，发送时间，预期效果等）；</p>
         <p>第二步，与运维人员确认流量预计使用及剩余情况；</p>
