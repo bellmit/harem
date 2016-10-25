@@ -100,6 +100,14 @@
         <button type="button" class="btn btn-default" style="width:100px" id="btnCancel">取消</button>
         #end
     </div>
+     <fieldset>
+         <legend>推送操作流程</legend>
+        <p>第一步，需求人员拟定发送计划（文案，发送对象，发送时间，预期效果等）；</p>
+        <p>第二步，与运维人员确认流量预计使用及剩余情况；</p>
+        <p>第三步，经领导同意，使用发送“特定人员”功能仅发送给若干内部人员，以便查看效果；</p>
+        <p>第四步，经领导同意，创建正式发送任务（时间尽可能不要选择立即发送，以便有时间查找错误信息）；</p>
+        <p>第五步，评估发送成本及效果，总结经验。以便下次更有效使用</p>
+   </fieldset>
 </form>
 
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
