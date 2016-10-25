@@ -329,7 +329,7 @@ public class PushVO implements Serializable {
         int factor = 138;
         factor = getPushType()*factor;
         if(StringUtil.isNotNullOrNotEmpty(getSubject())){
-            factor = getSubject().hashCode()*factor;
+            factor = getSubject ().hashCode()*factor;
         }
         if(StringUtil.isNotNullOrNotEmpty(getMsgTitle())){
             factor = getMsgTitle().hashCode()*factor;

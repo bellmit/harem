@@ -141,7 +141,7 @@ public class TfsServiceImpl implements TfsService {
 			}
 		}
 		if(sb.length()==0) {
-			throw new BaseException("文件内容为空或格式不正确");
+			throw new BaseException("文件有误，或无有效信息");
 		}
 		byte[] bytes = sb.toString().getBytes();
 		String tfsCode = tfsManager.saveFile(bytes, null,fileFormat);

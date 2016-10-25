@@ -13,14 +13,13 @@ import com.yimayhd.palace.model.vo.PushVO;
 import com.yimayhd.palace.service.PushService;
 import com.yimayhd.palace.service.RcDelayPushService;
 import com.yimayhd.palace.service.ShowcaseService;
+import com.yimayhd.palace.tair.CacheLockManager;
 import com.yimayhd.palace.util.DateUtil;
 import com.yimayhd.palace.util.Enums;
-import com.yimayhd.palace.util.StringUtil;
 import com.yimayhd.resourcecenter.model.enums.RcDelaySendTargetType;
 import com.yimayhd.resourcecenter.model.enums.RcDelaySendType;
 import com.yimayhd.resourcecenter.model.enums.RcDelayStatus;
 import com.yimayhd.resourcecenter.model.enums.RcDelayType;
-import com.yimayhd.resourcecenter.model.query.RcDelayPushPageQuery;
 import com.yimayhd.resourcecenter.model.resource.vo.OperactionVO;
 import com.yimayhd.stone.enums.DomainType;
 import com.yimayhd.user.client.domain.UserDO;
@@ -51,6 +50,9 @@ public class PushManageController extends BaseController {
     @Autowired private RcDelayPushService rcDelayPushService;
     @Autowired ShowcaseService showcaseService;
     @Autowired private SessionManager sessionManager;
+
+    @Autowired
+    private CacheLockManager cacheLockManager;
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String getMsgAdd(Model model,int pushType) throws Exception {
         model.addAttribute("isEdit","add");
@@ -63,19 +65,22 @@ public class PushManageController extends BaseController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseVo msgAdd(Model model,PushVO pushVO) throws Exception {
-       //校验
-        setOperationUserId(pushVO);
-        if(!verifyPushVO(pushVO)){
-            return new ResponseVo().error(ResponseStatus.INVALID_DATA);
-       }
-        boolean checkFlag = pushService.hasSubmitPushVO(pushVO);
-        if(checkFlag){
-            return new ResponseVo().error(ResponseStatus.REPEATSUBMIT);
-        }
-        boolean flag = pushService.saveOrUpdate(pushVO);
-        if(flag){
-            return new ResponseVo(ResponseStatus.SUCCESS);
+    public ResponseVo msgAdd(Model model,PushVO pushVO){
+        try {
+            setOperationUserId(pushVO);
+            if(verifyPushVO(pushVO)){//校验
+                boolean checkFlag = pushService.hasSubmitPushVO(pushVO);
+                if(checkFlag){//重复提交校验
+                    return new ResponseVo().error(ResponseStatus.REPEATSUBMIT);
+                }
+                boolean flag = pushService.saveOrUpdate(pushVO);
+                if(flag){
+                    return new ResponseVo(ResponseStatus.SUCCESS);
+                }
+           }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseVo().error(e,true);
         }
         return new ResponseVo(ResponseStatus.UNSUCCESSFUL);
     }
@@ -258,26 +263,38 @@ public class PushManageController extends BaseController {
     @RequestMapping(value = "/appPush/add", method = RequestMethod.POST)
     @ResponseBody
     public ResponseVo addPush(Model model, PushVO pushVO) throws Exception {
-        LOGGER.debug("", pushVO);
+        String lockKey;
+        if (pushVO.getId() > 0) {
+            lockKey = pushVO.getOperationUserId()+"_"+pushVO.getId()+"updatePush";
+        } else {
+            lockKey = pushVO.getOperationUserId()+"_"+"insertPush";
+        }
+        if(cacheLockManager.checkSubmitByCache(lockKey)) {
+            try {
+                if (pushVO == null) {
 
-        try {
-            if (pushVO == null) {
-
-                return ResponseVo.error();
+                    return ResponseVo.error();
+                }
+                PushVO result = null;
+                UserDO user = sessionManager.getUser();
+                pushVO.setOperationUserId(user.getId());
+                if (pushVO.getId() > 0) {
+                    result = rcDelayPushService.updatePush(pushVO);
+                } else {
+                    result = rcDelayPushService.insertPush(pushVO);
+                }
+                LOGGER.debug("", result);
+                if(null==result) {
+                    return ResponseVo.error();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseVo.error(e);
+            } finally {
+                cacheLockManager.deleteKey(lockKey);
             }
-            PushVO result = null;
-            UserDO user = sessionManager.getUser();
-            pushVO.setOperationUserId(user.getId());
-            if (pushVO.getId() > 0) {
-                result = rcDelayPushService.updatePush(pushVO);
-            } else {
-                result = rcDelayPushService.insertPush(pushVO);
-            }
-            LOGGER.debug("", result);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseVo.error(e);
+        } else {
+            return ResponseVo.error();
         }
         return  ResponseVo.success();
     }
@@ -293,19 +310,19 @@ public class PushManageController extends BaseController {
         }
     }
 
-    public boolean verifyPushVO(PushVO pushVo){
+    public boolean verifyPushVO(PushVO pushVo) throws Exception{
         if(StringUtils.isEmpty(pushVo.getSubject())){
-            return false;
+            throw new Exception("主题不能为空");
         }
         if(StringUtils.isEmpty(pushVo.getPushContent())){
-            return false;
+            throw new Exception("内容不能为空");
         }
         if (null == pushVo.getPushDateStr()){
-            return false;
+            throw new Exception("发送时间不能为空");
         }
         Date pushDate = DateUtil.string2Date(pushVo.getPushDateStr());
         if(pushDate.before(new Date())){
-            return false;
+            throw new Exception("发送时间已过期");
         }
         return true;
     }

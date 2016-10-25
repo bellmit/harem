@@ -11,6 +11,7 @@ import com.yimayhd.live.client.result.record.*;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.LiveAdminBiz;
 import com.yimayhd.palace.convert.LiveAdminConverter;
+import com.yimayhd.palace.model.LiveAdmin.CloseLiveRoomVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.query.LiveAdminQuery;
@@ -173,11 +174,12 @@ public class LiveAdminServiceImpl implements LiveAdminService {
     /**
      * 关闭直播间
      *
-     * @param closeLiveRoomDTO
+     * @param closeLiveRoomVO
      * @return
      */
-    public BizResult<String> closeLiveRoom(CloseLiveRoomDTO closeLiveRoomDTO) {
+    public BizResult<String> closeLiveRoom(CloseLiveRoomVO closeLiveRoomVO) {
         BizResult<String> bizResult = new BizResult<String>();
+        CloseLiveRoomDTO closeLiveRoomDTO = LiveAdminConverter.CloseLiveRoomVO2CloseLiveRoomDTO(closeLiveRoomVO);
         CloseLiveRoomResult closeLiveRoomResult = liveAdminRepo.closeLiveRoom(closeLiveRoomDTO);
         bizResult.buildSuccessResult(closeLiveRoomResult);
         return bizResult;

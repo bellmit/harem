@@ -1,10 +1,12 @@
 package com.yimayhd.palace.convert;
 
+import com.yimayhd.live.client.domain.record.CloseLiveRoomDTO;
 import com.yimayhd.live.client.domain.record.LiveRecordDO;
 import com.yimayhd.live.client.domain.record.LiveRoomDO;
 import com.yimayhd.live.client.enums.LiveRoomStatus;
 import com.yimayhd.live.client.query.LiveAdminPageQuery;
 import com.yimayhd.live.client.query.LiveRoomPageQuery;
+import com.yimayhd.palace.model.LiveAdmin.CloseLiveRoomVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.query.LiveAdminQuery;
@@ -158,5 +160,19 @@ public class LiveAdminConverter {
         if (liveRoomQuery.getStatus() != null)
             liveRoomPageQuery.setStatus(liveRoomQuery.getStatus().intValue());
         return liveRoomPageQuery;
+    }
+
+    // 关闭直播房间
+    public static CloseLiveRoomDTO CloseLiveRoomVO2CloseLiveRoomDTO(CloseLiveRoomVO closeLiveRoomVO) {
+        if (closeLiveRoomVO == null) {
+            return null;
+        }
+        CloseLiveRoomDTO closeLiveRoomDTO = new CloseLiveRoomDTO();
+        if (!closeLiveRoomVO.getCloseHours().equals("open")){
+            closeLiveRoomDTO.setCloseHours(Integer.valueOf(closeLiveRoomVO.getCloseHours()).intValue());
+        }
+        closeLiveRoomDTO.setCloseReason(closeLiveRoomVO.getCloseReason());
+        closeLiveRoomDTO.setLiveRoomId(closeLiveRoomVO.getLiveRoomId());
+        return closeLiveRoomDTO;
     }
 }

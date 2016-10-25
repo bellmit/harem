@@ -9,6 +9,7 @@ import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.LiveAdminBiz;
 import com.yimayhd.palace.error.PalaceReturnCode;
+import com.yimayhd.palace.model.LiveAdmin.CloseLiveRoomVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.query.LiveAdminQuery;
@@ -146,10 +147,10 @@ public class LiveAdminController extends BaseController {
      **/
     @RequestMapping(value = "/closeLiveRoom", method = RequestMethod.POST)
     @ResponseBody
-    public BizResult<String> closeLiveRoom(CloseLiveRoomDTO closeLiveRoomDTO) {
+    public BizResult<String> closeLiveRoom(CloseLiveRoomVO closeLiveRoomVO) {
         BizResult<String> bizResult = new BizResult<>();
         try {
-            bizResult = liveAdminService.closeLiveRoom(closeLiveRoomDTO);
+            bizResult = liveAdminService.closeLiveRoom(closeLiveRoomVO);
             return bizResult;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
