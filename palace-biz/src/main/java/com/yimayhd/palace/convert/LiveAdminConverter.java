@@ -21,7 +21,6 @@ import java.util.regex.Pattern;
 import static com.yimayhd.live.client.enums.LiveOrder.*;
 import static com.yimayhd.live.client.enums.LiveRecordStatus.NORMAL_LIVE;
 import static com.yimayhd.live.client.enums.LiveRecordStatus.OFF_SHELVE_LIVE;
-import static com.yimayhd.live.client.enums.MsgNotifyTypeEnum.DELETE_LIVE;
 
 
 /**

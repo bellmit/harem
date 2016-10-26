@@ -2,7 +2,6 @@ package com.yimayhd.palace.controller.live;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
-import com.yimayhd.live.client.domain.record.CloseLiveRoomDTO;
 import com.yimayhd.live.client.domain.record.UpdateLiveOrderDTO;
 import com.yimayhd.live.client.domain.record.UpdateLiveRecordStatusDTO;
 import com.yimayhd.palace.base.BaseController;
