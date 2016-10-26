@@ -14,7 +14,7 @@
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button">推送主题：</button>
 				</span>
-            <input type="text" class="form-control" name="topicName" value="$!{rcDelayPushPageQuery.topicName}">
+            <input type="text" class="form-control" name="topicName" id="topicName" value="$!{rcDelayPushPageQuery.topicName}">
         </div>
         <div class="input-group">
 				<span class="input-group-btn">

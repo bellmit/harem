@@ -1,13 +1,6 @@
-#set($layout = "/system/layout/layout-new.vm")
-#parse("/system/layout/layout-jiuxiu-meta.vm")
-#set($title = "创建App推送")
-#set($styles = [
-    "$!rs_js_css_path_jiuxiu/css/zui.min.css",
-	"$!rs_js_css_path_jiuxiu/css/style.css",
-	"$!rs_js_css_path_jiuxiu/css/validform.css",
-	"$!rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css",
-	"$!rs_js_css_path_jiuxiu/css/datetimepicker.min.css",
-	"$!rs_js_css_path_jiuxiu/css/push-message-edit.css"
+#set($layout = "/system/layout/layout-new.vm") #parse("/system/layout/layout-jiuxiu-meta.vm") #set($title = "创建App推送") #set($styles
+= [ "$!rs_js_css_path_jiuxiu/css/zui.min.css", "$!rs_js_css_path_jiuxiu/css/style.css", "$!rs_js_css_path_jiuxiu/css/validform.css",
+"$!rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css", "$!rs_js_css_path_jiuxiu/css/datetimepicker.min.css", "$!rs_js_css_path_jiuxiu/css/push-message-edit.css"
 ])
 <form class="" id="frmEdit">
     <input type="hidden" name="id" id="id" value="$!pushVO.id">
@@ -26,8 +19,7 @@
         <tr>
             <th><span class="text-red">*</span>推送主题：</th>
             <td>
-                <input type="text" class="form-control input-text" name="subject" id="subject"
-                       value="$!{pushVO.subject}" placeholder="请输入推送主题">
+                <input type="text" class="form-control input-text" name="subject" id="subject" value="$!{pushVO.subject}" placeholder="请输入推送主题">
             </td>
         </tr>
         <tr>
@@ -71,8 +63,7 @@
         <tr>
             <th><span class="text-red">*</span>推送内容：</th>
             <td>
-                <textarea class="form-control input-text limit" name="pushContent" id="content" rows="4" cols="20"
-                          placeholder="请输入推送内容">$!{pushVO.pushContent}</textarea>
+                <textarea class="form-control input-text limit" name="pushContent" id="content" rows="4" cols="20" placeholder="请输入推送内容">$!{pushVO.pushContent}</textarea>
             </td>
         </tr>
         <tr>
@@ -98,8 +89,7 @@
                     <div class="jump-setting-item">
                         <input type="hidden" name="operationDetailId" id="operationDetailId" value="$!pushVO.operationDetailId">
                         <input type="hidden" name="operationContent" id="chosId" value="$!pushVO.operationContent">
-                        <input type="hidden" name="selectOpContent" id="selectOpContent"
-                               value="$!pushVO.selectOpContent">
+                        <input type="hidden" name="selectOpContent" id="selectOpContent" value="$!pushVO.selectOpContent">
                         <span class="txt">内容展示：</span><span id="showContent">$!{pushVO.selectOpContent}</span>
                     </div>
                 </div>
@@ -108,42 +98,41 @@
         <tr>
             <th><span class="text-red">*</span>推送对象：</th>
             <td>
-                <select class="form-control input-text mb10 select" data-target=".upload" name="pushModelType"
-                        id="pushModelType">
+                <select class="form-control input-text mb10 select" data-target=".upload" name="pushModelType" id="pushModelType">
                     #foreach($targetType in $rcDelaySendTargetType)
                         <option value="$!{targetType.code}" #if($!pushVO.pushModelType==$!targetType.code)
                                 selected #end>$!{targetType.desc}</option>
                     #end
-                </select>
-                #if($!operation=="edit" && $stringUtil.isNotNullOrNotEmpty($!pushVO.pushModelFilePath))
-                     <div class="input-group a upload">
-						<input type="text" class="form-control" name="fileName" id="fileName" style="width:400px;background:#fff;" readonly value="$!pushVO.fileName">
-						<div class="input-group-btn">
-							<button class="btn btn-default delete" type="button">
+                </select> #if($!operation=="edit" && $stringUtil.isNotNullOrNotEmpty($!pushVO.pushModelFilePath))
+                <div class="input-group a upload">
+                    <input type="text" class="form-control" name="fileName" id="fileName" style="width:400px;background:#fff;" readonly value="$!pushVO.fileName">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default delete" type="button">
                                 <i class="icon icon-trash"></i>删除
                             </button>
-							<a href="$utilWebconfig.getTfsRootPath()$!pushVO.pushModelFilePath" class="btn btn-default download" download="$!pushVO.fileName" type="button"><i class="icon icon-download-alt"></i>下载</a>
-							<div class="btn btn-primary select" type="button">
-                                 <i class="icon icon-folder-open"></i>选择文件
-								<input type="file" name="file" id="file">
-							</div>
-						</div>
-						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath" value="$!pushVO.pushModelFilePath">
-					</div>
+                        <a href="$utilWebconfig.getTfsRootPath()$!pushVO.pushModelFilePath" class="btn btn-default download" download="$!pushVO.fileName"
+                            type="button"><i class="icon icon-download-alt"></i>下载</a>
+                        <div class="btn btn-primary select" type="button">
+                            <i class="icon icon-folder-open"></i>选择文件
+                            <input type="file" name="file" id="file">
+                        </div>
+                    </div>
+                    <input type="hidden" name="pushModelFilePath" id="pushModelFilePath" value="$!pushVO.pushModelFilePath">
+                </div>
                 #else
-                    <div class="input-group b upload">
-						<input type="text" class="form-control" name="fileName" id="fileName" style="width:400px;background:#fff;" readonly value="">
-						<div class="input-group-btn">
-							<button class="btn btn-default delete hide" type="button">
+                <div class="input-group b upload">
+                    <input type="text" class="form-control" name="fileName" id="fileName" style="width:400px;background:#fff;" readonly value="">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default delete hide" type="button">
                                 <i class="icon icon-trash"></i>删除
                             </button>
-							<div class="btn btn-primary select" type="button">
-                                <i class="icon icon-folder-open"></i>选择文件
-								<input type="file" name="file" id="file">
-							</div>
-						</div>
-						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath">
-					</div>
+                        <div class="btn btn-primary select" type="button">
+                            <i class="icon icon-folder-open"></i>选择文件
+                            <input type="file" name="file" id="file">
+                        </div>
+                    </div>
+                    <input type="hidden" name="pushModelFilePath" id="pushModelFilePath">
+                </div>
                 #end
             </td>
         </tr>
@@ -151,7 +140,7 @@
             <th><span class="text-red">*</span>推送时间：</th>
             <td>
                 <input type="text" class="form-control input-text time" style="width:210px;" readonly="readonly" name="pushDateStr" id="time"
-                       value="$!utilDate.date2String($!pushVO.pushDate)">
+                    value="$!utilDate.date2String($!pushVO.pushDate)">
             </td>
         </tr>
     </table>
@@ -159,6 +148,14 @@
         <button type="button" class="btn btn-primary" style="width:100px;margin-right:10px;" id="btnSave">确定</button>
         <button type="button" class="btn btn-default" style="width:100px" id="btnCancel">取消</button>
     </div>
+    <fieldset style="width:960px;margin:0 auto;padding:10px;">
+         <legend>推送操作流程</legend>
+        <p>第一步，需求人员拟定发送计划（文案，发送对象，发送时间，预期效果等）；</p>
+        <p>第二步，与运维人员确认流量预计使用及剩余情况；</p>
+        <p>第三步，经领导同意，使用发送“特定人员”功能仅发送给若干内部人员，以便查看效果；</p>
+        <p>第四步，经领导同意，创建正式发送任务（时间尽可能不要选择立即发送，以便有时间查找错误信息）；</p>
+        <p>第五步，评估发送成本及效果，总结经验。以便下次更有效使用</p>
+   </fieldset>
 </form>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
 <script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-css.js"></script>
@@ -167,4 +164,3 @@
 <script type="text/javascript">
     seajs.use('module/md.push-message-edit.js');
 </script>
-
