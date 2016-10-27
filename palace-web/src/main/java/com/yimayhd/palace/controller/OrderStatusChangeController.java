@@ -113,10 +113,12 @@ public class OrderStatusChangeController {
     @RequestMapping(value = "/queryLogList", method = RequestMethod.GET)
     public String queryLogList(Model model,OrderStatusChangeLogQuery orderStatusChangeLogQuery) throws Exception{
         logger.info("queryLogList start");
+        List<OrderStatusChangeLogDTO> resultList = new ArrayList<OrderStatusChangeLogDTO>();
         model.addAttribute("queryModel", orderStatusChangeLogQuery);
         if(orderStatusChangeLogQuery!=null &&StringUtils.isNotBlank(orderStatusChangeLogQuery.getOperationId())){
             //验证getOperationId 是否数字
             if(!StringUtils.isNumeric(orderStatusChangeLogQuery.getOperationId())){
+                model.addAttribute("pageVo", new PageVO());
                 return "/system/order/changeHistory";
             }
         }
@@ -125,14 +127,13 @@ public class OrderStatusChangeController {
             return "/system/order/changeHistory";
         }
         OrderStatusChangeLogResult orderLog =  result.getValue();
-        List<OrderStatusChangeLogDTO> resultList = new ArrayList<OrderStatusChangeLogDTO>();
         if(orderLog.getOrderStatusChangeLogDTOList()!=null){
             resultList =orderLog.getOrderStatusChangeLogDTOList() ;
         }
         PageVO<OrderStatusChangeLogDTO> pageModel = new PageVO<OrderStatusChangeLogDTO>(orderStatusChangeLogQuery.getPageNumber(),
                 orderStatusChangeLogQuery.getPageSize(),
-                        orderLog.getTotalCount(),
-                        resultList);
+                orderLog.getTotalCount(),
+                resultList);
         int totalPage = 0;
         if (pageModel.getTotalCount()%pageModel.getPageSize() > 0) {
             totalPage += pageModel.getTotalCount()/pageModel.getPageSize()+1;
