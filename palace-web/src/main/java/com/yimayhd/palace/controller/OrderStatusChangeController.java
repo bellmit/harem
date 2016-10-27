@@ -113,8 +113,14 @@ public class OrderStatusChangeController {
     @RequestMapping(value = "/queryLogList", method = RequestMethod.GET)
     public String queryLogList(Model model,OrderStatusChangeLogQuery orderStatusChangeLogQuery) throws Exception{
         logger.info("queryLogList start");
-        BizResult<OrderStatusChangeLogResult> result=  orderStatusChangeLogService.queryOrderStatusChangeLogList(orderStatusChangeLogQuery);
         model.addAttribute("queryModel", orderStatusChangeLogQuery);
+        if(orderStatusChangeLogQuery!=null &&StringUtils.isNotBlank(orderStatusChangeLogQuery.getOperationId())){
+            //验证getOperationId 是否数字
+            if(!StringUtils.isNumeric(orderStatusChangeLogQuery.getOperationId())){
+                return "/system/order/changeHistory";
+            }
+        }
+        BizResult<OrderStatusChangeLogResult> result=  orderStatusChangeLogService.queryOrderStatusChangeLogList(orderStatusChangeLogQuery);
         if(result==null||!result.isSuccess()){
             return "/system/order/changeHistory";
         }
