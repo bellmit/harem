@@ -1,3 +1,4 @@
+##<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js?version=21"></script>
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/base.css" id="">
 <link rel="stylesheet" href="http://s0.test.jiuxiulvxing.com/Test/PC_Admin/src/css/live/livelist.css" id="">
 <body>
@@ -53,7 +54,7 @@
             </tr>
             <tr>
                 <td class="tit">房间号：</td>
-                <td><input name="liveRoomId" class="form-control" maxlength="30" value="$!{liveRoomQuery.liveRoomId}" /></td>
+                <td><input name="liveRoomId" type="text" class="form-control" maxlength="30" datatype="/^(\d+)?$/" errormsg="请输入数字" value="$!{liveRoomQuery.liveRoomId}" /></td>
                 <td class="tit">状态：</td>
                 <td>
                     <select name="status" class="form-control">
@@ -108,8 +109,12 @@
                         $!{item.statusString}
                     #end
                     #if($item.status== 3)
-                        <span>至开启还有：</span>
-                        $!{item.recoverTime}
+                        #if($!{item.recoverTime})
+                            <span>至开启还有：</span>
+                            $!{item.recoverTime}
+                        #else
+                            <span>手动开启</span>
+                        #end
                     #end
                 </td>
                 <td>
@@ -130,12 +135,10 @@
 #*分页*#
     #parse("/page.vm")
     #pageStyle("roomsForm")
-
-<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
-<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/plugin/jquery.validform.js"></script>
 </>
 ##</html>
-
+<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
+<script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/plugin/jquery.validform.js"></script>
 <script type="text/javascript">
 
     layer.config({
@@ -223,6 +226,7 @@
             }
             var closeHours = ($("#closeHours").val()||'').trim();
             // 关闭直播间
+
             var data = {liveRoomId: liveRoomId,closeHours: closeHours,closeReason: closeReason}
             submitEdit("$utilWebconfig.getActionDefaultFontPath()/jiuxiu/liveAdmin/closeLiveRoom", "post", data);
         });

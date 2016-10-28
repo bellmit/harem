@@ -6,6 +6,8 @@ import com.yimayhd.commentcenter.client.dto.TagInfoPageDTO;
 import com.yimayhd.ic.client.model.param.item.ItemQryDTO;
 import com.yimayhd.ic.client.model.query.HotelPageQuery;
 import com.yimayhd.ic.client.model.query.ScenicPageQuery;
+import com.yimayhd.live.client.query.LiveRecordQuery;
+import com.yimayhd.live.client.result.record.QueryLiveRecordResult;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.convert.ShowCaseItem;
 import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
@@ -181,7 +183,14 @@ public interface ShowcaseService {
     public PageVO<ShowCaseItem> getPageLiveRecordListByQuery(LiveAdminQuery pageQuery);
 
     /**
-     * 分页查询直播管理列表
+     * 查询单个直播
+     * @param recordQuery
+     * @return
+     */
+    public PageVO<ShowCaseItem> getLiveRecordQuery(LiveRecordQuery recordQuery);
+
+    /**
+     * 分页查询直播房间管理列表
      * @return
      */
     public PageVO<ShowCaseItem> getPageLiveRoomListByQuery(LiveRoomQuery liveRoomQuery);

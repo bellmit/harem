@@ -83,7 +83,7 @@
 	<bean class="com.yimayhd.palace.service.impl.ItemServiceImpl"></bean>
 	
 	<!-- 九休订单 -->
-	<bean class="com.yimayhd.palace.service.impl.JiuxiuOrderServiceImpl"></bean>
+	<bean id="jiuxiuOrderService" class="com.yimayhd.palace.service.impl.JiuxiuOrderServiceImpl"></bean>
 	<!-- 对账 -->
 	<bean class="com.yimayhd.palace.service.impl.AuditServiceImpl"></bean>
 	
@@ -105,6 +105,12 @@
 
 	<!-- 导览景点-->
 	<bean id="touristManageService" class="com.yimayhd.palace.service.impl.TouristManageServiceImpl"/>
+
+	<bean id="orderStatusChangeService" class="com.yimayhd.palace.service.impl.OrderStatusChangeServiceImpl"/>
+	<bean id="orderStatusChangeLogService" class="com.yimayhd.palace.service.impl.OrderStatusChangeLogServiceImpl"/>
+
+	<bean id="pushService" class="com.yimayhd.palace.service.impl.PushServiceImpl"/>
+	<bean class="com.yimayhd.palace.service.impl.RcDelayPushServiceImpl"/>
 
 	<!-- 直播管理 -->
 	<bean id="liveAdminService" class="com.yimayhd.palace.service.impl.LiveAdminServiceImpl"/>

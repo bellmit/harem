@@ -6,6 +6,7 @@ import com.yimayhd.live.client.domain.record.LiveRoomDO;
 import com.yimayhd.live.client.domain.record.UpdateLiveOrderDTO;
 import com.yimayhd.live.client.domain.record.UpdateLiveRecordStatusDTO;
 import com.yimayhd.live.client.query.LiveAdminPageQuery;
+import com.yimayhd.live.client.query.LiveRecordQuery;
 import com.yimayhd.live.client.query.LiveRoomPageQuery;
 import com.yimayhd.live.client.result.record.*;
 import com.yimayhd.live.client.service.LiveAdminService;
@@ -47,6 +48,31 @@ public class LiveAdminRepo {
             }
         } catch (Exception e) {
             log.error("getPageLiveRecord pageQuery={}, exception={}", JSON.toJSONString(pageQuery), e);
+            throw new BaseException(e, e.getMessage());
+        }
+    }
+
+    /**
+     * 查询单个直播
+     * @param recordQuery
+     * @return
+     */
+    public QueryLiveRecordResult getLiveRecord(LiveRecordQuery recordQuery){
+        try {
+            QueryLiveRecordResult result = liveAdminServiceRef.getLiveRecord(recordQuery);
+            if (result != null) {
+                if (result.isSuccess()) {
+                    log.info("getLiveRecord recordQuery={}, result={}", JSON.toJSONString(recordQuery), JSON.toJSONString(result));
+                    return result;
+                } else {
+                    log.error("getLiveRecord recordQuery={}, result={}", JSON.toJSONString(recordQuery), JSON.toJSONString(result));
+                    throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
+                }
+            } else {
+                throw new BaseException(PalaceReturnCode.REMOTE_CALL_FAILED.getErrorMsg());
+            }
+        } catch (Exception e) {
+            log.error("getPageLiveRecord recordQuery={}, exception={}", JSON.toJSONString(recordQuery), e);
             throw new BaseException(e, e.getMessage());
         }
     }

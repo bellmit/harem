@@ -127,4 +127,19 @@ public class UserRepo {
 		return map ;
 	}
 
+	/**
+	 * 查询用户信息
+	 * @param userId
+	 * @return
+     */
+	public UserDO getUserDOByUserId(long userId){
+		logger.info("查询用户信息,userId="+userId);
+		BaseResult<UserDO> result = userServiceRef.getUserDOByUserId(userId);
+		if(result==null||!result.isSuccess()){
+			logger.error(JSON.toJSONString(result));
+			return null;
+		}
+		return   result.getValue();
+	}
+
 }

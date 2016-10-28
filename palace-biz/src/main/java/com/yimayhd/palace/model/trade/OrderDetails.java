@@ -2,7 +2,7 @@ package com.yimayhd.palace.model.trade;
 
 import com.yimayhd.lgcenter.client.domain.ExpressVO;
 import com.yimayhd.palace.model.vo.AdjustFeeVO;
-import com.yimayhd.tradecenter.client.model.domain.order.FullGiveInfo;
+//import com.yimayhd.tradecenter.client.model.domain.order.FullGiveInfo;
 import com.yimayhd.tradecenter.client.model.domain.order.PromotionInfo;
 import com.yimayhd.tradecenter.client.model.domain.person.ContactUser;
 import com.yimayhd.tradecenter.client.util.BizOrderUtil;
@@ -48,7 +48,7 @@ public class OrderDetails {
 
     private PromotionInfo orderPromotionInfo;
 
-    private FullGiveInfo giftPromotionInfo;
+    //private FullGiveInfo giftPromotionInfo;
 
     private String promotionInfoDesc;
 
@@ -225,11 +225,11 @@ public class OrderDetails {
         this.express = express;
     }
 
-    public FullGiveInfo getGiftPromotionInfo() {
+   /* public FullGiveInfo getGiftPromotionInfo() {
         return giftPromotionInfo;
     }
 
     public void setGiftPromotionInfo(FullGiveInfo giftPromotionInfo) {
         this.giftPromotionInfo = giftPromotionInfo;
-    }
+    }*/
 }

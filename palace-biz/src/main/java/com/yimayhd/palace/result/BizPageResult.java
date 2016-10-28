@@ -57,4 +57,22 @@ public class BizPageResult<T> extends BizResultSupport {
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
 	}
+
+	public static <U> BizPageResult<U> fail(int code, String msg, List<U> value) {
+		BizPageResult<U> baseResult = new BizPageResult<U>();
+		baseResult.setSuccess(false);
+		baseResult.setCode(code);
+		baseResult.setMsg(msg);
+		baseResult.setList(value);
+		return baseResult;
+	}
+
+	public static <U> BizPageResult<U> success(List<U> value) {
+		BizPageResult<U> baseResult = new BizPageResult<U>();
+		baseResult.setSuccess(true);
+		baseResult.setCode(SUCCESS_CODE);
+		baseResult.setMsg("操作成功");
+		baseResult.setList(value);
+		return baseResult;
+	}
 }

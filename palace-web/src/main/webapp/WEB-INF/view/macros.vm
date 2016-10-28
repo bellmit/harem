@@ -786,17 +786,6 @@
 <option>已停用</option>
 #end
 
-#macro(OPTION_COM_RATE_RATE_STATUS $type)
-<option value="" >全部</option>
-<option value="RATE" #if($type == "RATE")selected#end>未回复</option>
-<option value="REPLY" #if($type == "REPLY")selected#end>已回复</option>
-#end
-
-#macro(OPTION_COM_RATE_BASE_STATUS $type)
-<option value="" >全部</option>
-<option value="AVAILABLE" #if($type == "AVAILABLE")selected#end>否</option>
-<option value="DELETED" #if($type == "DELETED")selected#end>是</option>
-#end
 
 ##订单列表-展示的SKU信息
 #macro(ROUTE_ORDER_LIST_SKU $type)
@@ -963,5 +952,41 @@
 		失败
     #elseif($type == '3')
 		不存在
+    #end
+#end
+
+#*push状态*#
+#macro(PUSH_STATUS $status)
+    #if($status == '0')
+    全部
+    #elseif($status == '1')
+    处理中
+    #elseif($status == '2')
+    取消发送
+    #elseif($status == '99')
+    已发送
+    #elseif($status == '98')
+    待发送
+    #end
+#end
+
+#*domain*#
+#macro(DOMAIN_ZH $status)
+    #if($status == '1000')
+    天香
+    #elseif($status == '1100')
+    婕洛芙
+    #elseif($status == '1200')
+    九休
+    #end
+#end
+
+#macro(PUSH_OBJECT $status)
+    #if($status == '0')
+    全部
+    #elseif($status == '1')
+    全部用户
+    #elseif($status == '2')
+    特定用户
     #end
 #end

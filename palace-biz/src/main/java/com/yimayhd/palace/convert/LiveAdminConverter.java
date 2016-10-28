@@ -1,23 +1,26 @@
 package com.yimayhd.palace.convert;
 
+import com.yimayhd.live.client.domain.record.CloseLiveRoomDTO;
 import com.yimayhd.live.client.domain.record.LiveRecordDO;
 import com.yimayhd.live.client.domain.record.LiveRoomDO;
 import com.yimayhd.live.client.enums.LiveRoomStatus;
 import com.yimayhd.live.client.query.LiveAdminPageQuery;
 import com.yimayhd.live.client.query.LiveRoomPageQuery;
+import com.yimayhd.palace.model.LiveAdmin.CloseLiveRoomVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.query.LiveAdminQuery;
 import com.yimayhd.palace.model.query.LiveRoomQuery;
+import com.yimayhd.palace.util.DateUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.yimayhd.live.client.enums.LiveOrder.*;
+import static com.yimayhd.live.client.enums.LiveRecordStatus.NORMAL_LIVE;
+import static com.yimayhd.live.client.enums.LiveRecordStatus.OFF_SHELVE_LIVE;
 
 
 /**
@@ -35,6 +38,7 @@ public class LiveAdminConverter {
         liveRecordVO.setLiveRoom(liveRecordDO.getLiveRoom());
         liveRecordVO.setLiveCategory(liveRecordDO.getLiveCategory());
         // 标题和话题
+        liveRecordVO.setLiveTitle(liveRecordDO.getLiveTitle());  // 标题
         if (liveRecordDO.getLiveTitle() != null) {
             String topic = new String();
             //正则表达式，取#和#之间的字符串，不包括#和#
@@ -45,8 +49,6 @@ public class LiveAdminConverter {
                 topic += "\n";
             }
             liveRecordVO.setLiveTopic(topic);
-            String[] ary = liveRecordDO.getLiveTitle().split("\\#");
-            liveRecordVO.setLiveTitle(ary[ary.length-1]);
         }
 //      liveRecordVO.setLiveDes(liveRecordDO.getLiveDes());
         liveRecordVO.setLiveCover(liveRecordDO.getLiveCover());
@@ -60,6 +62,7 @@ public class LiveAdminConverter {
         liveRecordVO.setViewCount(liveRecordDO.getViewCount());
         liveRecordVO.setPeakCount(liveRecordDO.getPeakCount());
         liveRecordVO.setReplaySecond(liveRecordDO.getReplaySecond());
+        liveRecordVO.setReplaySecondString(DateUtil.secToTime(liveRecordVO.getReplaySecond()));
         liveRecordVO.setLiveOrder(liveRecordDO.getLiveOrder());
         liveRecordVO.setStatus(liveRecordDO.getStatus());
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -69,12 +72,15 @@ public class LiveAdminConverter {
         if ( liveRecordVO.getEndDate() != null) {
             liveRecordVO.setEndDateString(sdf.format(liveRecordVO.getEndDate()));
         }
-        if (liveRecordDO.getStatus() == 1)
+        if (liveRecordDO.getStatus() == NORMAL_LIVE.getStatus()) {
             liveRecordVO.setStatusString("上架");
-        else if (liveRecordDO.getStatus() == 2)
-            liveRecordVO.setStatusString("删除");
-        else
+        }
+        else if (liveRecordDO.getStatus() == OFF_SHELVE_LIVE.getStatus()) {
             liveRecordVO.setStatusString("下架");
+        }
+        else {
+            liveRecordVO.setStatusString("删除");
+        }
         liveRecordVO.setGmtCreated(liveRecordDO.getGmtCreated());
         liveRecordVO.setGmtModified(liveRecordDO.getGmtModified());
         return liveRecordVO;
@@ -131,10 +137,11 @@ public class LiveAdminConverter {
         liveAdminPageQuery.setPageNo(liveAdminQuery.getPageNumber());
         liveAdminPageQuery.setPageSize(liveAdminQuery.getPageSize());
         liveAdminPageQuery.setLiveRecordStatus(liveAdminQuery.getLiveRecordStatus());
+        liveAdminPageQuery.setLiveTitle(liveAdminQuery.getLiveTitle());
         if (liveAdminQuery.getLiveOrder() != null) {
-            if (liveAdminQuery.getLiveOrder().intValue() == 1)
+            if (liveAdminQuery.getLiveOrder().intValue() == START_TIME_DESC.getKey())
                 liveAdminPageQuery.setLiveOrder(START_TIME_DESC);
-            else if (liveAdminQuery.getLiveOrder().intValue() == 2)
+            else if (liveAdminQuery.getLiveOrder().intValue() == VIEW_COUNT_DESC.getKey())
                 liveAdminPageQuery.setLiveOrder(VIEW_COUNT_DESC);
             else
                 liveAdminPageQuery.setLiveOrder(LIVE_WEIGHT_DESC);
@@ -152,5 +159,19 @@ public class LiveAdminConverter {
         if (liveRoomQuery.getStatus() != null)
             liveRoomPageQuery.setStatus(liveRoomQuery.getStatus().intValue());
         return liveRoomPageQuery;
+    }
+
+    // 关闭直播房间
+    public static CloseLiveRoomDTO CloseLiveRoomVO2CloseLiveRoomDTO(CloseLiveRoomVO closeLiveRoomVO) {
+        if (closeLiveRoomVO == null) {
+            return null;
+        }
+        CloseLiveRoomDTO closeLiveRoomDTO = new CloseLiveRoomDTO();
+        if (!closeLiveRoomVO.getCloseHours().equals("open")){
+            closeLiveRoomDTO.setCloseHours(Integer.valueOf(closeLiveRoomVO.getCloseHours()).intValue());
+        }
+        closeLiveRoomDTO.setCloseReason(closeLiveRoomVO.getCloseReason());
+        closeLiveRoomDTO.setLiveRoomId(closeLiveRoomVO.getLiveRoomId());
+        return closeLiveRoomDTO;
     }
 }

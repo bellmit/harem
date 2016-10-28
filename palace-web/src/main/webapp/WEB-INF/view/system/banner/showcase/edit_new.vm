@@ -226,7 +226,7 @@
                 return false;
             }
             var isRegion = false;
-            openModalForForm(actionDefaultPath + '/banner/showcase/chooseContent?code='+code+"&type="+type,'选择',function() {
+            openModalForForm(actionDefaultPath + '/banner/showcase/chooseContent?code='+code+"&type="+type,'选择',function(win) {
                 if(multiselect == "true"){
                     var sce = win.getItemss();
                     console.log(JSON.stringify(sce));
@@ -306,7 +306,7 @@
                       +" info="+info+" title="+title +" summary="+summary+" imgUrl="+imgUrl
                       +" content="+content+" operationContent="+operationContent+" operationId="+operationId
                       +" operationDetailId="+radioIdVal+" operationContentZH="+operationContentZH
-                      +" appVersionCode="+appVersionCode+" fullScreen="+isFullScreen);
+                      +" appVersionCode="+appVersionCode+" fullgeScreen="+isFullScreen);
 
             if(null == serialNo || ""==serialNo || isNaN(serialNo)){
                 var msg = new $.zui.Messager('权重请输入数字', {placement: 'center',type:'warning',time:'1000'});

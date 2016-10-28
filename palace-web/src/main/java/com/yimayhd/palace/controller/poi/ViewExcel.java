@@ -2,6 +2,7 @@ package com.yimayhd.palace.controller.poi;
 
 import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.PageVO;
+import com.yimayhd.palace.enums.ExportType;
 import com.yimayhd.palace.model.enums.OrderShowStatus;
 import com.yimayhd.palace.model.export.ExportGfOrder;
 import com.yimayhd.palace.model.query.ExportQuery;
@@ -50,7 +51,16 @@ public class ViewExcel extends AbstractExcelView {
     protected void buildExcelDocument(Map<String, Object> obj, HSSFWorkbook workbook, HttpServletRequest request, HttpServletResponse response)throws Exception {
         OutputStream ouputStream = response.getOutputStream();
         try {
-            String fileName = handleExportGfOrder(obj, workbook);
+            String fileName = "";
+            Object objType = obj.get("type");
+            ExportType eType = ExportType.getByType( Integer.parseInt(objType==null?"":objType.toString()) );
+            if( null != eType ){
+                if(ExportType.EXPORT_GF.getType() == eType.getType()){
+                    fileName = handleExportGfOrder(obj, workbook);
+                }else if(ExportType.EXPORT_MSG_MOBILE.getType() == eType.getType()){
+                    fileName = handleExportMSGMobile(obj, workbook);
+                }
+            }
             fileName = PoiExcelUtils.encodeFilename(fileName, request);
             response.setContentType("application/vnd.ms-excel");
             response.setHeader("Content-disposition", "attachment;filename="+ fileName);
@@ -64,6 +74,9 @@ public class ViewExcel extends AbstractExcelView {
 
     }
 
+    public String handleExportMSGMobile(Map<String, Object> obj,HSSFWorkbook workbook){
+        return null;
+    }
     public String handleExportGfOrder(Map<String, Object> obj,HSSFWorkbook workbook){
         String filename =obj.get("fileName").toString();
         //这里可以创建多个sheet。

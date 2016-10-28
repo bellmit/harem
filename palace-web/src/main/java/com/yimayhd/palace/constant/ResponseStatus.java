@@ -15,6 +15,7 @@ public enum ResponseStatus {
     FILE_TO_BIG(4003, "文件过大！"),
     DATA_USER_DELETE(4004, "用户已删除！"),
     UNSUCCESSFUL(-200, "执行失败！"),
+    REPEATSUBMIT(-201, "执行失败,请勿重复提交！"),
     ;
 
     public Integer VALUE;

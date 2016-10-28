@@ -1,0 +1,141 @@
+#set($layout = "/system/layout/layout-new.vm")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+#set($title = "App推送详情")
+#set($styles = [
+    "$!rs_js_css_path_jiuxiu/css/zui.min.css",
+	"$!rs_js_css_path_jiuxiu/css/style.css",
+	"$!rs_js_css_path_jiuxiu/css/validform.css",
+	"$!rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css",
+	"$!rs_js_css_path_jiuxiu/css/datetimepicker.min.css",
+	"$!rs_js_css_path_jiuxiu/css/push-message-edit.css"
+])
+<form class="" id="frmEdit">
+    <input type="hidden" name="id" id="id" value="$!pushVO.id">
+    <table class="table form-table">
+        <tr>
+            <th><span class="text-red">*</span>推送领域：</th>
+            <td>
+                <select class="form-control input-text" name="sendDomainId" disabled="disabled" id="domain">
+                    #foreach($domainType in $domainTypeList)
+                        <option value="$!{domainType.type}" #if($!pushVO.domain==$!domainType.type) selected #end>$!{domainType.desc}</option>
+                    #end
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="text-red">*</span>推送主题：</th>
+            <td>
+                <input type="text" class="form-control input-text" name="subject" disabled="disabled" id="subject"
+                       value="$!{pushVO.subject}" placeholder="请输入推送主题">
+            </td>
+        </tr>
+        <tr>
+            <th><span class="text-red">*</span>推送类型：</th>
+            <td>
+                <select type="text" class="form-control input-text" name="pushType" disabled="disabled" id="type">
+                    #foreach($pushType in $pushTypeList)
+                        <option value="$!{pushType.code}" #if($!pushVO.pushType==$!pushType.code) selected #end>$!{pushType.desc}</option>
+                    #end
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="text-red">*</span>消息栏标题：</th>
+            <td>
+                <select class="form-control input-text-small select" disabled="disabled" data-target=".input-box">
+                    <option value="1" #if($stringUtil.isNullOrEmpty($!pushVO.msgTitle)) selected #end>空</option>
+                    <option value="2" #if($stringUtil.isNotNullOrNotEmpty($!pushVO.msgTitle)) selected #end>输入</option>
+                </select>
+                <span class="input-box">
+						<input type="text" class="form-control input-text-small" name="msgTitle" disabled="disabled" id="messageTitle"
+                               value="$!{pushVO.msgTitle}" placeholder="请输入消息栏标题">
+					</span>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="text-red">*</span>消息栏内容：</th>
+            <td>
+                <select class="form-control input-text-small select" disabled="disabled" data-target=".input-box">
+                    <option value="1" #if($stringUtil.isNullOrEmpty($!pushVO.msgContent)) selected #end>空</option>
+                    <option value="2" #if($stringUtil.isNotNullOrNotEmpty($!pushVO.msgContent)) selected #end>输入</option>
+                </select>
+                <span class="input-box">
+						<input type="text" class="form-control input-text-small" disabled="disabled" name="msgContent"
+                               id="messageContent" value="$!{pushVO.msgContent}" placeholder="请输入消息栏内容">
+					</span>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="text-red">*</span>推送内容：</th>
+            <td>
+                <textarea class="form-control input-text limit" name="pushContent" disabled="disabled" id="content" rows="4" cols="20"
+                          placeholder="请输入推送内容">$!{pushVO.pushContent}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="text-red">*</span>设置跳转：</th>
+            <td>
+                <div class="jump-setting-box">
+                    <div class="jump-setting-item">
+                        <span class="txt">选择页面：</span>
+                        <select class="form-control input-text-small" id="selectPage" disabled="disabled" name="operation">
+                            <option value="0">请选择</option>
+                            #foreach($!operations in $operationDOs)
+                                <option radioHtml="$!utilHtml.appendHtml($!operations.listOperationDetail,$!operationDetailId)" id="$!operations.operactio.id" value="$!operations.operactio.code"
+                                        operationid="$!operations.operactio.id" #if($!pushVO.operation == $!operations.operactio.code) selected = 'selected' #end >$!operations.operactio.name</option>
+                            #end
+                        </select>
+                    </div>
+                    <div id="radioHtml" class="jump-setting-item padding"></div>
+                    <div class="jump-setting-item">
+                        <a href="javascript:void(0);" class="btn btn-primary" id="btnSelectContent" style="width:100px">选择内容</a>
+                    </div>
+                    <div class="jump-setting-item">
+                        <input type="hidden" name="operationDetail" id="operationDetailId" value="">
+                        <input type="hidden" name="operationContent" id="chosId" value="$!pushVO.operationContent">
+                        <input type="hidden" name="selectOpContent" id="selectOpContent" value="$!pushVO.selectOpContent">
+                        <span class="txt">内容展示：</span><span id="showContent">$!{pushVO.selectOpContent}</span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th><span class="text-red">*</span>推送对象：</th>
+            <td>
+                <select class="form-control input-text mb10 select" data-target=".upload" disabled="disabled" name="pushModelType"
+                        id="userType">
+                    #foreach($targetType in $rcDelaySendTargetType)
+                        <option value="$!{targetType.code}" #if($!pushVO.pushModelType==$!targetType.code) selected #end>$!{targetType.desc}</option>
+                    #end
+                </select>
+                 #if($stringUtil.isNotNullOrNotEmpty($!pushVO.pushModelFilePath))
+                     <div class="input-group a upload">
+						<input type="text" class="form-control" name="fileName" id="fileName" style="width:400px;" disabled="disabled" value="$!pushVO.fileName">
+						<div class="input-group-btn">
+							<a href="$utilWebconfig.getTfsRootPath()$!pushVO.pushModelFilePath" class="btn btn-default download" download="$!pushVO.fileName" type="button"><i class="icon icon-download-alt"></i>下载</a>
+						</div>
+						<input type="hidden" name="pushModelFilePath" id="pushModelFilePath" value="$!pushVO.pushModelFilePath">
+					</div>
+                #end
+            </td>
+        </tr>
+        <tr>
+            <th><span class="text-red">*</span>推送时间：</th>
+            <td>
+                <input type="text" class="form-control input-text time" style="width:210px;"  disabled="disabled" name="pushDate" id="time"
+                       value="$!utilDate.date2String($!pushVO.pushDate)">
+            </td>
+        </tr>
+    </table>
+    <!--<div class="mb10" style="text-align:center;">
+        <button type="button" class="btn btn-default" style="width:100px" id="btnCancel">取消</button>
+    </div>-->
+</form>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-css.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+<script type="text/javascript">
+    seajs.use('module/md.push-message-edit.js');
+</script>
+

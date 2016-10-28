@@ -21,7 +21,6 @@
     <!--系统默认欢迎页
     <mvc:view-controller path="/" view-name="system/auth/login"/>
     -->
-
     <mvc:annotation-driven/>
 
     <!--jsp文件映射,自动追加前缀和后缀

@@ -1,7 +1,5 @@
 package com.yimayhd.palace.util;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -9,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+
+import org.apache.commons.lang3.StringUtils;
 
 //import org.apache.logging.log4j.LogManager;
 //import org.apache.logging.log4j.Logger;
@@ -333,6 +333,9 @@ public class DateUtil {
 	 * @return the formatted date string
 	 */
 	public static final String format(Date argDate) {
+		if(argDate==null){
+			return null;
+		}
 		return SIMPLE_DATE_FORMAT.get().format(argDate);
 	}
 
@@ -1003,6 +1006,7 @@ public class DateUtil {
 		return format.parse(dataStr + DAY_BEGIN);
 	}
 
+
 	/**
 	 * 周*
 	 * 
@@ -1121,7 +1125,7 @@ public class DateUtil {
 	* @date 2016年8月30日
 	* @Title: parseLong2Time 
 	* @Description: 将毫秒值转换为时长
-	* @param  ms
+	* @param  sec
 	* @param
 	* @return String    返回类型 
 	* @throws
@@ -1152,7 +1156,6 @@ public class DateUtil {
 			}
 		}
 		return sb.toString();
-		
 	}
 
 	/**
@@ -1160,8 +1163,8 @@ public class DateUtil {
 	 * created by zhuhao
 	 * @date 2016年8月30日
 	 * @Title: parseLong2Time
-	 * @Description: 将毫秒值转换为时长
-	 * @param  ms
+	 * @Description: 将毫秒值转换为时长类似1分2秒
+	 * @param  sec
 	 * @param
 	 * @return String    返回类型
 	 * @throws
@@ -1180,4 +1183,71 @@ public class DateUtil {
 		}
 		return sb.toString();
 	}
+
+	/**
+	 * 字符串转日期
+	 * @param dataStr
+	 * @return
+	 * @throws ParseException
+     */
+	public static Date formatStrTimeForDate(String dataStr) throws ParseException {
+		SimpleDateFormat format = new SimpleDateFormat(DATE_TIME_FORMAT);
+		return format.parse(dataStr);
+	}
+	
+	/**
+	 *
+	 * created by zhuhao
+	 * @date 2016年8月30日
+	 * @Title: parseLong2Time
+	 * @Description: 将毫秒值转换为时长类似1h2'23'
+	 * @param  time
+	 * @param
+	 * @return String    返回类型
+	 * @throws
+	 */
+	public static String secToTime(int time) {
+		String timeStr = null;
+		int hour = 0;
+		int minute = 0;
+		int second = 0;
+		if (time <= 0)
+			return "00'00''";
+		else {
+			minute = time / 60;
+			if (minute < 60) {
+				second = time % 60;
+				timeStr = unitFormat(minute) + "'" + unitFormat(second)+"''";
+			} else {
+				hour = minute / 60;
+//				if (hour > 99)
+//					return "99:59:59";
+				minute = minute % 60;
+				second = time - hour * 3600 - minute * 60;
+				timeStr = unitFormat(hour) + "h" + unitFormat(minute) + "'" + unitFormat(second)+"''";
+			}
+		}
+		return timeStr;
+	}
+
+	public static String unitFormat(int i) {
+		String retStr = null;
+		if (i >= 0 && i < 10)
+			retStr = "0" + Integer.toString(i);
+		else
+			retStr = "" + i;
+		return retStr;
+	}
+
+	public static Date string2Date(String date){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		Date d = null;
+		try {
+			d = sdf.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return d;
+	}
+
 }

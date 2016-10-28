@@ -50,7 +50,7 @@
         <property name="application" ref="dubboApplicationConfig"/>
         <property name="registry" ref="dubboRegistryConfig"/>
         <property name="timeout" value="${consumer.dubbo.timeout}"/>
-        <property name="check" value="${consumer.dubbo.msg.check}"/>
-        <property name="version" value="${consumer.dubbo.msg.version}"/>
+        <property name="check" value="${consumer.dubbo.sns.check}"/>
+        <property name="version" value="${consumer.dubbo.sns.version}"/>
     </bean>
 </beans>

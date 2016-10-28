@@ -1,0 +1,134 @@
+#set($layout = "/system/layout/layout-new.vm")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+#set($title = "短信推送列表")
+#set($styles = [
+    "$!rs_js_css_path_jiuxiu/css/zui.min.css",
+	"$!rs_js_css_path_jiuxiu/css/style.css",
+	"$!rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css",
+	"$!rs_js_css_path_jiuxiu/css/datetimepicker.min.css",
+	"$!rs_js_css_path_jiuxiu/css/push-sms-list.css"
+])
+<form id="frmSearch" name="frmSearch" action="$!utilWebconfig.getActionDefaultFontPath()/push/list?pushType=1" method="GET">
+    <div class="search-box">
+        <div class="input-group">
+			<span class="input-group-btn">
+				<button class="btn btn-default" type="button">推送主题：</button>
+			</span>
+            <input type="text" class="form-control" name="subject" id="subject" value="$!query.subject">
+        </div>
+        <div class="input-group">
+			<span class="input-group-btn">
+		            <button class="btn btn-default" type="button">创建时间</button>
+		        </span>
+            <input type="text" class='form-control form-date date start-time' placeholder='' readonly name="beginPushDate" id="beginPushDate"
+                   value="$!date.format('yyyy-MM-dd HH:mm:ss',$!query.beginPushDate)">
+            <span class="input-group-addon fix-border fix-padding date-addon">至</span>
+            <input type="text" class='form-control form-date date end-time' placeholder='' readonly name="endPushDate" id="endPushDate"
+                   value="$!date.format('yyyy-MM-dd HH:mm:ss',$!query.endPushDate)">
+        </div>
+        <div class="input-group">
+			<span class="input-group-btn">
+					<button class="btn btn-default" type="button">对象：</button>
+				</span>
+            <select class="form-control" name="pushModelType">
+                <option value="0" #if($!query.pushModelType == 0) selected = 'selected' #end >全部</option>
+                <option value="1" #if($!query.pushModelType == 1) selected = 'selected' #end >全部用户</option>
+                <option value="2" #if($!query.pushModelType == 2) selected = 'selected' #end >特定用户</option>
+            </select>
+        </div>
+        <div class="input-group">
+			<span class="input-group-btn">
+					<button class="btn btn-default" type="button">状态：</button>
+            </span>
+            <select class="form-control" name="status">
+                <option value="0" #if($!query.status == 0) selected = 'selected' #end >全部</option>
+                <option value="99" #if($!query.status == 99) selected = 'selected' #end >已发送</option>
+                <option value="98" #if($!query.status == 98) selected = 'selected' #end >待发送</option>
+                <option value="2" #if($!query.status == 2) selected = 'selected' #end >取消发送</option>
+            </select>
+        </div>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary" id="btnQuery">查询</button>
+            <input type="hidden" value="1" name="pushType">
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" id="btnReset">重置</button>
+        </div>
+    </div>
+    <div class="mb10">
+        <button class="btn btn-primary addBtn" id="btnAdd">创建推送</button>
+    </div>
+    <table class="table table-hover table-bordered" id="tbSMSList">
+        <thead>
+        <tr>
+            <th style="width:60px">
+                序号
+            </th>
+            <th style="width:300px">
+                推送主题
+            </th>
+            <th style="width:200px">
+                创建时间
+            </th>
+            <th style="width:200px">
+                发送时间
+            </th>
+            <th style="width:400px">
+                发送内容
+            </th>
+            <th style="width:100px">
+                对象
+            </th>
+            <th style="width:100px">
+                成功条数
+            </th>
+            <th style="width:100px">
+                提交人数
+            </th>
+            <th style="width:100px">
+                操作人ID
+            </th>
+            <th style="width:100px">
+                状态
+            </th>
+            <th style="width:300px">
+                操作
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+			#set($list = $pageVo.itemList) #foreach($entity in $list)
+        <tr>
+            <td>$entity.id</td>
+            <td>$!entity.subject</td>
+            <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!entity.createDate) </td>
+            <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!entity.pushDate) </td>
+            <td>$!entity.pushContent</td>
+            <td>#PUSH_OBJECT($!entity.pushModelType)</td>
+            <td>$!entity.sendPeople</td>
+            <td>$!entity.seePeople</td>
+            <td>$!entity.operationUserId</td>
+            <td>$!entity.statusStr</td>
+            <td>
+				#if(($!entity.status == 1) || ($!entity.status == 98) )##处理中 待发送
+                    <button type="button" class="btn btn-primary edit" status="$!entity.status" entityId="$entity.id">编辑</button>
+                    <button type="button" class="btn btn-primary cancel" status="$!entity.status" entityId="$entity.id">取消</button>
+				#elseif(($!entity.status == 2) || ($!entity.status == 99))##取消发送 已发送#
+                    <button type="button" class="btn btn-primary view" status="$!entity.status" entityId="$entity.id">查看</button>
+				#end
+            </td>
+        </tr>
+		#end
+        </tbody>
+    </table>
+	#parse("/pagination.vm")
+</form>
+
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-css.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+<script>seajs.use('module/md.push-sms-list.js');</script>
+<script>
+</script>

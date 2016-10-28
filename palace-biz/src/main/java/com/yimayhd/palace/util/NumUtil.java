@@ -1,12 +1,18 @@
 package com.yimayhd.palace.util;
 
+import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 /**
  * Created by Administrator on 2015/10/27.
  */
 public class NumUtil {
-
+    private static final Logger logger = LoggerFactory.getLogger(NumUtil.class);
     /**
      * 金额转换（分转换为元:#0.00）
      * @param money
@@ -66,8 +72,53 @@ public class NumUtil {
             return 0;
         }
     }
+
+    /**
+     * 获取商品单价
+      * @param money 订单金额(分)
+     * @param num 总数量
+     * @return
+     */
+    public static String getOrderUnitPrice(long money,long num){
+        BigDecimal bmoney = new BigDecimal((double) money/100);
+        BigDecimal bnum = new BigDecimal(num);
+        //logger.info("money={},bmoney={},num={},bnum={}",money,bmoney,num,bnum);
+        BigDecimal amount =bmoney.divide(bnum,BigDecimal.ROUND_HALF_UP);
+        DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+        return  decimalFormat.format(amount).toString();
+    }
+
+    /**
+     * 多个订单编号,默认只显示一个
+     * @param bizNo
+     * @return
+     */
+    public static String getOrderBizNo(String bizNo){
+        String orderBizNo = "";
+        if(StringUtils.isBlank(bizNo)){
+            return orderBizNo;
+        }
+        if(bizNo.indexOf(";")!=-1){
+            orderBizNo = bizNo.split(";")[0];
+        }else{
+            orderBizNo= bizNo;
+        }
+        return orderBizNo;
+    }
+
+    public static boolean isBacthUpdate(String bizNo){
+        if(StringUtils.isBlank(bizNo)){
+            return false;
+        }
+
+        return bizNo.indexOf(";")>-1;
+    }
+
+
     public static void main(String[] args){
-        System.out.println(moneyTransformString("1.99"));
+        System.out.println(getOrderUnitPrice(1,1));
         //System.out.println(totalFee(2,100));
     }
+
+
 }

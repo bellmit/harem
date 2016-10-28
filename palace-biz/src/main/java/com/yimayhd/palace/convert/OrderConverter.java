@@ -269,6 +269,7 @@ public class OrderConverter {
             //return new MainOrder(bizOrderDO,subOrderList);
         }
         MainOrder mainOrder  = new MainOrder(bizOrderDO,subOrderList);
+
         long mainOrderTotalChangeFee  = BizOrderUtil.getActualAmountPaid(bizOrderDO);//订单实际支付金额
         mainOrder.setMainOrderTotalChangeFee(mainOrderTotalChangeFee);
         return mainOrder;

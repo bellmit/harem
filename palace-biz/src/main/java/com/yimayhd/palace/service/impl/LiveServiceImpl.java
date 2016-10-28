@@ -262,6 +262,7 @@ public class LiveServiceImpl implements LiveService {
     public SnsSubjectVO add(SubjectInfoAddVO subjectInfoAddVO) throws Exception {
 
         SubjectInfoAddDTO subjectInfoAddDTO = SubjectInfoAddVO.getSubjectInfoAddDTO(subjectInfoAddVO);
+        subjectInfoAddDTO.setStatus(BaseStatus.DELETED.getType());
         com.yimayhd.snscenter.client.result.BaseResult<SnsSubjectDO> baseResult = snsCenterServiceRef.addSubjectInfo(subjectInfoAddDTO);
         if (null == baseResult) {
             log.error("LiveServiceImpl.add-snsCenterService.addSubjectInfo result is null and parame: " + JSON.toJSONString(subjectInfoAddDTO));

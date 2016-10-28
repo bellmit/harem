@@ -4,7 +4,7 @@
 <div>
     <div class="input-group">
         <span class="input-group-addon">选择直播回放详情</span>
-     <input type="text" class="form-control" name="itemName" id="itemName" placeholder="请输入达人昵称或id">
+     <input type="text" class="form-control" name="itemName" id="itemName" placeholder="请输入直播标题或id">
      <span class="input-group-btn"><button class="btn btn-default search" type="button">搜索</button>
      </span>
     </div>
@@ -14,7 +14,7 @@
         <span>已选择：</span>
         <span class="checked-resource"></span>
     </div>
-#*分页*#
+    #*分页*#
     <div class="pageBar">
     </div>
 </div>
@@ -22,14 +22,13 @@
     // 初始化分页条
     pageUtils.intall(".pageBar", "$!{utilWebconfig.getActionDefaultFontPath()}/banner/showcase/chooseContents?code=$!code&type=$!type",
             function(query, pageVo){
-                $("#itemName").val(query);
+                $("#itemName").val(query && query.tags);
                 showData(pageVo.itemList);
             });
     $(".search").click(function() {
         pageUtils.request(1, $(".pageSize").val(),{tags:$("#itemName").val()});
     });
-    
-    
+
     var checks = {};
     $(".search").click(function() {
         pageUtils.request(1, $(".pageSize").val(),{tags:$("#itemName").val()});
@@ -86,7 +85,7 @@
             resource_table[item.id] = item;
             var tr = $("<tr id='resource_"+item.id+"_"+item.name+"'></tr>");
             tr.append($("<td>"+item.value.id+"</td>"));
-            tr.append($("<td><img src="+item.value.liveCover+" width='100' height='100'></td>"));
+            tr.append($("<td><img src='$utilWebconfig.getTfsRootPath()"+item.value.liveCover+"' width='100' height='100'></td>"));
             if(null == item.value.liveTitle || item.value.liveTitle.length==0){
                 tr.append($("<td>"+ ""+"</td>"));
             }else{
@@ -107,7 +106,7 @@
             tr.append($("<td>"+ item.value.userId+"</td>"));
             tr.append($("<td>"+ item.value.startDateString+"</td>"));
             tr.append($("<td>"+ item.value.endDateString+"</td>"));
-            tr.append($("<td>"+ item.value.replaySecond+"</td>"));
+            tr.append($("<td>"+ item.value.replaySecondString+"</td>"));
             tr.append($("<td>"+ item.value.viewCount+"</td>"));
 
             tbody.append(tr);

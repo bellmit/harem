@@ -160,15 +160,15 @@
     }
 	
 		var LogoPicloadCallBack = function(data){
-        if(data && data.status == 200){
-		    console.log(data.data);
-            $('#logoUrlUploadFileReturnInput').val(data.data);
-            $('#logoUrlUploadFileReturnImg').attr('src',tfsRootPath + data.data);
+            if(data && data.status == 200){
+                console.log(data.data);
+                $('#logoUrlUploadFileReturnInput').val(data.data);
+                $('#logoUrlUploadFileReturnImg').attr('src',tfsRootPath + data.data);
 
-        }else{
-            layer.msg('图片上传失败，请重试', {icon: 2});
+            }else{
+                layer.msg('图片上传失败，请重试', {icon: 2});
+            }
         }
-    }
 	
       $(function(){
 				$('.selectUserBtn').click(function(){

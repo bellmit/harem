@@ -2,13 +2,13 @@ package com.yimayhd.palace.controller.live;
 
 import com.yimayhd.commentcenter.client.domain.ComTagDO;
 import com.yimayhd.commentcenter.client.enums.TagType;
-import com.yimayhd.live.client.domain.record.CloseLiveRoomDTO;
 import com.yimayhd.live.client.domain.record.UpdateLiveOrderDTO;
 import com.yimayhd.live.client.domain.record.UpdateLiveRecordStatusDTO;
 import com.yimayhd.palace.base.BaseController;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.biz.LiveAdminBiz;
 import com.yimayhd.palace.error.PalaceReturnCode;
+import com.yimayhd.palace.model.LiveAdmin.CloseLiveRoomVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRecordVO;
 import com.yimayhd.palace.model.LiveAdmin.LiveRoomVO;
 import com.yimayhd.palace.model.query.LiveAdminQuery;
@@ -53,7 +53,7 @@ public class LiveAdminController extends BaseController {
     public String liveList(Model model, LiveAdminQuery liveAdminQuery) throws Exception {
         try {
             liveAdminQuery.setLiveStatus(START_LIVE.getStatus());
-            PageVO<LiveRecordVO> pageVo = liveAdminService.getPageLiveRecord(liveAdminQuery);
+            PageVO<LiveRecordVO> pageVo = liveAdminBiz.getPageLiveRecord(liveAdminQuery);
             model.addAttribute("pageVo", pageVo);
             model.addAttribute("liveAdminQuery", liveAdminQuery);
             model.addAttribute("itemList", pageVo.getItemList());
@@ -92,7 +92,7 @@ public class LiveAdminController extends BaseController {
     public String playBackList(Model model, LiveAdminQuery liveAdminQuery) throws Exception {
         try {
             liveAdminQuery.setLiveStatus(REPLAY_LIVE.getStatus());
-            PageVO<LiveRecordVO> pageVo = liveAdminService.getPageLiveRecord(liveAdminQuery);
+            PageVO<LiveRecordVO> pageVo = liveAdminBiz.getPageLiveRecord(liveAdminQuery);
             Model pageVo1 = model.addAttribute("pageVo", pageVo);
             model.addAttribute("liveAdminQuery", liveAdminQuery);
             model.addAttribute("itemList", pageVo.getItemList());
@@ -130,7 +130,7 @@ public class LiveAdminController extends BaseController {
     @RequestMapping(value = "/rooms", method = RequestMethod.GET)
     public String rooms(Model model, LiveRoomQuery liveRoomQuery) throws Exception {
         try {
-            PageVO<LiveRoomVO> pageVo = liveAdminService.getPageLiveRoom(liveRoomQuery);
+            PageVO<LiveRoomVO> pageVo = liveAdminBiz.getPageLiveRoom(liveRoomQuery);
             model.addAttribute("pageVo", pageVo);
             model.addAttribute("liveRoomQuery", liveRoomQuery);
             model.addAttribute("itemList", pageVo.getItemList());
@@ -146,10 +146,10 @@ public class LiveAdminController extends BaseController {
      **/
     @RequestMapping(value = "/closeLiveRoom", method = RequestMethod.POST)
     @ResponseBody
-    public BizResult<String> closeLiveRoom(CloseLiveRoomDTO closeLiveRoomDTO) {
+    public BizResult<String> closeLiveRoom(CloseLiveRoomVO closeLiveRoomVO) {
         BizResult<String> bizResult = new BizResult<>();
         try {
-            bizResult = liveAdminService.closeLiveRoom(closeLiveRoomDTO);
+            bizResult = liveAdminService.closeLiveRoom(closeLiveRoomVO);
             return bizResult;
         } catch (Exception e) {
             log.error(e.getMessage(), e);

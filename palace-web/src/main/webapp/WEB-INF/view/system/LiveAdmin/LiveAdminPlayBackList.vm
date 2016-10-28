@@ -85,7 +85,7 @@
             <tr>
                 <td>$!{item.id}</td>
                 <td>
-                    <img src="$!{item.liveCover}" width="150" height="90">
+                    <img src="$!utilWebconfig.getTfsRootPath()$!{item.liveCover}" width="150" height="90">
                 </td>
                 <td>
                     $!{item.liveTitle}
@@ -109,7 +109,7 @@
                     $!{item.endDateString}
                 </td>
                 <td>
-                    $!{item.replaySecond}
+                    $!{item.replaySecondString}
                 </td>
                 <td>
                     $!{item.viewCount}
@@ -121,13 +121,13 @@
                     $!{item.statusString}
                 </td>
                 <td>
-                    #if($item.status != 2)
+                    #if($item.status != 2 && $item.replaySecond >= 180)
                         <button type="button" class="btn btn-primary weight" liveOrder="$!{item.liveOrder}" liveRecordId="$!{item.id}">编辑权重</button>
                     #end
-                    #if($item.status==3)
+                    #if($item.status==3 && $item.replaySecond >= 180)
                         <button type="button" class="btn btn-primary on" liveRecordId="$!{item.id}">上架</button>
                     #end
-                    #if($item.status==1)
+                    #if($item.status==1 && $item.replaySecond >= 180)
                         <button type="button" class="btn btn-primary off" liveRecordId="$!{item.id}">下架</button>
                     #end
                     #if($item.replayUrl.size()>0)
@@ -144,6 +144,8 @@
 #*分页*#
     #parse("/page.vm")
     #pageStyle("playBackListForm")
+
+
 
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/jquery-1.11.0.js"></script>
 <script type="text/javascript" src="http://s0.test.jiuxiulvxing.com/PC_Admin/src/js/plugin/zui.min.js"></script>
@@ -201,6 +203,7 @@
 
     // 设置权重
     function setWeight() {
+
         $("#tbPlayBackList").on("click", ".weight", function () {
             var liveRecordId = $(this).attr("liveRecordId");
             layer.open({
@@ -210,8 +213,11 @@
                 title: '设置权重',
                 skin:"layui-layer-prompt",
                 shade: 0.6, //遮罩透明度
-                content: '<div style="padding:30px 50px;"><input type="text" class="layui-layer-input" placeholder="请输入1~9999范围内数字"></div>',
-                yes: function(index,layero) {
+                content: '<div style="padding:30px 50px;"><input type="text" class="layui-layer-input" id="liverOder_input" placeholder="请输入1~9999范围内数字" autofocus="autofocus"></div>',
+                success: function () {
+                     document.getElementById('liverOder_input').focus()
+                },
+                 yes: function(index,layero) {
                     var weight=layero.find(".layui-layer-input").val().trim();
                     if(weight.length==0){
                         layer.msg("请输入权重",{icon:2,time:1500});
@@ -237,6 +243,7 @@
 
         //初始化时间控件
         $(".form-date").datetimepicker({
+            language: 'zh-CN',
             weekStart: 1,
             todayBtn: 1,
             autoclose: 1,

@@ -1,0 +1,204 @@
+#set($layout = "/system/layout/layout-new.vm")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+#set($title = "订单状态修改")
+#set($styles = [
+	"$!rs_js_css_path_jiuxiu/css/zui.min.css",
+	"$!rs_js_css_path_jiuxiu/js/plugin/layer-v2.3/skin/layer.css",
+	"$!rs_js_css_path_jiuxiu/css/changeOrderStatus.css"
+])
+<div class="search-box">
+		<form id="orderStatusChangeParam" name="orderStatusChangeParam" action="$!utilWebconfig.getActionDefaultFontPath()/order/status/queryList" method="GET" role="form">
+			<table class="table no-border">
+				<tr>
+					<td class="v-align-t" style="width:100px;text-align:right" >
+						订单编号:
+					</td>
+					<td style="width:400px">
+						<textarea class="form-control" name="formOrderIdStr" rows="8" cols="40" id="orderNo" placeholher="请输入订单编号，使用Enter或者斜杠/分隔">$!queryModel.formOrderIdStr</textarea>
+
+					</td>
+					<td class="v-align-t" rowspan="2">
+						<button type="submit" class="btn btn-primary" id="btnQuery">查询</button>
+						<button type="button" class="btn btn-primary" id="btnClear" >清除</button>
+					</td>
+				</tr>
+				<tr>
+					<td  style="width:100px;text-align:right">
+						订单状态:
+					</td>
+					<td style="width:400px">
+						<select name="orderStat" id="orderStat" class="form-control">
+							<option value="3" #if($!queryModel.orderStat == '3') selected #end>处理中/待确认/已付款</option>
+							<option value="6" #if($!queryModel.orderStat == '6') selected #end>待出行/待使用/预定成功/已发货</option>
+						</select>
+					</td>
+				</tr>
+                <input type="hidden" id="queryOrderNo" name="bizOrderIdStr" value="$!queryModel.bizOrderIdStr"/>
+			</table>
+		</form>
+	</div>
+	<div class="mb10">
+		<button type="button" class="btn btn-primary" id="btnBatchChange">批量修改</button>
+	</div>
+	<table class="table table-hover table-bordered" id="tbOrderList">
+		<thead>
+			<tr>
+				<th style="text-align:left">
+					<input type="checkbox" name="checkAll" id="checkAll">全选
+				</th>
+				<th>
+					商品
+				</th>
+				<th>
+					单价
+				</th>
+				<th>
+					数量
+				</th>
+				<th>
+					类型
+				</th>
+				<th>
+					买家
+				</th>
+				<th>
+					店铺名称/昵称
+				</th>
+				<th>
+					商户编号
+				</th>
+				<th>
+					订单状态
+				</th>
+				<th>
+					订单总额
+				</th>
+				<th>
+					操作
+				</th>
+			</tr>
+		</thead>
+		#foreach($tcMainOrder in $tcMainOrderVOList)
+		<tbody>
+				<tr>
+					<td style="text-align:left">
+						<input type="checkbox" class="order-check" orderid="$!tcMainOrder.bizOrder.bizOrderId">
+					</td>
+					<td colspan="10">
+						<div class="fl">
+							订单号：$!tcMainOrder.bizOrder.bizOrderId
+						</div>
+						<div class="fr">
+							下单时间：$!date.format(
+							'yyyy-MM-dd HH:mm:ss',$!tcMainOrder.bizOrder.createTime)
+						</div>
+					</td>
+				</tr>
+				<!--for 子订单-->
+				#set( $size = $tcMainOrder.tcDetailOrdersView.size())
+				#foreach($subOrder in $tcMainOrder.tcDetailOrdersView)
+				<tr>
+					<td>
+					</td>
+					<td>
+						<div class="goods-item">
+							<div class="item-img" >
+								<img src="$!{utilWebconfig.getTfsRootPath()}$!{imageUtil.getImgUrl($!{subOrder.itemPic}, 160)}">
+							</div>
+							<div class="item-text">
+								#ROUTE_ORDER_LIST_SKU($!subOrder.bizOrder.orderType)
+							</div>
+						</div>
+					</td>
+					<td>
+						$!utilNum.getOrderUnitPrice($!subOrder.subOrderActualFee,$!subOrder.bizOrder.buyAmount)
+					</td>
+					<td>
+						$!subOrder.bizOrder.buyAmount
+					</td>
+					<td>
+						#ORDER_BIZ_TYPES($!tcMainOrder.bizOrder.orderType)
+					</td>
+					#if($velocityCount == 1)
+                        <td rowspan="$size">
+                            <div class="t-c" >
+								$!tcMainOrder.userDO.nickname
+                            </div>
+                            <div class="t-c">
+								$!utilPhone.phoneFormat($!tcMainOrder.userDO.mobileNo)
+                            </div>
+                        </td>
+                        <td rowspan="$size">
+							#if($!tcMainOrder.merchantName && $!tcMainOrder.userNick)
+								$!tcMainOrder.merchantName/$!tcMainOrder.userNick
+							#else
+								$!tcMainOrder.merchantName$!tcMainOrder.userNick
+							#end
+                        </td>
+                        <td rowspan="$size">
+							$!tcMainOrder.bizOrder.sellerId
+                        </td>
+                        <td rowspan="$size" class="status">
+							#if($!tcMainOrder.bizOrder.orderType == 3100 || $!tcMainOrder.bizOrder.orderType == 3200
+							|| $!tcMainOrder.bizOrder.orderType == 3300
+							|| $!tcMainOrder.bizOrder.orderType == 3500 || $!tcMainOrder.bizOrder.orderType == 3600)
+                            	    #ORDER_BIZ_STATUS_LINE($!tcMainOrder.bizOrder.orderStatus)
+                                #elseif($!tcMainOrder.bizOrder.orderType == 200)
+								#ORDER_BIZ_STATUS_NORMAL($!tcMainOrder.bizOrder.orderStatus)
+							#elseif($!tcMainOrder.bizOrder.orderType == 1200)
+								#ORDER_BIZ_STATUS_SPOTS($!tcMainOrder.bizOrder.orderStatus)
+							#elseif($!tcMainOrder.bizOrder.orderType == 1100 || $!tcMainOrder.bizOrder.orderType == 3400)
+								#ORDER_BIZ_STATUS_HOTEL($!tcMainOrder.bizOrder.orderStatus)
+							#elseif($!tcMainOrder.bizOrder.orderType == 4000 )
+								#ORDER_BIZ_STATUS_PROCESS($!tcMainOrder.bizOrder.orderStatus)
+							#end
+                        </td>
+                        <td rowspan="$size">
+							$!utilNum.moneyTransform($!tcMainOrder.totalFee) <br/>
+							#if($!order.reValue)
+								#if($!order.reValue > 0) 满$!utilNum.moneyTransform($!tcMainOrder.requirement) <br/> 减$!utilNum.moneyTransform($!tcMainOrder.reValue) #end
+							#end
+
+
+                        </td>
+                        <td rowspan="$size">
+                            <button type="button" class="btn btn-primary detail" orderId="$!tcMainOrder.bizOrder.bizOrderId">详情</button>
+                            <button type="button" class="btn btn-primary edit" orderId="$!tcMainOrder.bizOrder.bizOrderId">修改订单</button>
+                        </td>
+					#end
+
+				</tr>
+				#end
+		</tbody>
+		#end
+	</table>
+	<div id="layerModal">
+		<div class="item">
+			<div class="item-label">
+				<i>*</i>修改后订单状态：
+			</div>
+			<div class="item-control">
+				<select class="form-control" id="orderChangeStatus">
+					<option value="1">已完成</option>
+					<option value="2">已取消</option>
+				</select>
+			</div>
+		</div>
+		<div class="">
+			<div class="item-label">
+				<i>*</i>原因：
+			</div>
+			<div class="item-control">
+				<textarea rows="5" class="form-control" cols="40" id="desc" ></textarea>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/sea.js"></script>
+	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-css.js"></script>
+	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/seajs-preload.js"></script>
+	<script type="text/javascript" src="$rs_js_css_path_jiuxiu/js/config.js"></script>
+	<script type="text/javascript">
+		seajs.use('changeOrderStatus');
+	</script>
+<!--</body>-->
+
