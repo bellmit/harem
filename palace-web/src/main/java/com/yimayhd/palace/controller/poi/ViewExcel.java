@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.yimayhd.palace.base.PageVO;
 import com.yimayhd.palace.enums.ExportType;
 import com.yimayhd.palace.model.enums.OrderShowStatus;
+import com.yimayhd.palace.model.export.ExportAgent;
 import com.yimayhd.palace.model.export.ExportGfOrder;
 import com.yimayhd.palace.model.query.ExportQuery;
 import com.yimayhd.palace.model.trade.MainOrder;
@@ -59,6 +60,8 @@ public class ViewExcel extends AbstractExcelView {
                     fileName = handleExportGfOrder(obj, workbook);
                 }else if(ExportType.EXPORT_MSG_MOBILE.getType() == eType.getType()){
                     fileName = handleExportMSGMobile(obj, workbook);
+                }else if(ExportType.EXPORT_AGENT.getType() == eType.getType()){
+                    fileName = handleExportAgentOrder(obj, workbook);
                 }
             }
             fileName = PoiExcelUtils.encodeFilename(fileName, request);
@@ -154,6 +157,62 @@ public class ViewExcel extends AbstractExcelView {
         setText(cell, "商品编码");
         return sheet;
     }
+    public String handleExportAgentOrder(Map<String, Object> obj,HSSFWorkbook workbook){
+        String filename =obj.get("fileName").toString();
+        //这里可以创建多个sheet。
+        HSSFSheet sheet = assemblyAgentHSSFSheet(filename,workbook);
+        //PageVO page = (PageVO)obj.get("pageVO");
+        List<ExportAgent> list = (List<ExportAgent>)obj.get("ListExportAgent");
+        if(null == list || list.size()==0){
+            return new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"_"+filename+".xls";
+        }
 
+        for (int ii = 0; ii < list.size(); ii++) {
+            int oo = 0;
+            HSSFRow sheetRow = sheet.createRow(ii+1);
+            ExportAgent entity = list.get(ii);
+            sheetRow.createCell(oo).setCellValue(entity.getName());
+            sheetRow.createCell(++oo).setCellValue(entity.getMobile());
+            sheetRow.createCell(++oo).setCellValue(entity.getIdNum());
+            sheetRow.createCell(++oo).setCellValue(entity.getWeixin());
+            sheetRow.createCell(++oo).setCellValue(entity.getLicense());
+            sheetRow.createCell(++oo).setCellValue(entity.getStatus());
+            sheetRow.createCell(++oo).setCellValue(entity.getLevel());
+            sheetRow.createCell(++oo).setCellValue(entity.getStartAt());
+            sheetRow.createCell(++oo).setCellValue(entity.getParentName());
+            sheetRow.createCell(++oo).setCellValue(entity.getArea());
+            sheetRow.createCell(++oo).setCellValue(entity.getCreatedAt());
+        }
+        return new SimpleDateFormat("yyyy-MM-dd").format(new Date())+"_"+filename+".xls";
+    }
+    public HSSFSheet assemblyAgentHSSFSheet(String filename,HSSFWorkbook workbook){
+        HSSFSheet sheet = workbook.createSheet(filename);
+        sheet.setDefaultColumnWidth((int) 12);
 
+        int i = 0,o=0;
+        HSSFCell cell = getCell(sheet, o, o);
+        setText(cell, "代理商姓名");
+        cell = getCell(sheet, o, ++i);
+        setText(cell, "手机号");
+        cell = getCell(sheet, o, ++i);
+        setText(cell, "身份证号");
+        cell = getCell(sheet, o, ++i);
+        setText(cell, "微信号");
+        cell = getCell(sheet, o, ++i);
+        setText(cell, "授权号");
+        cell = getCell(sheet, o, ++i);
+        setText(cell, "状态");
+
+        cell = getCell(sheet, o, ++i);
+        setText(cell, "代理级别");
+        cell = getCell(sheet, o, ++i);
+        setText(cell, "授权日期");
+        cell = getCell(sheet, o, ++i);
+        setText(cell, "推荐代理商姓名");
+        cell = getCell(sheet, o, ++i);
+        setText(cell, "代理地区");
+        cell = getCell(sheet, o, ++i);
+        setText(cell, "加入日期");
+        return sheet;
+}
 }

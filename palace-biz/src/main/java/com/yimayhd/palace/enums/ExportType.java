@@ -8,7 +8,7 @@ import com.yimayhd.ic.client.model.enums.OrderNumFilterEnum;
  * @Description excel文件导出类型
  */
 public enum ExportType {
-    EXPORT_GF(1, "gf订单导出"), EXPORT_MSG_MOBILE(2, "短信推送-手机号");
+    EXPORT_GF(1, "gf订单导出"), EXPORT_MSG_MOBILE(2, "短信推送-手机号"),EXPORT_AGENT(3,"代理商");
     private int type;
     private String desc;
 

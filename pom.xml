@@ -46,6 +46,7 @@
 		<solrsearch.version>1.0.4-SNAPSHOT</solrsearch.version>
 		<selleradmin.version>1.1.1-SNAPSHOT</selleradmin.version>
 		<msgcenter.version>1.0.3.3-SNAPSHOT</msgcenter.version>
+		<gf.version>1.0.0-SNAPSHOT</gf.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -755,6 +756,17 @@
 				<artifactId>sellerAdmin-client</artifactId>
 				<version>${selleradmin.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.yimayhd.gf</groupId>
+				<artifactId>gf-client</artifactId>
+				<version>${gf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.supercsv</groupId>
+				<artifactId>super-csv</artifactId>
+				<version>2.4.0</version>
+			</dependency>
+
 		</dependencies>
 
 
