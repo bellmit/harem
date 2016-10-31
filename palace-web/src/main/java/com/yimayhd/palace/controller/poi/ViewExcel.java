@@ -179,6 +179,7 @@ public class ViewExcel extends AbstractExcelView {
             sheetRow.createCell(++oo).setCellValue(entity.getStatus());
             sheetRow.createCell(++oo).setCellValue(entity.getLevel());
             sheetRow.createCell(++oo).setCellValue(entity.getStartAt());
+            sheetRow.createCell(++oo).setCellValue(entity.getEndAt());
             sheetRow.createCell(++oo).setCellValue(entity.getParentName());
             sheetRow.createCell(++oo).setCellValue(entity.getArea());
             sheetRow.createCell(++oo).setCellValue(entity.getCreatedAt());
@@ -206,7 +207,9 @@ public class ViewExcel extends AbstractExcelView {
         cell = getCell(sheet, o, ++i);
         setText(cell, "代理级别");
         cell = getCell(sheet, o, ++i);
-        setText(cell, "授权日期");
+        setText(cell, "授权开始日期");
+        cell = getCell(sheet, o, ++i);
+        setText(cell, "授权结束日期");
         cell = getCell(sheet, o, ++i);
         setText(cell, "推荐代理商姓名");
         cell = getCell(sheet, o, ++i);

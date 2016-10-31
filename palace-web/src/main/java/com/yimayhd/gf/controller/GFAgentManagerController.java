@@ -98,7 +98,7 @@ public class GFAgentManagerController {
             bizResult.setValue(result);
             return bizResult;
         }
-        bizResult.setPalaceReturnCode(PalaceReturnCode.SYSTEM_ERROR);
+        bizResult.setPalaceReturnCode(PalaceReturnCode.EDIT_AGENT_ERROR);
         return bizResult;
     }
     @RequestMapping("/edit/{id}")
@@ -200,6 +200,7 @@ public class GFAgentManagerController {
                 exportAgent.setLevel(level);
                 exportAgent.setCreatedAt(agent.getCreateAt());
                 exportAgent.setStartAt(agent.getStartAt());
+                exportAgent.setEndAt(agent.getEndAt());
                 exportAgent.setIdNum(agent.getIdNum());
                 agentList.add(exportAgent);
             }

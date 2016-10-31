@@ -173,7 +173,7 @@
                             </div>
 
                             <div class="logoView">
-                                <img src="#if($!gfAgentVO.avatar) $utilWebconfig.getTfsRootPath()$!{gfAgentVO.avatar} #end" class="img-square uploadImgFile" id="PCUrlUploadFileReturnImg">
+                                <img src="#if($!gfAgentVO.avatar) $utilWebconfig.getTfsRootPath()$!{gfAgentVO.avatar} #end" class="img-square uploadImgFile" id="PCUrlUploadFileReturnImg" style="margin-left: 10px;">
                             </div>
                         </td>
                     </tr>
@@ -405,7 +405,7 @@
                                 closeTab();
                             }, 1500);
                         } else {
-                            layer.msg('操作失败: '+data.msg, {
+                            layer.msg(data.msg, {
                                 icon: 2,
                                 time: 1500
                             });

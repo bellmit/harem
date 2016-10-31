@@ -85,4 +85,7 @@ public class PalaceReturnCode implements Serializable {
     public static final PalaceReturnCode ADD_ATTACHMENT_ERROR_UP_STATUS_DURATION= new PalaceReturnCode(25005105, "上架失败，缺少时长");
     public static final PalaceReturnCode ADD_ATTACHMENT_ERROR_UP_STATUS= new PalaceReturnCode(25005106, "上架失败，数据不存在");
 
+    /***************************************** GF相关********************************************************/
+    public static final PalaceReturnCode EDIT_AGENT_ERROR= new PalaceReturnCode(25007001, "编辑失败,请刷新重试!");
+
 }
