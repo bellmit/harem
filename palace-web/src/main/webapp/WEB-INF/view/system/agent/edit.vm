@@ -272,7 +272,7 @@
             id: numByName("agentId"),
             agentName: textByName("agentName"),
             avatar: textByName("avatar"),
-            gender: numByName("gender"),
+            gender: radioByName("gender"),
             idNum: textByName("idNum"),
             mobile: textByName("mobile"),
             weixin: textByName("weixin"),
