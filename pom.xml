@@ -328,7 +328,7 @@
 			</dependency>
 			<!--小飞哥的注解日志包 -->
 			<dependency>
-				<groupId>com.yiholiday.fhtd</groupId>
+				<groupId>com.yimayhd.fhtd</groupId>
 				<artifactId>fhtd</artifactId>
 				<version>${fhtd.version}</version>
 			</dependency>
