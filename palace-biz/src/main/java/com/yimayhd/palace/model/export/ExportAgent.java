@@ -16,6 +16,7 @@ public class ExportAgent implements Serializable {
     private String startAt;
     private String endAt;
     private String parentName;
+    private String parentMobile;
     private String area;
     private String createdAt;
 
@@ -97,6 +98,14 @@ public class ExportAgent implements Serializable {
 
     public void setParentName(String parentName) {
         this.parentName = parentName;
+    }
+
+    public String getParentMobile() {
+        return parentMobile;
+    }
+
+    public void setParentMobile(String parentMobile) {
+        this.parentMobile = parentMobile;
     }
 
     public String getArea() {

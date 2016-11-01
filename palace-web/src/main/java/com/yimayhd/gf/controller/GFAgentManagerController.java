@@ -181,6 +181,7 @@ public class GFAgentManagerController {
                 exportAgent.setName(agent.getAgentName());
                 exportAgent.setMobile(agent.getMobile());
                 exportAgent.setParentName(agent.getParentName());
+                exportAgent.setParentMobile(agent.getParentMobile());
                 exportAgent.setWeixin(agent.getWeixin());
                 exportAgent.setCreatedAt(agent.getCreateAt());
                 exportAgent.setArea(agent.getProvinceName());

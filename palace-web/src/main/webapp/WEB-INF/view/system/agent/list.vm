@@ -150,6 +150,7 @@
         $('.btn-export').click(function () {
             $('#gfagentList').attr('action',actionDefaultPath + '/GF/agent/export')
             $('#gfagentList').submit();
+            $('#gfagentList').attr('action',actionDefaultPath + '/GF/agent/queryList')
         })
         $('#btnSubmit').click(function () {
             $('#gfagentList').attr('action',actionDefaultPath + '/GF/agent/queryList')
