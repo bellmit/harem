@@ -42,6 +42,7 @@ public class OrderStatusChangeConverter {
     private List<TcMainOrderVO> TcMainOrderVOList;
     private UserRepo userRepo ;
     private JiuxiuOrderService jiuxiuOrderService;
+    private int pageSize = 50;
 
 
 
@@ -76,6 +77,7 @@ public class OrderStatusChangeConverter {
         /**查询订单接口公共参数**/
         dto.setDomain(Constant.DOMAIN_JIUXIU);
         dto.setNeedDetailOrders(true);//查询子订单
+        dto.setPageSize(pageSize);
         return dto;
     }
 

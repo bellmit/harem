@@ -109,6 +109,9 @@
 
 		<property name="consumer.dubbo.msg.check" defaultValue="false" description="#" />
 		<property name="consumer.dubbo.msg.version" defaultValue="1.0.0.test" description="#" />
+
+		<property name="consumer.dubbo.gf.version" defaultValue="1.0.0.test" description="#" />
+		<property name="consumer.dubbo.gf.check" defaultValue="false" description="#" />
 	</group>
 
 	<group name="session">

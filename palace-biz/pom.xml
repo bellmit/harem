@@ -296,6 +296,10 @@
 			<groupId>com.yimayhd</groupId>
 			<artifactId>sellerAdmin-client</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.yimayhd.gf</groupId>
+			<artifactId>gf-client</artifactId>
+		</dependency>
 	</dependencies>
 
 

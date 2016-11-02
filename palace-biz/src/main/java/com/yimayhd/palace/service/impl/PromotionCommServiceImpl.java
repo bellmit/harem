@@ -224,7 +224,9 @@ public class PromotionCommServiceImpl implements PromotionCommService {
     	promotionPageQuery.setEntityQueryPairList(entityQueryPairList);
     	promotionPageQuery.setStatusList(statusList);
     	promotionPageQuery.setPromotionTypeList(promotionTypeList);
-    	promotionPageQuery.setEndTime(new Date());
+        promotionPageQuery.setStartTime(actActivityDO.getStartDate());
+        promotionPageQuery.setEndTime(actActivityDO.getEndDate());
+//    	promotionPageQuery.setEndTime(new Date());
     	BasePageResult<PromotionDO> queryResult = promotionQueryService.queryPromotions(promotionPageQuery);
     	if( queryResult == null || !queryResult.isSuccess() ){
     		log.error("queryPromotions failed!  query={},  Result={}", JSON.toJSONString(promotionPageQuery), JSON.toJSONString(queryResult));

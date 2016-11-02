@@ -31,7 +31,7 @@
 		<membercenter.client.version>1.1.7-SNAPSHOT</membercenter.client.version>
 		<paycore.client.version>1.0.2-SNAPSHOT</paycore.client.version>
 		<tradecenter.client.version>1.3.15-SNAPSHOT</tradecenter.client.version>
-		<fhtd.version>0.1.0-SNAPSHOT</fhtd.version>
+		<fhtd.version>0.3.0-SNAPSHOT</fhtd.version>
 		<logback.version>1.1.1</logback.version>
 		<commons.io.version>2.4</commons.io.version>
 		<commission.version>3.0-SNAPSHOT</commission.version>
@@ -46,6 +46,7 @@
 		<solrsearch.version>1.0.4-SNAPSHOT</solrsearch.version>
 		<selleradmin.version>1.1.1-SNAPSHOT</selleradmin.version>
 		<msgcenter.version>1.0.3.3-SNAPSHOT</msgcenter.version>
+		<gf.version>1.0.0-SNAPSHOT</gf.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -328,7 +329,7 @@
 			</dependency>
 			<!--小飞哥的注解日志包 -->
 			<dependency>
-				<groupId>com.yiholiday.fhtd</groupId>
+				<groupId>com.yimayhd.fhtd</groupId>
 				<artifactId>fhtd</artifactId>
 				<version>${fhtd.version}</version>
 			</dependency>
@@ -755,6 +756,17 @@
 				<artifactId>sellerAdmin-client</artifactId>
 				<version>${selleradmin.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.yimayhd.gf</groupId>
+				<artifactId>gf-client</artifactId>
+				<version>${gf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.supercsv</groupId>
+				<artifactId>super-csv</artifactId>
+				<version>2.4.0</version>
+			</dependency>
+
 		</dependencies>
 
 

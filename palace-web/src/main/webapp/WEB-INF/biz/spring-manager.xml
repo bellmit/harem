@@ -10,6 +10,7 @@
 	<bean id="userRelationBiz" class="com.yimayhd.commission.biz.UserRelationBiz" />
 	<bean id="liveAdminBiz" class="com.yimayhd.palace.biz.LiveAdminBiz" />
 
+	<bean id="gfAgentBiz" class="com.yimayhd.gf.biz.GfAgentBiz" />
 
 
 	<bean id="applyBiz" class="com.yimayhd.palace.biz.ApplyBiz" />

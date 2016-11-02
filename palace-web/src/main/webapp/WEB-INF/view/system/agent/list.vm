@@ -1,0 +1,316 @@
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet">
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<style>
+    .layui-layer-content{color:#333;}
+    .tdWidth{width: 17%;}
+    .gameName{width: 247px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display: inline-block;cursor: pointer;}
+    .pull-right{float: right;}
+    .showBox{clear: both;
+        display: block;
+        float: left;}
+    .showBox .cover{float: left;}
+    .showBox .cover img{max-width: 200px}
+    .showBox .info{float:right;    margin-left: 10px;}
+    .detailView{border:1px solid black;width:760px;position:fixed;top:50%;left:50%;padding: 20px 20px;z-index: 5;background-color: #fff;margin:-190px 0 0 -480px;display: none;}
+    .statusView{border:1px solid black;width:460px;position:fixed;top:50%;left:50%;padding: 20px 20px;z-index: 5;background-color: #fff;margin:-140px 0 0 -230px;display: none;}
+    #statusNote{text-align: center; padding: 20px;}
+</style>
+<form class="form-signin" id="gfagentList" name="giftActivityListForm" action="$!utilWebconfig.getActionDefaultFontPath()/GF/agent/queryList" method="GET" role="form">
+    <div class="inputGroup whole">
+        <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">代理商姓名：</button>
+                </span>
+            <input type="text" class="form-control" name="agentName" value="$!gfAgentPageQuery.agentName">
+        </div>
+        <div class="input-group inpSingle">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">代理级别：</button>
+            </span>
+            <select class="form-control" name="agentLevel">
+                <option value="">全部</option>
+                #AGENT_LEVEL($!gfAgentPageQuery.agentLevel)
+            </select>
+        </div>
+        <div class="input-group inpSingle">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">授权时间：</button>
+            </span>
+            <input type="text" class='form-control form-date dateInp startTimeStart' readonly name="startAt" value="$!gfAgentPageQuery.startAt">
+            <span class="input-group-addon fix-border fix-padding dateInpCenter">至</span>
+            <input type="text" class='form-control form-date startTimeEnd dateInp' readonly name="endAt" value="$!gfAgentPageQuery.endAt">
+        </div>
+        <div class="input-group inpSingle">
+            <span>
+                状态：
+            </span>
+            <label>
+                <input type="radio" name="agentStatus" value="10"
+                    #if($!gfAgentPageQuery.agentStatus==10)
+                       checked
+                    #end
+                />
+                正常
+            </label>
+            <label>
+                <input type="radio" name="agentStatus" value="20"
+                    #if($!gfAgentPageQuery.agentStatus==20)
+                       checked
+                    #end
+                />
+                禁用
+            </label>
+        </div>
+        <div class="input-group inpSingle">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">推荐人姓名：</button>
+                </span>
+            <input type="text" class="form-control" name="parentName" value="$!gfAgentPageQuery.parentName">
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary" id="btnSubmit">查询</button>
+        </div>
+    </div>
+    <div class="inputGroup whole" style="float: left;width: 100%;">
+        <div class="pull-left">
+            <button type="button" class="btn btn-export">导出文件</button>
+        </div>
+        <div class="pull-right">
+            <button type="button" class="btn btn-add">新增代理商</button>
+        </div>
+    </div>
+    <div class="tableGroup whole">
+        <table class="table table-hover">
+            <tr>
+##                <th>序号</th>
+                <th>代理商姓名</th>
+                <th>手机号</th>
+                <th>身份证号</th>
+                <th>微信号</th>
+                <th>授权号</th>
+                <th>状态</th>
+                <th>代理级别</th>
+                <th>操作</th>
+            </tr>
+            #set($agentList = $!pageVo.itemList)
+            #set($i=0)
+            #foreach($agent in $agentList)
+                #set($i=$i+1)
+                <tr>
+##                    <td agentId="$!agent.id">$!i</td>
+                    <td>$!agent.agentName<br/>推荐人:$!agent.parentName<br>电话:$!agent.parentMobile</td>
+                    <td>$!agent.mobile</td>
+                    <td>$!agent.idNum</td>
+                    <td>$!agent.weixin</td>
+                    <td>$!agent.license</td>
+                    <td>#if($agent.status==10)
+                        正常
+                    #else
+                        禁用
+                    #end</td>
+                    <td>#AGENT_LEVEL_DES($!agent.agentLevel)</td>
+                    <td>
+                        <button type="button" class="btn btn-primary themeDetail" agentId="$agent.id">查看</button>
+                        <button type="button" class="btn btn-primary themeEdit" agentId="$agent.id">修改</button>
+                        <button type="button" class="btn btn-primary #if($agent.status!=10)btn-danger#end themeStatus" agentId="$agent.id" agentStatus="$agent.status" version="$agent.version">
+                            #if($agent.status==10)
+                                去禁用
+                            #else
+                                去启用
+                            #end
+                        </button>
+                    </td>
+                </tr>
+            #end
+        </table>
+    </div>
+#*分页*#
+    #parse("/page.vm")
+    #pageStyle("gfagentList")
+</form>
+<script>
+    $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy-mm-dd"
+            });
+
+    $(function(){
+        $('.btn-add').click(function(){
+            var url = actionDefaultPath +'/GF/agent/edit/0';
+            top.tabsAdd("",url,2,'新增代理商');
+        });
+        $('.btn-export').click(function () {
+            $('#gfagentList').attr('action',actionDefaultPath + '/GF/agent/export')
+            $('#gfagentList').submit();
+            $('#gfagentList').attr('action',actionDefaultPath + '/GF/agent/queryList')
+        })
+        $('#btnSubmit').click(function () {
+            $('#gfagentList').attr('action',actionDefaultPath + '/GF/agent/queryList')
+            $('#gfagentList').submit();
+        });
+        $('.themeStatus').click(function () {
+            var id = $(this).attr('agentId');
+            var stIndex = $(this).attr('agentStatus');
+            var version = $(this).attr('version');
+            $('#statusOk').attr('agentId', id);
+            $('#statusOk').attr('agentStatus', stIndex);
+            $('#statusOk').attr('version', version);
+            var txt = '确认启用当前代理商？';
+            if(stIndex==10){
+                txt = '确认禁用当前代理商？';
+            }
+            $('#statusNote').text(txt);
+            $('#statusBox').show();
+        })
+        $('#statusCancel').click(function () {
+            $('#statusBox').hide();
+        });
+        $('#statusOk').click(function(){
+            $('#statusBox').hide();
+            var status = {
+                "0": "10",
+                "10": "20",
+                "20": "10"
+            };
+            $(this).prop('disabled',true);
+            var id = $(this).attr('agentId');
+            var stIndex = $(this).attr('agentStatus');
+            var version = $(this).attr('version');
+            var url;
+            url = '/GF/agent/status/' + id + '/?version='+version+'&status=' + status[stIndex];
+            $.post(actionDefaultPath + url ,function(data){
+                if(data.success){
+                    layer.msg('操作成功', {
+                        icon: 1,
+                        time: 1500
+                    });
+                    setTimeout(function () {
+                        window.location.href = window.location.href;
+                    },1500);
+                }else{
+                    layer.msg('操作失败', {
+                        icon: 2,
+                        time: 2000
+                    });
+                    $(this).prop('disabled',false);
+                }
+            })
+        });
+        var gender = {"0":"","1":"","2":"男","3":"女"};
+        var level = {
+            "DIRECTOR_LEVEL":"董事",
+            "PARTNER_LEVEL":"股东合伙人",
+            "GENERAL_LEVEL":"总代",
+            "PROVINCES_LEVEL":"省代",
+            "DREAM_PARTNER_LEVEL":"梦幻合伙人"
+        };
+        $('.themeDetail').each(function(){
+            $(this).click(function(){
+                var url = '/GF/agent/get/'+ $(this).attr('agentId');
+                $.post(actionDefaultPath + url ,function(data){
+                    if(data.success){
+                        console.log(data.value);
+                        var agent = data.value;
+                        $('#agentImg').attr('src',tfsRootPath + agent.avatar);
+                        $('#agentName').text(agent.agentName);
+                        $('#agentGender').text(gender[agent.gender]);
+                        $('#agentWeixin').text(agent.weixin);
+                        $('#agentMobile').text(agent.mobile);
+                        $('#agentIdNum').text(agent.idNum);
+                        $('#agentArea').text(agent.provinceName);
+                        $('#agentAt').text(agent.createAt);
+                        $('#agentDate').text(agent.startAt+'/'+agent.endAt);
+                        $('#agentLicense').text(agent.license);
+                        $('#agentLevel').text(level[agent.agentLevel]);
+                        $('#agentParent').html(agent.parentName+'<br/>('+agent.parentMobile+')');
+                        $(".detailForAgent").show();
+                    }else{
+                        layer.msg('操作失败', {
+                            icon: 2,
+                            time: 2000
+                        });
+                    }
+                })
+            });
+        });
+        $('.themeEdit').each(function(){
+            $(this).click(function(){
+                var url = actionDefaultPath + '/GF/agent/edit/'+ $(this).attr('agentId');
+                top.tabsAdd("",url,2,$(this).text());
+            });
+        });
+        $("#closeBox").click(function () {
+            $(".detailForAgent").hide();
+        });
+
+    });
+</script>
+<div class = "detailView detailForAgent">
+    <div class = "showBox">
+        <div class="cover" style="width:200px;">
+            <img src="" id="agentImg">
+        </div>
+        <div class="info" style="width: 500px">
+            <table>
+                <tr>
+                    <td>姓名</td>
+                    <td id="agentName"></td>
+                    <td>性别</td>
+                    <td id="agentGender"></td>
+                </tr>
+                <tr>
+                    <td>微信号</td>
+                    <td id="agentWeixin"></td>
+                    <td>手机号</td>
+                    <td id="agentMobile"></td>
+                </tr>
+                <tr>
+                    <td>身份证号</td>
+                    <td id="agentIdNum"></td>
+                    <td>授权号</td>
+                    <td id="agentLicense"></td>
+                </tr>
+                <tr>
+                    <td>地区</td>
+                    <td id="agentArea"></td>
+                    <td>代理级别</td>
+                    <td id="agentLevel"></td>
+                </tr>
+                <tr>
+                    <td>授权时间</td>
+                    <td id="agentDate"></td>
+                    <td>推荐人姓名<br>(手机号)</td>
+                    <td id="agentParent"></td>
+                </tr>
+                <tr>
+                    <td>加入日期</td>
+                    <td id="agentAt"></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div style="float:left;    width: 100%;">
+    <center><a id="closeBox" href="javascript:void(0)">关闭</a></center>
+    </div>
+</div>
+<div class="statusView" id="statusBox">
+    <div id="statusNote">
+    <p>确认禁用当前代理商？</p>
+    </div>
+    <div>
+        <center>
+        <button class="btn btn-primary" id="statusOk">确定</button>
+        <button class="btn btn-primary" id="statusCancel">取消</button>
+        </center>
+    </div>
+</div>

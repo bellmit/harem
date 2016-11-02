@@ -20,4 +20,5 @@
     <import resource="spring-consumer-solr.xml"/>
     <import resource="spring-consumer-selleradmin.xml"/>
     <import resource="spring-consumer-live.xml"/>
+    <import resource="spring-consumer-agent.xml"/>
 </beans>

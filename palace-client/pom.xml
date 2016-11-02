@@ -172,6 +172,11 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.yimayhd.fhtd</groupId>
+            <artifactId>fhtd</artifactId>
+        </dependency>
+
 
     </dependencies>
     <build>

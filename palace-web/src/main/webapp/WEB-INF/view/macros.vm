@@ -990,3 +990,17 @@
     特定用户
     #end
 #end
+#macro(AGENT_LEVEL_DES $level)
+#if($level=="DIRECTOR_LEVEL")董事#end
+#if($level=="PARTNER_LEVEL")股东合伙人#end
+#if($level=="GENERAL_LEVEL")总代#end
+#if($level=="PROVINCES_LEVEL")省代#end
+#if($level=="DREAM_PARTNER_LEVEL")梦幻合伙人#end
+#end
+#macro(AGENT_LEVEL $level)
+<option value="DIRECTOR_LEVEL" #if($level=="DIRECTOR_LEVEL")selected#end>董事</option>
+<option value="PARTNER_LEVEL" #if($level=="PARTNER_LEVEL")selected#end>股东合伙人</option>
+<option value="GENERAL_LEVEL" #if($level=="GENERAL_LEVEL")selected#end>总代</option>
+<option value="PROVINCES_LEVEL" #if($level=="PROVINCES_LEVEL")selected#end>省代</option>
+<option value="DREAM_PARTNER_LEVEL" #if($level=="DREAM_PARTNER_LEVEL")selected#end>梦幻合伙人</option>
+#end

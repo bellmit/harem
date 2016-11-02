@@ -5,6 +5,7 @@
 
 	<bean id="gFTagRepo" class="com.yimayhd.gf.repo.GFTagRepo" />
 	<bean id="gfCategoryRepo" class="com.yimayhd.gf.repo.GFCategoryRepo" />
+	<bean id="gfAgentRepo" class="com.yimayhd.gf.repo.GfAgentRepo" />
 	<bean id="hotelRepo" class="com.yimayhd.palace.repo.HotelRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.TagRepo"></bean>
 	<bean class="com.yimayhd.palace.repo.LineRepo"></bean>

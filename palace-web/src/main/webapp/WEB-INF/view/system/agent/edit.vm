@@ -1,0 +1,461 @@
+#set($layout = "/system/layout/empty.vm")
+#set($title = "优惠劵")
+#parse("/system/layout/layout-jiuxiu-meta.vm")
+<link rel="stylesheet" href="$utilWebconfig.getStaticResourcesPath()/resources/css/common.css"/>
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.css" rel="stylesheet"/>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/zui/lib/datetimepicker/datetimepicker.min.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/layerModal.js" type="text/javascript"></script>
+<script src="$utilWebconfig.getStaticResourcesPath()/resources/js/upload.js"></script>
+<link href="$utilWebconfig.getStaticResourcesPath()/resources/css/jquery.autocomplete.css" rel="stylesheet"/>
+<style>
+    .ui-widget-content {
+        border: 1px solid #dddddd;
+        background: #ffffff;
+        color: #333333;
+    }
+    .ui-widget.ui-widget-content {
+        border: 1px solid #c5c5c5;
+    }
+    .ui-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: block;
+        outline: 0;
+    }
+    .ui-menu .ui-menu {
+        position: absolute;
+    }
+    .ui-menu .ui-menu-item {
+        margin: 0;
+        cursor: pointer;
+        /* support: IE10, see #8844 */
+        list-style-image: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+    }
+    .ui-menu .ui-menu-item-wrapper {
+        position: relative;
+        padding: 3px 1em 3px .4em;
+    }
+    .ui-menu .ui-menu-divider {
+        margin: 5px 0;
+        height: 0;
+        font-size: 0;
+        line-height: 0;
+        border-width: 1px 0 0 0;
+    }
+    .ui-menu .ui-state-focus,
+    .ui-menu .ui-state-active {
+        margin: -1px;
+    }
+
+    /* icon support */
+    .ui-menu-icons {
+        position: relative;
+    }
+    .ui-menu-icons .ui-menu-item-wrapper {
+        padding-left: 2em;
+    }
+
+    /* left-aligned */
+    .ui-menu .ui-icon {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: .2em;
+        margin: auto 0;
+    }
+
+    /* right-aligned */
+    .ui-menu .ui-menu-icon {
+        left: auto;
+        right: 0;
+    }
+    .ui-helper-hidden-accessible {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+</style>
+<script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.js"></script>
+##<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<form name="addHotel" id="hotelForm" action="" method="post" recommendedId="$!fCodeDO.id">
+    <div class="tab-content grogInfoWrap"  style="">
+        <div class="tab-pane active" id="agentInfo">
+            <input type="hidden" name="agentId" id="agentId" value="$!gfAgentVO.id" />
+            <input type="hidden" name="version" id="version" value="$!gfAgentVO.version" />
+            <div class="createHotrlTable">
+                <table>
+                    <tr>
+                        <td width="120"><span class="spColor">*</span>代理商姓名:</td>
+                        <td width="120">
+                            <input type="text" name="agentName" id="agentName" class="title" value="$!gfAgentVO.agentName">
+                        </td>
+                        <td width="120"><span class="spColor">*</span>性别:</td>
+                        <td>
+                            <label>
+                                <input type="radio" name="gender" value="2"
+                                   #if($!gfAgentVO.gender==2)
+                                   checked
+                                   #end
+                                />
+                                男
+                            </label>
+                            <label>
+                                <input type="radio" name="gender" value="3"
+                                    #if($!gfAgentVO.gender==3)
+                                       checked
+                                    #end
+                                />
+                                女
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="120"><span class="spColor">*</span>身份证号:</td>
+                        <td>
+                            <input type="text" name="idNum" class="title" value="$!gfAgentVO.idNum">
+                        </td>
+                        <td><span class="spColor">*</span>手机号:</td>
+                        <td>
+                            <input type="text" name="mobile" class="title" value="$!gfAgentVO.mobile">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="120"><span class="spColor">*</span>微信号:</td>
+                        <td>
+                            <input type="text" name="weixin" class="title" value="$!gfAgentVO.weixin">
+                        </td>
+                        <td><span class="spColor">*</span>授权号:</td>
+                        <td>
+                            <input type="text" name="license" class="title" value="$!gfAgentVO.license">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="120"><span class="spColor">*</span>代理级别:</td>
+                        <td>
+                            <select name="agentLevel">
+                                #AGENT_LEVEL($!gfAgentVO.agentLevel)
+                            </select>
+                        </td>
+                        <td><span class="spColor">*</span>地区:</td>
+                        <td>
+                            #set($nationCode=100000)
+                            #set($nationName="全国")
+                            <input type="hidden" id="provinceSelectName" name="locationProvinceName" value="$!{VO.locationProvinceName}">
+                            <select id="provinceId" class="selCity inpControl provinceSelect" name="locationProvinceId" areaType="PROVINCE">
+                                <option value="$!{nationCode}">$!{nationName}</option>
+                            </select>
+                            <input type="hidden" name="provinceCode" id="provinceCode" value="#if($!gfAgentVO.provinceCode)$!{gfAgentVO.provinceCode}#else$!{nationCode}#end">
+                            <input type="hidden" name="provinceName" id="provinceName" value="#if($!gfAgentVO.provinceName)$!{gfAgentVO.provinceName}#else$!{nationName}#end">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>授权时间:</td>
+                        <td colspan="3">
+                            <input type = "text" name="startAt" class="txt form-date" readonly value="$!{gfAgentVO.startAt}" id="startDate"/>
+                            <font>至</font>
+                            <input type = "text" name="endAt" class="txt form-date" readonly value="$!{gfAgentVO.endAt}" id="endDate"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>头像照片:</td>
+                        <td colspan="3">
+                            <div class="fileImgWrap">
+                                <button type="button" class="btn btn-success">选择图片</button>
+                                <input type="hidden" name="avatar" value="$!{gfAgentVO.avatar}" id="PCUrlUploadFileReturnInput" >
+                                <input type="file" name="imgPcfile" class="fileInp" id="PCUrlUploadFile">
+                                <p><br><br></p>
+                            </div>
+
+                            <div class="logoView">
+                                <img src="#if($!gfAgentVO.avatar) $utilWebconfig.getTfsRootPath()$!{gfAgentVO.avatar} #end" class="img-square uploadImgFile" id="PCUrlUploadFileReturnImg" style="margin-left: 10px;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="spColor">*</span>推荐人:</td>
+                        <td colspan="3">
+                            <input type="text" id="parentSearch" value="$!{gfAgentVO.parentName},$!{gfAgentVO.parentMobile}">
+                            <input type="hidden" name="parentId" id="parentId" value="$!{gfAgentVO.parentId}">
+                            <input type="hidden" name="parentName" id="parentName" value="$!{gfAgentVO.parentName}" readonly />
+                            <input type="hidden" id="parentPhone" value="$!{gfAgentVO.parentMobile}" readonly />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            提示：推荐人默认是平台,按姓名模糊筛选
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <button type="button" class="btn btn-info ok" id="btnSubmit">保存</button>
+                        </td>
+                    </tr>
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<script>
+    $(".form-date").datetimepicker(
+    {
+        language:  "zh-CN",
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0,
+        format: "yyyy-mm-dd"
+    });
+    $(document).delegate('#PCUrlUploadFile','change',function(){
+        var fileValue = $(this).val();
+        if(!fileValue){
+            return;
+        }
+        fileUpload('#PCUrlUploadFile',1,function(data){
+            if(data && data.status==200){
+                $('#PCUrlUploadFileReturnInput').val(data.data);
+                $('#PCUrlUploadFileReturnImg').attr('src',tfsRootPath + data.data);
+            }else{
+                layer.alert('上传失败');
+            }
+        });
+    });
+    var getNowFormat = function(){
+        var date = new Date();
+        return date.getFullYear() + '-' + fullStr(date.getMonth() + 1) + '-' + fullStr(date.getDate());
+    }
+    var fullStr  = function(num){
+        if(num >= 10){
+            return num;
+        }
+        return '0' + num;
+    }
+    function numByName(name) {
+        var num = $("input[name="+name+"]").val();
+        if(num==""){
+            num = 0;
+        }
+        return parseInt(num);
+    }
+    function textByName(name) {
+        var txt = $("input[name="+name+"]").val();
+        if(txt){
+        txt = txt.replace(/(^\s*)|(\s*$)/g, "");
+        }
+        return txt;
+    }
+    function radioByName(name) {
+        return $("input[name="+name+"]:checked").val();
+    }
+    function selectByName(name) {
+        return $("select[name="+name+"]").val();
+    }
+    var paraConfig = {
+        //
+    };
+    function getPostData() {
+        var data = {
+            id: numByName("agentId"),
+            agentName: textByName("agentName"),
+            avatar: textByName("avatar"),
+            gender: radioByName("gender"),
+            idNum: textByName("idNum"),
+            mobile: textByName("mobile"),
+            weixin: textByName("weixin"),
+            license: textByName("license"),
+            provinceCode: numByName("provinceCode"),
+            provinceName: textByName("provinceName"),
+            startAt: textByName("startAt"),
+            endAt: textByName("endAt"),
+            version: textByName("version"),
+            agentLevel: selectByName("agentLevel"),
+            parentId: numByName("parentId"),
+            parentName: textByName("parentName"),
+        }
+        return data;
+    }
+
+    $("#parentSearch").autocomplete({
+        source:function(request, response) {
+            $.ajax({
+                url: actionDefaultPath + '/GF/agent/search',
+                dataType: "json",
+                data: {
+                    q: request.term
+                },
+                success: function (data) {
+                    response($.map(data.value, function (item) {
+                        var agent = {};
+                        agent['id'] = item.id;
+                        agent['agentName'] = item.agentName;
+                        agent['mobile'] = item.mobile;
+                        return {
+                            label: item.agentName+','+item.mobile,
+                            value: JSON.stringify(agent)
+                        }
+                    }));
+                }
+            });
+        },
+        select: function(event, ui ) {
+            var data = JSON.parse(ui.item.value);
+            ui.item.value=ui.item.label;
+            console.log(data);
+            $("#parentId").val(data.id);
+            $("#parentName").val(data.agentName);
+            $("#parentPhone").val(data.mobile);
+        },
+        open: function(event, ui) {
+            $(this).autocomplete("widget").css({
+                "width": 172
+            });
+        }
+    });
+
+    //验证
+    var validate = function(){
+        var data = getPostData();
+        if(data.agentName.length < 1){
+            return '代理商姓名不能为空';
+        }
+        if(data.idNum.length != 18){
+            return '身份证号必须为18位';
+        }
+        if(data.mobile.length != 11){
+            return '手机号号必须为11位';
+        }
+        if(data.weixin.length<1){
+            return '微信号必填';
+        }
+        if(data.license.length<1){
+            return '授权号必填';
+        }
+        if(data.startAt.length<1){
+            return '授权开始时间必填';
+        }
+        if(data.endAt.length<1){
+            return '授权结束时间必填';
+        }
+        if((+new Date(data.startAt))>(+new Date(data.endAt))){
+            return '结束时间要大于开始时间';
+        }
+        if(data.avatar.length<1){
+            return '头像必填';
+        }
+        if(data.parentId<1){
+            return '请选择邀请人';
+        }
+        var parentSearch = $("#parentSearch").val();
+        var parentPhone = $("#parentPhone").val();
+        if(parentSearch!=data.parentName+','+parentPhone){
+            return '邀请人已修改,请选择邀请人后提交';
+        }
+    }
+    //取消
+    $('#btnEx').click(function(){
+        top.$('#myTabList .active i').trigger('click');
+    });
+
+    var closeTab = function() {
+        top.$('#myTabList .active i').trigger('click');
+    };
+    //确认保存
+    $('.ok').click(function(){
+        var msg = validate();
+
+        if(msg){
+            layer.msg(msg, {
+                icon: 2,
+                time: 2000
+            });
+            return false;
+        } else {
+            var actionUrl = actionDefaultPath + '/GF/agent/add';
+
+            var params = getPostData();
+
+            $.ajax({
+                type:"POST",
+                url: actionUrl,
+                dataType:"json",
+//                contentType:"application/json",
+                data: params,
+                success:function(data){
+                    if(data){
+                        if(data.success) {
+                            layer.msg('操作成功', {
+                                icon: 1,
+                                time: 1500
+                            });
+                            setTimeout(function(){
+                                closeTab();
+                            }, 1500);
+                        } else {
+                            layer.msg(data.msg, {
+                                icon: 2,
+                                time: 1500
+                            });
+                        }
+                    } else {
+                        layer.msg('返回为空', {
+                            icon: 2,
+                            time: 1500
+                        });
+                    }
+                },
+                async: false
+            });
+        }
+
+    });
+    $.ajaxSetup({
+        async : false
+    });
+    var chooseCode=$("#provinceCode").val();
+    $.get('$!utilWebconfig.getActionDefaultFontPath()/AREA/list',
+        {'areaType': 'PROVINCE', 'areaParentCode': null},
+        function(data) {
+            if (data&&data.status==200) {
+                data = data.data;
+                for (var i in data) {
+                    var code = data[i].code;
+                    var name = data[i].name;
+                    var chose = '';
+                    if(chooseCode==code){
+                        var chose = ' selected';
+                    }
+                    var optionHTML = '<option value="'+ code +'"'+chose+'>'+name+'</option>';
+                    $("#provinceId").append(optionHTML);
+                }
+                provinceFlag = true;
+            } else {
+                layer.alert('操作失败', {
+                    icon: 2,
+                    time: 2000
+                }, function() {
+
+                });
+            }
+        }
+    );
+
+    $('.provinceSelect').click(function() {
+        $("#provinceCode").val($("#provinceId option:selected").val());
+        $("#provinceName").val($("#provinceId option:selected").text());
+    });
+
+</script>
